@@ -1,9 +1,9 @@
 name: Build, sign and upload to Github Releases
 
 on:
-  create:
+  push:
     tags:
-      - *
+      - '*'
   workflow_dispatch:
 
 jobs:
