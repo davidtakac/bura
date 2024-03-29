@@ -1,0 +1,4 @@
+## 1.0.1 - TBD
+
+### Changed
+- Reduce settings button title size

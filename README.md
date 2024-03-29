@@ -3,14 +3,14 @@ Modern fully-featured weather app with graphs and thoughtful data visualization.
 
 ## Screenshots
 <p align="left">
-    <img src="screenshots/home.png" width=30%/>
-    <img src="screenshots/graph_today.png" width=30%/>
-    <img src="screenshots/graph_pop.png" width="30%"/>
+    <img src="fastlane/metadata/android/en-US/phoneScreenshots/1.png" width=30%/>
+    <img src="fastlane/metadata/android/en-US/phoneScreenshots/2.png" width=30%/>
+    <img src="fastlane/metadata/android/en-US/phoneScreenshots/3.png" width="30%"/>
 </p>
 
 <p align="left">
-    <img src="screenshots/home_tiles.png" width=30%/>
-    <img src="screenshots/picker_saved_places.png" width=30%/>
+    <img src="fastlane/metadata/android/en-US/phoneScreenshots/4.png" width=30%/>
+    <img src="fastlane/metadata/android/en-US/phoneScreenshots/5.png" width=30%/>
 </p>
 
 ## Features

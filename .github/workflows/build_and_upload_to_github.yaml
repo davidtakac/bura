@@ -44,10 +44,15 @@ jobs:
           echo 'VERSION_NAME<<EOF' >> $GITHUB_ENV
           grep versionName app/build.gradle.kts | cut -d \" -f2 | cut -d \" -f1 >> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
+      - name: Evaluate version code
+        run: |
+          echo 'VERSION_CODE<<EOF' >> $GITHUB_ENV
+          grep versionCode app/build.gradle.kts | grep -Eo '[0-9]+' | tail -1 >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
       - name: Evaluate changelog
         run: |
           echo 'CHANGELOG<<EOF' >> $GITHUB_ENV
-          sed -n '/## \[${{ env.VERSION_NAME }}.*/,/## \[/p' CHANGELOG.md | head -n -2 >> $GITHUB_ENV
+          cat fastlane/metadata/android/en-US/changelogs/${{ env.VERSION_CODE }}.txt >> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
       - name: Upload APK to GitHub release
         uses: svenstaro/upload-release-action@v2
