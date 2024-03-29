@@ -49,11 +49,14 @@ jobs:
           echo 'VERSION_CODE<<EOF' >> $GITHUB_ENV
           grep versionCode app/build.gradle.kts | grep -Eo '[0-9]+' | tail -1 >> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
+      # See https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#example-of-a-multiline-string
       - name: Evaluate changelog
         run: |
-          echo 'CHANGELOG<<EOF' >> $GITHUB_ENV
-          cat fastlane/metadata/android/en-US/changelogs/${{ env.VERSION_CODE }}.txt >> $GITHUB_ENV
-          echo 'EOF' >> $GITHUB_ENV
+          {
+            echo 'CHANGELOG<<EOF' >> $GITHUB_ENV
+            cat fastlane/metadata/android/en-US/changelogs/${{ env.VERSION_CODE }}.txt >> $GITHUB_ENV
+            echo 'EOF'
+          } >> $GITHUB_ENV
       - name: Upload APK to GitHub release
         uses: svenstaro/upload-release-action@v2
         with:
