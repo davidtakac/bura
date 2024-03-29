@@ -53,9 +53,9 @@ jobs:
       - name: Evaluate changelog
         run: |
           {
-            echo 'CHANGELOG<<EOF' >> $GITHUB_ENV
-            cat fastlane/metadata/android/en-US/changelogs/${{ env.VERSION_CODE }}.txt >> $GITHUB_ENV
-            echo 'EOF'
+            echo 'CHANGELOG<<EOF'
+            cat fastlane/metadata/android/en-US/changelogs/${{ env.VERSION_CODE }}.txt
+            echo EOF
           } >> $GITHUB_ENV
       - name: Upload APK to GitHub release
         uses: svenstaro/upload-release-action@v2
