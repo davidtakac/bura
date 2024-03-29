@@ -53,6 +53,5 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           file: ${{ steps.sign_release.outputs.signedReleaseFile }}
-          tag: ${{ env.VERSION_NAME }}
           body: ${{ env.CHANGELOG }}
           asset_name: bura-$tag.apk
