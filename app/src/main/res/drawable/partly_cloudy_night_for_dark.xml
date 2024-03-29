@@ -1,0 +1,28 @@
+<!--
+  ~ This file is part of Bura.
+  ~
+  ~ Bura is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+  ~
+  ~ Bura is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with Bura. If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+  <path
+      android:pathData="M17.633,5.012C15.228,5.234 13.779,7.422 14.027,9.521c0.25,0.262 0.482,0.543 0.689,0.846 1.753,0.113 3.281,1.108 4.113,2.547 1.605,-0.35 2.993,-1.647 3.168,-3.537a0.401,0.401 45,0 0,-0.637 -0.361C20.216,9.862 19.005,9.562 18.227,8.783 17.448,8.004 17.148,6.793 17.994,5.648a0.401,0.401 45,0 0,-0.361 -0.637z"
+      android:strokeLineJoin="miter"
+      android:strokeWidth="0.802"
+      android:fillColor="#e0e0e0"
+      android:strokeColor="#00000000"
+      android:strokeLineCap="butt"/>
+  <path
+      android:pathData="M9.417,9.01A4.99,4.99 0,0 0,4.469 13.424,2.81 2.795,0 0,0 2,16.196 2.81,2.795 0,0 0,4.81 18.99L9.417,18.99 14.407,18.99A3.593,3.593 0,0 0,18 15.397,3.593 3.593,0 0,0 14.407,11.804 3.593,3.593 0,0 0,13.914 11.838,4.99 4.99,0 0,0 9.417,9.01Z"
+      android:strokeLineJoin="round"
+      android:fillColor="#e0e0e0"
+      android:strokeLineCap="round"/>
+</vector>

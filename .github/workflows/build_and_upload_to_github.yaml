@@ -1,0 +1,44 @@
+name: Build, sign and upload to Github Releases
+
+on:
+  create:
+    tags:
+      - *
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build, sign and upload to Github Releases
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v2
+      - name: Assemble release
+        run: ./gradlew assembleRelease
+      - name: Sign release
+        uses: r0adkll/sign-android-release@v1
+        id: sign_release
+        with:
+          releaseDirectory: app/build/outputs/apk/release
+          signingKeyBase64: ${{ secrets.KEYSTORE_BASE64 }}
+          alias: ${{ secrets.KEYSTORE_ALIAS }}
+          keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_PASSWORD }}
+      - name: Evaluate version name
+        run: |
+          echo 'VERSION_NAME<<EOF' >> $GITHUB_ENV
+          grep versionName app/build.gradle.kts | cut -d \" -f2 | cut -d \" -f1 >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
+      - name: Evaluate changelog
+        run: |
+          echo 'CHANGELOG<<EOF' >> $GITHUB_ENV
+          sed -n '/## \[${{ env.VERSION_NAME }}.*/,/## \[/p' CHANGELOG.md | head -n -2 >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
+      - name: Upload APK to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          file: ${{ steps.sign_release.outputs.signedReleaseFile }}
+          tag: ${{ env.VERSION_NAME }}
+          body: ${{ env.CHANGELOG }}
+          asset_name: bura-$tag.apk

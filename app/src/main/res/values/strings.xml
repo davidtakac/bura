@@ -1,0 +1,220 @@
+<!--
+  ~ This file is part of Bura.
+  ~
+  ~ Bura is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+  ~
+  ~ Bura is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with Bura. If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<resources>
+    <string name="app_name">Bura</string>
+    <string name="general_error_failed_to_download">Failed to download forecast. Connect to the Internet and try again.</string>
+    <string name="general_error_outdated">Your forecast data has expired. Connect to the Internet and try again.</string>
+    <string name="general_error_no_selected_place">No selected place.</string>
+    <string name="general_btn_try_again">Try again</string>
+    <string name="general_btn_select_place">Select place</string>
+    <string name="general_btn_dialog_confirm">OK</string>
+    <string name="general_btn_dialog_cancel">Cancel</string>
+
+    <string name="credit_weather">Weather data by Open-Meteo.com</string>
+    <string name="credit_geocoding">Geocoding data by Open-Meteo.com</string>
+
+    <string name="place_picker_hint_search">Search places…</string>
+    <string name="place_picker_title_saved_places">Saved places</string>
+    <string name="place_picker_title_search_results">Search results</string>
+    <string name="place_picker_error_no_internet">You seem to be offline. Connect to the Internet and try again.</string>
+    <string name="place_picker_error_value_no_results_for">No results for \"%s\".</string>
+    <string name="place_picker_error_no_saved_places">No saved places.</string>
+    <string name="delete_place_value">Delete %s?</string>
+    <string name="delete_place_description">This will also delete its cached forecast data.</string>
+
+    <string name="cond_screen_title">Conditions</string>
+    <string name="cond_screen_pop">Chance of Precipitation</string>
+    <string name="cond_screen_temp_unit_celsius">Celsius (°C)</string>
+    <string name="cond_screen_temp_unit_fahrenheit">Fahrenheit (°F)</string>
+    <string name="cond_screen_precip_value_in_last_hours">Last %s hours</string>
+    <string name="cond_screen_precip_value_in_next_hours">Next %s hours</string>
+
+    <string name="settings_screen_title">Settings</string>
+    <string name="settings_screen_title_units">Units</string>
+    <string name="settings_screen_title_temp_unit">Temperature</string>
+    <string name="settings_screen_label_temp_unit_celsius">Degrees Celsius</string>
+    <string name="settings_screen_label_temp_unit_fahrenheit">Degrees Fahrenheit</string>
+    <string name="settings_screen_title_wind_unit">Wind</string>
+    <string name="settings_screen_label_wind_unit_mps">Meters per second</string>
+    <string name="settings_screen_label_wind_unit_kph">Kilometers per hour</string>
+    <string name="settings_screen_label_wind_unit_mph">Miles per hour</string>
+    <string name="settings_screen_label_wind_unit_kn">Knots</string>
+    <string name="settings_screen_title_precip_unit">Precipitation</string>
+    <string name="settings_screen_title_rain_unit">Rain</string>
+    <string name="settings_screen_title_showers_unit">Showers</string>
+    <string name="settings_screen_title_snow_unit">Snow</string>
+    <string name="settings_screen_label_precip_unit_mm">Millimeters</string>
+    <string name="settings_screen_label_precip_unit_cm">Centimeters</string>
+    <string name="settings_screen_label_precip_unit_in">Inches</string>
+    <string name="settings_screen_title_pressure_unit">Pressure</string>
+    <string name="settings_screen_label_pressure_unit_hpa">Hectopascal</string>
+    <string name="settings_screen_label_pressure_unit_inhg">Inches of mercury</string>
+    <string name="settings_screen_label_pressure_unit_mmhg">Millimeters of mercury</string>
+    <string name="settings_screen_title_vis_unit">Visibility</string>
+    <string name="settings_screen_label_vis_unit_km">Kilometers</string>
+    <string name="settings_screen_label_vis_unit_mi">Miles</string>
+    <string name="settings_screen_label_vis_unit_m">Meters</string>
+    <string name="settings_screen_label_vis_unit_ft">Feet</string>
+    <string name="settings_screen_title_appearance">Appearance</string>
+    <string name="settings_screen_title_theme">Theme</string>
+    <string name="settings_screen_label_dark">Dark</string>
+    <string name="settings_screen_label_light">Light</string>
+    <string name="settings_screen_label_follow_system">Follow system</string>
+
+    <string name="date_time_now">Now</string>
+    <string name="date_time_today">Today</string>
+    <string name="date_time_pattern_hour">HH</string>
+    <string name="date_time_pattern_hour_minute">HH:mm</string>
+    <string name="date_time_pattern_dow">E</string>
+    <string name="date_time_pattern_dow_hour_minute">E, HH:mm</string>
+    <string name="date_time_pattern_dow_dom_month">E, MMM d</string>
+
+    <string name="precip_mixed">Precipitation</string>
+    <string name="precip_rain">Rain</string>
+    <string name="precip_showers">Showers</string>
+    <string name="precip_snow">Snow</string>
+    <string name="precip_value_in_last_hours">In last %sh</string>
+    <string name="precip_value_showers_in_next_hours">%1$s showers expected in next %2$sh.</string>
+    <string name="precip_value_rain_in_next_hours">%1$s rain expected in next %2$sh.</string>
+    <string name="precip_value_snow_in_next_hours">%1$s snow expected in next %2$sh.</string>
+    <string name="precip_value_mixed_in_next_hours">%1$s expected in next %2$sh.</string>
+    <string name="precip_value_showers_on_day">Next expected is %1$s showers on %2$s.</string>
+    <string name="precip_value_rain_on_day">Next expected is %1$s rain on %2$s.</string>
+    <string name="precip_value_snow_on_day">Next expected is %1$s snow on %2$s.</string>
+    <string name="precip_value_mixed_on_day">Next expected is %1$s on %2$s.</string>
+    <string name="precip_value_none_in_next_days">None expected in next %sd.</string>
+    <string name="precip_unit_mm">mm</string>
+    <string name="precip_value_mm">%s mm</string>
+    <string name="precip_unit_cm">cm</string>
+    <string name="precip_value_cm">%s cm</string>
+    <string name="precip_unit_in">″</string>
+    <string name="precip_value_in">%s″</string>
+
+    <string name="pop_value_percent">%s%%</string>
+
+    <string name="pressure">Pressure</string>
+    <string name="pressure_trend_falling">Falling</string>
+    <string name="pressure_trend_steady">Steady</string>
+    <string name="pressure_trend_rising">Rising</string>
+    <string name="pressure_value_average">Average: %s</string>
+    <string name="pressure_unit_hpa">hPa</string>
+    <string name="pressure_value_hpa">%s hPa</string>
+    <string name="pressure_unit_inhg">inHg</string>
+    <string name="pressure_value_inhg">%s inHg</string>
+    <string name="pressure_unit_mmhg">mmHg</string>
+    <string name="pressure_value_mmhg">%s mmHg</string>
+
+    <string name="humidity">Humidity</string>
+    <string name="humidity_value_percent">%s%%</string>
+
+    <string name="sunrise">Sunrise</string>
+    <string name="sunset">Sunset</string>
+    <string name="sunrise_value">Sunrise: %s</string>
+    <string name="sunset_value">Sunset: %s</string>
+    <string name="sunrise_not_today">No sunrise today.</string>
+    <string name="sunset_not_today">No sunset today.</string>
+    <string name="sunrise_value_more_than_days_away">&gt; %sd</string>
+    <string name="sunrise_value_more_than_hours_away">&gt; %sh</string>
+    <string name="sunset_value_more_than_days_away">&gt; %sd</string>
+    <string name="sunset_value_more_than_hours_away">&gt; %sd</string>
+
+    <string name="temp_value_degree">%s°</string>
+    <string name="temp_value_high_low">H:%s L:%s</string>
+    <string name="dew_point_value_right_now">The dew point is %s right now.</string>
+    <string name="feels_like">Feels like</string>
+    <string name="feels_like_value">Feels like %s</string>
+    <string name="feels_like_value_actual">Actual %s</string>
+    <string name="feels_like_cooler_than_actual">The wind is making it feel cooler.</string>
+    <string name="feels_like_colder_than_actual">The wind is making it feel colder.</string>
+    <string name="feels_like_warmer_than_actual">The humidity is making it feel warmer.</string>
+    <string name="feels_like_hotter_than_actual">The humidity is making it feel hotter.</string>
+    <string name="feels_like_similar_to_actual">Similar to the actual temperature.</string>
+
+    <string name="uv_index">UV Index</string>
+    <string name="uv_index_risk_low">Low</string>
+    <string name="uv_index_risk_moderate">Moderate</string>
+    <string name="uv_index_risk_high">High</string>
+    <string name="uv_index_risk_very_high">Very high</string>
+    <string name="uv_index_risk_extreme">Extreme</string>
+    <string name="uv_index_protection_value_from_until">Use sun protection %1$s-%2$s.</string>
+    <string name="uv_index_protection_value_from">Use sun protection from %s.</string>
+    <string name="uv_index_protection_value_until">Use sun protection until %s.</string>
+    <string name="uv_index_protection_value_until_end_of_day">Use sun protection rest of the day.</string>
+    <string name="uv_index_protection_value_none">Low for the rest of the day.</string>
+
+    <string name="vis">Visibility</string>
+    <string name="vis_unit_m">m</string>
+    <string name="vis_value_m">%s m</string>
+    <string name="vis_unit_ft">ft</string>
+    <string name="vis_value_ft">%s ft</string>
+    <string name="vis_unit_km">km</string>
+    <string name="vis_value_km">%s km</string>
+    <string name="vis_unit_mi">mi</string>
+    <string name="vis_value_mi">%s mi</string>
+    <string name="vis_description_perfect">Perfectly clear view.</string>
+    <string name="vis_description_clear">Clear view.</string>
+    <string name="vis_description_fair">Fairly clear view.</string>
+    <string name="vis_description_low">Obstructed view.</string>
+    <string name="vis_description_very_low">Very obstructed view.</string>
+
+    <string name="wind_label">Wind</string>
+    <string name="wind_bft_0">Calm</string>
+    <string name="wind_bft_1">Light air</string>
+    <string name="wind_bft_2">Light breeze</string>
+    <string name="wind_bft_3">Gentle breeze</string>
+    <string name="wind_bft_4">Moderate breeze</string>
+    <string name="wind_bft_5">Fresh breeze</string>
+    <string name="wind_bft_6">Strong breeze</string>
+    <string name="wind_bft_7">Near gale</string>
+    <string name="wind_bft_8">Fresh gale</string>
+    <string name="wind_bft_9">Strong gale</string>
+    <string name="wind_bft_10">Whole gale</string>
+    <string name="wind_bft_11">Violent storm</string>
+    <string name="wind_bft_12">Hurricane force</string>
+    <string name="wind_value_gusts_at">Gusts at %s.</string>
+    <string name="wind_unit_mps">m/s</string>
+    <string name="wind_value_mps">%s m/s</string>
+    <string name="wind_unit_kph">km/h</string>
+    <string name="wind_value_kph">%s km/h</string>
+    <string name="wind_unit_kn">kn</string>
+    <string name="wind_value_kn">%s kn</string>
+    <string name="wind_unit_mph">mi/h</string>
+    <string name="wind_value_mph">%s mi/h</string>
+
+    <string name="wmo_0">Clear</string>
+    <string name="wmo_1">Mostly clear</string>
+    <string name="wmo_2">Partly cloudy</string>
+    <string name="wmo_3">Overcast</string>
+    <string name="wmo_45">Fog</string>
+    <string name="wmo_48">Depositing rime fog</string>
+    <string name="wmo_51">Light drizzle</string>
+    <string name="wmo_53">Drizzle</string>
+    <string name="wmo_55">Dense drizzle</string>
+    <string name="wmo_56">Light freezing drizzle</string>
+    <string name="wmo_57">Dense freezing drizzle</string>
+    <string name="wmo_61">Light rain</string>
+    <string name="wmo_63">Rain</string>
+    <string name="wmo_65">Heavy rain</string>
+    <string name="wmo_66">Light freezing rain</string>
+    <string name="wmo_67">Heavy freezing rain</string>
+    <string name="wmo_71">Light snow</string>
+    <string name="wmo_73">Snow</string>
+    <string name="wmo_75">Heavy snow</string>
+    <string name="wmo_77">Snow grains</string>
+    <string name="wmo_80">Light showers</string>
+    <string name="wmo_81">Showers</string>
+    <string name="wmo_82">Heavy showers</string>
+    <string name="wmo_85">Light snow showers</string>
+    <string name="wmo_86">Heavy snow showers</string>
+    <string name="wmo_95">Thunderstorm</string>
+    <string name="wmo_96">Thunderstorm with light hail</string>
+    <string name="wmo_99">Thunderstorm with heavy hail</string>
+</resources>

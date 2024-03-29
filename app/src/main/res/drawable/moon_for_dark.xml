@@ -1,0 +1,23 @@
+<!--
+  ~ This file is part of Bura.
+  ~
+  ~ Bura is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+  ~
+  ~ Bura is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with Bura. If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+  <path
+      android:pathData="M11.357,5.004C5.483,5.547 2.868,12.79 7.039,16.961C11.21,21.132 18.453,18.517 18.996,12.643A0.702,0.702 135,0 0,17.881 12.012C15.877,13.493 13.759,12.966 12.396,11.604C11.034,10.241 10.507,8.123 11.988,6.119A0.702,0.702 135,0 0,11.357 5.004z"
+      android:strokeLineJoin="miter"
+      android:strokeWidth="1.404"
+      android:fillColor="#e0e0e0"
+      android:strokeColor="#00000000"
+      android:strokeLineCap="butt"/>
+</vector>

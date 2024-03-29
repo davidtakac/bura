@@ -1,0 +1,79 @@
+<!--
+  ~ This file is part of Bura.
+  ~
+  ~ Bura is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+  ~
+  ~ Bura is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with Bura. If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+  <path
+      android:pathData="M12,4.75L12,10"
+      android:strokeLineJoin="round"
+      android:strokeWidth="1.5"
+      android:fillColor="#00000000"
+      android:strokeColor="#e0e0e0"
+      android:strokeLineCap="round"/>
+  <path
+      android:pathData="M20.25,19.75L3.75,19.75"
+      android:strokeLineJoin="round"
+      android:strokeWidth="1.5"
+      android:fillColor="#00000000"
+      android:strokeColor="#e0e0e0"
+      android:strokeLineCap="round"/>
+  <path
+      android:pathData="M9,7.75l3,-3l3,3"
+      android:strokeLineJoin="round"
+      android:strokeWidth="1.5"
+      android:fillColor="#00000000"
+      android:strokeColor="#e0e0e0"
+      android:strokeLineCap="round"/>
+  <path
+      android:pathData="M6.165,10.915L7.23,11.98"
+      android:strokeLineJoin="round"
+      android:strokeWidth="1.5"
+      android:fillColor="#00000000"
+      android:strokeColor="#ffeb3b"
+      android:strokeLineCap="round"/>
+  <path
+      android:pathData="M3.75,16.75L5.25,16.75"
+      android:strokeLineJoin="round"
+      android:strokeWidth="1.5"
+      android:fillColor="#00000000"
+      android:strokeColor="#ffeb3b"
+      android:strokeLineCap="round"/>
+  <path
+      android:pathData="M18.75,16.75L20.25,16.75"
+      android:strokeLineJoin="round"
+      android:strokeWidth="1.5"
+      android:fillColor="#00000000"
+      android:strokeColor="#ffeb3b"
+      android:strokeLineCap="round"/>
+  <path
+      android:pathData="M16.77,11.98L17.835,10.915"
+      android:strokeLineJoin="round"
+      android:strokeWidth="1.5"
+      android:fillColor="#00000000"
+      android:strokeColor="#ffeb3b"
+      android:strokeLineCap="round"/>
+  <path
+      android:pathData="m12,12.25c-1.104,0 -2.218,0.364 -3.076,1.126 -0.858,0.762 -1.424,1.936 -1.424,3.374a0.75,0.75 0,0 0,0.75 0.75,0.75 0.75,0 0,0 0.75,-0.75c0,-1.062 0.371,-1.765 0.92,-2.253 0.548,-0.488 1.309,-0.747 2.08,-0.747 0.771,0 1.532,0.26 2.08,0.747 0.548,0.488 0.92,1.19 0.92,2.253a0.75,0.75 0,0 0,0.75 0.75,0.75 0.75,0 0,0 0.75,-0.75c0,-1.437 -0.566,-2.611 -1.424,-3.374 -0.858,-0.762 -1.972,-1.126 -3.076,-1.126z"
+      android:strokeLineJoin="miter"
+      android:strokeWidth="1.5"
+      android:fillColor="#ffeb3b"
+      android:strokeColor="#00000000"
+      android:strokeLineCap="butt"/>
+  <path
+      android:pathData="m8.25,17.5l7.5,0l-1.75,-4.5l-4,0z"
+      android:strokeLineJoin="round"
+      android:strokeWidth="0"
+      android:fillColor="#ffeb3b"
+      android:strokeColor="#00000000"
+      android:strokeLineCap="round"/>
+</vector>

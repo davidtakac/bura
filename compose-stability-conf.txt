@@ -1,0 +1,18 @@
+// These java.time classes are all stable. The only way to change them is
+// by constructing another object.
+java.time.Instant
+java.time.LocalDateTime
+java.time.LocalDate
+java.time.LocalTime
+java.time.ZoneId
+java.time.format.DateTimeFormatter
+java.time.Duration
+// Even though NumberFormat is a mutable class, we are only passing around
+// an instance of it without ever modifying it.
+java.text.NumberFormat
+// We always pass around immutable collections.
+kotlin.collections.*
+// The Compose compiler seems to mark nested Lists as unstable, even though
+// we explicitly marked Kotlin collections as stable above.
+com.davidtakac.bura.graphs.temperature.TemperatureGraph
+com.davidtakac.bura.graphs.pop.PopGraph

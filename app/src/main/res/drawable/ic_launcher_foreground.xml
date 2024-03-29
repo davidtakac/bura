@@ -1,0 +1,63 @@
+<!--
+  ~ This file is part of Bura.
+  ~
+  ~ Bura is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+  ~
+  ~ Bura is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with Bura. If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+  <group android:scaleX="0.53"
+      android:scaleY="0.53"
+      android:translateX="5.64"
+      android:translateY="5.64">
+    <path
+        android:pathData="M11.344,2.636A5.614,5.614 73.887,0 0,5.777 7.603,3.144 3.162,90 0,0 3,10.72 3.144,3.162 90,0 0,6.161 13.864l5.182,0 5.614,0a4.042,4.042 130.676,0 0,4.042 -4.042,4.042 4.042,130.676 0,0 -4.042,-4.042 4.042,4.042 130.676,0 0,-0.554 0.039,5.614 5.614,73.887 0,0 -5.06,-3.182z"
+        android:strokeLineJoin="round"
+        android:strokeWidth="1.798"
+        android:fillColor="#e0e0e0"
+        android:strokeColor="#00000000"
+        android:strokeLineCap="round"/>
+    <path
+        android:pathData="m5.198,15.397c0.26,0.095 0.399,0.367 0.31,0.61l-0.707,1.941c-0.089,0.243 -0.369,0.363 -0.63,0.268 -0.26,-0.095 -0.399,-0.367 -0.31,-0.61l0.707,-1.941c0.089,-0.243 0.369,-0.363 0.63,-0.268z"
+        android:strokeLineJoin="round"
+        android:strokeWidth="2.74133"
+        android:fillColor="#64b5f6"
+        android:strokeColor="#00000000"
+        android:strokeLineCap="round"/>
+    <path
+        android:pathData="M7.68,15.396L7.695,15.401A0.467,0.492 110,0 1,7.998 16.008L6.607,19.829A0.467,0.492 110,0 1,5.985 20.099L5.97,20.094A0.467,0.492 110,0 1,5.667 19.487L7.058,15.666A0.467,0.492 110,0 1,7.68 15.396z"
+        android:strokeLineJoin="round"
+        android:strokeWidth="2.76234"
+        android:fillColor="#64b5f6"
+        android:strokeColor="#00000000"
+        android:strokeLineCap="round"/>
+    <path
+        android:pathData="m10.75,15.364l2.5,0l-0.612,1.5l1.862,0l-3.75,4.5 0.67,-3L9.5,18.364Z"
+        android:strokeLineJoin="round"
+        android:strokeWidth="2.739"
+        android:fillColor="#ffeb3b"
+        android:strokeColor="#00000000"
+        android:strokeLineCap="round"/>
+    <path
+        android:pathData="m17.338,15.397c0.26,0.095 0.399,0.367 0.31,0.61l-0.707,1.941c-0.089,0.243 -0.369,0.363 -0.63,0.268 -0.26,-0.095 -0.399,-0.367 -0.31,-0.61l0.707,-1.941c0.089,-0.243 0.369,-0.363 0.63,-0.268z"
+        android:strokeLineJoin="round"
+        android:strokeWidth="2.74133"
+        android:fillColor="#64b5f6"
+        android:strokeColor="#00000000"
+        android:strokeLineCap="round"/>
+    <path
+        android:pathData="M19.82,15.396L19.835,15.401A0.467,0.492 110,0 1,20.137 16.008L18.747,19.829A0.467,0.492 110,0 1,18.124 20.099L18.11,20.094A0.467,0.492 110,0 1,17.807 19.487L19.198,15.666A0.467,0.492 110,0 1,19.82 15.396z"
+        android:strokeLineJoin="round"
+        android:strokeWidth="2.76234"
+        android:fillColor="#64b5f6"
+        android:strokeColor="#00000000"
+        android:strokeLineCap="round"/>
+  </group>
+</vector>
