@@ -20,11 +20,11 @@ Bura transforms and visualizes weather data from Open-Meteo.com to give you esse
 Other features include:
 - Works offline
 - Uses mobile data sparingly
--Does not require an API key
--Does not access your location
--Material Design 3 / Material You
--Dark and light theme
--Customizable measurement units
+- Does not require an API key
+- Does not access your location
+- Material Design 3 / Material You
+- Dark and light theme
+- Customizable measurement units
 
 ## Planned
 - Graphs for precipitation, uv index, wind, pressure, humidity, visibility and feels like
