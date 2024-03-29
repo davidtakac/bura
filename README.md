@@ -29,7 +29,7 @@ Other features include:
 - Graphs for precipitation, uv index, wind, pressure, humidity, visibility and feels like
 - Air quality data and graphs
 - Weather alerts
-- F-Droid inclusion
+- [F-Droid inclusion](https://gitlab.com/fdroid/rfp/-/issues/2703)
 - Customizable [Open-Meteo data sources](https://open-meteo.com/en/docs#data-sources)
 
 ## Not planned
