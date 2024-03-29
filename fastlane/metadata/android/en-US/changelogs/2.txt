@@ -1,4 +1,4 @@
-## 1.0.1 - TBD
+## 1.0.1 - 2024-03-29
 
 ### Changed
 - Reduce settings button title size
