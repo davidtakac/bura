@@ -29,6 +29,9 @@ jobs:
           alias: ${{ secrets.KEYSTORE_ALIAS }}
           keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
           keyPassword: ${{ secrets.KEY_PASSWORD }}
+        env:
+          # See https://github.com/r0adkll/sign-android-release/issues/84
+          BUILD_TOOLS_VERSION: "34.0.0"
       - name: Evaluate version name
         run: |
           echo 'VERSION_NAME<<EOF' >> $GITHUB_ENV
