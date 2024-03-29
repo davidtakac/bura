@@ -36,13 +36,13 @@ A libre weather app with graphs that works offline. Spiritual successor to [Prog
 - Customizable refresh period
 
 ## Translate
-Translations will be managed with [Weblate](https://hosted.weblate.org/) once they approve my gratis project hosting.
+Translations will be managed with [Weblate](https://hosted.weblate.org/) once they approve my gratis project hosting request.
 
 ## Contribute
 Open issues and/or pull requests targeting the `dev` branch.
 
 ## Donations
-I do not accept donations at the moment. I tried to accept them on Prognoza, but as soon as I received the first donation, they shut down my account.
+I do not accept donations at the moment. I tried to accept them on Prognoza, but as soon as I received the first donation, PayPal shut down my account.
 
 ## Why wasn't this an update to Prognoza?
 - Bura is a complete rewrite that has nothing in common with Prognoza, except the dev :)
