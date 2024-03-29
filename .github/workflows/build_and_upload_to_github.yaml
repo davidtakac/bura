@@ -20,6 +20,13 @@ jobs:
         uses: actions/checkout@v2
       - name: Assemble release
         run: ./gradlew assembleRelease
+      # See https://github.com/r0adkll/sign-android-release/issues/84
+      - name: Set-up BUILD_TOOL_VERSION environment variable
+        shell: bash
+        run: |
+          BUILD_TOOL_VERSION=$(ls /usr/local/lib/android/sdk/build-tools/ | tail -n 1)
+          echo "BUILD_TOOL_VERSION=$BUILD_TOOL_VERSION" >> $GITHUB_ENV
+          echo "Installed BUILD_TOOL_VERSION is: $BUILD_TOOL_VERSION"
       - name: Sign release
         uses: r0adkll/sign-android-release@v1
         id: sign_release
@@ -30,8 +37,7 @@ jobs:
           keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
           keyPassword: ${{ secrets.KEY_PASSWORD }}
         env:
-          # See https://github.com/r0adkll/sign-android-release/issues/84
-          BUILD_TOOLS_VERSION: "34.0.0"
+          BUILD_TOOLS_VERSION: ${{ env.BUILD_TOOL_VERSION }}
       - name: Evaluate version name
         run: |
           echo 'VERSION_NAME<<EOF' >> $GITHUB_ENV
