@@ -1,5 +1,5 @@
 # Bura
-A libre weather app with graphs that works offline. Spiritual successor to [Prognoza](https://github.com/davidtakac/prognoza).
+Modern fully-featured weather app with graphs and thoughtful data visualization. Spiritual successor to [Prognoza](https://github.com/davidtakac/prognoza).
 
 ## Screenshots
 <p align="left">
@@ -15,12 +15,16 @@ A libre weather app with graphs that works offline. Spiritual successor to [Prog
 </p>
 
 ## Features
-- Smart and concise home page
-- Graphs for more details
+Bura transforms and visualizes weather data from Open-Meteo.com to give you essential weather information at a glance, while allowing you to dive deeper with graphs.
+
+Other features include:
 - Works offline
-- Customizable measurement units
-- Dark and light theme
-- Material 3
+- Uses mobile data sparingly
+-Does not require an API key
+-Does not access your location
+-Material Design 3 / Material You
+-Dark and light theme
+-Customizable measurement units
 
 ## Planned
 - Graphs for precipitation, uv index, wind, pressure, humidity, visibility and feels like
@@ -30,13 +34,13 @@ A libre weather app with graphs that works offline. Spiritual successor to [Prog
 - Customizable [Open-Meteo data sources](https://open-meteo.com/en/docs#data-sources)
 
 ## Not planned
-- Widgets (life's too short)
+- Widgets
 - Weather sources other than Open-Meteo
 - Manual refresh
 - Customizable refresh period
 
 ## Translate
-Translations will be managed with [Weblate](https://hosted.weblate.org/) once they approve my gratis project hosting request.
+Translations will be managed with [Weblate](https://hosted.weblate.org/) if/when my libre hosting request is approved.
 
 ## Contribute
 Open issues and/or pull requests targeting the `dev` branch.
