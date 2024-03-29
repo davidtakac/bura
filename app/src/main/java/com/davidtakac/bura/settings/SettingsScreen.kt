@@ -263,10 +263,7 @@ private fun SettingsList(
         )
     }
 
-    LazyColumn(
-        modifier = modifier,
-        contentPadding = PaddingValues(bottom = 24.dp)
-    ) {
+    LazyColumn(modifier = modifier) {
         item {
             SectionLabel(label = stringResource(id = R.string.settings_screen_title_units))
         }
