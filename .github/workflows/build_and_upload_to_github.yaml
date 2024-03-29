@@ -1,4 +1,4 @@
-name: Build, sign and upload to Github Releases
+name: Build, sign and upload to GitHub Releases
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    name: Build, sign and upload to Github Releases
+    name: Build, sign and upload to GitHub Releases
     runs-on: ubuntu-latest
 
     steps:
