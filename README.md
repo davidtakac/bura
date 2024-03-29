@@ -11,7 +11,6 @@ Modern fully-featured weather app with graphs and thoughtful data visualization.
 <p align="left">
     <img src="screenshots/home_tiles.png" width=30%/>
     <img src="screenshots/picker_saved_places.png" width=30%/>
-    <img src="screenshots/settings.png" width=30%/>
 </p>
 
 ## Features
