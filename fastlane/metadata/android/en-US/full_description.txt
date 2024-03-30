@@ -1,6 +1,7 @@
 Bura transforms and visualizes weather data from Open-Meteo.com to give you essential weather information at a glance, while allowing you to dive deeper with graphs.
 
 Other features include:
+
 * Works offline
 * Uses mobile data sparingly
 * Does not require an API key
