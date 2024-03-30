@@ -11,12 +11,8 @@
 package com.davidtakac.bura
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.platform.LocalLifecycleOwner
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -24,8 +20,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.davidtakac.bura.common.Theme
-import com.davidtakac.bura.graphs.EssentialGraphsScreen
-import com.davidtakac.bura.graphs.EssentialGraphsViewModel
+import com.davidtakac.bura.graphs.EssentialGraphsDestination
 import com.davidtakac.bura.settings.SettingsScreen
 import com.davidtakac.bura.settings.SelectedUnitsViewModel
 import com.davidtakac.bura.summary.SummaryDestination
@@ -58,24 +53,8 @@ fun AppNavHost(theme: Theme, onThemeClick: (Theme) -> Unit) {
                 }
             )
         ) { backStackEntry ->
-            val viewModel =
-                viewModel<EssentialGraphsViewModel>(factory = EssentialGraphsViewModel.Factory)
-            val lifecycleOwner = LocalLifecycleOwner.current
-            DisposableEffect(lifecycleOwner) {
-                val observer = LifecycleEventObserver { _, event ->
-                    if (event == Lifecycle.Event.ON_RESUME) {
-                        viewModel.getGraphs()
-                    }
-                }
-                lifecycleOwner.lifecycle.addObserver(observer)
-                onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
-            }
-
-            EssentialGraphsScreen(
-                initialDay = backStackEntry.arguments?.getString("initialDay")
-                    ?.let(LocalDate::parse),
-                state = viewModel.state.collectAsState().value,
-                onTryAgainClick = viewModel::getGraphs,
+            EssentialGraphsDestination(
+                initialDay = backStackEntry.arguments?.getString("initialDay")?.let(LocalDate::parse),
                 onSelectPlaceClick = controller::popBackStack,
                 onBackClick = controller::popBackStack
             )
