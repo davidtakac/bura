@@ -6,7 +6,7 @@ Modern fully-featured weather app with graphs and thoughtful data visualization.
         <img src="assets/badge_izzyondroid.png" height="80" align="center"/>
     </a>
     <a href="http://apps.obtainium.imranr.dev/redirect.html?r=obtainium://add/https://github.com/davidtakac/bura">
-        <img src="assets/badge_obtainium.png" height="54" align="center" style="padding: 12px"/>
+        <img src="assets/badge_obtainium.png" height="80" align="center"/>
     </a>
     <a href="https://github.com/davidtakac/bura/releases/latest">
         <img src="assets/badge_github.png" height="80" align="center"/>
