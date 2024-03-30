@@ -39,7 +39,7 @@ fun rememberAppLocale(): Locale {
 fun rememberDateTimeFormatter(@StringRes ofPattern: Int): DateTimeFormatter {
     val pattern = stringResource(ofPattern)
     val locale = appLocale(LocalContext.current)
-    return remember(locale) { DateTimeFormatter.ofPattern(pattern, locale) }
+    return remember(pattern, locale) { DateTimeFormatter.ofPattern(pattern, locale) }
 }
 
 @Composable
