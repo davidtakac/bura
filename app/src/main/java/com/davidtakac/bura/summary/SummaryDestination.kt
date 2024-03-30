@@ -29,7 +29,7 @@ import java.time.LocalDate
 @Composable
 fun SummaryDestination(
     onHourlySectionClick: () -> Unit,
-    onDayClick: (day: LocalDate) -> Unit,
+    onDayClick: (LocalDate) -> Unit,
     onSettingsButtonClick: () -> Unit
 ) {
     val placePickerVM = viewModel<PlacePickerViewModel>(factory = PlacePickerViewModel.Factory)

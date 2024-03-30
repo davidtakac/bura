@@ -29,8 +29,8 @@ class MainActivity : ComponentActivity() {
         setTransparentSystemBars()
         setContent {
             val themeViewModel = viewModel<ThemeViewModel>(factory = ThemeViewModel.Factory)
-            val themeState = themeViewModel.state.collectAsState().value
-            val useDarkTheme = when (themeState) {
+            val theme = themeViewModel.state.collectAsState().value
+            val useDarkTheme = when (theme) {
                 Theme.Dark -> true
                 Theme.Light -> false
                 Theme.FollowSystem -> isSystemInDarkTheme()
@@ -41,7 +41,7 @@ class MainActivity : ComponentActivity() {
             }
             AppTheme(useDarkTheme) {
                 AppNavHost(
-                    theme = themeState,
+                    theme = theme,
                     onThemeClick = themeViewModel::setTheme
                 )
             }

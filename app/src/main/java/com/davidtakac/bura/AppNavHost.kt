@@ -11,9 +11,6 @@
 package com.davidtakac.bura
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -21,8 +18,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.davidtakac.bura.common.Theme
 import com.davidtakac.bura.graphs.EssentialGraphsDestination
-import com.davidtakac.bura.settings.SettingsScreen
-import com.davidtakac.bura.settings.SelectedUnitsViewModel
+import com.davidtakac.bura.settings.SettingsDestination
 import com.davidtakac.bura.summary.SummaryDestination
 import java.time.LocalDate
 
@@ -60,20 +56,8 @@ fun AppNavHost(theme: Theme, onThemeClick: (Theme) -> Unit) {
             )
         }
         composable("settings") {
-            val unitsVM =
-                viewModel<SelectedUnitsViewModel>(factory = SelectedUnitsViewModel.Factory)
-            LaunchedEffect(Unit) { unitsVM.getSettings() }
-            SettingsScreen(
-                units = unitsVM.state.collectAsState().value,
+            SettingsDestination(
                 theme = theme,
-                onTemperatureUnitClick = unitsVM::selectTemperatureUnit,
-                onWindUnitClick = unitsVM::selectWindUnit,
-                onPrecipitationUnitClick = unitsVM::selectPrecipitationUnit,
-                onRainUnitClick = unitsVM::selectRainUnit,
-                onShowersUnitClick = unitsVM::selectShowersUnit,
-                onSnowUnitClick = unitsVM::selectSnowUnit,
-                onPressureUnitClick = unitsVM::selectPressureUnit,
-                onVisibilityUnitClick = unitsVM::selectVisibilityUnit,
                 onThemeClick = onThemeClick,
                 onBackClick = controller::popBackStack
             )
