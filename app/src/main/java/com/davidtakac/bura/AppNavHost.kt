@@ -14,10 +14,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -28,14 +24,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.davidtakac.bura.common.Theme
-import com.davidtakac.bura.common.rememberAppLocale
 import com.davidtakac.bura.graphs.EssentialGraphsScreen
 import com.davidtakac.bura.graphs.EssentialGraphsViewModel
-import com.davidtakac.bura.place.picker.PlacePickerViewModel
 import com.davidtakac.bura.settings.SettingsScreen
 import com.davidtakac.bura.settings.SelectedUnitsViewModel
-import com.davidtakac.bura.summary.SummaryScreen
-import com.davidtakac.bura.summary.SummaryViewModel
+import com.davidtakac.bura.summary.SummaryDestination
 import java.time.LocalDate
 
 @Composable
@@ -43,58 +36,16 @@ fun AppNavHost(theme: Theme, onThemeClick: (Theme) -> Unit) {
     val controller = rememberNavController()
     NavHost(navController = controller, startDestination = "summary") {
         composable("summary") {
-            val placePickerVM = viewModel<PlacePickerViewModel>(factory = PlacePickerViewModel.Factory)
-            val summaryVM = viewModel<SummaryViewModel>(factory = SummaryViewModel.Factory)
-
-            val lifecycleOwner = LocalLifecycleOwner.current
-            DisposableEffect(lifecycleOwner) {
-                val observer = LifecycleEventObserver { _, event ->
-                    if (event != Lifecycle.Event.ON_RESUME) return@LifecycleEventObserver
-                    placePickerVM.getSelectedPlace()
-                    summaryVM.getSummary()
+            SummaryDestination(
+                onHourlySectionClick = {
+                    controller.navigate("essential-graphs")
+                },
+                onDayClick = {
+                    controller.navigate("essential-graphs?initialDay=$it")
+                },
+                onSettingsButtonClick = {
+                    controller.navigate("settings")
                 }
-                lifecycleOwner.lifecycle.addObserver(observer)
-                onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
-            }
-
-            val pickerState = placePickerVM.state.collectAsState().value
-            val selectedPlace = pickerState.selectedPlace
-            var searchActive by remember(selectedPlace) { mutableStateOf(false) }
-            var searchQuery by remember(searchActive, selectedPlace) {
-                mutableStateOf(
-                    if (searchActive) ""
-                    else selectedPlace?.name ?: ""
-                )
-            }
-            LaunchedEffect(searchActive) {
-                if (!searchActive) {
-                    searchQuery = selectedPlace?.name ?: ""
-                    summaryVM.getSummary()
-                } else {
-                    placePickerVM.getSavedPlaces()
-                }
-            }
-
-            val appLocale = rememberAppLocale()
-
-            SummaryScreen(
-                summaryState = summaryVM.state.collectAsState().value,
-                onHourlySectionClick = { controller.navigate("essential-graphs") },
-                onDayClick = { day -> controller.navigate("essential-graphs?initialDay=$day") },
-                onSettingsButtonClick = { controller.navigate("settings") },
-
-                pickerState = pickerState,
-                searchQuery = searchQuery,
-                onSearchQueryChange = { searchQuery = it },
-                searchActive = searchActive,
-                onSearchActiveChange = { searchActive = it },
-                onSearchQueryClearClick = { searchQuery = "" },
-                onSearch = { placePickerVM.searchPlaces(query = searchQuery, languageCode = appLocale.language) },
-                onPlaceClick = placePickerVM::selectPlace,
-                onPlaceDeleteClick = placePickerVM::deletePlace,
-
-                onTryAgainClick = summaryVM::getSummary,
-                onSelectPlaceClick = { searchActive = true }
             )
         }
         composable(
@@ -107,7 +58,8 @@ fun AppNavHost(theme: Theme, onThemeClick: (Theme) -> Unit) {
                 }
             )
         ) { backStackEntry ->
-            val viewModel = viewModel<EssentialGraphsViewModel>(factory = EssentialGraphsViewModel.Factory)
+            val viewModel =
+                viewModel<EssentialGraphsViewModel>(factory = EssentialGraphsViewModel.Factory)
             val lifecycleOwner = LocalLifecycleOwner.current
             DisposableEffect(lifecycleOwner) {
                 val observer = LifecycleEventObserver { _, event ->
@@ -120,7 +72,8 @@ fun AppNavHost(theme: Theme, onThemeClick: (Theme) -> Unit) {
             }
 
             EssentialGraphsScreen(
-                initialDay = backStackEntry.arguments?.getString("initialDay")?.let(LocalDate::parse),
+                initialDay = backStackEntry.arguments?.getString("initialDay")
+                    ?.let(LocalDate::parse),
                 state = viewModel.state.collectAsState().value,
                 onTryAgainClick = viewModel::getGraphs,
                 onSelectPlaceClick = controller::popBackStack,
@@ -128,7 +81,8 @@ fun AppNavHost(theme: Theme, onThemeClick: (Theme) -> Unit) {
             )
         }
         composable("settings") {
-            val unitsVM = viewModel<SelectedUnitsViewModel>(factory = SelectedUnitsViewModel.Factory)
+            val unitsVM =
+                viewModel<SelectedUnitsViewModel>(factory = SelectedUnitsViewModel.Factory)
             LaunchedEffect(Unit) { unitsVM.getSettings() }
             SettingsScreen(
                 units = unitsVM.state.collectAsState().value,
