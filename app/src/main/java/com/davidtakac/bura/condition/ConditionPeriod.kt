@@ -11,8 +11,8 @@
 package com.davidtakac.bura.condition
 
 import com.davidtakac.bura.forecast.HourPeriod
-import java.time.Instant
-import java.time.ZoneId
+import java.time.LocalDate
+import java.time.LocalDateTime
 
 class ConditionPeriod(
     moments: List<ConditionMoment>
@@ -21,19 +21,15 @@ class ConditionPeriod(
 
     val night get() = representative(isDay = false)
 
-    override fun momentsFrom(hourInclusive: Instant, takeMoments: Int?) =
+    override fun momentsFrom(hourInclusive: LocalDateTime, takeMoments: Int?) =
         super.momentsFrom(hourInclusive, takeMoments)?.let { ConditionPeriod(it) }
 
-    override fun daysFrom(dayInclusive: Instant, atZone: ZoneId, takeDays: Int?) =
-        super.daysFrom(dayInclusive, atZone, takeDays)?.map { ConditionPeriod(it) }
+    override fun daysFrom(dayInclusive: LocalDate, takeDays: Int?) =
+        super.daysFrom(dayInclusive, takeDays)?.map { ConditionPeriod(it) }
 
-    override fun getDay(day: Instant, atZone: ZoneId) =
-        super.getDay(day, atZone)?.let { ConditionPeriod(it) }
+    override fun getDay(day: LocalDate) =
+        super.getDay(day)?.let { ConditionPeriod(it) }
 
-    /**
-     * Returns most severe weather code when any code in this period exceeds, or
-     * when all codes are different. Otherwise returns the most common weather code.
-     */
     private fun representative(isDay: Boolean): Condition? {
         val groupedByCode = filter { it.condition.isDay == isDay }
             .groupBy { it.condition }

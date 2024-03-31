@@ -25,7 +25,8 @@ import com.davidtakac.bura.common.toRainMillimetersJSONArray
 import com.davidtakac.bura.common.toPopPercentJSONArray
 import com.davidtakac.bura.common.toHumidityPercentJSONArray
 import com.davidtakac.bura.common.toCelsiusJSONArray
-import com.davidtakac.bura.common.toEpochSecondJSONArray
+import com.davidtakac.bura.common.toLocalDateTimeJSONArray
+import com.davidtakac.bura.common.toLocalDateTimes
 import com.davidtakac.bura.common.toPop
 import com.davidtakac.bura.common.toPressures
 import com.davidtakac.bura.common.toRain
@@ -83,12 +84,12 @@ class ForecastDataCacher(private val root: File) {
             val record = JSONObject(jsonString)
             ForecastData(
                 timestamp = Instant.ofEpochSecond(record.getLong("timestamp")),
-                times = record.getJSONArray("times").toInstants(),
+                times = record.getJSONArray("times").toLocalDateTimes(),
                 temperature = record.getJSONArray("temperature").toTemperatures(),
                 feelsLikeTemperature = record.getJSONArray("feelsLike").toTemperatures(),
                 dewPointTemperature = record.getJSONArray("dewPoint").toTemperatures(),
-                sunrises = record.getJSONArray("sunrises").toInstants(),
-                sunsets = record.getJSONArray("sunsets").toInstants(),
+                sunrises = record.getJSONArray("sunrises").toLocalDateTimes(),
+                sunsets = record.getJSONArray("sunsets").toLocalDateTimes(),
                 pop = record.getJSONArray("pop").toPop(),
                 rain = record.getJSONArray("rain").toRain(),
                 showers = record.getJSONArray("showers").toShowers(),
@@ -109,12 +110,12 @@ class ForecastDataCacher(private val root: File) {
         withContext(Dispatchers.Default) {
             JSONObject().apply {
                 put("timestamp", data.timestamp.epochSecond)
-                put("times", data.times.toEpochSecondJSONArray())
+                put("times", data.times.toLocalDateTimeJSONArray())
                 put("temperature", data.temperature.toCelsiusJSONArray())
                 put("feelsLike", data.feelsLikeTemperature.toCelsiusJSONArray())
                 put("dewPoint", data.dewPointTemperature.toCelsiusJSONArray())
-                put("sunrises", data.sunrises.toEpochSecondJSONArray())
-                put("sunsets", data.sunsets.toEpochSecondJSONArray())
+                put("sunrises", data.sunrises.toLocalDateTimeJSONArray())
+                put("sunsets", data.sunsets.toLocalDateTimeJSONArray())
                 put("pop", data.pop.toPopPercentJSONArray())
                 put("rain", data.rain.toRainMillimetersJSONArray())
                 put("showers", data.showers.toShowerMillimetersJSONArray())

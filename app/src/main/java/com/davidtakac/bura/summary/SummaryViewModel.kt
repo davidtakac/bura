@@ -73,81 +73,81 @@ class SummaryViewModel(
     }
     
     private suspend fun getState(): SummaryState {
-        val coords = placeRepo.getSelectedPlace()?.location ?: return SummaryState.NoSelectedPlace
+        val location = placeRepo.getSelectedPlace()?.location ?: return SummaryState.NoSelectedPlace
         val units = unitsRepo.getSelectedUnits()
-        val now = Instant.now()
+        val now = Instant.now().atZone(location.timeZone).toLocalDateTime()
 
-        val nowSummary = getNowSummary(coords, units, now)
+        val nowSummary = getNowSummary(location, units, now)
         when (nowSummary) {
             ForecastResult.FailedToDownload -> return SummaryState.FailedToDownload
             ForecastResult.Outdated -> return SummaryState.Outdated
             is ForecastResult.Success -> Unit
         }
 
-        val hourlySummary = getHourlySummary(coords, units, now)
+        val hourlySummary = getHourlySummary(location, units, now)
         when (hourlySummary) {
             ForecastResult.FailedToDownload -> return SummaryState.FailedToDownload
             ForecastResult.Outdated -> return SummaryState.Outdated
             is ForecastResult.Success -> Unit
         }
 
-        val dailySummary = getDailySummary(coords, units, now)
+        val dailySummary = getDailySummary(location, units, now)
         when (dailySummary) {
             ForecastResult.FailedToDownload -> return SummaryState.FailedToDownload
             ForecastResult.Outdated -> return SummaryState.Outdated
             is ForecastResult.Success -> Unit
         }
 
-        val precipSummary = precipSummaryUseCase(coords, units, now)
+        val precipSummary = precipSummaryUseCase(location, units, now)
         when (precipSummary) {
             ForecastResult.FailedToDownload -> return SummaryState.FailedToDownload
             ForecastResult.Outdated -> return SummaryState.Outdated
             is ForecastResult.Success -> Unit
         }
 
-        val uvIndexSummary = getUvIndexSummary(coords, units, now)
+        val uvIndexSummary = getUvIndexSummary(location, units, now)
         when (uvIndexSummary) {
             ForecastResult.FailedToDownload -> return SummaryState.FailedToDownload
             ForecastResult.Outdated -> return SummaryState.Outdated
             is ForecastResult.Success -> Unit
         }
 
-        val windSummary = getWindSummary(coords, units, now)
+        val windSummary = getWindSummary(location, units, now)
         when (windSummary) {
             ForecastResult.FailedToDownload -> return SummaryState.FailedToDownload
             ForecastResult.Outdated -> return SummaryState.Outdated
             is ForecastResult.Success -> Unit
         }
 
-        val pressureSummary = getPressureSummary(coords, units, now)
+        val pressureSummary = getPressureSummary(location, units, now)
         when (pressureSummary) {
             ForecastResult.FailedToDownload -> return SummaryState.FailedToDownload
             ForecastResult.Outdated -> return SummaryState.Outdated
             is ForecastResult.Success -> Unit
         }
 
-        val humiditySummary = getHumiditySummary(coords, units, now)
+        val humiditySummary = getHumiditySummary(location, units, now)
         when (humiditySummary) {
             ForecastResult.FailedToDownload -> return SummaryState.FailedToDownload
             ForecastResult.Outdated -> return SummaryState.Outdated
             is ForecastResult.Success -> Unit
         }
 
-        val visSummary = visSummaryUseCase(coords, units, now)
+        val visSummary = visSummaryUseCase(location, units, now)
         when (visSummary) {
             ForecastResult.FailedToDownload -> return SummaryState.FailedToDownload
             ForecastResult.Outdated -> return SummaryState.Outdated
             is ForecastResult.Success -> Unit
         }
 
-        val sunSummary = getSunSummary(coords, units, now)
+        val sunSummary = getSunSummary(location, units, now)
         when (sunSummary) {
             ForecastResult.FailedToDownload -> return SummaryState.FailedToDownload
             ForecastResult.Outdated -> return SummaryState.Outdated
             is ForecastResult.Success -> Unit
         }
 
-        val feelsLikeSummary = getFeelsLikeSummary(coords, units, now)
+        val feelsLikeSummary = getFeelsLikeSummary(location, units, now)
         when (feelsLikeSummary) {
             ForecastResult.FailedToDownload -> return SummaryState.FailedToDownload
             ForecastResult.Outdated -> return SummaryState.Outdated

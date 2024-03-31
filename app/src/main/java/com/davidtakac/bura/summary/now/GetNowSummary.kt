@@ -17,18 +17,18 @@ import com.davidtakac.bura.temperature.TemperatureRepository
 import com.davidtakac.bura.units.Units
 import com.davidtakac.bura.condition.Condition
 import com.davidtakac.bura.condition.ConditionRepository
-import java.time.Instant
+import java.time.LocalDateTime
 
 class GetNowSummary(
     private val tempRepo: TemperatureRepository,
     private val feelsRepo: TemperatureRepository,
     private val descRepo: ConditionRepository,
 ) {
-    suspend operator fun invoke(location: Location, units: Units, now: Instant) : ForecastResult<NowSummary> {
+    suspend operator fun invoke(location: Location, units: Units, now: LocalDateTime) : ForecastResult<NowSummary> {
         val tempPeriod = tempRepo.period(location, units) ?: return ForecastResult.FailedToDownload
         val feelsPeriod = feelsRepo.period(location, units) ?: return ForecastResult.FailedToDownload
         val descPeriod = descRepo.period(location, units) ?: return ForecastResult.FailedToDownload
-        val tempToday = tempPeriod.getDay(now, location.timeZone) ?: return ForecastResult.Outdated
+        val tempToday = tempPeriod.getDay(now.toLocalDate(),) ?: return ForecastResult.Outdated
         return ForecastResult.Success(NowSummary(
             temp = tempPeriod[now]?.temperature ?: return ForecastResult.Outdated,
             feelsLike = feelsPeriod[now]?.temperature ?: return ForecastResult.Outdated,

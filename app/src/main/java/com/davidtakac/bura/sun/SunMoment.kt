@@ -10,11 +10,11 @@
 
 package com.davidtakac.bura.sun
 
-import java.time.Instant
+import java.time.LocalDateTime
 import java.util.Objects
 
 class SunMoment(
-    val time: Instant,
+    val time: LocalDateTime,
     val event: SunEvent
 ) {
     override fun equals(other: Any?): Boolean =

@@ -11,10 +11,10 @@
 package com.davidtakac.bura.pressure
 
 import com.davidtakac.bura.forecast.HourMoment
-import java.time.Instant
+import java.time.LocalDateTime
 
 class PressureMoment(
-    hour: Instant,
+    hour: LocalDateTime,
     val pressure: Pressure
 ) : HourMoment(hour) {
     override fun toString(): String = "$hour: $pressure"

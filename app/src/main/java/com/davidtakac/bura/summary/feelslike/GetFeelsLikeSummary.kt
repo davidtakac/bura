@@ -15,14 +15,14 @@ import com.davidtakac.bura.forecast.ForecastResult
 import com.davidtakac.bura.temperature.Temperature
 import com.davidtakac.bura.temperature.TemperatureRepository
 import com.davidtakac.bura.units.Units
-import java.time.Instant
+import java.time.LocalDateTime
 import kotlin.math.absoluteValue
 
 class GetFeelsLikeSummary(
     private val tempRepo: TemperatureRepository,
     private val feelsRepo: TemperatureRepository,
 ) {
-    suspend operator fun invoke(location: Location, units: Units, now: Instant): ForecastResult<FeelsLikeSummary> {
+    suspend operator fun invoke(location: Location, units: Units, now: LocalDateTime): ForecastResult<FeelsLikeSummary> {
         val tempPeriod = tempRepo.period(location, units) ?: return ForecastResult.FailedToDownload
         val feelsPeriod = feelsRepo.period(location, units) ?: return ForecastResult.FailedToDownload
         val feelsNow = feelsPeriod[now]?.temperature ?: return ForecastResult.Outdated

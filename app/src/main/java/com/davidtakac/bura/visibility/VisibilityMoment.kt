@@ -11,10 +11,10 @@
 package com.davidtakac.bura.visibility
 
 import com.davidtakac.bura.forecast.HourMoment
-import java.time.Instant
+import java.time.LocalDateTime
 
 class VisibilityMoment(
-    hour: Instant,
+    hour: LocalDateTime,
     val visibility: Visibility,
 ) : HourMoment(hour) {
     override fun toString(): String = "$hour: $visibility"

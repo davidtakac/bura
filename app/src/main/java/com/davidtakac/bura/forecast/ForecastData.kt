@@ -22,15 +22,16 @@ import com.davidtakac.bura.visibility.Visibility
 import com.davidtakac.bura.wind.WindDirection
 import com.davidtakac.bura.wind.WindSpeed
 import java.time.Instant
+import java.time.LocalDateTime
 
 class ForecastData(
     val timestamp: Instant,
-    val times: List<Instant>,
+    val times: List<LocalDateTime>,
     val temperature: List<Temperature>,
     val feelsLikeTemperature: List<Temperature>,
     val dewPointTemperature: List<Temperature>,
-    val sunrises: List<Instant>,
-    val sunsets: List<Instant>,
+    val sunrises: List<LocalDateTime>,
+    val sunsets: List<LocalDateTime>,
     val pop: List<Pop>,
     val rain: List<Rain>,
     val showers: List<Showers>,

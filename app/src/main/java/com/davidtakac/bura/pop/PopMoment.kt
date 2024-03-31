@@ -11,10 +11,10 @@
 package com.davidtakac.bura.pop
 
 import com.davidtakac.bura.forecast.HourMoment
-import java.time.Instant
+import java.time.LocalDateTime
 
 class PopMoment(
-    hour: Instant,
+    hour: LocalDateTime,
     val pop: Pop
 ) : HourMoment(hour) {
     override fun toString(): String = "$hour: $pop"

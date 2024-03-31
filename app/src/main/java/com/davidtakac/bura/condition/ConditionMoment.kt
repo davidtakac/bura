@@ -11,10 +11,10 @@
 package com.davidtakac.bura.condition
 
 import com.davidtakac.bura.forecast.HourMoment
-import java.time.Instant
+import java.time.LocalDateTime
 
 class ConditionMoment(
-    hour: Instant,
+    hour: LocalDateTime,
     val condition: Condition
 ) : HourMoment(hour) {
     override fun toString(): String = "$hour: $condition"

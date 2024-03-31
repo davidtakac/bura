@@ -12,8 +12,8 @@ package com.davidtakac.bura.forecast
 
 import com.davidtakac.bura.common.UserAgentProvider
 import com.davidtakac.bura.common.toHumidity
-import com.davidtakac.bura.common.toInstants
 import com.davidtakac.bura.common.toInts
+import com.davidtakac.bura.common.toLocalDateTimes
 import com.davidtakac.bura.common.toPop
 import com.davidtakac.bura.common.toPressures
 import com.davidtakac.bura.common.toRain
@@ -33,6 +33,7 @@ import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.URL
 import java.time.Instant
+import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.ZoneId
 import java.util.Locale
@@ -72,15 +73,15 @@ class ForecastDataDownloader(private val userAgentProvider: UserAgentProvider) {
             val daily = json.getJSONObject("daily")
             // When a day has no sunrise or sunset, Open-Meteo returns 1970-01-01, but the app
             // expects an omitted timestamp. These filters drop such placeholders.
-            val sunrises = daily.getJSONArray("sunrise").toInstants().filter { it != Instant.ofEpochSecond(0) }
-            val sunsets = daily.getJSONArray("sunset").toInstants().filter { it != Instant.ofEpochSecond(0) }
+            val sunrises = daily.getJSONArray("sunrise").toLocalDateTimes().filter { it != LocalDateTime.MIN }
+            val sunsets = daily.getJSONArray("sunset").toLocalDateTimes().filter { it != LocalDateTime.MIN }
 
             val hourly = json.getJSONObject("hourly")
 
             // Open-Meteo sometimes returns only the first hour of the last day. The app expects
             // full 0-23h days, so this slicing is a way to drop such incomplete days.
-            val times = hourly.getJSONArray("time").toInstants()
-            val indexOfLast23HourInstant = times.indexOfLast { it.atZone(timeZone).toLocalTime() == LocalTime.parse("23:00") }
+            val times = hourly.getJSONArray("time").toLocalDateTimes()
+            val indexOfLast23HourInstant = times.indexOfLast { it.toLocalTime() == LocalTime.parse("23:00") }
             val timesProcessed = times.slice(0..indexOfLast23HourInstant)
 
             val temperature = hourly.getJSONArray("temperature_2m").toTemperatures()
@@ -130,7 +131,7 @@ class ForecastDataDownloader(private val userAgentProvider: UserAgentProvider) {
                 "&longitude=${formatCoordinate(coords.longitude)}" +
                 "&hourly=temperature_2m,relative_humidity_2m,dew_point_2m,apparent_temperature,precipitation_probability,rain,showers,snowfall,weather_code,pressure_msl,visibility,wind_speed_10m,wind_direction_10m,wind_gusts_10m,uv_index,is_day" +
                 "&daily=sunrise,sunset" +
-                "&timeformat=unixtime&wind_speed_unit=ms" +
+                "&wind_speed_unit=ms" +
                 // timezone=auto returns whole days for the desired location
                 "&timezone=auto" +
                 "&past_days=1"

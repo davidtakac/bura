@@ -17,8 +17,8 @@ import com.davidtakac.bura.temperature.TemperatureRepository
 import com.davidtakac.bura.units.Units
 import com.davidtakac.bura.condition.Condition
 import com.davidtakac.bura.condition.ConditionRepository
-import java.time.Instant
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 class GetTemperatureGraphSummaries(
     private val tempRepo: TemperatureRepository,
@@ -28,13 +28,13 @@ class GetTemperatureGraphSummaries(
     suspend operator fun invoke(
         location: Location,
         units: Units,
-        now: Instant
+        now: LocalDateTime
     ): ForecastResult<List<TemperatureGraphSummary>> {
         val tempPeriod = tempRepo.period(location, units) ?: return ForecastResult.FailedToDownload
         val conditionPeriod = conditionRepo.period(location, units) ?: return ForecastResult.FailedToDownload
         val feelsLikePeriod = feelsLikeRepo.period(location, units) ?: return ForecastResult.FailedToDownload
-        val tempDays = tempPeriod.daysFrom(now, location.timeZone) ?: return ForecastResult.Outdated
-        val conditionDays = conditionPeriod.momentsFrom(now)?.daysFrom(now, location.timeZone) ?: return ForecastResult.Outdated
+        val tempDays = tempPeriod.daysFrom(now.toLocalDate()) ?: return ForecastResult.Outdated
+        val conditionDays = conditionPeriod.momentsFrom(now)?.daysFrom(now.toLocalDate()) ?: return ForecastResult.Outdated
         val feelsLikeNow = feelsLikePeriod[now]?.temperature ?: return ForecastResult.Outdated
 
         return ForecastResult.Success(

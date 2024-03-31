@@ -22,8 +22,8 @@ import com.davidtakac.bura.condition.ConditionPeriod
 import com.davidtakac.bura.condition.ConditionRepository
 import com.davidtakac.bura.graphs.common.GraphTime
 import com.davidtakac.bura.place.Location
-import java.time.Instant
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 class GetTemperatureGraphs(
     private val tempRepo: TemperatureRepository,
@@ -32,13 +32,12 @@ class GetTemperatureGraphs(
     suspend operator fun invoke(
         location: Location,
         units: Units,
-        now: Instant
+        now: LocalDateTime
     ): ForecastResult<TemperatureGraphs> {
         val tempPeriod = tempRepo.period(location, units) ?: return ForecastResult.FailedToDownload
         val descPeriod = descRepo.period(location, units) ?: return ForecastResult.FailedToDownload
-        val tempDays = tempPeriod.daysFrom(now, location.timeZone) ?: return ForecastResult.Outdated
-        val conditionDays =
-            descPeriod.daysFrom(now, location.timeZone) ?: return ForecastResult.Outdated
+        val tempDays = tempPeriod.daysFrom(now.toLocalDate()) ?: return ForecastResult.Outdated
+        val conditionDays = descPeriod.daysFrom(now.toLocalDate()) ?: return ForecastResult.Outdated
         return ForecastResult.Success(
             data = TemperatureGraphs(
                 minTemp = tempPeriod.minimum,
@@ -55,7 +54,7 @@ class GetTemperatureGraphs(
 
     private fun getGraphs(
         coords: Location,
-        now: Instant,
+        now: LocalDateTime,
         tempDays: List<TemperaturePeriod>,
         conditionDays: List<ConditionPeriod>
     ): List<TemperatureGraph> = buildList {
@@ -75,7 +74,7 @@ class GetTemperatureGraphs(
 
     private fun getGraph(
         coords: Location,
-        now: Instant,
+        now: LocalDateTime,
         tempDay: TemperaturePeriod,
         conditionDay: ConditionPeriod,
         nextTempDay: TemperaturePeriod?,
@@ -120,7 +119,7 @@ class GetTemperatureGraphs(
 
     private fun getPoint(
         coords: Location,
-        now: Instant,
+        now: LocalDateTime,
         tempMoment: TemperatureMoment,
         minTempMoment: TemperatureMoment,
         maxTempMoment: TemperatureMoment,

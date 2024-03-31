@@ -11,10 +11,10 @@
 package com.davidtakac.bura.temperature
 
 import com.davidtakac.bura.forecast.HourMoment
-import java.time.Instant
+import java.time.LocalDateTime
 
 class TemperatureMoment(
-    hour: Instant,
+    hour: LocalDateTime,
     val temperature: Temperature
 ) : HourMoment(hour) {
     override fun toString(): String = "$hour: $temperature"

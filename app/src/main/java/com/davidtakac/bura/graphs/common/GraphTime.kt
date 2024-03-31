@@ -10,7 +10,7 @@
 
 package com.davidtakac.bura.graphs.common
 
-import java.time.Instant
+import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.ZoneId
 import java.time.temporal.ChronoUnit
@@ -21,8 +21,8 @@ class GraphTime(
     val meta: Meta
 ) {
     constructor(
-        hour: Instant,
-        now: Instant,
+        hour: LocalDateTime,
+        now: LocalDateTime,
         timeZone: ZoneId
     ) : this(value = hour.atZone(timeZone).toLocalTime(), meta = getMeta(hour, now))
 
@@ -36,7 +36,7 @@ class GraphTime(
     override fun hashCode(): Int = Objects.hash(value, meta)
 }
 
-private fun getMeta(hour: Instant, now: Instant): GraphTime.Meta {
+private fun getMeta(hour: LocalDateTime, now: LocalDateTime): GraphTime.Meta {
     val nowTrunc = now.truncatedTo(ChronoUnit.HOURS)
     return when {
         hour < nowTrunc -> GraphTime.Meta.Past

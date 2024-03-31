@@ -11,8 +11,8 @@
 package com.davidtakac.bura.uvindex
 
 import com.davidtakac.bura.forecast.HourPeriod
-import java.time.Instant
-import java.time.ZoneId
+import java.time.LocalDate
+import java.time.LocalDateTime
 
 class UvIndexPeriod(moments: List<UvIndexMoment>) : HourPeriod<UvIndexMoment>(moments) {
     val minimum get() = minOf { it.uvIndex }
@@ -21,11 +21,11 @@ class UvIndexPeriod(moments: List<UvIndexMoment>) : HourPeriod<UvIndexMoment>(mo
 
     val protectionWindows get() = protectionWindows(dangerousUvIndex = UvIndex(3))
 
-    override fun momentsFrom(hourInclusive: Instant, takeMoments: Int?) =
+    override fun momentsFrom(hourInclusive: LocalDateTime, takeMoments: Int?) =
         super.momentsFrom(hourInclusive, takeMoments)?.let { UvIndexPeriod(it) }
 
-    override fun getDay(day: Instant, atZone: ZoneId) =
-        super.getDay(day, atZone)?.let { UvIndexPeriod(it) }
+    override fun getDay(day: LocalDate) =
+        super.getDay(day)?.let { UvIndexPeriod(it) }
 
     private fun protectionWindows(dangerousUvIndex: UvIndex): List<SunProtectionWindow> =
         buildList {
@@ -41,7 +41,7 @@ class UvIndexPeriod(moments: List<UvIndexMoment>) : HourPeriod<UvIndexMoment>(mo
         moments: Iterator<UvIndexMoment>,
         dangerousUvIndex: UvIndex
     ): SunProtectionWindow? {
-        var windowStart: Instant? = null
+        var windowStart: LocalDateTime? = null
         while (moments.hasNext()) {
             val curr = moments.next()
             if (curr.uvIndex >= dangerousUvIndex) {
@@ -51,7 +51,7 @@ class UvIndexPeriod(moments: List<UvIndexMoment>) : HourPeriod<UvIndexMoment>(mo
         }
         if (windowStart == null) return null
 
-        var windowEnd: Instant? = null
+        var windowEnd: LocalDateTime? = null
         while (moments.hasNext()) {
             val curr = moments.next()
             if (curr.uvIndex < dangerousUvIndex) {
@@ -67,6 +67,6 @@ class UvIndexPeriod(moments: List<UvIndexMoment>) : HourPeriod<UvIndexMoment>(mo
     }
 }
 
-data class SunProtectionWindow(val startInclusive: Instant, val endExclusive: Instant?) {
+data class SunProtectionWindow(val startInclusive: LocalDateTime, val endExclusive: LocalDateTime?) {
     override fun toString(): String = "$startInclusive until $endExclusive"
 }

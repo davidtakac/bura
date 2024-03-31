@@ -17,7 +17,7 @@ import com.davidtakac.bura.units.Units
 import com.davidtakac.bura.wind.Wind
 import com.davidtakac.bura.wind.WindRepository
 import com.davidtakac.bura.wind.WindSpeed
-import java.time.Instant
+import java.time.LocalDateTime
 
 class GetWindSummary(
     private val windRepo: WindRepository,
@@ -26,7 +26,7 @@ class GetWindSummary(
     suspend operator fun invoke(
         location: Location,
         units: Units,
-        now: Instant
+        now: LocalDateTime
     ): ForecastResult<WindSummary> {
         val windPeriod = windRepo.period(location, units) ?: return ForecastResult.FailedToDownload
         val gustPeriod = gustRepo.period(location, units) ?: return ForecastResult.FailedToDownload

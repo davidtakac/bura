@@ -11,7 +11,7 @@
 package com.davidtakac.bura.sun
 
 import java.time.Duration
-import java.time.Instant
+import java.time.LocalDateTime
 
 class SunPeriod(val moments: List<SunMoment>) {
     init {
@@ -19,7 +19,7 @@ class SunPeriod(val moments: List<SunMoment>) {
         requireAscending()
     }
 
-    fun momentsFrom(time: Instant, takeMomentsUpToHoursInFuture: Int? = null): List<SunMoment>? =
+    fun momentsFrom(time: LocalDateTime, takeMomentsUpToHoursInFuture: Int? = null): List<SunMoment>? =
         moments.filter {
             val durationBetween = Duration.between(time, it.time)
             val hoursBetween = durationBetween.toHours()

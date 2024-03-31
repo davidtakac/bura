@@ -16,8 +16,8 @@ import com.davidtakac.bura.precipitation.Precipitation
 import com.davidtakac.bura.precipitation.PrecipitationPeriod
 import com.davidtakac.bura.precipitation.PrecipitationRepository
 import com.davidtakac.bura.units.Units
-import java.time.Instant
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.ZoneId
 
 private const val PAST_HOURS = 24
@@ -27,11 +27,11 @@ class GetPrecipitationTotals(private val repo: PrecipitationRepository) {
     suspend operator fun invoke(
         location: Location,
         units: Units,
-        now: Instant
+        now: LocalDateTime
     ): ForecastResult<List<PrecipitationTotal>> {
         val period = repo.period(location, units) ?: return ForecastResult.FailedToDownload
         val today = getToday(period, now, location.timeZone) ?: return ForecastResult.Outdated
-        val days = period.daysFrom(now, location.timeZone) ?: return ForecastResult.Outdated
+        val days = period.daysFrom(now.toLocalDate()) ?: return ForecastResult.Outdated
         val daysAfterToday = days.subList(1, days.size)
         return ForecastResult.Success(
             data = buildList {
@@ -48,7 +48,7 @@ class GetPrecipitationTotals(private val repo: PrecipitationRepository) {
         )
     }
 
-    private fun getToday(period: PrecipitationPeriod, now: Instant, timeZone: ZoneId): PrecipitationTotal.Today? {
+    private fun getToday(period: PrecipitationPeriod, now: LocalDateTime, timeZone: ZoneId): PrecipitationTotal.Today? {
         val past = period.momentsUntil(now, takeMoments = PAST_HOURS) ?: return null
         val future = period.momentsFrom(now, takeMoments = FUTURE_HOURS) ?: return null
         return PrecipitationTotal.Today(

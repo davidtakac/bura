@@ -15,7 +15,7 @@ import com.davidtakac.bura.place.Location
 import com.davidtakac.bura.units.Units
 import com.davidtakac.bura.uvindex.UvIndex
 import com.davidtakac.bura.uvindex.UvIndexRepository
-import java.time.Instant
+import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.temporal.ChronoUnit
 
@@ -23,11 +23,10 @@ class GetUvIndexSummary(private val repo: UvIndexRepository) {
     suspend operator fun invoke(
         location: Location,
         units: Units,
-        now: Instant
+        now: LocalDateTime
     ): ForecastResult<UvIndexSummary> {
         val uvPeriod = repo.period(location, units) ?: return ForecastResult.FailedToDownload
-        val futureUv = uvPeriod.getDay(now, location.timeZone)?.momentsFrom(now)
-            ?: return ForecastResult.Outdated
+        val futureUv = uvPeriod.getDay(now.toLocalDate())?.momentsFrom(now) ?: return ForecastResult.Outdated
         val protection = futureUv.protectionWindows.firstOrNull()?.let {
             if (it.startInclusive == now.truncatedTo(ChronoUnit.HOURS)) {
                 if (it.endExclusive == null) {

@@ -17,9 +17,7 @@ import com.davidtakac.bura.sun.SunMoment
 import com.davidtakac.bura.sun.SunRepository
 import com.davidtakac.bura.units.Units
 import com.davidtakac.bura.condition.ConditionRepository
-import com.davidtakac.bura.place.Coordinates
 import java.time.Duration
-import java.time.Instant
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.ZoneId
@@ -31,7 +29,7 @@ class GetSunSummary(
     private val sunRepo: SunRepository,
     private val descRepo: ConditionRepository,
 ) {
-    suspend operator fun invoke(location: Location, units: Units, now: Instant): ForecastResult<SunSummary> {
+    suspend operator fun invoke(location: Location, units: Units, now: LocalDateTime): ForecastResult<SunSummary> {
         val futureSun = sunRepo.period(location, units)?.momentsFrom(now)
         val firstSun = futureSun?.firstOrNull()
         return when {
@@ -41,7 +39,7 @@ class GetSunSummary(
         }
     }
 
-    private suspend fun outOfSight(now: Instant, location: Location, units: Units): ForecastResult<SunSummary> {
+    private suspend fun outOfSight(now: LocalDateTime, location: Location, units: Units): ForecastResult<SunSummary> {
         val descPeriod = descRepo.period(location, units) ?: return ForecastResult.FailedToDownload
         val futureDesc = descPeriod.momentsFrom(now) ?: return ForecastResult.Outdated
         val isDayNow = futureDesc[now]!!.condition.isDay
@@ -55,7 +53,7 @@ class GetSunSummary(
     }
 
     private fun sunrise(
-        now: Instant,
+        now: LocalDateTime,
         timeZone: ZoneId,
         futureSun: List<SunMoment>,
         firstSun: SunMoment
@@ -80,7 +78,7 @@ class GetSunSummary(
     }
 
     private fun sunset(
-        now: Instant,
+        now: LocalDateTime,
         timeZone: ZoneId,
         futureSun: List<SunMoment>,
         firstSun: SunMoment

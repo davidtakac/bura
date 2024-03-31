@@ -17,13 +17,13 @@ import com.davidtakac.bura.forecast.ForecastResult
 import com.davidtakac.bura.temperature.Temperature
 import com.davidtakac.bura.temperature.TemperatureRepository
 import com.davidtakac.bura.units.Units
-import java.time.Instant
+import java.time.LocalDateTime
 
 class GetHumiditySummary(
     private val humidityRepo: HumidityRepository,
     private val dewPointRepo: TemperatureRepository,
 ) {
-    suspend operator fun invoke(location: Location, units: Units, now: Instant): ForecastResult<HumiditySummary> {
+    suspend operator fun invoke(location: Location, units: Units, now: LocalDateTime): ForecastResult<HumiditySummary> {
         val humidityPeriod = humidityRepo.period(location, units) ?: return ForecastResult.FailedToDownload
         val dewPointPeriod = dewPointRepo.period(location, units) ?: return ForecastResult.FailedToDownload
         return ForecastResult.Success(HumiditySummary(

@@ -11,8 +11,8 @@
 package com.davidtakac.bura.forecast
 
 import androidx.annotation.CallSuper
-import java.time.Instant
-import java.time.ZoneId
+import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
 open class HourPeriod<T : HourMoment>(private val moments: List<T>) : List<T> by moments {
@@ -21,10 +21,10 @@ open class HourPeriod<T : HourMoment>(private val moments: List<T>) : List<T> by
         requireAscendingAndComplete()
     }
 
-    operator fun get(time: Instant): T? = momentsFrom(time, takeMoments = 1)?.firstOrNull()
+    operator fun get(time: LocalDateTime): T? = momentsFrom(time, takeMoments = 1)?.firstOrNull()
 
     @CallSuper
-    open fun momentsUntil(hourExclusive: Instant, takeMoments: Int? = null): HourPeriod<T>? {
+    open fun momentsUntil(hourExclusive: LocalDateTime, takeMoments: Int? = null): HourPeriod<T>? {
         require(takeMoments == null || takeMoments > 0) { "Take moments must either be null or positive." }
         val hour = hourExclusive.truncatedTo(ChronoUnit.HOURS).minus(1, ChronoUnit.HOURS)
         val indexOfHour = moments.indexOfFirst { it.hour == hour }
@@ -36,7 +36,7 @@ open class HourPeriod<T : HourMoment>(private val moments: List<T>) : List<T> by
     }
 
     @CallSuper
-    open fun momentsFrom(hourInclusive: Instant, takeMoments: Int? = null): HourPeriod<T>? {
+    open fun momentsFrom(hourInclusive: LocalDateTime, takeMoments: Int? = null): HourPeriod<T>? {
         require(takeMoments == null || takeMoments > 0) { "Take moments must either be null or positive." }
         val hour = hourInclusive.truncatedTo(ChronoUnit.HOURS)
         val indexOfHour = moments.indexOfFirst { it.hour == hour }
@@ -48,21 +48,19 @@ open class HourPeriod<T : HourMoment>(private val moments: List<T>) : List<T> by
     }
 
     @CallSuper
-    open fun getDay(day: Instant, atZone: ZoneId): HourPeriod<T>? =
-        daysFrom(day, atZone, takeDays = 1)?.firstOrNull()
+    open fun getDay(day: LocalDate): HourPeriod<T>? =
+        daysFrom(day, takeDays = 1)?.firstOrNull()
 
     @CallSuper
     open fun daysFrom(
-        dayInclusive: Instant,
-        atZone: ZoneId,
+        dayInclusive: LocalDate,
         takeDays: Int? = null
     ): List<HourPeriod<T>>? {
         require(takeDays == null || takeDays > 0) { "Take days must either be null or positive." }
         val momentsGroupedIntoDays = moments
-            .groupBy { it.hour.atZone(atZone).toLocalDate() }
+            .groupBy { it.hour.toLocalDate() }
             .map { it.key to it.value }
-        val day = dayInclusive.atZone(atZone).toLocalDate()
-        val indexOfDay = momentsGroupedIntoDays.indexOfFirst { it.first == day }
+        val indexOfDay = momentsGroupedIntoDays.indexOfFirst { it.first == dayInclusive }
         return if (indexOfDay < 0) null else
             momentsGroupedIntoDays
                 .subList(indexOfDay, momentsGroupedIntoDays.size)

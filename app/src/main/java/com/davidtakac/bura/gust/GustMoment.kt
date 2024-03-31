@@ -12,10 +12,10 @@ package com.davidtakac.bura.gust
 
 import com.davidtakac.bura.forecast.HourMoment
 import com.davidtakac.bura.wind.WindSpeed
-import java.time.Instant
+import java.time.LocalDateTime
 
 class GustMoment(
-    hour: Instant,
+    hour: LocalDateTime,
     val speed: WindSpeed
 ) : HourMoment(hour) {
     override fun toString(): String = "$hour: $speed"

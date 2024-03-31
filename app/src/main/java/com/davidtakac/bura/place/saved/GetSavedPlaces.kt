@@ -17,6 +17,7 @@ import com.davidtakac.bura.temperature.TemperaturePeriod
 import com.davidtakac.bura.temperature.TemperatureRepository
 import com.davidtakac.bura.units.Units
 import java.time.Instant
+import java.time.LocalDateTime
 
 class GetSavedPlaces(
     private val savedPlacesRepo: SavedPlacesRepository,
@@ -26,10 +27,12 @@ class GetSavedPlaces(
     suspend operator fun invoke(selectedPlace: Place?, selectedUnits: Units, now: Instant): List<SavedPlace> {
         return savedPlacesRepo.getSavedPlaces().map { savedPlace ->
             val location = savedPlace.location
-            val tempDayAtPlace = tempRepo.period(location, selectedUnits)?.getDay(now, location.timeZone)
-            val condDayAtPlace = conditionRepo.period(location, selectedUnits)?.getDay(now, location.timeZone)
+            val dateTimeAtPlace = now.atZone(savedPlace.location.timeZone).toLocalDateTime()
+            val dateAtPlace = dateTimeAtPlace.toLocalDate()
+            val tempDayAtPlace = tempRepo.period(location, selectedUnits)?.getDay(dateAtPlace)
+            val condDayAtPlace = conditionRepo.period(location, selectedUnits)?.getDay(dateAtPlace)
             val conditions = if (tempDayAtPlace != null && condDayAtPlace != null) getConditions(
-                now,
+                dateTimeAtPlace,
                 tempDayAtPlace,
                 condDayAtPlace
             ) else null
@@ -43,7 +46,7 @@ class GetSavedPlaces(
     }
 
     private fun getConditions(
-        now: Instant,
+        now: LocalDateTime,
         tempDay: TemperaturePeriod,
         conditionDay: ConditionPeriod
     ): SavedPlace.Conditions = SavedPlace.Conditions(

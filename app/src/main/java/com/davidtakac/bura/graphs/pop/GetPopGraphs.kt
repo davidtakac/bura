@@ -17,17 +17,17 @@ import com.davidtakac.bura.pop.Pop
 import com.davidtakac.bura.pop.PopMoment
 import com.davidtakac.bura.pop.PopRepository
 import com.davidtakac.bura.units.Units
-import java.time.Instant
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 class GetPopGraphs(private val repo: PopRepository) {
     suspend operator fun invoke(
         location: Location,
         units: Units,
-        now: Instant
+        now: LocalDateTime
     ): ForecastResult<List<PopGraph>> {
         val period = repo.period(location, units) ?: return ForecastResult.FailedToDownload
-        val days = period.daysFrom(now, location.timeZone) ?: return ForecastResult.Outdated
+        val days = period.daysFrom(now.toLocalDate()) ?: return ForecastResult.Outdated
         return ForecastResult.Success(
             data = days.mapIndexed { idx, currDay ->
                 PopGraph(
@@ -52,7 +52,7 @@ class GetPopGraphs(private val repo: PopRepository) {
 
     private fun getPoint(
         coords: Location,
-        now: Instant,
+        now: LocalDateTime,
         moment: PopMoment,
         maxPopMoment: PopMoment
     ): PopGraphPoint = PopGraphPoint(

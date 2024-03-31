@@ -25,15 +25,20 @@ import com.davidtakac.bura.wind.WindSpeed
 import org.json.JSONArray
 import org.json.JSONObject
 import java.time.Instant
+import java.time.LocalDateTime
 
 fun JSONObject.getStringOrNull(name: String): String? =
     if (isNull(name)) null else getString(name)
 
-fun JSONArray.toInstants(): List<Instant> =
-    toLongs().map(Instant::ofEpochSecond)
+fun JSONArray.toLocalDateTimes(): List<LocalDateTime> =
+    buildList {
+        for (i in 0 until length()) {
+            add(LocalDateTime.parse(this@toLocalDateTimes.get(i).toString()))
+        }
+    }
 
-fun Collection<Instant>.toEpochSecondJSONArray(): JSONArray =
-    JSONArray(map { it.epochSecond })
+fun Collection<LocalDateTime>.toLocalDateTimeJSONArray(): JSONArray =
+    JSONArray(map { it.toString() })
 
 fun JSONArray.toTemperatures(): List<Temperature> =
     toDoubles().map { Temperature.fromDegreesCelsius(it) }

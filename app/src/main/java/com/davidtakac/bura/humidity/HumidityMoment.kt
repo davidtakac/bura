@@ -11,10 +11,10 @@
 package com.davidtakac.bura.humidity
 
 import com.davidtakac.bura.forecast.HourMoment
-import java.time.Instant
+import java.time.LocalDateTime
 
 class HumidityMoment(
-    hour: Instant,
+    hour: LocalDateTime,
     val humidity: Humidity,
 ) : HourMoment(hour) {
     override fun toString(): String = "$hour: $humidity"

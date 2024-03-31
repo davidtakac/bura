@@ -54,7 +54,7 @@ class EssentialGraphsViewModel(
     private suspend fun getState(): EssentialGraphsState {
         val location = placeRepo.getSelectedPlace()?.location ?: return EssentialGraphsState.NoSelectedPlace
         val units = unitsRepo.getSelectedUnits()
-        val now = Instant.now()
+        val now = Instant.now().atZone(location.timeZone).toLocalDateTime()
 
         val tempGraphSummaries = tempGraphSummariesUseCase(location, units, now)
         when (tempGraphSummaries) {

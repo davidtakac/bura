@@ -11,10 +11,10 @@
 package com.davidtakac.bura.precipitation
 
 import com.davidtakac.bura.forecast.HourMoment
-import java.time.Instant
+import java.time.LocalDateTime
 
 class PrecipitationMoment(
-    hour: Instant,
+    hour: LocalDateTime,
     val precipitation: MixedPrecipitation
 ) : HourMoment(hour) {
     override fun toString(): String = "$hour: $precipitation"

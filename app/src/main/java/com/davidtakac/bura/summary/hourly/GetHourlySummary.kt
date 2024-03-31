@@ -21,7 +21,6 @@ import com.davidtakac.bura.sun.SunRepository
 import com.davidtakac.bura.temperature.Temperature
 import com.davidtakac.bura.temperature.TemperatureRepository
 import com.davidtakac.bura.units.Units
-import java.time.Instant
 import java.time.LocalDateTime
 
 class GetHourlySummary(
@@ -33,19 +32,16 @@ class GetHourlySummary(
     suspend operator fun invoke(
         location: Location,
         units: Units,
-        now: Instant
+        now: LocalDateTime
     ): ForecastResult<List<HourSummary>> {
         val tempPeriod = tempRepo.period(location, units) ?: return ForecastResult.FailedToDownload
         val popPeriod = popRepo.period(location, units) ?: return ForecastResult.FailedToDownload
         val descPeriod = descRepo.period(location, units) ?: return ForecastResult.FailedToDownload
         val sunPeriod = sunRepo.period(location, units)
 
-        val futureTemps =
-            tempPeriod.momentsFrom(now, takeMoments = 24) ?: return ForecastResult.Outdated
-        val futurePops =
-            popPeriod.momentsFrom(now, takeMoments = 24) ?: return ForecastResult.Outdated
-        val futureDesc =
-            descPeriod.momentsFrom(now, takeMoments = 24) ?: return ForecastResult.Outdated
+        val futureTemps = tempPeriod.momentsFrom(now, takeMoments = 24) ?: return ForecastResult.Outdated
+        val futurePops = popPeriod.momentsFrom(now, takeMoments = 24) ?: return ForecastResult.Outdated
+        val futureDesc = descPeriod.momentsFrom(now, takeMoments = 24) ?: return ForecastResult.Outdated
         val combinedWeatherData = buildList {
             for (i in futureTemps.indices) {
                 add(

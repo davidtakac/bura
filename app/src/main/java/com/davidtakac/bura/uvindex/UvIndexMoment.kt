@@ -11,10 +11,10 @@
 package com.davidtakac.bura.uvindex
 
 import com.davidtakac.bura.forecast.HourMoment
-import java.time.Instant
+import java.time.LocalDateTime
 
 class UvIndexMoment(
-    hour: Instant,
+    hour: LocalDateTime,
     val uvIndex: UvIndex
 ) : HourMoment(hour) {
     override fun toString(): String = "$hour: $uvIndex"

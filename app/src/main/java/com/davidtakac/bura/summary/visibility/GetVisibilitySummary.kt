@@ -15,20 +15,17 @@ import com.davidtakac.bura.place.Location
 import com.davidtakac.bura.units.Units
 import com.davidtakac.bura.visibility.Visibility
 import com.davidtakac.bura.visibility.VisibilityRepository
-import java.time.Instant
+import java.time.LocalDateTime
 
 class GetVisibilitySummary(private val repo: VisibilityRepository) {
     suspend operator fun invoke(
         location: Location,
         units: Units,
-        now: Instant
+        now: LocalDateTime
     ): ForecastResult<VisibilitySummary> {
-        val period =
-            repo.period(location, units) ?: return ForecastResult.FailedToDownload
+        val period = repo.period(location, units) ?: return ForecastResult.FailedToDownload
         return ForecastResult.Success(
-            VisibilitySummary(
-                now = period[now]?.visibility ?: return ForecastResult.Outdated
-            )
+            data = VisibilitySummary(period[now]?.visibility ?: return ForecastResult.Outdated)
         )
     }
 }
