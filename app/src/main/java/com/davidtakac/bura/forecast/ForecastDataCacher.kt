@@ -12,7 +12,6 @@ package com.davidtakac.bura.forecast
 
 import com.davidtakac.bura.common.toBooleans
 import com.davidtakac.bura.common.toHumidity
-import com.davidtakac.bura.common.toInstants
 import com.davidtakac.bura.common.toInts
 import com.davidtakac.bura.common.toHectopascalJSONArray
 import com.davidtakac.bura.common.toMetersJSONArray
