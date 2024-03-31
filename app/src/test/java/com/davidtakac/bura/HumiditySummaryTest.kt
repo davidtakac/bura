@@ -23,16 +23,16 @@ import com.davidtakac.bura.units.Units
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import java.time.Instant
+import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
 class HumiditySummaryTest {
-    private val location = GMTLocation
+    private val location = GMTLocation.coordinates
     private val units = Units.Default
 
     @Test
     fun `gets humidity and dew point of now`() = runTest {
-        val firstMoment = Instant.ofEpochSecond(0)
+        val firstMoment = firstLocalDateTime
         val now = firstMoment.plus(10, ChronoUnit.MINUTES)
         val humidityPeriod = HumidityPeriod(listOf(HumidityMoment(firstMoment, Humidity(0.0))))
         val dewPointPeriod = TemperaturePeriod(
@@ -60,7 +60,7 @@ class HumiditySummaryTest {
 
     @Test
     fun `summary is outdated when no data from now`() = runTest {
-        val firstMoment = Instant.ofEpochSecond(0)
+        val firstMoment = firstLocalDateTime
         val now = firstMoment.plus(1, ChronoUnit.HOURS).plus(10, ChronoUnit.MINUTES)
         val humidityPeriod = HumidityPeriod(listOf(HumidityMoment(firstMoment, Humidity(0.0))))
         val dewPointPeriod = TemperaturePeriod(

@@ -15,13 +15,13 @@ import com.davidtakac.bura.gust.GustPeriod
 import com.davidtakac.bura.wind.WindSpeed
 import org.junit.Assert.*
 import org.junit.Test
-import java.time.Instant
+import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
 class GustMomentListTest {
     @Test
     fun maximum() {
-        val firstMoment = Instant.ofEpochSecond(0)
+        val firstMoment = firstLocalDateTime
         val secondMoment = firstMoment.plus(1, ChronoUnit.HOURS)
         val period = GustPeriod(
             moments = listOf(

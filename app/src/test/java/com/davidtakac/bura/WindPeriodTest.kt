@@ -17,13 +17,13 @@ import com.davidtakac.bura.wind.WindPeriod
 import com.davidtakac.bura.wind.WindSpeed
 import org.junit.Assert.*
 import org.junit.Test
-import java.time.Instant
+import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
 class WindPeriodTest {
     @Test
     fun `minimum and maximum`() {
-        val firstMoment = Instant.ofEpochSecond(0)
+        val firstMoment = firstLocalDateTime
         val secondMoment = firstMoment.plus(1, ChronoUnit.HOURS)
         val period = WindPeriod(
             moments = listOf(

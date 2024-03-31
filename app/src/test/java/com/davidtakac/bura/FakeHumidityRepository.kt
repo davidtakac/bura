@@ -13,10 +13,8 @@ package com.davidtakac.bura
 import com.davidtakac.bura.humidity.HumidityPeriod
 import com.davidtakac.bura.humidity.HumidityRepository
 import com.davidtakac.bura.place.Coordinates
-import com.davidtakac.bura.place.Location
 import com.davidtakac.bura.units.Units
 
 class FakeHumidityRepository(private val cannedPeriod: HumidityPeriod) : HumidityRepository {
-
-    override suspend fun period(location: Location, units: Units): HumidityPeriod? = cannedPeriod
+    override suspend fun period(coords: Coordinates, units: Units): HumidityPeriod = cannedPeriod
 }

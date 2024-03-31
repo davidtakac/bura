@@ -17,6 +17,7 @@ import com.davidtakac.bura.uvindex.UvIndexPeriod
 import org.junit.Assert.*
 import org.junit.Test
 import java.time.Instant
+import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
 private val dangerous = UvIndex(3)
@@ -25,7 +26,7 @@ private val safe = UvIndex(2)
 class UvIndexPeriodTest {
     @Test
     fun `minimum and maximum`() {
-        val firstMoment = Instant.ofEpochSecond(0)
+        val firstMoment = firstLocalDateTime
         val secondMoment = firstMoment.plus(1, ChronoUnit.HOURS)
         val period = UvIndexPeriod(
             moments = listOf(
@@ -39,7 +40,7 @@ class UvIndexPeriodTest {
 
     @Test
     fun `protection window with one dangerous hour`() {
-        val firstDanger = Instant.ofEpochSecond(0)
+        val firstDanger = firstLocalDateTime
         val firstSafe = firstDanger.plus(1, ChronoUnit.HOURS)
         val period = UvIndexPeriod(
             moments = listOf(
@@ -55,7 +56,7 @@ class UvIndexPeriodTest {
 
     @Test
     fun `protection window with multiple dangerous hours`() {
-        val firstDanger = Instant.ofEpochSecond(0)
+        val firstDanger = firstLocalDateTime
         val secondDanger = firstDanger.plus(1, ChronoUnit.HOURS)
         val firstSafe = secondDanger.plus(1, ChronoUnit.HOURS)
         val period = UvIndexPeriod(
@@ -73,7 +74,7 @@ class UvIndexPeriodTest {
 
     @Test
     fun `protection window when dangerous period has no end`() {
-        val firstDanger = Instant.ofEpochSecond(0)
+        val firstDanger = firstLocalDateTime
         val period = UvIndexPeriod(listOf(UvIndexMoment(firstDanger,dangerous)))
         assertEquals(
             listOf(SunProtectionWindow(firstDanger, null)),
@@ -83,7 +84,7 @@ class UvIndexPeriodTest {
 
     @Test
     fun `no protection windows are empty when no dangerous hours`() {
-        val firstSafe = Instant.ofEpochSecond(0)
+        val firstSafe = firstLocalDateTime
         val period = UvIndexPeriod(listOf(UvIndexMoment(firstSafe, safe)))
         assertEquals(
             emptyList<SunProtectionWindow>(),
@@ -93,7 +94,7 @@ class UvIndexPeriodTest {
 
     @Test
     fun `multiple protection windows`() {
-        val firstDanger = Instant.ofEpochSecond(0)
+        val firstDanger = firstLocalDateTime
         val firstSafe = firstDanger.plus(1, ChronoUnit.HOURS)
         val secondDanger = firstSafe.plus(1, ChronoUnit.HOURS)
         val secondSafe = secondDanger.plus(1, ChronoUnit.HOURS)

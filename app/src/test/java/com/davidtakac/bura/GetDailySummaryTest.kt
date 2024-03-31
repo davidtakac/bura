@@ -28,17 +28,18 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.time.Instant
+import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.temporal.ChronoUnit
 import kotlin.math.pow
 
 class GetDailySummaryTest {
-    private val location = GMTLocation
+    private val location = GMTLocation.coordinates
     private val units = Units.Default
 
     @Test
     fun `groups moments into days and summarizes them`() = runTest {
-        val firstDayFirstMoment = Instant.ofEpochSecond(0).plus(21, ChronoUnit.HOURS)
+        val firstDayFirstMoment = firstLocalDateTime.plus(21, ChronoUnit.HOURS)
         val firstDaySecondMoment = firstDayFirstMoment.plus(1, ChronoUnit.HOURS)
         val firstDayThirdMoment = firstDaySecondMoment.plus(1, ChronoUnit.HOURS)
         val secondDayFirstMoment = firstDayThirdMoment.plus(1, ChronoUnit.HOURS)
@@ -116,7 +117,7 @@ class GetDailySummaryTest {
 
     @Test
     fun `summary is outdated when no data from now`() = runTest {
-        val firstMoment = Instant.ofEpochSecond(0)
+        val firstMoment = firstLocalDateTime
         val now = firstMoment.plus(1, ChronoUnit.HOURS).plus(10, ChronoUnit.MINUTES)
         val temperaturePeriod = TemperaturePeriod(
             listOf(

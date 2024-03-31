@@ -26,16 +26,16 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.time.Duration
 import java.time.Instant
+import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
 class GetSunSummaryTest {
-    private val location = GMTLocation
+    private val location = GMTLocation.coordinates
     private val units = Units.Default
-    private val timeZone = location.timeZone
 
     @Test
     fun `sunrise and sunset soon`() = runTest {
-        val now = Instant.ofEpochSecond(0)
+        val now = firstLocalDateTime
         val firstMoment = now
         val secondMoment = now.plus(2, ChronoUnit.HOURS)
         val sunRepo = FakeSunRepository(
@@ -60,8 +60,8 @@ class GetSunSummaryTest {
         val summary = useCase(location, units, now)
         assertEquals(
             Sunrise.WithSunsetSoon(
-                time = firstMoment.atZone(timeZone).toLocalTime(),
-                sunset = secondMoment.atZone(timeZone).toLocalTime()
+                time = firstMoment.toLocalTime(),
+                sunset = secondMoment.toLocalTime()
             ),
             (summary as ForecastResult.Success).data
         )
@@ -69,7 +69,7 @@ class GetSunSummaryTest {
 
     @Test
     fun `sunset and sunrise soon`() = runTest {
-        val now = Instant.ofEpochSecond(0)
+        val now = firstLocalDateTime
         val firstMoment = now
         val secondMoment = now.plus(2, ChronoUnit.HOURS)
         val sunRepo = FakeSunRepository(
@@ -94,8 +94,8 @@ class GetSunSummaryTest {
         val summary = useCase(location, units, now)
         assertEquals(
             Sunset.WithSunriseSoon(
-                time = firstMoment.atZone(timeZone).toLocalTime(),
-                sunrise = secondMoment.atZone(timeZone).toLocalTime()
+                time = firstMoment.toLocalTime(),
+                sunrise = secondMoment.toLocalTime()
             ),
             (summary as ForecastResult.Success).data
         )
@@ -103,7 +103,7 @@ class GetSunSummaryTest {
 
     @Test
     fun `sunrise soon but sunset in two days`() = runTest {
-        val now = Instant.ofEpochSecond(0)
+        val now = firstLocalDateTime
         val firstMoment = now
         val secondMoment = now.plus(2, ChronoUnit.DAYS)
         val sunRepo = FakeSunRepository(
@@ -128,8 +128,8 @@ class GetSunSummaryTest {
         val summary = useCase(location, units, now)
         assertEquals(
             Sunrise.WithSunsetLater(
-                time = firstMoment.atZone(timeZone).toLocalTime(),
-                sunset = secondMoment.atZone(timeZone).toLocalDateTime()
+                time = firstMoment.toLocalTime(),
+                sunset = secondMoment
             ),
             (summary as ForecastResult.Success).data
         )
@@ -137,7 +137,7 @@ class GetSunSummaryTest {
 
     @Test
     fun `sunset soon but sunrise in two days`() = runTest {
-        val now = Instant.ofEpochSecond(0)
+        val now = firstLocalDateTime
         val firstMoment = now
         val secondMoment = now.plus(2, ChronoUnit.DAYS)
         val sunRepo = FakeSunRepository(
@@ -162,8 +162,8 @@ class GetSunSummaryTest {
         val summary = useCase(location, units, now)
         assertEquals(
             Sunset.WithSunriseLater(
-                time = firstMoment.atZone(timeZone).toLocalTime(),
-                sunrise = secondMoment.atZone(timeZone).toLocalDateTime()
+                time = firstMoment.toLocalTime(),
+                sunrise = secondMoment
             ),
             (summary as ForecastResult.Success).data
         )
@@ -171,7 +171,7 @@ class GetSunSummaryTest {
 
     @Test
     fun `sunrise later`() = runTest {
-        val now = Instant.ofEpochSecond(0)
+        val now = firstLocalDateTime
         val firstMoment = now.plus(2, ChronoUnit.DAYS)
         val sunRepo = FakeSunRepository(
             SunPeriod(
@@ -193,14 +193,14 @@ class GetSunSummaryTest {
         )
         val summary = useCase(location, units, now)
         assertEquals(
-            Sunrise.Later(firstMoment.atZone(timeZone).toLocalDateTime()),
+            Sunrise.Later(firstMoment),
             (summary as ForecastResult.Success).data
         )
     }
 
     @Test
     fun `sunset later`() = runTest {
-        val now = Instant.ofEpochSecond(0)
+        val now = firstLocalDateTime
         val firstMoment = now.plus(2, ChronoUnit.DAYS)
         val sunRepo = FakeSunRepository(
             SunPeriod(
@@ -222,14 +222,14 @@ class GetSunSummaryTest {
         )
         val summary = useCase(location, units, now)
         assertEquals(
-            Sunset.Later(firstMoment.atZone(timeZone).toLocalDateTime()),
+            Sunset.Later(firstMoment),
             (summary as ForecastResult.Success).data
         )
     }
 
     @Test
     fun `night currently but no sunrise in sight`() = runTest {
-        val now = Instant.ofEpochSecond(0)
+        val now = firstLocalDateTime
         val sunRepo = FakeSunRepository(null)
         val descRepo = FakeConditionRepository(ConditionPeriod(List(48) {
             ConditionMoment(
@@ -250,7 +250,7 @@ class GetSunSummaryTest {
 
     @Test
     fun `day currently but no sunset in sight`() = runTest {
-        val now = Instant.ofEpochSecond(0)
+        val now = firstLocalDateTime
         val sunRepo = FakeSunRepository(null)
         val descRepo = FakeConditionRepository(ConditionPeriod(List(48) {
             ConditionMoment(
@@ -271,7 +271,7 @@ class GetSunSummaryTest {
 
     @Test
     fun `when no current desc returns outdated`() = runTest {
-        val start = Instant.ofEpochSecond(0)
+        val start = firstLocalDateTime
         val sunRepo = FakeSunRepository(null)
         val descRepo = FakeConditionRepository(ConditionPeriod(List(48) {
             ConditionMoment(

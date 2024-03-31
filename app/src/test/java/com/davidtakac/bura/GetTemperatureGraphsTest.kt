@@ -28,16 +28,17 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.time.Instant
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.temporal.ChronoUnit
 
 class GetTemperatureGraphsTest {
-    private val location = GMTLocation
+    private val location = GMTLocation.coordinates
     private val units = Units.Default
 
     @Test
     fun `combines data into graph points and extracts min max temps`() = runTest {
-        val firstMoment = Instant.ofEpochSecond(0)
+        val firstMoment = firstLocalDateTime
         val secondMoment = firstMoment.plus(1, ChronoUnit.HOURS)
         val thirdMoment = secondMoment.plus(1, ChronoUnit.HOURS)
         val now = secondMoment.plus(10, ChronoUnit.MINUTES)
@@ -110,7 +111,7 @@ class GetTemperatureGraphsTest {
 
     @Test
     fun `when all temps the same, min max equals the first temperature`() = runTest {
-        val firstMoment = Instant.ofEpochSecond(0)
+        val firstMoment = firstLocalDateTime
         val secondMoment = firstMoment.plus(1, ChronoUnit.HOURS)
         val thirdMoment = secondMoment.plus(1, ChronoUnit.HOURS)
         val now = secondMoment.plus(10, ChronoUnit.MINUTES)
@@ -140,7 +141,7 @@ class GetTemperatureGraphsTest {
 
     @Test
     fun `minimum takes the last min moment`() = runTest {
-        val firstMoment = Instant.ofEpochSecond(0)
+        val firstMoment = firstLocalDateTime
         val secondMoment = firstMoment.plus(1, ChronoUnit.HOURS)
         val thirdMoment = secondMoment.plus(1, ChronoUnit.HOURS)
         val now = secondMoment.plus(10, ChronoUnit.MINUTES)
@@ -173,7 +174,7 @@ class GetTemperatureGraphsTest {
 
     @Test
     fun `first data point of next day is included in the graph`() = runTest {
-        val firstMoment = Instant.ofEpochSecond(0).plus(23, ChronoUnit.HOURS)
+        val firstMoment = firstLocalDateTime.plus(23, ChronoUnit.HOURS)
         val secondMoment = firstMoment.plus(1, ChronoUnit.HOURS)
         val now = firstMoment.plus(10, ChronoUnit.MINUTES)
         val descRepo = FakeConditionRepository(

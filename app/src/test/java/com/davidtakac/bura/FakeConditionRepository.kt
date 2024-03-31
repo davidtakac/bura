@@ -13,9 +13,8 @@ package com.davidtakac.bura
 import com.davidtakac.bura.units.Units
 import com.davidtakac.bura.condition.ConditionPeriod
 import com.davidtakac.bura.condition.ConditionRepository
-import com.davidtakac.bura.place.Location
+import com.davidtakac.bura.place.Coordinates
 
 class FakeConditionRepository(private val cannedPeriod: ConditionPeriod) : ConditionRepository {
-
-    override suspend fun period(location: Location, units: Units): ConditionPeriod = cannedPeriod
+    override suspend fun period(coords: Coordinates, units: Units): ConditionPeriod = cannedPeriod
 }

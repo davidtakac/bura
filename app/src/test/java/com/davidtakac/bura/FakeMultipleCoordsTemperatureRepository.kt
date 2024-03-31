@@ -11,11 +11,10 @@
 package com.davidtakac.bura
 
 import com.davidtakac.bura.place.Coordinates
-import com.davidtakac.bura.place.Location
 import com.davidtakac.bura.temperature.TemperaturePeriod
 import com.davidtakac.bura.temperature.TemperatureRepository
 import com.davidtakac.bura.units.Units
 
 class FakeMultipleCoordsTemperatureRepository(private val coordsToPeriod: Map<Coordinates, TemperaturePeriod?>) : TemperatureRepository {
-    override suspend fun period(location: Location, units: Units): TemperaturePeriod? = coordsToPeriod[location.coordinates]
+    override suspend fun period(coords: Coordinates, units: Units): TemperaturePeriod? = coordsToPeriod[coords]
 }

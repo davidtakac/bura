@@ -24,16 +24,17 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.time.Instant
+import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
 class GetNowSummaryTest {
-    private val location = GMTLocation
+    private val location = GMTLocation.coordinates
     private val units = Units.Default
 
     @Test
     fun `summarizes current temperature, feels like and description and returns min and max temp of today`() =
         runTest {
-            val firstDayFirstMoment = Instant.ofEpochSecond(0).plus(22, ChronoUnit.HOURS)
+            val firstDayFirstMoment = firstLocalDateTime.plus(22, ChronoUnit.HOURS)
             val now = firstDayFirstMoment.plus(10, ChronoUnit.MINUTES)
             val firstDaySecondMoment = firstDayFirstMoment.plus(1, ChronoUnit.HOURS)
             val secondDayFirstMoment = firstDaySecondMoment.plus(1, ChronoUnit.HOURS)
@@ -80,7 +81,7 @@ class GetNowSummaryTest {
 
     @Test
     fun `summary is outdated when no data after now`() = runTest {
-        val firstMoment = Instant.ofEpochSecond(0)
+        val firstMoment = firstLocalDateTime
         val afterFirstMoment = firstMoment.plus(1, ChronoUnit.HOURS)
         val now = afterFirstMoment.plus(10, ChronoUnit.MINUTES)
         val temperaturePeriod = TemperaturePeriod(

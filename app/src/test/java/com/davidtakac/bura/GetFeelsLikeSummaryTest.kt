@@ -22,15 +22,16 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
 import org.junit.Test
 import java.time.Instant
+import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
 class GetFeelsLikeSummaryTest {
-    private val location = GMTLocation
+    private val location = GMTLocation.coordinates
     private val units = Units.Default
 
     @Test
     fun `gets now and describes what it feels like`() = runTest {
-        val firstMoment = Instant.ofEpochSecond(0)
+        val firstMoment = firstLocalDateTime
         val now = firstMoment.plus(10, ChronoUnit.MINUTES)
         val feelsLikePeriod = TemperaturePeriod(
             listOf(
@@ -67,7 +68,7 @@ class GetFeelsLikeSummaryTest {
 
     @Test
     fun `when feels like and actual within 1 degree of each other feel is similar`() = runTest {
-        val firstMoment = Instant.ofEpochSecond(0)
+        val firstMoment = firstLocalDateTime
         val now = firstMoment.plus(10, ChronoUnit.MINUTES)
         val feelsLikePeriod = TemperaturePeriod(
             listOf(
@@ -104,7 +105,7 @@ class GetFeelsLikeSummaryTest {
 
     @Test
     fun `summary is outdated when no data from now`() = runTest {
-        val firstMoment = Instant.ofEpochSecond(0)
+        val firstMoment = firstLocalDateTime
         val now = firstMoment.plus(1, ChronoUnit.HOURS).plus(10, ChronoUnit.MINUTES)
         val temperaturePeriod = TemperaturePeriod(
             listOf(

@@ -11,12 +11,10 @@
 package com.davidtakac.bura
 
 import com.davidtakac.bura.place.Coordinates
-import com.davidtakac.bura.place.Location
 import com.davidtakac.bura.units.Units
 import com.davidtakac.bura.visibility.VisibilityPeriod
 import com.davidtakac.bura.visibility.VisibilityRepository
 
 class FakeVisibilityRepository(private val cannedPeriod: VisibilityPeriod) : VisibilityRepository {
-
-    override suspend fun period(location: Location, units: Units) = cannedPeriod
+    override suspend fun period(coords: Coordinates, units: Units) = cannedPeriod
 }

@@ -11,12 +11,10 @@
 package com.davidtakac.bura
 
 import com.davidtakac.bura.place.Coordinates
-import com.davidtakac.bura.place.Location
 import com.davidtakac.bura.sun.SunPeriod
 import com.davidtakac.bura.sun.SunRepository
 import com.davidtakac.bura.units.Units
 
 class FakeSunRepository(private val cannedPeriod: SunPeriod?) : SunRepository {
-
-    override suspend fun period(location: Location, units: Units): SunPeriod? = cannedPeriod
+    override suspend fun period(coords: Coordinates, units: Units): SunPeriod? = cannedPeriod
 }

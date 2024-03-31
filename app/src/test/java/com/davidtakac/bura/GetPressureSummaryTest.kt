@@ -21,31 +21,31 @@ import com.davidtakac.bura.units.Units
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import java.time.Instant
+import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
 class GetPressureSummaryTest {
-    private val location = GMTLocation
+    private val location = GMTLocation.coordinates
     private val units = Units.Default
 
     @Test
     fun `when at least one moment before now, returns now and trend`() = runTest {
+        val firstMoment = firstLocalDateTime
+        val secondMoment = firstMoment.plus(1, ChronoUnit.HOURS)
         val period = PressurePeriod(
             moments = listOf(
                 PressureMoment(
-                    hour = Instant.ofEpochSecond(0),
+                    hour = firstMoment,
                     pressure = Pressure.fromHectopascal(0.0)
                 ),
                 PressureMoment(
-                    hour = Instant.ofEpochSecond(0).plus(1, ChronoUnit.HOURS),
+                    hour = secondMoment,
                     pressure = Pressure.fromHectopascal(1.0)
                 )
             )
         )
         val repository = FakePressureRepository(period)
-        val now = Instant.ofEpochSecond(0)
-            .plus(1, ChronoUnit.HOURS)
-            .plus(10, ChronoUnit.MINUTES)
+        val now = secondMoment.plus(10, ChronoUnit.MINUTES)
         val useCase = GetPressureSummary(repository)
         val summary = useCase(location, units, now)
         assertEquals(
@@ -62,15 +62,16 @@ class GetPressureSummaryTest {
 
     @Test
     fun `when no moments at now, summary is outdated`() = runTest {
+        val firstMoment = firstLocalDateTime
         val period = PressurePeriod(
             moments = listOf(
                 PressureMoment(
-                    hour = Instant.ofEpochSecond(0),
+                    hour = firstMoment,
                     pressure = Pressure.fromHectopascal(1.0)
                 )
             )
         )
-        val now = Instant.ofEpochSecond(0).plus(1, ChronoUnit.HOURS)
+        val now = firstMoment.plus(1, ChronoUnit.HOURS)
         val repository = FakePressureRepository(period)
         val useCase = GetPressureSummary(repository)
         assertEquals(
@@ -81,15 +82,16 @@ class GetPressureSummaryTest {
 
     @Test
     fun `when no moments before now, summary is outdated`() = runTest {
+        val firstMoment = firstLocalDateTime
         val period = PressurePeriod(
             moments = listOf(
                 PressureMoment(
-                    hour = Instant.ofEpochSecond(0),
+                    hour = firstMoment,
                     pressure = Pressure.fromHectopascal(1.0)
                 )
             )
         )
-        val now = Instant.ofEpochSecond(0)
+        val now = firstMoment
         val repository = FakePressureRepository(period)
         val useCase = GetPressureSummary(repository)
         val summary = useCase(location, units, now)

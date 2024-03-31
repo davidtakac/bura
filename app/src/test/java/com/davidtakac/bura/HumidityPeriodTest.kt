@@ -15,13 +15,13 @@ import com.davidtakac.bura.humidity.HumidityMoment
 import com.davidtakac.bura.humidity.HumidityPeriod
 import org.junit.Assert.*
 import org.junit.Test
-import java.time.Instant
+import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
 class HumidityPeriodTest {
     @Test
     fun average() {
-        val firstMoment = Instant.ofEpochSecond(0)
+        val firstMoment = firstLocalDateTime
         val secondMoment = firstMoment.plus(1, ChronoUnit.HOURS)
         val period = HumidityPeriod(
             moments = listOf(

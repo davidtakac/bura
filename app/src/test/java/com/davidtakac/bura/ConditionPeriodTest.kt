@@ -16,7 +16,6 @@ import com.davidtakac.bura.condition.ConditionPeriod
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
-import java.time.Instant
 import java.time.temporal.ChronoUnit
 
 private const val SEVERE = 50
@@ -26,7 +25,7 @@ private const val BIGGER_NOT_SEVERE = 2
 class ConditionPeriodTest {
     @Test
     fun `representative is one of the codes when all codes are the same`() {
-        val firstMoment = Instant.ofEpochSecond(0)
+        val firstMoment = firstLocalDateTime
         val secondMoment = firstMoment.plus(1, ChronoUnit.HOURS)
         val code = 1
         val period = ConditionPeriod(
@@ -46,8 +45,8 @@ class ConditionPeriodTest {
 
     @Test
     fun `representative is most severe when all codes are different`() {
-        val firstMoment = Instant.ofEpochSecond(0)
-        val secondMoment = Instant.ofEpochSecond(0).plus(1, ChronoUnit.HOURS)
+        val firstMoment = firstLocalDateTime
+        val secondMoment = firstMoment.plus(1, ChronoUnit.HOURS)
         val lessSevereCode = 1
         val moreSevereCode = 2
         val period = ConditionPeriod(
@@ -67,7 +66,7 @@ class ConditionPeriodTest {
 
     @Test
     fun `representative is most common when no severe conditions`() {
-        val firstMoment = Instant.ofEpochSecond(0)
+        val firstMoment = firstLocalDateTime
         val secondMoment = firstMoment.plus(1, ChronoUnit.HOURS)
         val thirdMoment = secondMoment.plus(1, ChronoUnit.HOURS)
         val period = ConditionPeriod(
@@ -91,7 +90,7 @@ class ConditionPeriodTest {
 
     @Test
     fun `representative is most severe when at least one severe condition`() {
-        val firstMoment = Instant.ofEpochSecond(0)
+        val firstMoment = firstLocalDateTime
         val secondMoment = firstMoment.plus(1, ChronoUnit.HOURS)
         val thirdMoment = secondMoment.plus(1, ChronoUnit.HOURS)
         val period = ConditionPeriod(
@@ -115,7 +114,7 @@ class ConditionPeriodTest {
 
     @Test
     fun `determines day and night rep`() {
-        val firstMoment = Instant.ofEpochSecond(0)
+        val firstMoment = firstLocalDateTime
         val secondMoment = firstMoment.plus(1, ChronoUnit.HOURS)
         val period = ConditionPeriod(
             moments = listOf(
@@ -135,7 +134,7 @@ class ConditionPeriodTest {
 
     @Test
     fun `null when no daytime`() {
-        val firstMoment = Instant.ofEpochSecond(0)
+        val firstMoment = firstLocalDateTime
         val period = ConditionPeriod(
             moments = listOf(
                 ConditionMoment(
@@ -149,7 +148,7 @@ class ConditionPeriodTest {
 
     @Test
     fun `null when no nighttime`() {
-        val firstMoment = Instant.ofEpochSecond(0)
+        val firstMoment = firstLocalDateTime
         val period = ConditionPeriod(
             moments = listOf(
                 ConditionMoment(

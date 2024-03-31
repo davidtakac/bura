@@ -20,20 +20,19 @@ import com.davidtakac.bura.uvindex.UvIndexPeriod
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import java.time.Instant
+import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
 private val dangerous = UvIndex(3)
 private val safe = UvIndex(2)
 
 class UvIndexSummaryTest {
-    private val location = GMTLocation
+    private val location = GMTLocation.coordinates
     private val units = Units.Default
-    private val timeZone = location.timeZone
 
     @Test
     fun `gets now`() = runTest {
-        val firstMoment = Instant.ofEpochSecond(0)
+        val firstMoment = firstLocalDateTime
         val now = firstMoment.plus(10, ChronoUnit.MINUTES)
         val period = UvIndexPeriod(listOf(UvIndexMoment(firstMoment, UvIndex(0))))
         val useCase = GetUvIndexSummary(FakeUvIndexRepository(period))
@@ -45,7 +44,7 @@ class UvIndexSummaryTest {
 
     @Test
     fun `no next window when no dangerous periods today`() = runTest {
-        val firstMoment = Instant.ofEpochSecond(0)
+        val firstMoment = firstLocalDateTime
         val now = firstMoment.plus(10, ChronoUnit.MINUTES)
         val period = UvIndexPeriod(listOf(UvIndexMoment(firstMoment, safe)))
         val useCase = GetUvIndexSummary(FakeUvIndexRepository(period))
@@ -57,7 +56,7 @@ class UvIndexSummaryTest {
 
     @Test
     fun `window when danger starts and ends later today`() = runTest {
-        val startTime = Instant.ofEpochSecond(0)
+        val startTime = firstLocalDateTime
         val now = startTime.plus(10, ChronoUnit.MINUTES)
         val firstSafe = startTime
         val firstDanger = startTime.plus(1, ChronoUnit.HOURS)
@@ -72,8 +71,8 @@ class UvIndexSummaryTest {
         val useCase = GetUvIndexSummary(FakeUvIndexRepository(period))
         assertEquals(
             UseProtection.FromUntil(
-                firstDanger.atZone(timeZone).toLocalTime(),
-                secondSafe.atZone(timeZone).toLocalTime()
+                firstDanger.toLocalTime(),
+                secondSafe.toLocalTime()
             ),
             (useCase(location, units, now) as ForecastResult.Success).data.useProtection
         )
@@ -81,7 +80,7 @@ class UvIndexSummaryTest {
 
     @Test
     fun `window when danger starts now and ends later today`() = runTest {
-        val firstDanger = Instant.ofEpochSecond(0)
+        val firstDanger = firstLocalDateTime
         val now = firstDanger.plus(10, ChronoUnit.MINUTES)
         val firstSafe = firstDanger.plus(1, ChronoUnit.HOURS)
         val period = UvIndexPeriod(
@@ -92,14 +91,14 @@ class UvIndexSummaryTest {
         )
         val useCase = GetUvIndexSummary(FakeUvIndexRepository(period))
         assertEquals(
-            UseProtection.Until(firstSafe.atZone(timeZone).toLocalTime()),
+            UseProtection.Until(firstSafe.toLocalTime()),
             (useCase(location, units, now) as ForecastResult.Success).data.useProtection
         )
     }
 
     @Test
     fun `window when danger started earlier and ends later today`() = runTest {
-        val startTime = Instant.ofEpochSecond(0)
+        val startTime = firstLocalDateTime
         val firstDanger = startTime.plus(1, ChronoUnit.HOURS)
         val secondDanger = firstDanger.plus(1, ChronoUnit.HOURS)
         val now = secondDanger.plus(10, ChronoUnit.MINUTES)
@@ -113,14 +112,14 @@ class UvIndexSummaryTest {
         )
         val useCase = GetUvIndexSummary(FakeUvIndexRepository(period))
         assertEquals(
-            UseProtection.Until(firstSafe.atZone(timeZone).toLocalTime()),
+            UseProtection.Until(firstSafe.toLocalTime()),
             (useCase(location, units, now) as ForecastResult.Success).data.useProtection
         )
     }
 
     @Test
     fun `window when danger started earlier and does not end`() = runTest {
-        val startTime = Instant.ofEpochSecond(0)
+        val startTime = firstLocalDateTime
         val firstDanger = startTime.plus(1, ChronoUnit.HOURS)
         val secondDanger = firstDanger.plus(1, ChronoUnit.HOURS)
         val now = secondDanger.plus(10, ChronoUnit.MINUTES)
@@ -141,7 +140,7 @@ class UvIndexSummaryTest {
 
     @Test
     fun `next window is resistant to multiple future windows`() = runTest {
-        val startTime = Instant.ofEpochSecond(0)
+        val startTime = firstLocalDateTime
         val firstDanger = startTime.plus(1, ChronoUnit.HOURS)
         val secondDanger = firstDanger.plus(1, ChronoUnit.HOURS)
         val now = secondDanger.plus(10, ChronoUnit.MINUTES)
@@ -159,14 +158,14 @@ class UvIndexSummaryTest {
         )
         val useCase = GetUvIndexSummary(FakeUvIndexRepository(period))
         assertEquals(
-            UseProtection.Until(firstSafe.atZone(timeZone).toLocalTime()),
+            UseProtection.Until(firstSafe.toLocalTime()),
             (useCase(location, units, now) as ForecastResult.Success).data.useProtection
         )
     }
 
     @Test
     fun `outdated when no moments from now`() = runTest {
-        val firstMoment = Instant.ofEpochSecond(0)
+        val firstMoment = firstLocalDateTime
         val afterFirstMoment = firstMoment.plus(1, ChronoUnit.HOURS)
         val now = afterFirstMoment.plus(10, ChronoUnit.MINUTES)
         val period = UvIndexPeriod(listOf(UvIndexMoment(firstMoment, safe)))

@@ -28,13 +28,15 @@ import org.junit.Test
 import java.time.Instant
 import java.time.LocalTime
 import java.time.ZoneId
+import java.time.ZoneOffset
 import java.time.temporal.ChronoUnit
 
 class GetSavedPlacesTest {
     @Test
     fun `gets saved places with conditions attached if available`() = runTest {
-        val moment = Instant.ofEpochSecond(0)
-        val now = moment.plus(10, ChronoUnit.MINUTES)
+        val momentInstant = Instant.ofEpochSecond(0)
+        val momentDateTime = momentInstant.atZone(ZoneOffset.UTC).toLocalDateTime()
+        val now = momentInstant.plus(10, ChronoUnit.MINUTES)
         val firstPlace = Place(
             name = "first", "", "", "",
             Location(ZoneId.of("GMT"), Coordinates(latitude = 0.0, longitude = 1.0))
@@ -48,7 +50,7 @@ class GetSavedPlacesTest {
                 firstPlace.location.coordinates to TemperaturePeriod(
                     listOf(
                         TemperatureMoment(
-                            hour = moment,
+                            hour = momentDateTime,
                             temperature = Temperature.fromDegreesCelsius(10.0)
                         )
                     )
@@ -61,7 +63,7 @@ class GetSavedPlacesTest {
                 firstPlace.location.coordinates to ConditionPeriod(
                     listOf(
                         ConditionMoment(
-                            hour = moment,
+                            hour = momentDateTime,
                             condition = Condition(0, true)
                         )
                     )

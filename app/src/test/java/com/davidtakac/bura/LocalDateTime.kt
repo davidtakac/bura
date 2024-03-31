@@ -10,11 +10,6 @@
 
 package com.davidtakac.bura
 
-import com.davidtakac.bura.place.Coordinates
-import com.davidtakac.bura.temperature.TemperaturePeriod
-import com.davidtakac.bura.temperature.TemperatureRepository
-import com.davidtakac.bura.units.Units
+import java.time.LocalDateTime
 
-class FakeTemperatureRepository(private val cannedPeriod: TemperaturePeriod) : TemperatureRepository {
-    override suspend fun period(coords: Coordinates, units: Units): TemperaturePeriod = cannedPeriod
-}
+val firstLocalDateTime: LocalDateTime get() = LocalDateTime.parse("1970-01-01T00:00")

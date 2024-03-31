@@ -29,6 +29,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
 import org.junit.Test
 import java.time.Instant
+import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
 class ForecastConverterTest {
@@ -45,11 +46,11 @@ class ForecastConverterTest {
             visibility = Visibility.Unit.Miles
         )
         val time = listOf(
-            Instant.ofEpochSecond(0),
-            Instant.ofEpochSecond(0).plus(1, ChronoUnit.HOURS)
+            firstLocalDateTime,
+            firstLocalDateTime.plus(1, ChronoUnit.HOURS)
         )
-        val sunrises = listOf<Instant>()
-        val sunsets = listOf<Instant>()
+        val sunrises = listOf<LocalDateTime>()
+        val sunsets = listOf<LocalDateTime>()
         val temperature = listOf(
             Temperature.fromDegreesCelsius(0.0),
             Temperature.fromDegreesCelsius(0.0)
@@ -145,11 +146,11 @@ class ForecastConverterTest {
     fun `throws when data does not match`() = runTest {
         val units = Units.Default
         val time = listOf(
-            Instant.ofEpochSecond(0),
-            Instant.ofEpochSecond(0).plus(1, ChronoUnit.HOURS)
+            firstLocalDateTime,
+            firstLocalDateTime.plus(1, ChronoUnit.HOURS)
         )
-        val sunrises = listOf<Instant>()
-        val sunsets = listOf<Instant>()
+        val sunrises = listOf<LocalDateTime>()
+        val sunsets = listOf<LocalDateTime>()
         val temperature = listOf(
             Temperature.fromDegreesCelsius(0.0),
             Temperature.fromDegreesCelsius(0.0)

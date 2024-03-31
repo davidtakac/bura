@@ -11,12 +11,10 @@
 package com.davidtakac.bura
 
 import com.davidtakac.bura.place.Coordinates
-import com.davidtakac.bura.place.Location
 import com.davidtakac.bura.precipitation.PrecipitationPeriod
 import com.davidtakac.bura.precipitation.PrecipitationRepository
 import com.davidtakac.bura.units.Units
 
 class FakePrecipitationRepository(private val cannedPeriod: PrecipitationPeriod) : PrecipitationRepository {
-
-    override suspend fun period(location: Location, units: Units) = cannedPeriod
+    override suspend fun period(coords: Coordinates, units: Units) = cannedPeriod
 }

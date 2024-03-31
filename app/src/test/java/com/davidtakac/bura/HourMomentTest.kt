@@ -12,11 +12,12 @@ package com.davidtakac.bura
 
 import com.davidtakac.bura.forecast.HourMoment
 import org.junit.Test
-import java.time.Instant
+import java.time.LocalDateTime
+import java.time.temporal.ChronoUnit
 
 class HourMomentTest {
     @Test(expected = IllegalArgumentException::class)
     fun `hour must be truncated to hour`() {
-        HourMoment(Instant.ofEpochSecond(1))
+        HourMoment(firstLocalDateTime.plus(1, ChronoUnit.MINUTES))
     }
 }

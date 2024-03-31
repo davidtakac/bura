@@ -24,16 +24,16 @@ import com.davidtakac.bura.wind.WindSpeed
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import java.time.Instant
+import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
 class WindSummaryTest {
-    private val location = GMTLocation
+    private val location = GMTLocation.coordinates
     private val units = Units.Default
 
     @Test
     fun `gets current wind speed, direction and gust speed`() = runTest {
-        val time = Instant.ofEpochSecond(0)
+        val time = firstLocalDateTime
         val now = time.plus(10, ChronoUnit.MINUTES)
         val windPeriod = WindPeriod(
             listOf(
@@ -62,7 +62,7 @@ class WindSummaryTest {
 
     @Test
     fun `outdated when no now`() = runTest {
-        val time = Instant.ofEpochSecond(0)
+        val time = firstLocalDateTime
         val now = time.plus(1, ChronoUnit.HOURS).plus(10, ChronoUnit.MINUTES)
         val windPeriod = WindPeriod(
             listOf(

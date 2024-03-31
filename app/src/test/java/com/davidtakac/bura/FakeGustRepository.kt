@@ -13,9 +13,8 @@ package com.davidtakac.bura
 import com.davidtakac.bura.gust.GustPeriod
 import com.davidtakac.bura.gust.GustRepository
 import com.davidtakac.bura.place.Coordinates
-import com.davidtakac.bura.place.Location
 import com.davidtakac.bura.units.Units
 
 class FakeGustRepository(private val cannedPeriod: GustPeriod) : GustRepository {
-    override suspend fun period(location: Location, units: Units): GustPeriod = cannedPeriod
+    override suspend fun period(coords: Coordinates, units: Units): GustPeriod = cannedPeriod
 }

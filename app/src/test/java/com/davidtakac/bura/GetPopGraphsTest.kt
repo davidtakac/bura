@@ -23,18 +23,17 @@ import com.davidtakac.bura.units.Units
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.temporal.ChronoUnit
 
 class GetPopGraphsTest {
-    private val location = GMTLocation
+    private val location = GMTLocation.coordinates
     private val units = Units.Default
 
     @Test
     fun `constructs pop graphs`() = runTest {
-        val firstMoment = Instant.ofEpochSecond(0).plus(22, ChronoUnit.HOURS)
+        val firstMoment = firstLocalDateTime.plus(22, ChronoUnit.HOURS)
         val secondMoment = firstMoment.plus(1, ChronoUnit.HOURS)
         val thirdMoment = secondMoment.plus(1, ChronoUnit.HOURS)
         val now = secondMoment

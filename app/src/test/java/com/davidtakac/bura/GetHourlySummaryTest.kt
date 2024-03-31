@@ -29,17 +29,17 @@ import com.davidtakac.bura.units.Units
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import java.time.Instant
+import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.temporal.ChronoUnit
 
 class GetHourlySummaryTest {
-    private val location = GMTLocation
+    private val location = GMTLocation.coordinates
     private val units = Units.Default
 
     @Test
     fun `combines weather and sun data and arranges it chronologically`() = runTest {
-        val startOfTime = Instant.ofEpochSecond(0)
+        val startOfTime = firstLocalDateTime.plus(5, ChronoUnit.DAYS)
         val firstMoment = startOfTime.plus(1, ChronoUnit.HOURS)
         val secondMoment = startOfTime.plus(2, ChronoUnit.HOURS)
         val thirdMoment = startOfTime.plus(3, ChronoUnit.HOURS)
@@ -91,34 +91,33 @@ class GetHourlySummaryTest {
             sunRepo = FakeSunRepository(sunPeriod),
         )
         val summary = useCase(location, units, now)
-        val timeZone = location.timeZone
         assertEquals(
             ForecastResult.Success(
                 listOf(
                     HourSummary.Weather(
-                        time = firstMoment.atZone(timeZone).toLocalDateTime(),
+                        time = firstMoment,
                         isNow = true,
                         temp = Temperature.fromDegreesCelsius(0.0),
                         desc = Condition(wmoCode = 1, isDay = false),
                         pop = null
                     ),
                     HourSummary.Sun(
-                        time = sunriseMoment.atZone(timeZone).toLocalDateTime(),
+                        time = sunriseMoment,
                         event = SunEvent.Sunrise
                     ),
                     HourSummary.Weather(
-                        time = secondMoment.atZone(timeZone).toLocalDateTime(),
+                        time = secondMoment,
                         isNow = false,
                         temp = Temperature.fromDegreesCelsius(1.0),
                         desc = Condition(wmoCode = 1, isDay = true),
                         pop = Pop(10.0)
                     ),
                     HourSummary.Sun(
-                        time = sunsetMoment.atZone(timeZone).toLocalDateTime(),
+                        time = sunsetMoment,
                         event = SunEvent.Sunset
                     ),
                     HourSummary.Weather(
-                        time = thirdMoment.atZone(timeZone).toLocalDateTime(),
+                        time = thirdMoment,
                         isNow = false,
                         temp = Temperature.fromDegreesCelsius(2.0),
                         desc = Condition(wmoCode = 1, isDay = false),
@@ -132,7 +131,7 @@ class GetHourlySummaryTest {
 
     @Test
     fun `summary is outdated when no data from now`() = runTest {
-        val firstMoment = Instant.ofEpochSecond(0)
+        val firstMoment = firstLocalDateTime
         val now = firstMoment.plus(1, ChronoUnit.HOURS)
         val temperaturePeriod = TemperaturePeriod(
             moments = listOf(
@@ -170,7 +169,7 @@ class GetHourlySummaryTest {
 
     @Test
     fun `no sun data when no sun moments from now`() = runTest {
-        val startOfTime = Instant.ofEpochSecond(0)
+        val startOfTime = firstLocalDateTime
         val firstMoment = startOfTime.plus(10, ChronoUnit.HOURS)
         val now = firstMoment.plus(10, ChronoUnit.MINUTES)
         val pastSunrise = firstMoment.minus(3, ChronoUnit.HOURS)

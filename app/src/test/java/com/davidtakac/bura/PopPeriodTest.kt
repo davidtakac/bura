@@ -15,14 +15,14 @@ import com.davidtakac.bura.pop.PopMoment
 import com.davidtakac.bura.pop.PopPeriod
 import org.junit.Assert.*
 import org.junit.Test
-import java.time.Instant
+import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 import kotlin.math.pow
 
 class PopPeriodTest {
     @Test
     fun maximum() {
-        val firstMoment = Instant.ofEpochSecond(0)
+        val firstMoment = firstLocalDateTime
         val secondMoment = firstMoment.plus(1, ChronoUnit.HOURS)
         val period = PopPeriod(
             moments = listOf(
@@ -35,7 +35,7 @@ class PopPeriodTest {
 
     @Test
     fun once() {
-        val firstMoment = Instant.ofEpochSecond(0)
+        val firstMoment = firstLocalDateTime
         val secondMoment = firstMoment.plus(1, ChronoUnit.HOURS)
         val thirdMoment = secondMoment.plus(1, ChronoUnit.HOURS)
         val period = PopPeriod(

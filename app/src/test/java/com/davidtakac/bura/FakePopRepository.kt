@@ -11,12 +11,10 @@
 package com.davidtakac.bura
 
 import com.davidtakac.bura.place.Coordinates
-import com.davidtakac.bura.place.Location
 import com.davidtakac.bura.pop.PopPeriod
 import com.davidtakac.bura.pop.PopRepository
 import com.davidtakac.bura.units.Units
 
 class FakePopRepository(private val cannedPeriod: PopPeriod) : PopRepository {
-
-    override suspend fun period(location: Location, units: Units): PopPeriod = cannedPeriod
+    override suspend fun period(coords: Coordinates, units: Units): PopPeriod = cannedPeriod
 }

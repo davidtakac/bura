@@ -11,11 +11,10 @@
 package com.davidtakac.bura
 
 import com.davidtakac.bura.place.Coordinates
-import com.davidtakac.bura.place.Location
 import com.davidtakac.bura.units.Units
 import com.davidtakac.bura.wind.WindPeriod
 import com.davidtakac.bura.wind.WindRepository
 
 class FakeWindRepository(private val cannedPeriod: WindPeriod) : WindRepository {
-    override suspend fun period(location: Location, units: Units): WindPeriod = cannedPeriod
+    override suspend fun period(coords: Coordinates, units: Units): WindPeriod = cannedPeriod
 }
