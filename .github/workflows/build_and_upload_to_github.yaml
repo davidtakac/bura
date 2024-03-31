@@ -37,12 +37,8 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v3
-        with:
-          gradle-version: 8.4
       - name: Assemble release
-        run: gradlew assembleRelease
+        run: ./gradlew assembleRelease
       # See https://github.com/r0adkll/sign-android-release/issues/84
       - name: Save installed BUILD_TOOL_VERSION
         shell: bash
