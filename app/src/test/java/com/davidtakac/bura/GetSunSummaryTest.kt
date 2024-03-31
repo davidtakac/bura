@@ -20,22 +20,18 @@ import com.davidtakac.bura.summary.sun.Sunset
 import com.davidtakac.bura.sun.SunEvent
 import com.davidtakac.bura.sun.SunMoment
 import com.davidtakac.bura.sun.SunPeriod
-import com.davidtakac.bura.units.Units
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.time.Duration
-import java.time.Instant
-import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
 class GetSunSummaryTest {
-    private val location = GMTLocation.coordinates
-    private val units = Units.Default
+
 
     @Test
     fun `sunrise and sunset soon`() = runTest {
-        val now = firstLocalDateTime
+        val now = unixEpochStart
         val firstMoment = now
         val secondMoment = now.plus(2, ChronoUnit.HOURS)
         val sunRepo = FakeSunRepository(
@@ -57,7 +53,7 @@ class GetSunSummaryTest {
             sunRepo = sunRepo,
             descRepo = descRepo
         )
-        val summary = useCase(location, units, now)
+        val summary = useCase(coords, units, now)
         assertEquals(
             Sunrise.WithSunsetSoon(
                 time = firstMoment.toLocalTime(),
@@ -69,7 +65,7 @@ class GetSunSummaryTest {
 
     @Test
     fun `sunset and sunrise soon`() = runTest {
-        val now = firstLocalDateTime
+        val now = unixEpochStart
         val firstMoment = now
         val secondMoment = now.plus(2, ChronoUnit.HOURS)
         val sunRepo = FakeSunRepository(
@@ -91,7 +87,7 @@ class GetSunSummaryTest {
             )
         )
         val useCase = GetSunSummary(sunRepo, descRepo)
-        val summary = useCase(location, units, now)
+        val summary = useCase(coords, units, now)
         assertEquals(
             Sunset.WithSunriseSoon(
                 time = firstMoment.toLocalTime(),
@@ -103,7 +99,7 @@ class GetSunSummaryTest {
 
     @Test
     fun `sunrise soon but sunset in two days`() = runTest {
-        val now = firstLocalDateTime
+        val now = unixEpochStart
         val firstMoment = now
         val secondMoment = now.plus(2, ChronoUnit.DAYS)
         val sunRepo = FakeSunRepository(
@@ -125,7 +121,7 @@ class GetSunSummaryTest {
             sunRepo = sunRepo,
             descRepo = descRepo
         )
-        val summary = useCase(location, units, now)
+        val summary = useCase(coords, units, now)
         assertEquals(
             Sunrise.WithSunsetLater(
                 time = firstMoment.toLocalTime(),
@@ -137,7 +133,7 @@ class GetSunSummaryTest {
 
     @Test
     fun `sunset soon but sunrise in two days`() = runTest {
-        val now = firstLocalDateTime
+        val now = unixEpochStart
         val firstMoment = now
         val secondMoment = now.plus(2, ChronoUnit.DAYS)
         val sunRepo = FakeSunRepository(
@@ -159,7 +155,7 @@ class GetSunSummaryTest {
             sunRepo = sunRepo,
             descRepo = descRepo
         )
-        val summary = useCase(location, units, now)
+        val summary = useCase(coords, units, now)
         assertEquals(
             Sunset.WithSunriseLater(
                 time = firstMoment.toLocalTime(),
@@ -171,7 +167,7 @@ class GetSunSummaryTest {
 
     @Test
     fun `sunrise later`() = runTest {
-        val now = firstLocalDateTime
+        val now = unixEpochStart
         val firstMoment = now.plus(2, ChronoUnit.DAYS)
         val sunRepo = FakeSunRepository(
             SunPeriod(
@@ -191,7 +187,7 @@ class GetSunSummaryTest {
             sunRepo = sunRepo,
             descRepo = descRepo
         )
-        val summary = useCase(location, units, now)
+        val summary = useCase(coords, units, now)
         assertEquals(
             Sunrise.Later(firstMoment),
             (summary as ForecastResult.Success).data
@@ -200,7 +196,7 @@ class GetSunSummaryTest {
 
     @Test
     fun `sunset later`() = runTest {
-        val now = firstLocalDateTime
+        val now = unixEpochStart
         val firstMoment = now.plus(2, ChronoUnit.DAYS)
         val sunRepo = FakeSunRepository(
             SunPeriod(
@@ -220,7 +216,7 @@ class GetSunSummaryTest {
             sunRepo = sunRepo,
             descRepo = descRepo
         )
-        val summary = useCase(location, units, now)
+        val summary = useCase(coords, units, now)
         assertEquals(
             Sunset.Later(firstMoment),
             (summary as ForecastResult.Success).data
@@ -229,7 +225,7 @@ class GetSunSummaryTest {
 
     @Test
     fun `night currently but no sunrise in sight`() = runTest {
-        val now = firstLocalDateTime
+        val now = unixEpochStart
         val sunRepo = FakeSunRepository(null)
         val descRepo = FakeConditionRepository(ConditionPeriod(List(48) {
             ConditionMoment(
@@ -241,7 +237,7 @@ class GetSunSummaryTest {
             sunRepo = sunRepo,
             descRepo = descRepo
         )
-        val summary = useCase(location, units, now)
+        val summary = useCase(coords, units, now)
         assertEquals(
             Sunrise.OutOfSight(Duration.ofHours(48)),
             (summary as ForecastResult.Success).data
@@ -250,7 +246,7 @@ class GetSunSummaryTest {
 
     @Test
     fun `day currently but no sunset in sight`() = runTest {
-        val now = firstLocalDateTime
+        val now = unixEpochStart
         val sunRepo = FakeSunRepository(null)
         val descRepo = FakeConditionRepository(ConditionPeriod(List(48) {
             ConditionMoment(
@@ -262,7 +258,7 @@ class GetSunSummaryTest {
             sunRepo = sunRepo,
             descRepo = descRepo
         )
-        val summary = useCase(location, units, now)
+        val summary = useCase(coords, units, now)
         assertEquals(
             Sunset.OutOfSight(Duration.ofHours(48)),
             (summary as ForecastResult.Success).data
@@ -271,7 +267,7 @@ class GetSunSummaryTest {
 
     @Test
     fun `when no current desc returns outdated`() = runTest {
-        val start = firstLocalDateTime
+        val start = unixEpochStart
         val sunRepo = FakeSunRepository(null)
         val descRepo = FakeConditionRepository(ConditionPeriod(List(48) {
             ConditionMoment(
@@ -284,7 +280,7 @@ class GetSunSummaryTest {
             sunRepo = sunRepo,
             descRepo = descRepo
         )
-        val summary = useCase(location, units, now)
+        val summary = useCase(coords, units, now)
         assertEquals(ForecastResult.Outdated, summary)
     }
 }

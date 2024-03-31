@@ -25,21 +25,18 @@ import com.davidtakac.bura.sun.SunPeriod
 import com.davidtakac.bura.temperature.Temperature
 import com.davidtakac.bura.temperature.TemperatureMoment
 import com.davidtakac.bura.temperature.TemperaturePeriod
-import com.davidtakac.bura.units.Units
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.temporal.ChronoUnit
 
 class GetHourlySummaryTest {
-    private val location = GMTLocation.coordinates
-    private val units = Units.Default
+    
 
     @Test
     fun `combines weather and sun data and arranges it chronologically`() = runTest {
-        val startOfTime = firstLocalDateTime.plus(5, ChronoUnit.DAYS)
+        val startOfTime = unixEpochStart.plus(5, ChronoUnit.DAYS)
         val firstMoment = startOfTime.plus(1, ChronoUnit.HOURS)
         val secondMoment = startOfTime.plus(2, ChronoUnit.HOURS)
         val thirdMoment = startOfTime.plus(3, ChronoUnit.HOURS)
@@ -90,7 +87,7 @@ class GetHourlySummaryTest {
             descRepo = FakeConditionRepository(conditionPeriod),
             sunRepo = FakeSunRepository(sunPeriod),
         )
-        val summary = useCase(location, units, now)
+        val summary = useCase(coords, units, now)
         assertEquals(
             ForecastResult.Success(
                 listOf(
@@ -131,7 +128,7 @@ class GetHourlySummaryTest {
 
     @Test
     fun `summary is outdated when no data from now`() = runTest {
-        val firstMoment = firstLocalDateTime
+        val firstMoment = unixEpochStart
         val now = firstMoment.plus(1, ChronoUnit.HOURS)
         val temperaturePeriod = TemperaturePeriod(
             moments = listOf(
@@ -163,13 +160,13 @@ class GetHourlySummaryTest {
             descRepo = FakeConditionRepository(conditionPeriod),
             sunRepo = FakeSunRepository(null),
         )
-        val summary = useCase(location, units, now)
+        val summary = useCase(coords, units, now)
         assertEquals(ForecastResult.Outdated, summary)
     }
 
     @Test
     fun `no sun data when no sun moments from now`() = runTest {
-        val startOfTime = firstLocalDateTime
+        val startOfTime = unixEpochStart
         val firstMoment = startOfTime.plus(10, ChronoUnit.HOURS)
         val now = firstMoment.plus(10, ChronoUnit.MINUTES)
         val pastSunrise = firstMoment.minus(3, ChronoUnit.HOURS)
@@ -210,7 +207,7 @@ class GetHourlySummaryTest {
             descRepo = FakeConditionRepository(conditionPeriod),
             sunRepo = FakeSunRepository(sunPeriod),
         )
-        val summary = useCase(location, units, now)
+        val summary = useCase(coords, units, now)
         assertEquals(
             ForecastResult.Success(
                 listOf(

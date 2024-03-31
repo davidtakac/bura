@@ -19,22 +19,18 @@ import com.davidtakac.bura.summary.now.GetNowSummary
 import com.davidtakac.bura.temperature.Temperature
 import com.davidtakac.bura.temperature.TemperatureMoment
 import com.davidtakac.bura.temperature.TemperaturePeriod
-import com.davidtakac.bura.units.Units
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import java.time.Instant
-import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
 class GetNowSummaryTest {
-    private val location = GMTLocation.coordinates
-    private val units = Units.Default
+    
 
     @Test
     fun `summarizes current temperature, feels like and description and returns min and max temp of today`() =
         runTest {
-            val firstDayFirstMoment = firstLocalDateTime.plus(22, ChronoUnit.HOURS)
+            val firstDayFirstMoment = unixEpochStart.plus(22, ChronoUnit.HOURS)
             val now = firstDayFirstMoment.plus(10, ChronoUnit.MINUTES)
             val firstDaySecondMoment = firstDayFirstMoment.plus(1, ChronoUnit.HOURS)
             val secondDayFirstMoment = firstDaySecondMoment.plus(1, ChronoUnit.HOURS)
@@ -64,7 +60,7 @@ class GetNowSummaryTest {
                 feelsRepo = FakeTemperatureRepository(feelsLikePeriod),
                 descRepo = FakeConditionRepository(conditionPeriod),
             )
-            val summary = useCase(location, units, now)
+            val summary = useCase(coords, units, now)
             assertEquals(
                 ForecastResult.Success(
                     NowSummary(
@@ -81,7 +77,7 @@ class GetNowSummaryTest {
 
     @Test
     fun `summary is outdated when no data after now`() = runTest {
-        val firstMoment = firstLocalDateTime
+        val firstMoment = unixEpochStart
         val afterFirstMoment = firstMoment.plus(1, ChronoUnit.HOURS)
         val now = afterFirstMoment.plus(10, ChronoUnit.MINUTES)
         val temperaturePeriod = TemperaturePeriod(
@@ -104,6 +100,6 @@ class GetNowSummaryTest {
             feelsRepo = FakeTemperatureRepository(feelsLikePeriod),
             descRepo = FakeConditionRepository(conditionPeriod),
         )
-        assertEquals(ForecastResult.Outdated, useCase(location, units, now))
+        assertEquals(ForecastResult.Outdated, useCase(coords, units, now))
     }
 }

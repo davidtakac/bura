@@ -19,20 +19,17 @@ import com.davidtakac.bura.summary.humidity.GetHumiditySummary
 import com.davidtakac.bura.temperature.Temperature
 import com.davidtakac.bura.temperature.TemperatureMoment
 import com.davidtakac.bura.temperature.TemperaturePeriod
-import com.davidtakac.bura.units.Units
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
 class HumiditySummaryTest {
-    private val location = GMTLocation.coordinates
-    private val units = Units.Default
+    
 
     @Test
     fun `gets humidity and dew point of now`() = runTest {
-        val firstMoment = firstLocalDateTime
+        val firstMoment = unixEpochStart
         val now = firstMoment.plus(10, ChronoUnit.MINUTES)
         val humidityPeriod = HumidityPeriod(listOf(HumidityMoment(firstMoment, Humidity(0.0))))
         val dewPointPeriod = TemperaturePeriod(
@@ -54,13 +51,13 @@ class HumiditySummaryTest {
                     dewPointNow = Temperature.fromDegreesCelsius(0.0)
                 )
             ),
-            useCase(location, units, now)
+            useCase(coords, units, now)
         )
     }
 
     @Test
     fun `summary is outdated when no data from now`() = runTest {
-        val firstMoment = firstLocalDateTime
+        val firstMoment = unixEpochStart
         val now = firstMoment.plus(1, ChronoUnit.HOURS).plus(10, ChronoUnit.MINUTES)
         val humidityPeriod = HumidityPeriod(listOf(HumidityMoment(firstMoment, Humidity(0.0))))
         val dewPointPeriod = TemperaturePeriod(
@@ -75,6 +72,6 @@ class HumiditySummaryTest {
             humidityRepo = FakeHumidityRepository(humidityPeriod),
             dewPointRepo = FakeTemperatureRepository(dewPointPeriod),
         )
-        assertEquals(ForecastResult.Outdated, useCase(location, units, now))
+        assertEquals(ForecastResult.Outdated, useCase(coords, units, now))
     }
 }

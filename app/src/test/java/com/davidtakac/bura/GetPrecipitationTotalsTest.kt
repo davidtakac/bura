@@ -20,21 +20,18 @@ import com.davidtakac.bura.precipitation.PrecipitationPeriod
 import com.davidtakac.bura.precipitation.Rain
 import com.davidtakac.bura.precipitation.Showers
 import com.davidtakac.bura.precipitation.Snow
-import com.davidtakac.bura.units.Units
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
 class GetPrecipitationTotalsTest {
-    private val location = GMTLocation.coordinates
-    private val units = Units.Default
+    
 
     @Test
     fun `generates last and future for today and future for other days`() = runTest {
-        val startOfFirstDay = firstLocalDateTime
+        val startOfFirstDay = unixEpochStart
         val startOfSecondDay = startOfFirstDay.plus(1, ChronoUnit.DAYS)
         val repo = FakePrecipitationRepository(PrecipitationPeriod(buildList {
             for (i in 0..23) {
@@ -64,7 +61,7 @@ class GetPrecipitationTotalsTest {
         }))
         val useCase = GetPrecipitationTotals(repo)
         val totals = (useCase(
-            location,
+            coords,
             units,
             startOfFirstDay.plus(8, ChronoUnit.HOURS)
         ) as ForecastResult.Success).data

@@ -17,21 +17,17 @@ import com.davidtakac.bura.summary.feelslike.FeelsVsActual
 import com.davidtakac.bura.temperature.Temperature
 import com.davidtakac.bura.temperature.TemperatureMoment
 import com.davidtakac.bura.temperature.TemperaturePeriod
-import com.davidtakac.bura.units.Units
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
 import org.junit.Test
-import java.time.Instant
-import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
 class GetFeelsLikeSummaryTest {
-    private val location = GMTLocation.coordinates
-    private val units = Units.Default
+    
 
     @Test
     fun `gets now and describes what it feels like`() = runTest {
-        val firstMoment = firstLocalDateTime
+        val firstMoment = unixEpochStart
         val now = firstMoment.plus(10, ChronoUnit.MINUTES)
         val feelsLikePeriod = TemperaturePeriod(
             listOf(
@@ -53,7 +49,7 @@ class GetFeelsLikeSummaryTest {
             tempRepo = FakeTemperatureRepository(temperaturePeriod),
             feelsRepo = FakeTemperatureRepository(feelsLikePeriod),
         )
-        val summary = useCase(location, units, now)
+        val summary = useCase(coords, units, now)
         assertEquals(
             ForecastResult.Success(
                 FeelsLikeSummary(
@@ -68,7 +64,7 @@ class GetFeelsLikeSummaryTest {
 
     @Test
     fun `when feels like and actual within 1 degree of each other feel is similar`() = runTest {
-        val firstMoment = firstLocalDateTime
+        val firstMoment = unixEpochStart
         val now = firstMoment.plus(10, ChronoUnit.MINUTES)
         val feelsLikePeriod = TemperaturePeriod(
             listOf(
@@ -90,7 +86,7 @@ class GetFeelsLikeSummaryTest {
             tempRepo = FakeTemperatureRepository(temperaturePeriod),
             feelsRepo = FakeTemperatureRepository(feelsLikePeriod),
         )
-        val summary = useCase(location, units, now)
+        val summary = useCase(coords, units, now)
         assertEquals(
             ForecastResult.Success(
                 FeelsLikeSummary(
@@ -105,7 +101,7 @@ class GetFeelsLikeSummaryTest {
 
     @Test
     fun `summary is outdated when no data from now`() = runTest {
-        val firstMoment = firstLocalDateTime
+        val firstMoment = unixEpochStart
         val now = firstMoment.plus(1, ChronoUnit.HOURS).plus(10, ChronoUnit.MINUTES)
         val temperaturePeriod = TemperaturePeriod(
             listOf(
@@ -127,7 +123,7 @@ class GetFeelsLikeSummaryTest {
             tempRepo = FakeTemperatureRepository(temperaturePeriod),
             feelsRepo = FakeTemperatureRepository(feelsLikePeriod),
         )
-        val summary = useCase(location, units, now)
+        val summary = useCase(coords, units, now)
         assertEquals(ForecastResult.Outdated, summary)
     }
 }

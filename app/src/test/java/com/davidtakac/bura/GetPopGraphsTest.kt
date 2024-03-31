@@ -19,7 +19,6 @@ import com.davidtakac.bura.graphs.pop.GetPopGraphs
 import com.davidtakac.bura.pop.Pop
 import com.davidtakac.bura.pop.PopMoment
 import com.davidtakac.bura.pop.PopPeriod
-import com.davidtakac.bura.units.Units
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -28,12 +27,11 @@ import java.time.LocalTime
 import java.time.temporal.ChronoUnit
 
 class GetPopGraphsTest {
-    private val location = GMTLocation.coordinates
-    private val units = Units.Default
+    
 
     @Test
     fun `constructs pop graphs`() = runTest {
-        val firstMoment = firstLocalDateTime.plus(22, ChronoUnit.HOURS)
+        val firstMoment = unixEpochStart.plus(22, ChronoUnit.HOURS)
         val secondMoment = firstMoment.plus(1, ChronoUnit.HOURS)
         val thirdMoment = secondMoment.plus(1, ChronoUnit.HOURS)
         val now = secondMoment
@@ -47,7 +45,7 @@ class GetPopGraphsTest {
             )
         )
         val useCase = GetPopGraphs(popRepo)
-        val graphs = (useCase(location, units, now) as ForecastResult.Success).data
+        val graphs = (useCase(coords, units, now) as ForecastResult.Success).data
         assertEquals(
             listOf(
                 PopGraph(

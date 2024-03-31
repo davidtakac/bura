@@ -46,8 +46,8 @@ class ForecastConverterTest {
             visibility = Visibility.Unit.Miles
         )
         val time = listOf(
-            firstLocalDateTime,
-            firstLocalDateTime.plus(1, ChronoUnit.HOURS)
+            unixEpochStart,
+            unixEpochStart.plus(1, ChronoUnit.HOURS)
         )
         val sunrises = listOf<LocalDateTime>()
         val sunsets = listOf<LocalDateTime>()
@@ -146,8 +146,8 @@ class ForecastConverterTest {
     fun `throws when data does not match`() = runTest {
         val units = Units.Default
         val time = listOf(
-            firstLocalDateTime,
-            firstLocalDateTime.plus(1, ChronoUnit.HOURS)
+            unixEpochStart,
+            unixEpochStart.plus(1, ChronoUnit.HOURS)
         )
         val sunrises = listOf<LocalDateTime>()
         val sunsets = listOf<LocalDateTime>()

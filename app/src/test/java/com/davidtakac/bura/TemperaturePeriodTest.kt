@@ -15,13 +15,12 @@ import com.davidtakac.bura.temperature.TemperatureMoment
 import com.davidtakac.bura.temperature.TemperaturePeriod
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
 class TemperaturePeriodTest {
     @Test
     fun `minimum and maximum`() {
-        val firstMoment = firstLocalDateTime
+        val firstMoment = unixEpochStart
         val secondMoment = firstMoment.plus(1, ChronoUnit.HOURS)
         val period = TemperaturePeriod(
             moments = listOf(

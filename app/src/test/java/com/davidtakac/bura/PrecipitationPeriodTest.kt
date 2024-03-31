@@ -18,7 +18,6 @@ import com.davidtakac.bura.precipitation.Showers
 import com.davidtakac.bura.precipitation.Snow
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import java.time.LocalDateTime
 
 class PrecipitationPeriodTest {
     @Test
@@ -26,7 +25,7 @@ class PrecipitationPeriodTest {
         val period = PrecipitationPeriod(
             moments = listOf(
                 PrecipitationMoment(
-                    firstLocalDateTime,
+                    unixEpochStart,
                     MixedPrecipitation.fromMillimeters(Rain.fromMillimeters(1.0), Showers.Zero, Snow.Zero),
                 )
             )

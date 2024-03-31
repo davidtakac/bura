@@ -23,23 +23,19 @@ import com.davidtakac.bura.summary.daily.DaySummary
 import com.davidtakac.bura.temperature.Temperature
 import com.davidtakac.bura.temperature.TemperatureMoment
 import com.davidtakac.bura.temperature.TemperaturePeriod
-import com.davidtakac.bura.units.Units
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import java.time.Instant
-import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.temporal.ChronoUnit
 import kotlin.math.pow
 
 class GetDailySummaryTest {
-    private val location = GMTLocation.coordinates
-    private val units = Units.Default
+    
 
     @Test
     fun `groups moments into days and summarizes them`() = runTest {
-        val firstDayFirstMoment = firstLocalDateTime.plus(21, ChronoUnit.HOURS)
+        val firstDayFirstMoment = unixEpochStart.plus(21, ChronoUnit.HOURS)
         val firstDaySecondMoment = firstDayFirstMoment.plus(1, ChronoUnit.HOURS)
         val firstDayThirdMoment = firstDaySecondMoment.plus(1, ChronoUnit.HOURS)
         val secondDayFirstMoment = firstDayThirdMoment.plus(1, ChronoUnit.HOURS)
@@ -92,7 +88,7 @@ class GetDailySummaryTest {
             descRepo = FakeConditionRepository(conditionPeriod),
             popRepo = FakePopRepository(popPeriod),
         )
-        val summary = useCase(location, units, now)
+        val summary = useCase(coords, units, now)
         assertEquals(
             ForecastResult.Success(
                 DailySummary(
@@ -117,7 +113,7 @@ class GetDailySummaryTest {
 
     @Test
     fun `summary is outdated when no data from now`() = runTest {
-        val firstMoment = firstLocalDateTime
+        val firstMoment = unixEpochStart
         val now = firstMoment.plus(1, ChronoUnit.HOURS).plus(10, ChronoUnit.MINUTES)
         val temperaturePeriod = TemperaturePeriod(
             listOf(
@@ -148,7 +144,7 @@ class GetDailySummaryTest {
             descRepo = FakeConditionRepository(conditionPeriod),
             popRepo = FakePopRepository(popPeriod),
         )
-        val summary = useCase(location, units, now)
+        val summary = useCase(coords, units, now)
         assertEquals(ForecastResult.Outdated, summary)
     }
 }

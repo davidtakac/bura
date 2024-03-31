@@ -12,30 +12,27 @@ package com.davidtakac.bura
 
 import com.davidtakac.bura.forecast.ForecastResult
 import com.davidtakac.bura.summary.visibility.GetVisibilitySummary
-import com.davidtakac.bura.units.Units
 import com.davidtakac.bura.visibility.Visibility
 import com.davidtakac.bura.visibility.VisibilityMoment
 import com.davidtakac.bura.visibility.VisibilityPeriod
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
 class GetVisibilitySummaryTest {
-    private val location = GMTLocation.coordinates
-    private val units = Units.Default
+    
 
     private val repo = FakeVisibilityRepository(
         VisibilityPeriod(
             listOf(
-                VisibilityMoment(firstLocalDateTime, Visibility.fromMeters(1.0)),
+                VisibilityMoment(unixEpochStart, Visibility.fromMeters(1.0)),
                 VisibilityMoment(
-                    firstLocalDateTime.plus(1, ChronoUnit.HOURS),
+                    unixEpochStart.plus(1, ChronoUnit.HOURS),
                     Visibility.fromMeters(2.0)
                 ),
                 VisibilityMoment(
-                    firstLocalDateTime.plus(2, ChronoUnit.HOURS),
+                    unixEpochStart.plus(2, ChronoUnit.HOURS),
                     Visibility.fromMeters(3.0)
                 )
             )
@@ -44,18 +41,18 @@ class GetVisibilitySummaryTest {
 
     @Test
     fun `gets distance and description of now`() = runTest {
-        val now = firstLocalDateTime.plus(1, ChronoUnit.HOURS).plus(10, ChronoUnit.MINUTES)
+        val now = unixEpochStart.plus(1, ChronoUnit.HOURS).plus(10, ChronoUnit.MINUTES)
         val useCase = GetVisibilitySummary(repo)
         assertEquals(
             Visibility.fromMeters(2.0),
-            (useCase(location, units, now) as ForecastResult.Success).data.now
+            (useCase(coords, units, now) as ForecastResult.Success).data.now
         )
     }
 
     @Test
     fun `summary is outdated when no now`() = runTest {
-        val now = firstLocalDateTime.plus(3, ChronoUnit.HOURS).plus(10, ChronoUnit.MINUTES)
+        val now = unixEpochStart.plus(3, ChronoUnit.HOURS).plus(10, ChronoUnit.MINUTES)
         val useCase = GetVisibilitySummary(repo)
-        assertEquals(ForecastResult.Outdated, useCase(location, units, now))
+        assertEquals(ForecastResult.Outdated, useCase(coords, units, now))
     }
 }

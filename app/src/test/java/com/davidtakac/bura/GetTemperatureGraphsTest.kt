@@ -22,23 +22,19 @@ import com.davidtakac.bura.graphs.temperature.GetTemperatureGraphs
 import com.davidtakac.bura.temperature.Temperature
 import com.davidtakac.bura.temperature.TemperatureMoment
 import com.davidtakac.bura.temperature.TemperaturePeriod
-import com.davidtakac.bura.units.Units
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import java.time.Instant
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.temporal.ChronoUnit
 
 class GetTemperatureGraphsTest {
-    private val location = GMTLocation.coordinates
-    private val units = Units.Default
+    
 
     @Test
     fun `combines data into graph points and extracts min max temps`() = runTest {
-        val firstMoment = firstLocalDateTime
+        val firstMoment = unixEpochStart
         val secondMoment = firstMoment.plus(1, ChronoUnit.HOURS)
         val thirdMoment = secondMoment.plus(1, ChronoUnit.HOURS)
         val now = secondMoment.plus(10, ChronoUnit.MINUTES)
@@ -62,7 +58,7 @@ class GetTemperatureGraphsTest {
         )
         val useCase = GetTemperatureGraphs(tempRepo, descRepo)
         val result =
-            (useCase(location, units, now) as ForecastResult.Success).data.graphs.first()
+            (useCase(coords, units, now) as ForecastResult.Success).data.graphs.first()
         assertEquals(
             TemperatureGraph(
                 day = LocalDate.parse("1970-01-01"),
@@ -111,7 +107,7 @@ class GetTemperatureGraphsTest {
 
     @Test
     fun `when all temps the same, min max equals the first temperature`() = runTest {
-        val firstMoment = firstLocalDateTime
+        val firstMoment = unixEpochStart
         val secondMoment = firstMoment.plus(1, ChronoUnit.HOURS)
         val thirdMoment = secondMoment.plus(1, ChronoUnit.HOURS)
         val now = secondMoment.plus(10, ChronoUnit.MINUTES)
@@ -135,13 +131,13 @@ class GetTemperatureGraphsTest {
         )
         val useCase = GetTemperatureGraphs(tempRepo, descRepo)
         val result =
-            (useCase(location, units, now) as ForecastResult.Success).data.graphs.first()
+            (useCase(coords, units, now) as ForecastResult.Success).data.graphs.first()
         assert(result.points.all { it.temperature.meta == GraphTemperature.Meta.Regular })
     }
 
     @Test
     fun `minimum takes the last min moment`() = runTest {
-        val firstMoment = firstLocalDateTime
+        val firstMoment = unixEpochStart
         val secondMoment = firstMoment.plus(1, ChronoUnit.HOURS)
         val thirdMoment = secondMoment.plus(1, ChronoUnit.HOURS)
         val now = secondMoment.plus(10, ChronoUnit.MINUTES)
@@ -165,7 +161,7 @@ class GetTemperatureGraphsTest {
         )
         val useCase = GetTemperatureGraphs(tempRepo, descRepo)
         val result =
-            (useCase(location, units, now) as ForecastResult.Success).data.graphs.first()
+            (useCase(coords, units, now) as ForecastResult.Success).data.graphs.first()
         assertEquals(
             LocalTime.parse("01:00"),
             result.points.first { it.temperature.meta == GraphTemperature.Meta.Minimum }.time.value
@@ -174,7 +170,7 @@ class GetTemperatureGraphsTest {
 
     @Test
     fun `first data point of next day is included in the graph`() = runTest {
-        val firstMoment = firstLocalDateTime.plus(23, ChronoUnit.HOURS)
+        val firstMoment = unixEpochStart.plus(23, ChronoUnit.HOURS)
         val secondMoment = firstMoment.plus(1, ChronoUnit.HOURS)
         val now = firstMoment.plus(10, ChronoUnit.MINUTES)
         val descRepo = FakeConditionRepository(
@@ -195,7 +191,7 @@ class GetTemperatureGraphsTest {
         )
         val useCase = GetTemperatureGraphs(tempRepo, descRepo)
         val result =
-            (useCase(location, units, now) as ForecastResult.Success).data.graphs.first()
+            (useCase(coords, units, now) as ForecastResult.Success).data.graphs.first()
         assertEquals(
             TemperatureGraph(
                 day = LocalDate.parse("1970-01-01"),

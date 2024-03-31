@@ -25,7 +25,7 @@ private const val BIGGER_NOT_SEVERE = 2
 class ConditionPeriodTest {
     @Test
     fun `representative is one of the codes when all codes are the same`() {
-        val firstMoment = firstLocalDateTime
+        val firstMoment = unixEpochStart
         val secondMoment = firstMoment.plus(1, ChronoUnit.HOURS)
         val code = 1
         val period = ConditionPeriod(
@@ -45,7 +45,7 @@ class ConditionPeriodTest {
 
     @Test
     fun `representative is most severe when all codes are different`() {
-        val firstMoment = firstLocalDateTime
+        val firstMoment = unixEpochStart
         val secondMoment = firstMoment.plus(1, ChronoUnit.HOURS)
         val lessSevereCode = 1
         val moreSevereCode = 2
@@ -66,7 +66,7 @@ class ConditionPeriodTest {
 
     @Test
     fun `representative is most common when no severe conditions`() {
-        val firstMoment = firstLocalDateTime
+        val firstMoment = unixEpochStart
         val secondMoment = firstMoment.plus(1, ChronoUnit.HOURS)
         val thirdMoment = secondMoment.plus(1, ChronoUnit.HOURS)
         val period = ConditionPeriod(
@@ -90,7 +90,7 @@ class ConditionPeriodTest {
 
     @Test
     fun `representative is most severe when at least one severe condition`() {
-        val firstMoment = firstLocalDateTime
+        val firstMoment = unixEpochStart
         val secondMoment = firstMoment.plus(1, ChronoUnit.HOURS)
         val thirdMoment = secondMoment.plus(1, ChronoUnit.HOURS)
         val period = ConditionPeriod(
@@ -114,7 +114,7 @@ class ConditionPeriodTest {
 
     @Test
     fun `determines day and night rep`() {
-        val firstMoment = firstLocalDateTime
+        val firstMoment = unixEpochStart
         val secondMoment = firstMoment.plus(1, ChronoUnit.HOURS)
         val period = ConditionPeriod(
             moments = listOf(
@@ -134,7 +134,7 @@ class ConditionPeriodTest {
 
     @Test
     fun `null when no daytime`() {
-        val firstMoment = firstLocalDateTime
+        val firstMoment = unixEpochStart
         val period = ConditionPeriod(
             moments = listOf(
                 ConditionMoment(
@@ -148,7 +148,7 @@ class ConditionPeriodTest {
 
     @Test
     fun `null when no nighttime`() {
-        val firstMoment = firstLocalDateTime
+        val firstMoment = unixEpochStart
         val period = ConditionPeriod(
             moments = listOf(
                 ConditionMoment(

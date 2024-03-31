@@ -15,13 +15,12 @@ import com.davidtakac.bura.sun.SunMoment
 import com.davidtakac.bura.sun.SunPeriod
 import org.junit.Assert.*
 import org.junit.Test
-import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
 class SunMomentListTest {
     @Test
     fun `splits into future moments`() {
-        val startOfTime = firstLocalDateTime
+        val startOfTime = unixEpochStart
         val firstSunset = startOfTime.plus(1, ChronoUnit.HOURS).plus(10, ChronoUnit.MINUTES)
         val beforeFirstSunset = firstSunset.minus(15, ChronoUnit.MINUTES)
         val firstSunrise = startOfTime.plus(3, ChronoUnit.HOURS).plus(10, ChronoUnit.MINUTES)

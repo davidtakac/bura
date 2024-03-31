@@ -17,20 +17,17 @@ import com.davidtakac.bura.pressure.PressurePeriod
 import com.davidtakac.bura.summary.pressure.PressureSummary
 import com.davidtakac.bura.summary.pressure.GetPressureSummary
 import com.davidtakac.bura.summary.pressure.PressureTrend
-import com.davidtakac.bura.units.Units
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
 class GetPressureSummaryTest {
-    private val location = GMTLocation.coordinates
-    private val units = Units.Default
+    
 
     @Test
     fun `when at least one moment before now, returns now and trend`() = runTest {
-        val firstMoment = firstLocalDateTime
+        val firstMoment = unixEpochStart
         val secondMoment = firstMoment.plus(1, ChronoUnit.HOURS)
         val period = PressurePeriod(
             moments = listOf(
@@ -47,7 +44,7 @@ class GetPressureSummaryTest {
         val repository = FakePressureRepository(period)
         val now = secondMoment.plus(10, ChronoUnit.MINUTES)
         val useCase = GetPressureSummary(repository)
-        val summary = useCase(location, units, now)
+        val summary = useCase(coords, units, now)
         assertEquals(
             ForecastResult.Success(
                 PressureSummary(
@@ -62,7 +59,7 @@ class GetPressureSummaryTest {
 
     @Test
     fun `when no moments at now, summary is outdated`() = runTest {
-        val firstMoment = firstLocalDateTime
+        val firstMoment = unixEpochStart
         val period = PressurePeriod(
             moments = listOf(
                 PressureMoment(
@@ -76,13 +73,13 @@ class GetPressureSummaryTest {
         val useCase = GetPressureSummary(repository)
         assertEquals(
             ForecastResult.Outdated,
-            useCase(location, units, now)
+            useCase(coords, units, now)
         )
     }
 
     @Test
     fun `when no moments before now, summary is outdated`() = runTest {
-        val firstMoment = firstLocalDateTime
+        val firstMoment = unixEpochStart
         val period = PressurePeriod(
             moments = listOf(
                 PressureMoment(
@@ -94,7 +91,7 @@ class GetPressureSummaryTest {
         val now = firstMoment
         val repository = FakePressureRepository(period)
         val useCase = GetPressureSummary(repository)
-        val summary = useCase(location, units, now)
+        val summary = useCase(coords, units, now)
         assertEquals(ForecastResult.Outdated, summary)
     }
 }
