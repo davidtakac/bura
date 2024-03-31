@@ -1,0 +1,10 @@
+## [1.0.2] - 2024-03-31
+
+## Clear Bura's app data after installing this update.
+
+### Fixed
+- Crashing for places in India (#7)
+- Smaller places not showing up in search results (#5, #6)
+
+### Added
+- Settings screenshot to README.md and Fastlane (#13)
