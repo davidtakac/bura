@@ -37,6 +37,7 @@ class SearchPlaces(private val userAgentProvider: UserAgentProvider) {
             for (i in 0 until results.length()) {
                 val currResult = results.getJSONObject(i)
                 val countryCode = currResult.getStringOrNull("country_code") ?: continue
+                val timeZone = currResult.getStringOrNull("timezone")?.let(ZoneId::of) ?: continue
                 places.add(
                     Place(
                         name = currResult.getString("name"),
@@ -44,7 +45,7 @@ class SearchPlaces(private val userAgentProvider: UserAgentProvider) {
                         countryCode = countryCode,
                         admin1 = currResult.getStringOrNull("admin1"),
                         location = Location(
-                            timeZone = ZoneId.of(currResult.getString("timezone")),
+                            timeZone = timeZone,
                             coordinates = Coordinates(
                                 latitude = currResult.getDouble("latitude"),
                                 longitude = currResult.getDouble("longitude")
@@ -81,7 +82,7 @@ class SearchPlaces(private val userAgentProvider: UserAgentProvider) {
     private fun openMeteoUrl(query: String, languageCode: String): String =
         "https://geocoding-api.open-meteo.com/v1/search" +
                 "?name=$query" +
-                "&count=50" +
+                "&count=30" +
                 "&language=$languageCode" +
                 "&format=json"
 
