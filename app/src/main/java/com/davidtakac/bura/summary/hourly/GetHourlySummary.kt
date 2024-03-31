@@ -13,7 +13,7 @@ package com.davidtakac.bura.summary.hourly
 import com.davidtakac.bura.condition.Condition
 import com.davidtakac.bura.condition.ConditionRepository
 import com.davidtakac.bura.forecast.ForecastResult
-import com.davidtakac.bura.place.Location
+import com.davidtakac.bura.place.Coordinates
 import com.davidtakac.bura.pop.Pop
 import com.davidtakac.bura.pop.PopRepository
 import com.davidtakac.bura.sun.SunEvent
@@ -30,14 +30,14 @@ class GetHourlySummary(
     private val sunRepo: SunRepository,
 ) {
     suspend operator fun invoke(
-        location: Location,
+        coords: Coordinates,
         units: Units,
         now: LocalDateTime
     ): ForecastResult<List<HourSummary>> {
-        val tempPeriod = tempRepo.period(location, units) ?: return ForecastResult.FailedToDownload
-        val popPeriod = popRepo.period(location, units) ?: return ForecastResult.FailedToDownload
-        val descPeriod = descRepo.period(location, units) ?: return ForecastResult.FailedToDownload
-        val sunPeriod = sunRepo.period(location, units)
+        val tempPeriod = tempRepo.period(coords, units) ?: return ForecastResult.FailedToDownload
+        val popPeriod = popRepo.period(coords, units) ?: return ForecastResult.FailedToDownload
+        val descPeriod = descRepo.period(coords, units) ?: return ForecastResult.FailedToDownload
+        val sunPeriod = sunRepo.period(coords, units)
 
         val futureTemps = tempPeriod.momentsFrom(now, takeMoments = 24) ?: return ForecastResult.Outdated
         val futurePops = popPeriod.momentsFrom(now, takeMoments = 24) ?: return ForecastResult.Outdated
@@ -46,7 +46,7 @@ class GetHourlySummary(
             for (i in futureTemps.indices) {
                 add(
                     HourSummary.Weather(
-                        time = futureTemps[i].hour.atZone(location.timeZone).toLocalDateTime(),
+                        time = futureTemps[i].hour,
                         isNow = i == 0,
                         temp = futureTemps[i].temperature,
                         pop = futurePops[i].pop.takeIf { it.value > 0 },
@@ -59,7 +59,7 @@ class GetHourlySummary(
             ?.momentsFrom(now, takeMomentsUpToHoursInFuture = 24)
             ?.map {
                 HourSummary.Sun(
-                    time = it.time.atZone(location.timeZone).toLocalDateTime(),
+                    time = it.time,
                     event = it.event
                 )
             }

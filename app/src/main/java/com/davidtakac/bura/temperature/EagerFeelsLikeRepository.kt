@@ -11,10 +11,10 @@
 package com.davidtakac.bura.temperature
 
 import com.davidtakac.bura.forecast.ForecastRepository
-import com.davidtakac.bura.place.Location
+import com.davidtakac.bura.place.Coordinates
 import com.davidtakac.bura.units.Units
 
-class EagerFeelsLikeRepository(private val forecastRepo: ForecastRepository) : TemperatureRepository {
-    override suspend fun period(location: Location, units: Units): TemperaturePeriod? =
-        forecastRepo.forecast(location, units)?.feelsLike
+class EagerFeelsLikeRepository(private val repo: ForecastRepository) : TemperatureRepository {
+    override suspend fun period(coords: Coordinates, units: Units): TemperaturePeriod? =
+        repo.forecast(coords, units)?.feelsLike
 }

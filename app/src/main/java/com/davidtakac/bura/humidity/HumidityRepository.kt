@@ -10,9 +10,9 @@
 
 package com.davidtakac.bura.humidity
 
-import com.davidtakac.bura.place.Location
+import com.davidtakac.bura.place.Coordinates
 import com.davidtakac.bura.units.Units
 
 interface HumidityRepository {
-    suspend fun period(location: Location, units: Units): HumidityPeriod?
+    suspend fun period(coords: Coordinates, units: Units): HumidityPeriod?
 }

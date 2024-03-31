@@ -11,10 +11,10 @@
 package com.davidtakac.bura.gust
 
 import com.davidtakac.bura.forecast.ForecastRepository
-import com.davidtakac.bura.place.Location
+import com.davidtakac.bura.place.Coordinates
 import com.davidtakac.bura.units.Units
 
-class EagerGustRepository(private val forecastRepo: ForecastRepository) : GustRepository {
-    override suspend fun period(location: Location, units: Units): GustPeriod? =
-        forecastRepo.forecast(location, units)?.gust
+class EagerGustRepository(private val repo: ForecastRepository) : GustRepository {
+    override suspend fun period(coords: Coordinates, units: Units): GustPeriod? =
+        repo.forecast(coords, units)?.gust
 }

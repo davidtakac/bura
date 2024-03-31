@@ -10,7 +10,6 @@
 
 package com.davidtakac.bura.summary.daily
 
-import com.davidtakac.bura.place.Location
 import com.davidtakac.bura.pop.Pop
 import com.davidtakac.bura.pop.PopRepository
 import com.davidtakac.bura.forecast.ForecastResult
@@ -19,6 +18,7 @@ import com.davidtakac.bura.temperature.TemperatureRepository
 import com.davidtakac.bura.units.Units
 import com.davidtakac.bura.condition.Condition
 import com.davidtakac.bura.condition.ConditionRepository
+import com.davidtakac.bura.place.Coordinates
 import java.time.LocalDate
 import java.time.LocalDateTime
 
@@ -27,10 +27,10 @@ class GetDailySummary(
     private val descRepo: ConditionRepository,
     private val popRepo: PopRepository,
 ) {
-    suspend operator fun invoke(location: Location, units: Units, now: LocalDateTime): ForecastResult<DailySummary> {
-        val tempPeriod = tempRepo.period(location, units) ?: return ForecastResult.FailedToDownload
-        val descPeriod = descRepo.period(location, units) ?: return ForecastResult.FailedToDownload
-        val popPeriod = popRepo.period(location, units) ?: return ForecastResult.FailedToDownload
+    suspend operator fun invoke(coords: Coordinates, units: Units, now: LocalDateTime): ForecastResult<DailySummary> {
+        val tempPeriod = tempRepo.period(coords, units) ?: return ForecastResult.FailedToDownload
+        val descPeriod = descRepo.period(coords, units) ?: return ForecastResult.FailedToDownload
+        val popPeriod = popRepo.period(coords, units) ?: return ForecastResult.FailedToDownload
 
         val futureTempDays = tempPeriod.daysFrom(now.toLocalDate()) ?: return ForecastResult.Outdated
         val popDays = popPeriod.momentsFrom(now)?.daysFrom(now.toLocalDate()) ?: return ForecastResult.Outdated
@@ -47,7 +47,7 @@ class GetDailySummary(
                     add(
                         DaySummary(
                             isToday = i == 0,
-                            time = futureTempDays[i].first().hour.atZone(location.timeZone).toLocalDate(),
+                            time = futureTempDays[i].first().hour.toLocalDate(),
                             tempNow = futureTempDays[i][now]?.temperature,
                             min = futureTempDays[i].minimum,
                             max = futureTempDays[i].maximum,

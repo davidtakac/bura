@@ -11,12 +11,12 @@
 package com.davidtakac.bura.graphs.temperature
 
 import com.davidtakac.bura.forecast.ForecastResult
-import com.davidtakac.bura.place.Location
 import com.davidtakac.bura.temperature.Temperature
 import com.davidtakac.bura.temperature.TemperatureRepository
 import com.davidtakac.bura.units.Units
 import com.davidtakac.bura.condition.Condition
 import com.davidtakac.bura.condition.ConditionRepository
+import com.davidtakac.bura.place.Coordinates
 import java.time.LocalDate
 import java.time.LocalDateTime
 
@@ -26,20 +26,20 @@ class GetTemperatureGraphSummaries(
     private val feelsLikeRepo: TemperatureRepository
 ) {
     suspend operator fun invoke(
-        location: Location,
+        coords: Coordinates,
         units: Units,
         now: LocalDateTime
     ): ForecastResult<List<TemperatureGraphSummary>> {
-        val tempPeriod = tempRepo.period(location, units) ?: return ForecastResult.FailedToDownload
-        val conditionPeriod = conditionRepo.period(location, units) ?: return ForecastResult.FailedToDownload
-        val feelsLikePeriod = feelsLikeRepo.period(location, units) ?: return ForecastResult.FailedToDownload
+        val tempPeriod = tempRepo.period(coords, units) ?: return ForecastResult.FailedToDownload
+        val conditionPeriod = conditionRepo.period(coords, units) ?: return ForecastResult.FailedToDownload
+        val feelsLikePeriod = feelsLikeRepo.period(coords, units) ?: return ForecastResult.FailedToDownload
         val tempDays = tempPeriod.daysFrom(now.toLocalDate()) ?: return ForecastResult.Outdated
         val conditionDays = conditionPeriod.momentsFrom(now)?.daysFrom(now.toLocalDate()) ?: return ForecastResult.Outdated
         val feelsLikeNow = feelsLikePeriod[now]?.temperature ?: return ForecastResult.Outdated
 
         return ForecastResult.Success(
             data = tempDays.mapIndexed { idx, tempDay ->
-                val day = tempDay.first().hour.atZone(location.timeZone).toLocalDate()
+                val day = tempDay.first().hour.toLocalDate()
                 val minTemp = tempDay.minimum
                 val maxTemp = tempDay.maximum
                 val conditionDay = conditionDays[idx]

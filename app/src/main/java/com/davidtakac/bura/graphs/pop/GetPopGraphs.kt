@@ -12,7 +12,7 @@ package com.davidtakac.bura.graphs.pop
 
 import com.davidtakac.bura.forecast.ForecastResult
 import com.davidtakac.bura.graphs.common.GraphTime
-import com.davidtakac.bura.place.Location
+import com.davidtakac.bura.place.Coordinates
 import com.davidtakac.bura.pop.Pop
 import com.davidtakac.bura.pop.PopMoment
 import com.davidtakac.bura.pop.PopRepository
@@ -22,16 +22,16 @@ import java.time.LocalDateTime
 
 class GetPopGraphs(private val repo: PopRepository) {
     suspend operator fun invoke(
-        location: Location,
+        coords: Coordinates,
         units: Units,
         now: LocalDateTime
     ): ForecastResult<List<PopGraph>> {
-        val period = repo.period(location, units) ?: return ForecastResult.FailedToDownload
+        val period = repo.period(coords, units) ?: return ForecastResult.FailedToDownload
         val days = period.daysFrom(now.toLocalDate()) ?: return ForecastResult.Outdated
         return ForecastResult.Success(
             data = days.mapIndexed { idx, currDay ->
                 PopGraph(
-                    day = currDay.first().hour.atZone(location.timeZone).toLocalDate(),
+                    day = currDay.first().hour.toLocalDate(),
                     points = buildList {
                         val firstPopTomorrow = days.getOrNull(idx + 1)?.first()
                         val currDayWithFirstMomentOfTomorrow =
@@ -39,10 +39,10 @@ class GetPopGraphs(private val repo: PopRepository) {
                         val max = currDayWithFirstMomentOfTomorrow.maxBy { it.pop }
                         for (i in currDay.indices) {
                             val moment = currDay[i]
-                            add(getPoint(location, now, moment, max))
+                            add(getPoint(now, moment, max))
                         }
                         if (firstPopTomorrow != null) {
-                            add(getPoint(location, now, firstPopTomorrow, max))
+                            add(getPoint(now, firstPopTomorrow, max))
                         }
                     }
                 )
@@ -51,12 +51,11 @@ class GetPopGraphs(private val repo: PopRepository) {
     }
 
     private fun getPoint(
-        coords: Location,
         now: LocalDateTime,
         moment: PopMoment,
         maxPopMoment: PopMoment
     ): PopGraphPoint = PopGraphPoint(
-        time = GraphTime(moment.hour, now, coords.timeZone),
+        time = GraphTime(moment.hour, now),
         pop = GraphPop(
             value = moment.pop,
             meta = if (moment == maxPopMoment) GraphPop.Meta.Maximum else GraphPop.Meta.Regular

@@ -10,10 +10,9 @@
 
 package com.davidtakac.bura.visibility
 
-import com.davidtakac.bura.place.Location
+import com.davidtakac.bura.place.Coordinates
 import com.davidtakac.bura.units.Units
 
 interface VisibilityRepository {
-
-    suspend fun period(location: Location, units: Units): VisibilityPeriod?
+    suspend fun period(coords: Coordinates, units: Units): VisibilityPeriod?
 }

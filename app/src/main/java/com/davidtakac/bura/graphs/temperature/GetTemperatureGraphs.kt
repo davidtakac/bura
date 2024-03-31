@@ -21,7 +21,7 @@ import com.davidtakac.bura.condition.ConditionMoment
 import com.davidtakac.bura.condition.ConditionPeriod
 import com.davidtakac.bura.condition.ConditionRepository
 import com.davidtakac.bura.graphs.common.GraphTime
-import com.davidtakac.bura.place.Location
+import com.davidtakac.bura.place.Coordinates
 import java.time.LocalDate
 import java.time.LocalDateTime
 
@@ -30,12 +30,12 @@ class GetTemperatureGraphs(
     private val descRepo: ConditionRepository,
 ) {
     suspend operator fun invoke(
-        location: Location,
+        coords: Coordinates,
         units: Units,
         now: LocalDateTime
     ): ForecastResult<TemperatureGraphs> {
-        val tempPeriod = tempRepo.period(location, units) ?: return ForecastResult.FailedToDownload
-        val descPeriod = descRepo.period(location, units) ?: return ForecastResult.FailedToDownload
+        val tempPeriod = tempRepo.period(coords, units) ?: return ForecastResult.FailedToDownload
+        val descPeriod = descRepo.period(coords, units) ?: return ForecastResult.FailedToDownload
         val tempDays = tempPeriod.daysFrom(now.toLocalDate()) ?: return ForecastResult.Outdated
         val conditionDays = descPeriod.daysFrom(now.toLocalDate()) ?: return ForecastResult.Outdated
         return ForecastResult.Success(
@@ -43,7 +43,6 @@ class GetTemperatureGraphs(
                 minTemp = tempPeriod.minimum,
                 maxTemp = tempPeriod.maximum,
                 graphs = getGraphs(
-                    coords = location,
                     now = now,
                     tempDays = tempDays,
                     conditionDays = conditionDays
@@ -53,7 +52,6 @@ class GetTemperatureGraphs(
     }
 
     private fun getGraphs(
-        coords: Location,
         now: LocalDateTime,
         tempDays: List<TemperaturePeriod>,
         conditionDays: List<ConditionPeriod>
@@ -61,7 +59,6 @@ class GetTemperatureGraphs(
         for (i in tempDays.indices) {
             add(
                 getGraph(
-                    coords = coords,
                     now = now,
                     tempDay = tempDays[i],
                     conditionDay = conditionDays[i],
@@ -73,7 +70,6 @@ class GetTemperatureGraphs(
     }
 
     private fun getGraph(
-        coords: Location,
         now: LocalDateTime,
         tempDay: TemperaturePeriod,
         conditionDay: ConditionPeriod,
@@ -83,12 +79,11 @@ class GetTemperatureGraphs(
         val minTempMoment = tempDay.reversed().minBy { it.temperature }
         val maxTempMoment = tempDay.reversed().maxBy { it.temperature }
         return TemperatureGraph(
-            day = tempDay.first().hour.atZone(coords.timeZone).toLocalDate(),
+            day = tempDay.first().hour.toLocalDate(),
             points = buildList {
                 for (i in tempDay.indices) {
                     add(
                         getPoint(
-                            coords = coords,
                             now = now,
                             tempMoment = tempDay[i],
                             minTempMoment = minTempMoment,
@@ -104,7 +99,6 @@ class GetTemperatureGraphs(
                     val firstConditionTomorrow = nextConditionDay!!.first()
                     add(
                         getPoint(
-                            coords = coords,
                             now = now,
                             tempMoment = firstTempTomorrow,
                             minTempMoment = minTempMoment,
@@ -118,14 +112,13 @@ class GetTemperatureGraphs(
     }
 
     private fun getPoint(
-        coords: Location,
         now: LocalDateTime,
         tempMoment: TemperatureMoment,
         minTempMoment: TemperatureMoment,
         maxTempMoment: TemperatureMoment,
         conditionMoment: ConditionMoment
     ): TemperatureGraphPoint = TemperatureGraphPoint(
-        time = GraphTime(tempMoment.hour, now, coords.timeZone),
+        time = GraphTime(tempMoment.hour, now),
         temperature = GraphTemperature(
             value = tempMoment.temperature,
             meta = getTempMeta(minTempMoment, maxTempMoment, tempMoment)

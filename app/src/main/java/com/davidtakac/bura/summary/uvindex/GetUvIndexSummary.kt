@@ -11,7 +11,7 @@
 package com.davidtakac.bura.summary.uvindex
 
 import com.davidtakac.bura.forecast.ForecastResult
-import com.davidtakac.bura.place.Location
+import com.davidtakac.bura.place.Coordinates
 import com.davidtakac.bura.units.Units
 import com.davidtakac.bura.uvindex.UvIndex
 import com.davidtakac.bura.uvindex.UvIndexRepository
@@ -21,11 +21,11 @@ import java.time.temporal.ChronoUnit
 
 class GetUvIndexSummary(private val repo: UvIndexRepository) {
     suspend operator fun invoke(
-        location: Location,
+        coords: Coordinates,
         units: Units,
         now: LocalDateTime
     ): ForecastResult<UvIndexSummary> {
-        val uvPeriod = repo.period(location, units) ?: return ForecastResult.FailedToDownload
+        val uvPeriod = repo.period(coords, units) ?: return ForecastResult.FailedToDownload
         val futureUv = uvPeriod.getDay(now.toLocalDate())?.momentsFrom(now) ?: return ForecastResult.Outdated
         val protection = futureUv.protectionWindows.firstOrNull()?.let {
             if (it.startInclusive == now.truncatedTo(ChronoUnit.HOURS)) {
@@ -33,18 +33,18 @@ class GetUvIndexSummary(private val repo: UvIndexRepository) {
                     UseProtection.UntilEndOfDay
                 } else {
                     UseProtection.Until(
-                        endExclusive = it.endExclusive.atZone(location.timeZone).toLocalTime()
+                        endExclusive = it.endExclusive.toLocalTime()
                     )
                 }
             } else {
                 if (it.endExclusive == null) {
                     UseProtection.FromUntilEndOfDay(
-                        startInclusive = it.startInclusive.atZone(location.timeZone).toLocalTime()
+                        startInclusive = it.startInclusive.toLocalTime()
                     )
                 } else {
                     UseProtection.FromUntil(
-                        startInclusive = it.startInclusive.atZone(location.timeZone).toLocalTime(),
-                        endExclusive = it.endExclusive.atZone(location.timeZone).toLocalTime()
+                        startInclusive = it.startInclusive.toLocalTime(),
+                        endExclusive = it.endExclusive.toLocalTime()
                     )
                 }
             }

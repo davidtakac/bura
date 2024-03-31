@@ -10,10 +10,9 @@
 
 package com.davidtakac.bura.uvindex
 
-import com.davidtakac.bura.place.Location
+import com.davidtakac.bura.place.Coordinates
 import com.davidtakac.bura.units.Units
 
 interface UvIndexRepository {
-
-    suspend fun period(location: Location, units: Units): UvIndexPeriod?
+    suspend fun period(coords: Coordinates, units: Units): UvIndexPeriod?
 }

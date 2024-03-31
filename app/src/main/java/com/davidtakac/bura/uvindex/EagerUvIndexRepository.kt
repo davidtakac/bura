@@ -11,10 +11,10 @@
 package com.davidtakac.bura.uvindex
 
 import com.davidtakac.bura.forecast.ForecastRepository
-import com.davidtakac.bura.place.Location
+import com.davidtakac.bura.place.Coordinates
 import com.davidtakac.bura.units.Units
 
-class EagerUvIndexRepository(private val forecastRepo: ForecastRepository) : UvIndexRepository {
-    override suspend fun period(location: Location, units: Units): UvIndexPeriod? =
-        forecastRepo.forecast(location, units)?.uvIndex
+class EagerUvIndexRepository(private val repo: ForecastRepository) : UvIndexRepository {
+    override suspend fun period(coords: Coordinates, units: Units): UvIndexPeriod? =
+        repo.forecast(coords, units)?.uvIndex
 }

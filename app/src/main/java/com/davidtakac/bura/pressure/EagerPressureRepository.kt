@@ -11,11 +11,11 @@
 package com.davidtakac.bura.pressure
 
 import com.davidtakac.bura.forecast.ForecastRepository
-import com.davidtakac.bura.place.Location
+import com.davidtakac.bura.place.Coordinates
 import com.davidtakac.bura.units.Units
 
-class EagerPressureRepository(private val repository: ForecastRepository) :
+class EagerPressureRepository(private val repo: ForecastRepository) :
     PressureRepository {
-    override suspend fun period(location: Location, units: Units): PressurePeriod? =
-        repository.forecast(location, units)?.pressure
+    override suspend fun period(coords: Coordinates, units: Units): PressurePeriod? =
+        repo.forecast(coords, units)?.pressure
 }

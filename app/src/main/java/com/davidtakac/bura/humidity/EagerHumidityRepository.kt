@@ -11,10 +11,10 @@
 package com.davidtakac.bura.humidity
 
 import com.davidtakac.bura.forecast.ForecastRepository
-import com.davidtakac.bura.place.Location
+import com.davidtakac.bura.place.Coordinates
 import com.davidtakac.bura.units.Units
 
-class EagerHumidityRepository(private val forecastRepo: ForecastRepository) : HumidityRepository {
-    override suspend fun period(location: Location, units: Units): HumidityPeriod? =
-        forecastRepo.forecast(location, units)?.humidity
+class EagerHumidityRepository(private val repo: ForecastRepository) : HumidityRepository {
+    override suspend fun period(coords: Coordinates, units: Units): HumidityPeriod? =
+        repo.forecast(coords, units)?.humidity
 }

@@ -12,10 +12,10 @@ package com.davidtakac.bura.temperature
 
 import com.davidtakac.bura.forecast.ForecastRepository
 import com.davidtakac.bura.forecast.UpdatePolicy
-import com.davidtakac.bura.place.Location
+import com.davidtakac.bura.place.Coordinates
 import com.davidtakac.bura.units.Units
 
 class StaticTemperatureRepository(private val repo: ForecastRepository) : TemperatureRepository {
-    override suspend fun period(location: Location, units: Units): TemperaturePeriod? =
-        repo.forecast(location, units, UpdatePolicy.Static)?.temperature
+    override suspend fun period(coords: Coordinates, units: Units): TemperaturePeriod? =
+        repo.forecast(coords, units, UpdatePolicy.Static)?.temperature
 }

@@ -11,10 +11,10 @@
 package com.davidtakac.bura.sun
 
 import com.davidtakac.bura.forecast.ForecastRepository
-import com.davidtakac.bura.place.Location
+import com.davidtakac.bura.place.Coordinates
 import com.davidtakac.bura.units.Units
 
-class EagerSunRepository(private val forecastRepo: ForecastRepository) : SunRepository {
-    override suspend fun period(location: Location, units: Units): SunPeriod? =
-        forecastRepo.forecast(location, units)?.sun
+class EagerSunRepository(private val repo: ForecastRepository) : SunRepository {
+    override suspend fun period(coords: Coordinates, units: Units): SunPeriod? =
+        repo.forecast(coords, units)?.sun
 }

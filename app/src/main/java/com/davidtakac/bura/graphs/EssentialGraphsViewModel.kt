@@ -53,31 +53,32 @@ class EssentialGraphsViewModel(
 
     private suspend fun getState(): EssentialGraphsState {
         val location = placeRepo.getSelectedPlace()?.location ?: return EssentialGraphsState.NoSelectedPlace
+        val coords = location.coordinates
         val units = unitsRepo.getSelectedUnits()
         val now = Instant.now().atZone(location.timeZone).toLocalDateTime()
 
-        val tempGraphSummaries = tempGraphSummariesUseCase(location, units, now)
+        val tempGraphSummaries = tempGraphSummariesUseCase(coords, units, now)
         when (tempGraphSummaries) {
             ForecastResult.FailedToDownload -> return EssentialGraphsState.FailedToDownload
             ForecastResult.Outdated -> return EssentialGraphsState.Outdated
             is ForecastResult.Success -> Unit
         }
 
-        val tempGraphs = tempGraphsUseCase(location, units, now)
+        val tempGraphs = tempGraphsUseCase(coords, units, now)
         when (tempGraphs) {
             ForecastResult.FailedToDownload -> return EssentialGraphsState.FailedToDownload
             ForecastResult.Outdated -> return EssentialGraphsState.Outdated
             is ForecastResult.Success -> Unit
         }
 
-        val popGraphs = getPopGraphs(location, units, now)
+        val popGraphs = getPopGraphs(coords, units, now)
         when (popGraphs) {
             ForecastResult.FailedToDownload -> return EssentialGraphsState.FailedToDownload
             ForecastResult.Outdated -> return EssentialGraphsState.Outdated
             is ForecastResult.Success -> Unit
         }
 
-        val precipTotals = precipTotalsUseCase(location, units, now)
+        val precipTotals = precipTotalsUseCase(coords, units, now)
         when (precipTotals) {
             ForecastResult.FailedToDownload -> return EssentialGraphsState.FailedToDownload
             ForecastResult.Outdated -> return EssentialGraphsState.Outdated

@@ -11,10 +11,10 @@
 package com.davidtakac.bura.wind
 
 import com.davidtakac.bura.forecast.ForecastRepository
-import com.davidtakac.bura.place.Location
+import com.davidtakac.bura.place.Coordinates
 import com.davidtakac.bura.units.Units
 
-class EagerWindRepository(private val forecastRepo: ForecastRepository) : WindRepository {
-    override suspend fun period(location: Location, units: Units): WindPeriod? =
-        forecastRepo.forecast(location, units)?.wind
+class EagerWindRepository(private val repo: ForecastRepository) : WindRepository {
+    override suspend fun period(coords: Coordinates, units: Units): WindPeriod? =
+        repo.forecast(coords, units)?.wind
 }

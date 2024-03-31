@@ -12,7 +12,7 @@ package com.davidtakac.bura.summary.wind
 
 import com.davidtakac.bura.forecast.ForecastResult
 import com.davidtakac.bura.gust.GustRepository
-import com.davidtakac.bura.place.Location
+import com.davidtakac.bura.place.Coordinates
 import com.davidtakac.bura.units.Units
 import com.davidtakac.bura.wind.Wind
 import com.davidtakac.bura.wind.WindRepository
@@ -24,12 +24,12 @@ class GetWindSummary(
     private val gustRepo: GustRepository,
 ) {
     suspend operator fun invoke(
-        location: Location,
+        coords: Coordinates,
         units: Units,
         now: LocalDateTime
     ): ForecastResult<WindSummary> {
-        val windPeriod = windRepo.period(location, units) ?: return ForecastResult.FailedToDownload
-        val gustPeriod = gustRepo.period(location, units) ?: return ForecastResult.FailedToDownload
+        val windPeriod = windRepo.period(coords, units) ?: return ForecastResult.FailedToDownload
+        val gustPeriod = gustRepo.period(coords, units) ?: return ForecastResult.FailedToDownload
         return ForecastResult.Success(
             WindSummary(
                 windNow = windPeriod[now]?.wind ?: return ForecastResult.Outdated,

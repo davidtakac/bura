@@ -11,11 +11,11 @@
 package com.davidtakac.bura.visibility
 
 import com.davidtakac.bura.forecast.ForecastRepository
-import com.davidtakac.bura.place.Location
+import com.davidtakac.bura.place.Coordinates
 import com.davidtakac.bura.units.Units
 
-class EagerVisibilityRepository(private val forecastRepo: ForecastRepository) :
+class EagerVisibilityRepository(private val repo: ForecastRepository) :
     VisibilityRepository {
-    override suspend fun period(location: Location, units: Units): VisibilityPeriod? =
-        forecastRepo.forecast(location, units)?.visibility
+    override suspend fun period(coords: Coordinates, units: Units): VisibilityPeriod? =
+        repo.forecast(coords, units)?.visibility
 }

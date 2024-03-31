@@ -10,10 +10,9 @@
 
 package com.davidtakac.bura.sun
 
-import com.davidtakac.bura.place.Location
+import com.davidtakac.bura.place.Coordinates
 import com.davidtakac.bura.units.Units
 
 interface SunRepository {
-
-    suspend fun period(location: Location, units: Units): SunPeriod?
+    suspend fun period(coords: Coordinates, units: Units): SunPeriod?
 }

@@ -11,7 +11,6 @@
 package com.davidtakac.bura.forecast
 
 import com.davidtakac.bura.place.Coordinates
-import com.davidtakac.bura.place.Location
 import com.davidtakac.bura.units.Units
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -26,17 +25,17 @@ class ForecastRepository(
     private val coordsToMutex = mutableMapOf<Coordinates, Mutex>()
 
     suspend fun forecast(
-        location: Location,
+        coords: Coordinates,
         units: Units,
         updatePolicy: UpdatePolicy = UpdatePolicy.Eager
     ): Forecast? {
         var data: ForecastData?
-        coordsToMutex.getOrPut(location.coordinates, defaultValue = { Mutex() }).withLock {
-            val cached = cacher.get(location.coordinates)
+        coordsToMutex.getOrPut(coords, defaultValue = { Mutex() }).withLock {
+            val cached = cacher.get(coords)
             data = if (shouldUpdate(cached, updatePolicy)) {
-                val newData = downloader.downloadForecast(location)
+                val newData = downloader.downloadForecast(coords)
                 if (newData == null) cached else {
-                    cacher.save(location.coordinates, newData)
+                    cacher.save(coords, newData)
                     newData
                 }
             } else {

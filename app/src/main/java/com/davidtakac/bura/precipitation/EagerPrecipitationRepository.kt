@@ -11,11 +11,11 @@
 package com.davidtakac.bura.precipitation
 
 import com.davidtakac.bura.forecast.ForecastRepository
-import com.davidtakac.bura.place.Location
+import com.davidtakac.bura.place.Coordinates
 import com.davidtakac.bura.units.Units
 
-class EagerPrecipitationRepository(private val repository: ForecastRepository) :
+class EagerPrecipitationRepository(private val repo: ForecastRepository) :
     PrecipitationRepository {
-    override suspend fun period(location: Location, units: Units): PrecipitationPeriod? =
-        repository.forecast(location, units)?.precipitation
+    override suspend fun period(coords: Coordinates, units: Units): PrecipitationPeriod? =
+        repo.forecast(coords, units)?.precipitation
 }

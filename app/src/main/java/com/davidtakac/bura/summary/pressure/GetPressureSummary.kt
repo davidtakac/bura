@@ -10,21 +10,21 @@
 
 package com.davidtakac.bura.summary.pressure
 
-import com.davidtakac.bura.place.Location
 import com.davidtakac.bura.pressure.Pressure
 import com.davidtakac.bura.pressure.PressureRepository
 import com.davidtakac.bura.forecast.ForecastResult
+import com.davidtakac.bura.place.Coordinates
 import com.davidtakac.bura.units.Units
 import java.time.LocalDateTime
 import kotlin.math.absoluteValue
 
 class GetPressureSummary(private val repo: PressureRepository) {
     suspend operator fun invoke(
-        location: Location,
+        coords: Coordinates,
         units: Units,
         now: LocalDateTime
     ): ForecastResult<PressureSummary> {
-        val pressurePeriod = repo.period(location, units) ?: return ForecastResult.FailedToDownload
+        val pressurePeriod = repo.period(coords, units) ?: return ForecastResult.FailedToDownload
         val pressureToday = pressurePeriod.getDay(now.toLocalDate()) ?: return ForecastResult.Outdated
         val pressureNow = pressurePeriod[now]?.pressure ?: return ForecastResult.Outdated
 

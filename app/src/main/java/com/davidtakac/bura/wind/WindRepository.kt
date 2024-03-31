@@ -10,9 +10,9 @@
 
 package com.davidtakac.bura.wind
 
-import com.davidtakac.bura.place.Location
+import com.davidtakac.bura.place.Coordinates
 import com.davidtakac.bura.units.Units
 
 interface WindRepository {
-    suspend fun period(location: Location, units: Units): WindPeriod?
+    suspend fun period(coords: Coordinates, units: Units): WindPeriod?
 }

@@ -10,9 +10,9 @@
 
 package com.davidtakac.bura.gust
 
-import com.davidtakac.bura.place.Location
+import com.davidtakac.bura.place.Coordinates
 import com.davidtakac.bura.units.Units
 
 interface GustRepository {
-    suspend fun period(location: Location, units: Units): GustPeriod?
+    suspend fun period(coords: Coordinates, units: Units): GustPeriod?
 }

@@ -11,10 +11,10 @@
 package com.davidtakac.bura.condition
 
 import com.davidtakac.bura.forecast.ForecastRepository
-import com.davidtakac.bura.place.Location
+import com.davidtakac.bura.place.Coordinates
 import com.davidtakac.bura.units.Units
 
-class EagerConditionRepository(private val forecastRepo: ForecastRepository) : ConditionRepository {
-    override suspend fun period(location: Location, units: Units): ConditionPeriod? =
-        forecastRepo.forecast(location, units)?.weatherDescription
+class EagerConditionRepository(private val repo: ForecastRepository) : ConditionRepository {
+    override suspend fun period(coords: Coordinates, units: Units): ConditionPeriod? =
+        repo.forecast(coords, units)?.weatherDescription
 }

@@ -10,10 +10,9 @@
 
 package com.davidtakac.bura.temperature
 
-import com.davidtakac.bura.place.Location
+import com.davidtakac.bura.place.Coordinates
 import com.davidtakac.bura.units.Units
 
 interface TemperatureRepository {
-
-    suspend fun period(location: Location, units: Units): TemperaturePeriod?
+    suspend fun period(coords: Coordinates, units: Units): TemperaturePeriod?
 }

@@ -12,7 +12,6 @@ package com.davidtakac.bura.graphs.common
 
 import java.time.LocalDateTime
 import java.time.LocalTime
-import java.time.ZoneId
 import java.time.temporal.ChronoUnit
 import java.util.Objects
 
@@ -22,9 +21,8 @@ class GraphTime(
 ) {
     constructor(
         hour: LocalDateTime,
-        now: LocalDateTime,
-        timeZone: ZoneId
-    ) : this(value = hour.atZone(timeZone).toLocalTime(), meta = getMeta(hour, now))
+        now: LocalDateTime
+    ) : this(value = hour.toLocalTime(), meta = getMeta(hour, now))
 
     enum class Meta {
         Past, Present, Future

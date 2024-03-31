@@ -25,7 +25,6 @@ import com.davidtakac.bura.common.toVisibilities
 import com.davidtakac.bura.common.toWindDirections
 import com.davidtakac.bura.common.toWindSpeeds
 import com.davidtakac.bura.place.Coordinates
-import com.davidtakac.bura.place.Location
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
@@ -35,17 +34,16 @@ import java.net.URL
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.LocalTime
-import java.time.ZoneId
 import java.util.Locale
 import javax.net.ssl.HttpsURLConnection
 
 class ForecastDataDownloader(private val userAgentProvider: UserAgentProvider) {
-    suspend fun downloadForecast(location: Location): ForecastData? =
-        downloadForecastJson(location)?.let { json -> convertJsonToData(json, location.timeZone) }
+    suspend fun downloadForecast(coords: Coordinates): ForecastData? =
+        downloadForecastJson(coords)?.let { json -> convertJsonToData(json) }
 
-    private suspend fun downloadForecastJson(location: Location): String? =
+    private suspend fun downloadForecastJson(coords: Coordinates): String? =
         withContext(Dispatchers.IO) {
-            val url = URL(openMeteoUrl(location.coordinates))
+            val url = URL(openMeteoUrl(coords))
             val conn = try {
                 url.openConnection() as HttpsURLConnection
             } catch (_: Exception) {
@@ -66,7 +64,7 @@ class ForecastDataDownloader(private val userAgentProvider: UserAgentProvider) {
             }
         }
 
-    private suspend fun convertJsonToData(jsonString: String, timeZone: ZoneId): ForecastData =
+    private suspend fun convertJsonToData(jsonString: String): ForecastData =
         withContext(Dispatchers.Default) {
             val json = JSONObject(jsonString)
 

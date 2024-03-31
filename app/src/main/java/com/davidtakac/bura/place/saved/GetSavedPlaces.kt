@@ -27,10 +27,11 @@ class GetSavedPlaces(
     suspend operator fun invoke(selectedPlace: Place?, selectedUnits: Units, now: Instant): List<SavedPlace> {
         return savedPlacesRepo.getSavedPlaces().map { savedPlace ->
             val location = savedPlace.location
+            val coords = location.coordinates
             val dateTimeAtPlace = now.atZone(savedPlace.location.timeZone).toLocalDateTime()
             val dateAtPlace = dateTimeAtPlace.toLocalDate()
-            val tempDayAtPlace = tempRepo.period(location, selectedUnits)?.getDay(dateAtPlace)
-            val condDayAtPlace = conditionRepo.period(location, selectedUnits)?.getDay(dateAtPlace)
+            val tempDayAtPlace = tempRepo.period(coords, selectedUnits)?.getDay(dateAtPlace)
+            val condDayAtPlace = conditionRepo.period(coords, selectedUnits)?.getDay(dateAtPlace)
             val conditions = if (tempDayAtPlace != null && condDayAtPlace != null) getConditions(
                 dateTimeAtPlace,
                 tempDayAtPlace,

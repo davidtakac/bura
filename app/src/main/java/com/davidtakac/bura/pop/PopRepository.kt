@@ -10,10 +10,9 @@
 
 package com.davidtakac.bura.pop
 
-import com.davidtakac.bura.place.Location
+import com.davidtakac.bura.place.Coordinates
 import com.davidtakac.bura.units.Units
 
 interface PopRepository {
-
-    suspend fun period(location: Location, units: Units): PopPeriod?
+    suspend fun period(coords: Coordinates, units: Units): PopPeriod?
 }

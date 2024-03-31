@@ -11,10 +11,10 @@
 package com.davidtakac.bura.pop
 
 import com.davidtakac.bura.forecast.ForecastRepository
-import com.davidtakac.bura.place.Location
+import com.davidtakac.bura.place.Coordinates
 import com.davidtakac.bura.units.Units
 
-class EagerPopRepository(private val forecastRepo: ForecastRepository) : PopRepository {
-    override suspend fun period(location: Location, units: Units): PopPeriod? =
-        forecastRepo.forecast(location, units)?.pop
+class EagerPopRepository(private val repo: ForecastRepository) : PopRepository {
+    override suspend fun period(coords: Coordinates, units: Units): PopPeriod? =
+        repo.forecast(coords, units)?.pop
 }
