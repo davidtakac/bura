@@ -81,7 +81,7 @@ class SearchPlaces(private val userAgentProvider: UserAgentProvider) {
     private fun openMeteoUrl(query: String, languageCode: String): String =
         "https://geocoding-api.open-meteo.com/v1/search" +
                 "?name=$query" +
-                "&count=10" +
+                "&count=50" +
                 "&language=$languageCode" +
                 "&format=json"
 
