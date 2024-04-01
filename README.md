@@ -44,12 +44,12 @@ Other features include:
 - Weather alerts
 - [F-Droid inclusion](https://gitlab.com/fdroid/rfp/-/issues/2703)
 - Customizable [Open-Meteo data sources](https://open-meteo.com/en/docs#data-sources)
+- Customizable refresh period
 
 ## Not planned
+- Other weather sources
 - Widgets
-- Weather sources other than Open-Meteo
 - Manual refresh
-- Customizable refresh period
 
 ## Translate
 Translations will be managed with [Weblate](https://hosted.weblate.org/) if/when my libre hosting request is approved.
