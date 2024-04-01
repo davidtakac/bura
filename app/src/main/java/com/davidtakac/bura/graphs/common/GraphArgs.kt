@@ -67,18 +67,20 @@ data class GraphArgs(
         ) = with(density) {
             val pointCenterRadius = 2.dp.toPx()
             val pointOutlineWidth = 2.dp.toPx()
+            val axisTextStyle = typography.bodySmall
+            val axisTextPadding = 6.dp.toPx()
             GraphArgs(
                 startGutter = 0f,
                 endGutter = 48.dp.toPx(),
                 topGutter = 32.dp.toPx(),
-                bottomGutter = 24.dp.toPx(),
+                bottomGutter = axisTextStyle.fontSize.toPx() + (2 * axisTextPadding),
                 plotWidth = 4.dp.toPx(),
                 plotFillAlpha = 0.66f,
                 axisWidth = Dp.Hairline.toPx(),
                 axisTextStyle = typography.bodySmall,
                 axisColor = colorScheme.onSurfaceVariant,
                 axisDashIntervals = listOf(4.dp, 2.dp).map { it.toPx() },
-                axisTextPadding = 4.dp.toPx(),
+                axisTextPadding = axisTextPadding,
                 numberFormat = numberFormat,
                 axisTimeFormatter = dateTimeFormatter,
                 pointCenterRadius = pointCenterRadius,
