@@ -14,6 +14,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
@@ -40,13 +41,15 @@ import com.davidtakac.bura.sun.SunEvent
 import com.davidtakac.bura.temperature.Temperature
 import java.time.LocalDateTime
 
-private val dummyState = HourSummary.Weather(
+private val highestHourState = HourSummary.Weather(
     time = LocalDateTime.parse("1970-01-01T00:00"),
     isNow = false,
     temp = Temperature.fromDegreesCelsius(99.0),
     pop = Pop(99.0),
     desc = Condition(wmoCode = 1, isDay = true)
 )
+
+private val contentPadding = 16.dp
 
 @Composable
 fun HourSummaryList(state: List<HourSummary>, onClick: () -> Unit, modifier: Modifier = Modifier) {
@@ -57,22 +60,27 @@ fun HourSummaryList(state: List<HourSummary>, onClick: () -> Unit, modifier: Mod
         modifier = modifier
     ) {
         Box(contentAlignment = Alignment.Center) {
-            var dummySize by remember { mutableStateOf(IntSize.Zero) }
+            var highestHourSize by remember { mutableStateOf(IntSize.Zero) }
             WeatherHourSummary(
-                state = dummyState,
-                modifier = Modifier.alpha(0f).onSizeChanged { dummySize = it }
+                state = highestHourState,
+                modifier = Modifier.alpha(0f).onSizeChanged { highestHourSize = it }
             )
 
             val density = LocalDensity.current
-            val dummyHeight = remember(dummySize, density) { with(density) { dummySize.height.toDp() } }
+            val rowHeight = remember(highestHourSize, density) {
+                val highestHourHeight = with(density) { highestHourSize.height.toDp() }
+                val verticalPadding = contentPadding * 2
+                highestHourHeight + verticalPadding
+            }
             LazyRow(
                 horizontalArrangement = Arrangement.spacedBy(24.dp),
-                contentPadding = PaddingValues(16.dp)
+                contentPadding = PaddingValues(contentPadding),
+                modifier = Modifier.height(rowHeight)
             ) {
                 items(state) {
                     when (it) {
-                        is HourSummary.Weather -> WeatherHourSummary(it, modifier = Modifier.height(dummyHeight))
-                        is HourSummary.Sun -> SunHourSummary(it, modifier = Modifier.height(dummyHeight))
+                        is HourSummary.Weather -> WeatherHourSummary(it, Modifier.fillMaxHeight())
+                        is HourSummary.Sun -> SunHourSummary(it, Modifier.fillMaxHeight())
                     }
                 }
             }
