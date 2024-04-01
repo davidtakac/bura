@@ -30,7 +30,7 @@ import com.davidtakac.bura.pop.string
 import com.davidtakac.bura.common.AppTheme
 
 @Composable
-fun PopAndDrop(pop: Pop, modifier: Modifier = Modifier) {
+fun PopAndDrop(pop: String, modifier: Modifier = Modifier) {
     val style = MaterialTheme.typography.bodySmall
     val color = MaterialTheme.colorScheme.primary
     val inlineContentMap = mapOf(
@@ -52,7 +52,7 @@ fun PopAndDrop(pop: Pop, modifier: Modifier = Modifier) {
     val annotatedString = buildAnnotatedString {
         withStyle(style.toSpanStyle()) {
             appendInlineContent(id = "drop")
-            append(pop.string())
+            append(pop)
         }
     }
     Text(
@@ -67,6 +67,6 @@ fun PopAndDrop(pop: Pop, modifier: Modifier = Modifier) {
 @Composable
 private fun PopPreview() {
     AppTheme {
-        PopAndDrop(pop = Pop(15.0))
+        PopAndDrop(pop = Pop(15.0).string())
     }
 }

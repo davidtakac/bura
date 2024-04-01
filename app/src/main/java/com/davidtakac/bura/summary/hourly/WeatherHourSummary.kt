@@ -33,6 +33,7 @@ import com.davidtakac.bura.summary.PopAndDrop
 import com.davidtakac.bura.temperature.Temperature
 import com.davidtakac.bura.temperature.string
 import com.davidtakac.bura.common.rememberDateTimeFormatter
+import com.davidtakac.bura.pop.string
 import java.time.LocalDateTime
 
 @Composable
@@ -50,9 +51,7 @@ fun WeatherHourSummary(state: HourSummary.Weather, modifier: Modifier = Modifier
                     contentDescription = null,
                     modifier = Modifier.size(32.dp)
                 )
-                state.pop?.let {
-                    PopAndDrop(it)
-                }
+                state.pop?.let { PopAndDrop(it.string()) }
             }
         },
         value = state.temp.string(),

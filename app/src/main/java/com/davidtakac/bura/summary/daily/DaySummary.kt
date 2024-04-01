@@ -13,6 +13,7 @@ package com.davidtakac.bura.summary.daily
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -29,6 +30,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.rememberTextMeasurer
@@ -46,6 +48,7 @@ import com.davidtakac.bura.summary.PopAndDrop
 import com.davidtakac.bura.temperature.Temperature
 import com.davidtakac.bura.temperature.string
 import com.davidtakac.bura.common.rememberDateTimeFormatter
+import com.davidtakac.bura.pop.string
 import java.time.LocalDate
 
 private val roundedRadius = 12.dp
@@ -81,23 +84,19 @@ fun DaySummary(
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(horizontal = 16.dp),
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier.weight(1f)
             ) {
-                Column {
-                    Text(
-                        text = if (state.isToday) stringResource(R.string.date_time_today) else state.time.format(formatter),
-                        style = MaterialTheme.typography.titleMedium,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
+                Box(contentAlignment = Alignment.Center) {
+                    DayAndPop(day = "", pop = "", modifier = Modifier.alpha(0f))
+                    DayAndPop(
+                        day = if (state.isToday) stringResource(R.string.date_time_today) else state.time.format(formatter),
+                        pop = state.pop?.string()
                     )
-                    state.pop?.let {
-                        PopAndDrop(it)
-                    }
                 }
                 Image(
                     painter = state.desc.image(),
@@ -135,6 +134,19 @@ fun DaySummary(
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun DayAndPop(day: String, pop: String?, modifier: Modifier = Modifier) {
+    Column(modifier) {
+        Text(
+            text = day,
+            style = MaterialTheme.typography.titleMedium,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
+        pop?.let { PopAndDrop(it) }
     }
 }
 

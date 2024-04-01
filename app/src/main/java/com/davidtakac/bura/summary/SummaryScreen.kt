@@ -15,7 +15,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -159,7 +158,7 @@ private fun SummaryGrid(
             )
         }
         item(span = StaggeredGridItemSpan.Companion.FullLine) {
-            Column {
+            Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                 state.daily.days.forEachIndexed { index, day ->
                     val isLast = index == state.daily.days.lastIndex
                     DaySummary(
@@ -171,9 +170,6 @@ private fun SummaryGrid(
                         roundedBottom = isLast,
                         onClick = { onDayClicked(day.time) }
                     )
-                    if (!isLast) {
-                        Spacer(modifier = Modifier.height(4.dp))
-                    }
                 }
             }
         }
