@@ -10,15 +10,13 @@
 
 package com.davidtakac.bura.summary.hourly
 
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.height
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 
 @Composable
 fun HourSummary(
@@ -29,18 +27,15 @@ fun HourSummary(
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .height(96.dp)
-            .then(modifier)
+        verticalArrangement = Arrangement.SpaceBetween,
+        modifier = modifier
     ) {
         Text(
             text = time,
             style = MaterialTheme.typography.titleSmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
-        Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
-            icon()
-        }
+        icon()
         Text(
             text = value,
             style = MaterialTheme.typography.titleMedium

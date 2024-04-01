@@ -50,7 +50,7 @@ fun SunHourSummary(state: HourSummary.Sun, modifier: Modifier = Modifier) {
 @Preview
 @Composable
 private fun SunHourSummaryPreview() {
-    MaterialTheme {
+    AppTheme {
         Row(
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.surface)

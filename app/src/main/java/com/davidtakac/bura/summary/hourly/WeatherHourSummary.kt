@@ -25,6 +25,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.davidtakac.bura.R
+import com.davidtakac.bura.common.AppTheme
 import com.davidtakac.bura.condition.Condition
 import com.davidtakac.bura.condition.image
 import com.davidtakac.bura.pop.Pop
@@ -42,8 +43,7 @@ fun WeatherHourSummary(state: HourSummary.Weather, modifier: Modifier = Modifier
         icon = {
             Column(
                 verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = modifier
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Image(
                     painter = state.desc.image(),
@@ -63,7 +63,7 @@ fun WeatherHourSummary(state: HourSummary.Weather, modifier: Modifier = Modifier
 @Preview
 @Composable
 private fun WeatherSummaryPreview() {
-    MaterialTheme {
+    AppTheme {
         Row(
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.surface)

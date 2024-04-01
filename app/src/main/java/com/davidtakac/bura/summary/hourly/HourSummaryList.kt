@@ -14,22 +14,39 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import com.davidtakac.bura.common.AppTheme
 import com.davidtakac.bura.condition.Condition
 import com.davidtakac.bura.pop.Pop
 import com.davidtakac.bura.sun.SunEvent
 import com.davidtakac.bura.temperature.Temperature
 import java.time.LocalDateTime
+
+private val dummyState = HourSummary.Weather(
+    time = LocalDateTime.parse("1970-01-01T00:00"),
+    isNow = false,
+    temp = Temperature.fromDegreesCelsius(99.0),
+    pop = Pop(99.0),
+    desc = Condition(wmoCode = 1, isDay = true)
+)
 
 @Composable
 fun HourSummaryList(state: List<HourSummary>, onClick: () -> Unit, modifier: Modifier = Modifier) {
@@ -39,15 +56,24 @@ fun HourSummaryList(state: List<HourSummary>, onClick: () -> Unit, modifier: Mod
         onClick = onClick,
         modifier = modifier
     ) {
-        LazyRow(
-            modifier = Modifier.clip(RoundedCornerShape(16.dp)),
-            horizontalArrangement = Arrangement.spacedBy(24.dp),
-            contentPadding = PaddingValues(16.dp)
-        ) {
-            items(state) {
-                when (it) {
-                    is HourSummary.Weather -> WeatherHourSummary(it)
-                    is HourSummary.Sun -> SunHourSummary(it)
+        Box(contentAlignment = Alignment.Center) {
+            var dummySize by remember { mutableStateOf(IntSize.Zero) }
+            WeatherHourSummary(
+                state = dummyState,
+                modifier = Modifier.alpha(0f).onSizeChanged { dummySize = it }
+            )
+
+            val density = LocalDensity.current
+            val dummyHeight = remember(dummySize, density) { with(density) { dummySize.height.toDp() } }
+            LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(24.dp),
+                contentPadding = PaddingValues(16.dp)
+            ) {
+                items(state) {
+                    when (it) {
+                        is HourSummary.Weather -> WeatherHourSummary(it, modifier = Modifier.height(dummyHeight))
+                        is HourSummary.Sun -> SunHourSummary(it, modifier = Modifier.height(dummyHeight))
+                    }
                 }
             }
         }
@@ -57,7 +83,7 @@ fun HourSummaryList(state: List<HourSummary>, onClick: () -> Unit, modifier: Mod
 @Preview
 @Composable
 private fun HourlySummaryPreview() {
-    MaterialTheme {
+    AppTheme {
         Box(
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.background)
