@@ -16,9 +16,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -32,10 +29,13 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.davidtakac.bura.R
 import com.davidtakac.bura.common.AppTheme
@@ -77,25 +77,21 @@ fun DaySummary(
         shape = shape,
         tonalElevation = 1.dp,
         onClick = onClick,
-        modifier = Modifier
-            .height(64.dp)
-            .then(modifier),
+        modifier = modifier,
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .fillMaxHeight()
-                .padding(horizontal = 16.dp),
+            modifier = Modifier.padding(horizontal = 16.dp),
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier.weight(1f)
             ) {
-                Column(modifier = Modifier.weight(1f)) {
+                Column {
                     Text(
                         text = if (state.isToday) stringResource(R.string.date_time_today) else state.time.format(formatter),
                         style = MaterialTheme.typography.titleMedium,
-                        modifier = Modifier.fillMaxWidth(),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
@@ -116,12 +112,12 @@ fun DaySummary(
                 modifier = Modifier.weight(2f)
             ) {
                 CompositionLocalProvider(LocalTextStyle provides MaterialTheme.typography.titleMedium) {
-                    val textWidth = 40.dp
+                    val maxTempWidth = rememberMaxTempWidth()
                     Text(
                         text = state.min.string(),
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         style = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
-                        modifier = Modifier.width(textWidth)
+                        modifier = Modifier.width(maxTempWidth)
                     )
                     AppleTemperatureScale(
                         absMinCelsius = absMin.convertTo(Temperature.Unit.DegreesCelsius).value,
@@ -134,10 +130,25 @@ fun DaySummary(
                     Text(
                         text = state.max.string(),
                         style = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
-                        modifier = Modifier.width(textWidth)
+                        modifier = Modifier.width(maxTempWidth)
                     )
                 }
             }
+        }
+    }
+}
+
+private val maxTemp = Temperature.fromDegreesCelsius(999.0)
+
+@Composable
+private fun rememberMaxTempWidth(): Dp {
+    val measurer = rememberTextMeasurer()
+    val density = LocalDensity.current
+    val maxTempString = maxTemp.string()
+    val textStyle = LocalTextStyle.current
+    return remember(measurer, density, maxTempString, textStyle) {
+        with(density) {
+            measurer.measure(maxTempString, textStyle).size.width.toDp()
         }
     }
 }
