@@ -16,10 +16,8 @@ import androidx.compose.animation.core.FiniteAnimationSpec
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -40,41 +38,25 @@ import androidx.compose.ui.unit.dp
 import com.davidtakac.bura.R
 import com.davidtakac.bura.place.Place
 
-internal object MotionTokens {
-    const val DurationExtraLong1 = 700.0
-    const val DurationExtraLong2 = 800.0
-    const val DurationExtraLong3 = 900.0
-    const val DurationExtraLong4 = 1000.0
-    const val DurationLong1 = 450.0
-    const val DurationLong2 = 500.0
-    const val DurationLong3 = 550.0
-    const val DurationLong4 = 600.0
-    const val DurationMedium1 = 250.0
-    const val DurationMedium2 = 300.0
-    const val DurationMedium3 = 350.0
-    const val DurationMedium4 = 400.0
-    const val DurationShort1 = 50.0
-    const val DurationShort2 = 100.0
-    const val DurationShort3 = 150.0
-    const val DurationShort4 = 200.0
-    val EasingEmphasizedCubicBezier = CubicBezierEasing(0.2f, 0.0f, 0.0f, 1.0f)
-    val EasingEmphasizedAccelerateCubicBezier = CubicBezierEasing(0.3f, 0.0f, 0.8f, 0.15f)
-    val EasingEmphasizedDecelerateCubicBezier = CubicBezierEasing(0.05f, 0.7f, 0.1f, 1.0f)
-    val EasingLegacyCubicBezier = CubicBezierEasing(0.4f, 0.0f, 0.2f, 1.0f)
-    val EasingLegacyAccelerateCubicBezier = CubicBezierEasing(0.4f, 0.0f, 1.0f, 1.0f)
-    val EasingLegacyDecelerateCubicBezier = CubicBezierEasing(0.0f, 0.0f, 0.2f, 1.0f)
-    val EasingLinearCubicBezier = CubicBezierEasing(0.0f, 0.0f, 1.0f, 1.0f)
-    val EasingStandardCubicBezier = CubicBezierEasing(0.2f, 0.0f, 0.0f, 1.0f)
-    val EasingStandardAccelerateCubicBezier = CubicBezierEasing(0.3f, 0.0f, 1.0f, 1.0f)
-    val EasingStandardDecelerateCubicBezier = CubicBezierEasing(0.0f, 0.0f, 0.0f, 1.0f)
-}
+// region Collapsed search bar horizontal padding workaround
 
+// As of androidx.compose.material3:material3:1.2.1, we can't specify the horizontal padding
+// of the collapsed search bar. If we do it with a modifier or spacers, the expanding animation
+// will be horizontally inset for the value of that padding.
+// As a workaround, all of these vals were copied verbatim from the library to make the horizontal
+// padding animation the same as the expanding animation of the SearchBar. When they add the ability
+// to specify padding of the collapsed full-screen search bar, this code should be removed.
+private object MotionTokens {
+    const val DurationLong4 = 600.0
+    const val DurationMedium3 = 350.0
+    const val DurationShort2 = 100.0
+    val EasingEmphasizedDecelerateCubicBezier = CubicBezierEasing(0.05f, 0.7f, 0.1f, 1.0f)
+}
 private const val AnimationEnterDurationMillis: Int = MotionTokens.DurationLong4.toInt()
 private const val AnimationExitDurationMillis: Int = MotionTokens.DurationMedium3.toInt()
 private const val AnimationDelayMillis: Int = MotionTokens.DurationShort2.toInt()
 private val AnimationEnterEasing = MotionTokens.EasingEmphasizedDecelerateCubicBezier
 private val AnimationExitEasing = CubicBezierEasing(0.0f, 1.0f, 0.0f, 1.0f)
-
 private val AnimationEnterFloatSpec: FiniteAnimationSpec<Dp> = tween(
     durationMillis = AnimationEnterDurationMillis,
     delayMillis = AnimationDelayMillis,
@@ -85,6 +67,8 @@ private val AnimationExitFloatSpec: FiniteAnimationSpec<Dp> = tween(
     delayMillis = AnimationDelayMillis,
     easing = AnimationExitEasing,
 )
+
+// endregion
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -105,49 +89,44 @@ fun PlacePickerSearchBar(
         if (active) focusRequester.requestFocus()
         else focusRequester.freeFocus()
     }
-    val spacerWidth by animateDpAsState(
+    val horizontalPadding by animateDpAsState(
         targetValue = if (active) 0.dp else 16.dp,
-        animationSpec = if (active) AnimationEnterFloatSpec else AnimationExitFloatSpec
+        animationSpec = if (active) AnimationEnterFloatSpec else AnimationExitFloatSpec,
+        label = "Search bar horizontal padding"
     )
 
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        //contentAlignment = Alignment.Center
-    ) {
-        Spacer(modifier = Modifier.width(spacerWidth))
-        SearchBar(
-            query = query,
-            onQueryChange = onQueryChange,
-            onSearch = onSearchClick,
-            active = active,
-            onActiveChange = onActiveChange,
-            leadingIcon = {
-                PinOrBackButton(
-                    active = active,
-                    onBackClick = { onActiveChange(false) }
-                )
-            },
-            trailingIcon = {
-                SettingsOrClearButton(
-                    active = active,
-                    onSettingsClick = onSettingsClick,
-                    onClearClick = onQueryClearClick
-                )
-            },
-            placeholder = {
-                Text(text = stringResource(id = R.string.place_picker_hint_search))
-            },
-            modifier = Modifier
-                .weight(1f)
-                .focusRequester(focusRequester)
-        ) {
-            PlacePickerResults(
-                state = state,
-                onPlaceClick = onPlaceClick,
-                onPlaceDeleteClick = onPlaceDeleteClick
+    SearchBar(
+        query = query,
+        onQueryChange = onQueryChange,
+        onSearch = onSearchClick,
+        active = active,
+        onActiveChange = onActiveChange,
+        leadingIcon = {
+            PinOrBackButton(
+                active = active,
+                onBackClick = { onActiveChange(false) }
             )
-        }
-        Spacer(modifier = Modifier.width(spacerWidth))
+        },
+        trailingIcon = {
+            SettingsOrClearButton(
+                active = active,
+                onSettingsClick = onSettingsClick,
+                onClearClick = onQueryClearClick
+            )
+        },
+        placeholder = {
+            Text(text = stringResource(id = R.string.place_picker_hint_search))
+        },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = horizontalPadding)
+            .focusRequester(focusRequester)
+    ) {
+        PlacePickerResults(
+            state = state,
+            onPlaceClick = onPlaceClick,
+            onPlaceDeleteClick = onPlaceDeleteClick
+        )
     }
 }
 
