@@ -38,7 +38,7 @@ import com.davidtakac.bura.common.animateShimmerColorAsState
 import com.davidtakac.bura.place.Place
 import com.davidtakac.bura.place.picker.PlacePickerSearchBar
 import com.davidtakac.bura.place.picker.PlacePickerState
-import com.davidtakac.bura.summary.daily.DaySummary
+import com.davidtakac.bura.summary.daily.DailySummaryColumn
 import com.davidtakac.bura.summary.feelslike.FeelsLikeSummary
 import com.davidtakac.bura.summary.hourly.HourSummaryLazyRow
 import com.davidtakac.bura.summary.hourly.HourSummaryLazyRowSkeleton
@@ -101,7 +101,7 @@ fun SummaryScreen(
                 is SummaryState.Success -> SummaryGrid(
                     state = it,
                     onHourlyClick = onHourlySectionClick,
-                    onDayClicked = onDayClick,
+                    onDayClick = onDayClick,
                     modifier = Modifier.fillMaxSize()
                 )
 
@@ -132,7 +132,7 @@ fun SummaryScreen(
 private fun SummaryGrid(
     state: SummaryState.Success,
     onHourlyClick: () -> Unit,
-    onDayClicked: (date: LocalDate) -> Unit,
+    onDayClick: (date: LocalDate) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyVerticalStaggeredGrid(
@@ -159,20 +159,11 @@ private fun SummaryGrid(
             )
         }
         item(span = StaggeredGridItemSpan.Companion.FullLine) {
-            Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                state.daily.days.forEachIndexed { index, day ->
-                    val isLast = index == state.daily.days.lastIndex
-                    DaySummary(
-                        state = day,
-                        absMin = state.daily.minTemp,
-                        absMax = state.daily.maxTemp,
-                        modifier = Modifier.fillMaxWidth(),
-                        roundedTop = index == 0,
-                        roundedBottom = isLast,
-                        onClick = { onDayClicked(day.time) }
-                    )
-                }
-            }
+            DailySummaryColumn(
+                state = state.daily,
+                onDayClick = onDayClick,
+                modifier = Modifier.fillMaxWidth()
+            )
         }
         item {
             PrecipitationSummary(

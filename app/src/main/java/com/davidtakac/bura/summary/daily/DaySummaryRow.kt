@@ -13,10 +13,11 @@ package com.davidtakac.bura.summary.daily
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -30,7 +31,6 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.rememberTextMeasurer
@@ -41,21 +41,22 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.davidtakac.bura.R
 import com.davidtakac.bura.common.AppTheme
+import com.davidtakac.bura.common.rememberDateTimeFormatter
 import com.davidtakac.bura.condition.Condition
 import com.davidtakac.bura.condition.image
 import com.davidtakac.bura.pop.Pop
+import com.davidtakac.bura.pop.string
 import com.davidtakac.bura.summary.PopAndDrop
 import com.davidtakac.bura.temperature.Temperature
 import com.davidtakac.bura.temperature.string
-import com.davidtakac.bura.common.rememberDateTimeFormatter
-import com.davidtakac.bura.pop.string
 import java.time.LocalDate
 
 private val roundedRadius = 12.dp
 private val squareRadius = 4.dp
+private val verticalPadding = 8.dp
 
 @Composable
-fun DaySummary(
+fun DaySummaryRow(
     state: DaySummary,
     absMin: Temperature,
     absMax: Temperature,
@@ -84,19 +85,32 @@ fun DaySummary(
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+            modifier = Modifier
+                .padding(vertical = verticalPadding, horizontal = 16.dp)
+                .height(rememberHeight())
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxHeight()
             ) {
-                Box(contentAlignment = Alignment.Center) {
-                    DayAndPop(day = "", pop = "", modifier = Modifier.alpha(0f))
-                    DayAndPop(
-                        day = if (state.isToday) stringResource(R.string.date_time_today) else state.time.format(formatter),
-                        pop = state.pop?.string()
+                Column(
+                    modifier = Modifier.fillMaxHeight(),
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = if (state.isToday) stringResource(R.string.date_time_today) else state.time.format(
+                            formatter
+                        ),
+                        style = MaterialTheme.typography.titleMedium,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
                     )
+                    state.pop?.string()?.let {
+                        PopAndDrop(it)
+                    }
                 }
                 Image(
                     painter = state.desc.image(),
@@ -108,7 +122,9 @@ fun DaySummary(
             Row(
                 horizontalArrangement = Arrangement.spacedBy(4.dp),
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.weight(2f)
+                modifier = Modifier
+                    .weight(2f)
+                    .fillMaxHeight()
             ) {
                 CompositionLocalProvider(LocalTextStyle provides MaterialTheme.typography.titleMedium) {
                     val maxTempWidth = rememberMaxTempWidth()
@@ -137,24 +153,11 @@ fun DaySummary(
     }
 }
 
-@Composable
-private fun DayAndPop(day: String, pop: String?, modifier: Modifier = Modifier) {
-    Column(modifier) {
-        Text(
-            text = day,
-            style = MaterialTheme.typography.titleMedium,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis
-        )
-        pop?.let { PopAndDrop(it) }
-    }
-}
-
-private val maxTemp = Temperature.fromDegreesCelsius(999.0)
 
 @Composable
 private fun rememberMaxTempWidth(): Dp {
     val measurer = rememberTextMeasurer()
+    val maxTemp = remember { Temperature.fromDegreesCelsius(999.0) }
     val density = LocalDensity.current
     val maxTempString = maxTemp.string()
     val textStyle = LocalTextStyle.current
@@ -163,6 +166,19 @@ private fun rememberMaxTempWidth(): Dp {
             measurer.measure(maxTempString, textStyle).size.width.toDp()
         }
     }
+}
+
+@Composable
+private fun rememberHeight(): Dp {
+    val dayType = MaterialTheme.typography.titleMedium
+    val popType = MaterialTheme.typography.bodySmall
+    val iconSize = 32.dp
+    val dayPopHeight = with(LocalDensity.current) {
+        dayType.lineHeight.toDp() +
+                popType.lineHeight.toDp() +
+                (verticalPadding * 2)
+    }
+    return maxOf(iconSize, dayPopHeight)
 }
 
 @Preview
@@ -177,7 +193,7 @@ private fun DaySummaryPreview() {
         ) {
             val absoluteMin = remember { Temperature.fromDegreesCelsius(0.0) }
             val absoluteMax = remember { Temperature.fromDegreesCelsius(20.0) }
-            DaySummary(
+            DaySummaryRow(
                 absMin = absoluteMin,
                 absMax = absoluteMax,
                 state = DaySummary(
@@ -193,7 +209,7 @@ private fun DaySummaryPreview() {
                 roundedBottom = false,
                 onClick = {}
             )
-            DaySummary(
+            DaySummaryRow(
                 absMin = absoluteMin,
                 absMax = absoluteMax,
                 state = DaySummary(
@@ -209,7 +225,7 @@ private fun DaySummaryPreview() {
                 roundedBottom = false,
                 onClick = {}
             )
-            DaySummary(
+            DaySummaryRow(
                 absMin = absoluteMin,
                 absMax = absoluteMax,
                 state = DaySummary(
