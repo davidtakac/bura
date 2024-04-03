@@ -40,8 +40,8 @@ import com.davidtakac.bura.place.picker.PlacePickerSearchBar
 import com.davidtakac.bura.place.picker.PlacePickerState
 import com.davidtakac.bura.summary.daily.DaySummary
 import com.davidtakac.bura.summary.feelslike.FeelsLikeSummary
-import com.davidtakac.bura.summary.hourly.HourSummaryList
-import com.davidtakac.bura.summary.hourly.HourSummaryListSkeleton
+import com.davidtakac.bura.summary.hourly.HourSummaryLazyRow
+import com.davidtakac.bura.summary.hourly.HourSummaryLazyRowSkeleton
 import com.davidtakac.bura.summary.humidity.HumiditySummary
 import com.davidtakac.bura.summary.now.NowSummary
 import com.davidtakac.bura.summary.now.NowSummarySkeleton
@@ -152,7 +152,7 @@ private fun SummaryGrid(
             )
         }
         item(span = StaggeredGridItemSpan.Companion.FullLine) {
-            HourSummaryList(
+            HourSummaryLazyRow(
                 state = state.hourly,
                 onClick = onHourlyClick,
                 modifier = Modifier.fillMaxWidth()
@@ -244,7 +244,7 @@ private fun SummaryLoadingIndicator(modifier: Modifier = Modifier) {
             color = shimmerColor,
             modifier = Modifier.fillMaxWidth()
         )
-        HourSummaryListSkeleton(
+        HourSummaryLazyRowSkeleton(
             color = shimmerColor,
             modifier = Modifier.fillMaxWidth()
         )

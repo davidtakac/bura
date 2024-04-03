@@ -40,7 +40,7 @@ import java.time.LocalDateTime
 private val contentPadding = 16.dp
 
 @Composable
-fun HourSummaryList(state: List<HourSummary>, onClick: () -> Unit, modifier: Modifier = Modifier) {
+fun HourSummaryLazyRow(state: List<HourSummary>, onClick: () -> Unit, modifier: Modifier = Modifier) {
     Surface(
         shape = MaterialTheme.shapes.medium,
         tonalElevation = 1.dp,
@@ -51,7 +51,7 @@ fun HourSummaryList(state: List<HourSummary>, onClick: () -> Unit, modifier: Mod
             LazyRow(
                 horizontalArrangement = Arrangement.spacedBy(24.dp),
                 contentPadding = PaddingValues(contentPadding),
-                modifier = Modifier.height(rememberListHeight())
+                modifier = Modifier.height(rememberHeight())
             ) {
                 items(state) {
                     when (it) {
@@ -65,16 +65,16 @@ fun HourSummaryList(state: List<HourSummary>, onClick: () -> Unit, modifier: Mod
 }
 
 @Composable
-fun HourSummaryListSkeleton(color: State<Color>, modifier: Modifier = Modifier) {
+fun HourSummaryLazyRowSkeleton(color: State<Color>, modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
-            .height(rememberListHeight())
+            .height(rememberHeight())
             .background(color = color.value, shape = MaterialTheme.shapes.medium)
     ) {}
 }
 
 @Composable
-private fun rememberListHeight(): Dp {
+private fun rememberHeight(): Dp {
     val density = LocalDensity.current
     val iconHeight = 48.dp
     val titleType = MaterialTheme.typography.titleSmall
@@ -98,7 +98,7 @@ private fun HourlySummaryPreview() {
                 .background(MaterialTheme.colorScheme.background)
                 .padding(16.dp)
         ) {
-            HourSummaryList(
+            HourSummaryLazyRow(
                 state = listOf(
                     HourSummary.Weather(
                         time = LocalDateTime.parse("2023-01-01T18:00"),
