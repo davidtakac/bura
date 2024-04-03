@@ -30,6 +30,7 @@ import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -88,6 +89,11 @@ fun NowSummary(state: NowSummary, modifier: Modifier = Modifier) {
 
 @Composable
 fun NowSummarySkeleton(color: State<Color>, modifier: Modifier = Modifier) {
+    val nowType = MaterialTheme.typography.titleMedium
+    val tempType = MaterialTheme.typography.displayMedium
+    val lowHighType = MaterialTheme.typography.bodyLarge
+    val conditionFeelsLikeType = MaterialTheme.typography.bodyLarge
+    val density = LocalDensity.current
     Row(
         modifier = modifier,
         horizontalArrangement = Arrangement.SpaceBetween
@@ -96,26 +102,26 @@ fun NowSummarySkeleton(color: State<Color>, modifier: Modifier = Modifier) {
             Box(
                 modifier = Modifier
                     .width(64.dp)
-                    .height(16.dp)
+                    .height(with(density) { nowType.lineHeight.toDp() })
                     .background(color = color.value, shape = MaterialTheme.shapes.small)
             ) {}
             Box(
                 modifier = Modifier
                     .width(160.dp)
-                    .height(60.dp)
+                    .height(with(density) { tempType.lineHeight.toDp() })
                     .background(color = color.value, shape = MaterialTheme.shapes.medium)
             ) {}
             Box(
                 modifier = Modifier
                     .width(180.dp)
-                    .height(20.dp)
+                    .height(with(density) { lowHighType.lineHeight.toDp() })
                     .background(color = color.value, shape = MaterialTheme.shapes.small)
             ) {}
         }
         Box(
             modifier = Modifier
                 .width(120.dp)
-                .height(48.dp)
+                .height(with(density) { conditionFeelsLikeType.lineHeight.toDp() * 2 })
                 .background(color = color.value, shape = MaterialTheme.shapes.medium)
         ) {}
     }
