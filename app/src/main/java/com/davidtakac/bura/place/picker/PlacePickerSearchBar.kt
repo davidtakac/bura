@@ -90,7 +90,7 @@ fun PlacePickerSearchBar(
         else focusRequester.freeFocus()
     }
     val horizontalPadding by animateDpAsState(
-        targetValue = if (active) 0.dp else 16.dp,
+        targetValue = if (active) 0.dp else 24.dp,
         animationSpec = if (active) AnimationEnterFloatSpec else AnimationExitFloatSpec,
         label = "Search bar horizontal padding"
     )
