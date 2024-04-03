@@ -22,17 +22,13 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.IntSize
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.davidtakac.bura.common.AppTheme
 import com.davidtakac.bura.condition.Condition
@@ -40,14 +36,6 @@ import com.davidtakac.bura.pop.Pop
 import com.davidtakac.bura.sun.SunEvent
 import com.davidtakac.bura.temperature.Temperature
 import java.time.LocalDateTime
-
-private val highestHourState = HourSummary.Weather(
-    time = LocalDateTime.parse("1970-01-01T00:00"),
-    isNow = false,
-    temp = Temperature.fromDegreesCelsius(99.0),
-    pop = Pop(99.0),
-    desc = Condition(wmoCode = 1, isDay = true)
-)
 
 private val contentPadding = 16.dp
 
@@ -60,22 +48,10 @@ fun HourSummaryList(state: List<HourSummary>, onClick: () -> Unit, modifier: Mod
         modifier = modifier
     ) {
         Box(contentAlignment = Alignment.Center) {
-            var highestHourSize by remember { mutableStateOf(IntSize.Zero) }
-            WeatherHourSummary(
-                state = highestHourState,
-                modifier = Modifier.alpha(0f).onSizeChanged { highestHourSize = it }
-            )
-
-            val density = LocalDensity.current
-            val rowHeight = remember(highestHourSize, density) {
-                val highestHourHeight = with(density) { highestHourSize.height.toDp() }
-                val verticalPadding = contentPadding * 2
-                highestHourHeight + verticalPadding
-            }
             LazyRow(
                 horizontalArrangement = Arrangement.spacedBy(24.dp),
                 contentPadding = PaddingValues(contentPadding),
-                modifier = Modifier.height(rowHeight)
+                modifier = Modifier.height(rememberListHeight())
             ) {
                 items(state) {
                     when (it) {
@@ -85,6 +61,31 @@ fun HourSummaryList(state: List<HourSummary>, onClick: () -> Unit, modifier: Mod
                 }
             }
         }
+    }
+}
+
+@Composable
+fun HourSummaryListSkeleton(color: State<Color>, modifier: Modifier = Modifier) {
+    Box(
+        modifier = modifier
+            .height(rememberListHeight())
+            .background(color = color.value, shape = MaterialTheme.shapes.medium)
+    ) {}
+}
+
+@Composable
+private fun rememberListHeight(): Dp {
+    val density = LocalDensity.current
+    val iconHeight = 48.dp
+    val titleType = MaterialTheme.typography.titleSmall
+    val popType = MaterialTheme.typography.bodySmall
+    val tempType = MaterialTheme.typography.titleMedium
+    return with(density) {
+        titleType.lineHeight.toDp() +
+                iconHeight +
+                popType.lineHeight.toDp() +
+                tempType.lineHeight.toDp() +
+                contentPadding * 2
     }
 }
 

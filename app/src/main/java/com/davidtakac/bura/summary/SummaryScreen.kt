@@ -41,6 +41,7 @@ import com.davidtakac.bura.place.picker.PlacePickerState
 import com.davidtakac.bura.summary.daily.DaySummary
 import com.davidtakac.bura.summary.feelslike.FeelsLikeSummary
 import com.davidtakac.bura.summary.hourly.HourSummaryList
+import com.davidtakac.bura.summary.hourly.HourSummaryListSkeleton
 import com.davidtakac.bura.summary.humidity.HumiditySummary
 import com.davidtakac.bura.summary.now.NowSummary
 import com.davidtakac.bura.summary.now.NowSummarySkeleton
@@ -243,12 +244,10 @@ private fun SummaryLoadingIndicator(modifier: Modifier = Modifier) {
             color = shimmerColor,
             modifier = Modifier.fillMaxWidth()
         )
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(130.dp)
-                .background(color = shimmerColor.value, shape = MaterialTheme.shapes.medium)
-        ) {}
+        HourSummaryListSkeleton(
+            color = shimmerColor,
+            modifier = Modifier.fillMaxWidth()
+        )
         Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
             for (i in 0..6) {
                 val topRadius = if (i == 0) 16.dp else 4.dp
