@@ -1,0 +1,5 @@
+## [1.0.3] - 2024-04-03
+
+### Fixed
+- Home screen scaling issues for larger font sizes (#16)
+- Graph bottom gutter being cut off for larger font sizes (related to #16)
