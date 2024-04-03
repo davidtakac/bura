@@ -11,18 +11,14 @@
 package com.davidtakac.bura.summary
 
 import androidx.compose.animation.Crossfade
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -39,6 +35,7 @@ import com.davidtakac.bura.place.Place
 import com.davidtakac.bura.place.picker.PlacePickerSearchBar
 import com.davidtakac.bura.place.picker.PlacePickerState
 import com.davidtakac.bura.summary.daily.DailySummaryColumn
+import com.davidtakac.bura.summary.daily.DailySummaryColumnSkeleton
 import com.davidtakac.bura.summary.feelslike.FeelsLikeSummary
 import com.davidtakac.bura.summary.hourly.HourSummaryLazyRow
 import com.davidtakac.bura.summary.hourly.HourSummaryLazyRowSkeleton
@@ -105,7 +102,7 @@ fun SummaryScreen(
                     modifier = Modifier.fillMaxSize()
                 )
 
-                SummaryState.Loading -> SummaryLoadingIndicator(
+                SummaryState.Loading -> SummaryScreenSkeleton(
                     modifier = Modifier.fillMaxSize()
                 )
 
@@ -225,7 +222,7 @@ private fun SummaryGrid(
 }
 
 @Composable
-private fun SummaryLoadingIndicator(modifier: Modifier = Modifier) {
+private fun SummaryScreenSkeleton(modifier: Modifier = Modifier) {
     val shimmerColor = animateShimmerColorAsState()
     Column(
         modifier = modifier.padding(16.dp),
@@ -239,25 +236,9 @@ private fun SummaryLoadingIndicator(modifier: Modifier = Modifier) {
             color = shimmerColor,
             modifier = Modifier.fillMaxWidth()
         )
-        Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-            for (i in 0..6) {
-                val topRadius = if (i == 0) 16.dp else 4.dp
-                val bottomRadius = if (i == 6) 16.dp else 4.dp
-                Box(
-                    modifier = Modifier
-                        .height(64.dp)
-                        .fillMaxWidth()
-                        .background(
-                            color = shimmerColor.value,
-                            shape = RoundedCornerShape(
-                                topStart = topRadius,
-                                topEnd = topRadius,
-                                bottomStart = bottomRadius,
-                                bottomEnd = bottomRadius
-                            )
-                        )
-                ) {}
-            }
-        }
+        DailySummaryColumnSkeleton(
+            color = shimmerColor,
+            modifier = Modifier.fillMaxWidth()
+        )
     }
 }

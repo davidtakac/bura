@@ -13,6 +13,7 @@ package com.davidtakac.bura.summary.daily
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -28,9 +29,11 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.State
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.rememberTextMeasurer
@@ -55,30 +58,44 @@ private val roundedRadius = 12.dp
 private val squareRadius = 4.dp
 private val verticalPadding = 8.dp
 
+private val firstShape = RoundedCornerShape(
+    topStart = roundedRadius,
+    topEnd = roundedRadius,
+    bottomStart = squareRadius,
+    bottomEnd = squareRadius
+)
+
+private val lastShape = RoundedCornerShape(
+    topStart = squareRadius,
+    topEnd = squareRadius,
+    bottomStart = roundedRadius,
+    bottomEnd = roundedRadius
+)
+
+private val middleShape = RoundedCornerShape(size = squareRadius)
+
+enum class DaySummaryPosition {
+    First, Middle, Last;
+
+    fun shape() = when (this) {
+        First -> firstShape
+        Middle -> middleShape
+        Last -> lastShape
+    }
+}
+
 @Composable
 fun DaySummaryRow(
     state: DaySummary,
+    position: DaySummaryPosition,
     absMin: Temperature,
     absMax: Temperature,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    roundedTop: Boolean = false,
-    roundedBottom: Boolean = false,
-    onClick: () -> Unit
 ) {
     val formatter = rememberDateTimeFormatter(ofPattern = R.string.date_time_pattern_dow)
-    val shape = remember(roundedTop, roundedBottom) {
-        val topRadius = if (roundedTop) roundedRadius else squareRadius
-        val bottomRadius = if (roundedBottom) roundedRadius else squareRadius
-        RoundedCornerShape(
-            topStart = topRadius,
-            topEnd = topRadius,
-            bottomStart = bottomRadius,
-            bottomEnd = bottomRadius
-        )
-    }
-
     Surface(
-        shape = shape,
+        shape = remember(position) { position.shape() },
         tonalElevation = 1.dp,
         onClick = onClick,
         modifier = modifier,
@@ -153,6 +170,18 @@ fun DaySummaryRow(
     }
 }
 
+@Composable
+fun DaySummaryRowSkeleton(
+    color: State<Color>,
+    position: DaySummaryPosition,
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier
+            .height(rememberHeight())
+            .background(color = color.value, shape = position.shape())
+    )
+}
 
 @Composable
 private fun rememberMaxTempWidth(): Dp {
@@ -205,8 +234,7 @@ private fun DaySummaryPreview() {
                     pop = null,
                     desc = Condition(wmoCode = 1, isDay = true)
                 ),
-                roundedTop = true,
-                roundedBottom = false,
+                position = DaySummaryPosition.First,
                 onClick = {}
             )
             DaySummaryRow(
@@ -221,8 +249,7 @@ private fun DaySummaryPreview() {
                     pop = Pop(15.0),
                     desc = Condition(wmoCode = 51, isDay = true)
                 ),
-                roundedTop = false,
-                roundedBottom = false,
+                position = DaySummaryPosition.Middle,
                 onClick = {}
             )
             DaySummaryRow(
@@ -237,8 +264,7 @@ private fun DaySummaryPreview() {
                     pop = Pop(0.0),
                     desc = Condition(wmoCode = 2, isDay = true)
                 ),
-                roundedTop = false,
-                roundedBottom = true,
+                position = DaySummaryPosition.Last,
                 onClick = {}
             )
         }

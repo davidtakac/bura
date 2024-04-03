@@ -14,7 +14,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import java.time.LocalDate
 
@@ -26,15 +28,38 @@ fun DailySummaryColumn(
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(4.dp), modifier = modifier) {
         state.days.forEachIndexed { index, day ->
-            val isLast = index == state.days.lastIndex
             DaySummaryRow(
                 state = day,
                 absMin = state.minTemp,
                 absMax = state.maxTemp,
                 modifier = Modifier.fillMaxWidth(),
-                roundedTop = index == 0,
-                roundedBottom = isLast,
+                position = when (index) {
+                    0 -> DaySummaryPosition.First
+                    state.days.lastIndex -> DaySummaryPosition.Last
+                    else -> DaySummaryPosition.Middle
+                },
                 onClick = { onDayClick(day.time) }
+            )
+        }
+    }
+}
+
+@Composable
+fun DailySummaryColumnSkeleton(
+    color: State<Color>,
+    modifier: Modifier = Modifier,
+    rows: Int = 7,
+) {
+    Column(verticalArrangement = Arrangement.spacedBy(4.dp), modifier = modifier) {
+        repeat(rows) {
+            DaySummaryRowSkeleton(
+                color = color,
+                position = when (it) {
+                    0 -> DaySummaryPosition.First
+                    rows - 1 -> DaySummaryPosition.Last
+                    else -> DaySummaryPosition.Middle
+                },
+                modifier = Modifier.fillMaxWidth()
             )
         }
     }
