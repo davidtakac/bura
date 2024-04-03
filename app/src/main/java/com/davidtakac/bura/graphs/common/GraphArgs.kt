@@ -73,7 +73,7 @@ data class GraphArgs(
                 startGutter = 0f,
                 endGutter = 48.dp.toPx(),
                 topGutter = 32.dp.toPx(),
-                bottomGutter = axisTextStyle.fontSize.toPx() + (2 * axisTextPadding),
+                bottomGutter = axisTextStyle.lineHeight.toPx() + (2 * axisTextPadding),
                 plotWidth = 4.dp.toPx(),
                 plotFillAlpha = 0.66f,
                 axisWidth = Dp.Hairline.toPx(),
