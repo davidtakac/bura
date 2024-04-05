@@ -11,11 +11,11 @@
 package com.davidtakac.bura.summary.now
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -23,7 +23,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
@@ -36,12 +35,12 @@ import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.davidtakac.bura.R
 import com.davidtakac.bura.common.AppTheme
+import com.davidtakac.bura.common.TextPlaceholder
 import com.davidtakac.bura.condition.Condition
 import com.davidtakac.bura.condition.image
 import com.davidtakac.bura.condition.string
@@ -108,7 +107,11 @@ fun NowSummary(
                     LocalTextStyle provides MaterialTheme.typography.displayMedium,
                     content = temperature
                 )
-                Box(modifier = Modifier.fillMaxHeight().aspectRatio(1f)) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .aspectRatio(1f)
+                ) {
                     icon()
                 }
             }
@@ -134,45 +137,50 @@ fun NowSummary(
 
 @Composable
 fun NowSummarySkeleton(color: State<Color>, modifier: Modifier = Modifier) {
-    val nowType = MaterialTheme.typography.titleMedium
-    val tempType = MaterialTheme.typography.displayMedium
-    val lowHighType = MaterialTheme.typography.bodyLarge
-    val conditionFeelsLikeType = MaterialTheme.typography.bodyLarge
-    val density = LocalDensity.current
-    Row(
-        modifier = modifier,
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Column {
-            Box(
-                modifier = Modifier
-                    .width(64.dp)
-                    .height(with(density) { nowType.lineHeight.toDp() })
-                    .padding(vertical = 2.dp)
-                    .background(color = color.value, shape = MaterialTheme.shapes.small)
+    NowSummary(
+        date = {
+            TextPlaceholder(
+                color = color,
+                shape = MaterialTheme.shapes.small,
+                contentPadding = PaddingValues(vertical = 2.dp),
+                modifier = Modifier.width(64.dp)
             )
-            Box(
-                modifier = Modifier
-                    .width(160.dp)
-                    .height(with(density) { tempType.lineHeight.toDp() })
-                    .padding(vertical = 2.dp)
-                    .background(color = color.value, shape = MaterialTheme.shapes.medium)
+        },
+        temperature = {
+            TextPlaceholder(
+                color = color,
+                shape = MaterialTheme.shapes.medium,
+                contentPadding = PaddingValues(vertical = 2.dp),
+                modifier = Modifier.width(160.dp)
             )
-            Box(
-                modifier = Modifier
-                    .width(180.dp)
-                    .height(with(density) { lowHighType.lineHeight.toDp() })
-                    .padding(vertical = 2.dp)
-                    .background(color = color.value, shape = MaterialTheme.shapes.small)
+        },
+        icon = {},
+        highLow = {
+            TextPlaceholder(
+                color = color,
+                shape = MaterialTheme.shapes.small,
+                contentPadding = PaddingValues(vertical = 2.dp),
+                modifier = Modifier.width(150.dp)
             )
-        }
-        Box(
-            modifier = Modifier
-                .width(120.dp)
-                .height(with(density) { conditionFeelsLikeType.lineHeight.toDp() * 2 })
-                .background(color = color.value, shape = MaterialTheme.shapes.medium)
-        )
-    }
+        },
+        feelsLike = {
+            TextPlaceholder(
+                color = color,
+                shape = MaterialTheme.shapes.small,
+                contentPadding = PaddingValues(vertical = 2.dp),
+                modifier = Modifier.width(80.dp)
+            )
+        },
+        condition = {
+            TextPlaceholder(
+                color = color,
+                shape = MaterialTheme.shapes.small,
+                contentPadding = PaddingValues(vertical = 2.dp),
+                modifier = Modifier.width(64.dp)
+            )
+        },
+        modifier = modifier
+    )
 }
 
 @Preview
