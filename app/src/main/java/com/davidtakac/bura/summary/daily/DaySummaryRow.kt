@@ -170,7 +170,7 @@ fun DaySummaryRowSkeleton(
     modifier: Modifier = Modifier
 ) {
     Box(modifier.background(color = color.value, shape = position.shape())) {
-        DayAndPopMaxHeightDummy()
+        DayAndPopMaxHeightDummy(modifier = Modifier.padding(vertical = verticalPadding))
     }
 }
 
@@ -193,11 +193,11 @@ private fun DayAndPop(
 }
 
 @Composable
-private fun DayAndPopMaxHeightDummy() {
+private fun DayAndPopMaxHeightDummy(modifier: Modifier = Modifier) {
     DayAndPop(
         day = { Text("") },
         pop = { PopAndDrop("") },
-        modifier = Modifier
+        modifier = modifier
             .width(0.dp)
             .alpha(0f)
     )

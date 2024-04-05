@@ -14,10 +14,11 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -34,15 +35,16 @@ import java.time.LocalDateTime
 fun SunHourSummary(state: HourSummary.Sun, modifier: Modifier = Modifier) {
     val formatter = rememberDateTimeFormatter(ofPattern = R.string.date_time_pattern_hour_minute)
     HourSummary(
-        time = state.time.format(formatter),
+        time = { Text(state.time.format(formatter)) },
         icon = {
             Image(
                 painter = painterResource(id = if (state.event == SunEvent.Sunrise) AppTheme.icons.sunrise else AppTheme.icons.sunset),
                 contentDescription = null,
-                modifier = Modifier.size(32.dp)
+                modifier = Modifier.fillMaxSize()
             )
         },
-        value = stringResource(if (state.event == SunEvent.Sunrise) R.string.sunrise else R.string.sunset),
+        pop = null,
+        temperature = { Text(stringResource(if (state.event == SunEvent.Sunrise) R.string.sunrise else R.string.sunset)) },
         modifier = modifier
     )
 }

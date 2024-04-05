@@ -13,48 +13,46 @@ package com.davidtakac.bura.summary.hourly
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.davidtakac.bura.R
 import com.davidtakac.bura.common.AppTheme
+import com.davidtakac.bura.common.rememberDateTimeFormatter
 import com.davidtakac.bura.condition.Condition
 import com.davidtakac.bura.condition.image
 import com.davidtakac.bura.pop.Pop
+import com.davidtakac.bura.pop.string
 import com.davidtakac.bura.summary.PopAndDrop
 import com.davidtakac.bura.temperature.Temperature
 import com.davidtakac.bura.temperature.string
-import com.davidtakac.bura.common.rememberDateTimeFormatter
-import com.davidtakac.bura.pop.string
 import java.time.LocalDateTime
 
 @Composable
 fun WeatherHourSummary(state: HourSummary.Weather, modifier: Modifier = Modifier) {
     val formatter = rememberDateTimeFormatter(ofPattern = R.string.date_time_pattern_hour)
     HourSummary(
-        time = if (state.isNow) stringResource(R.string.date_time_now) else state.time.format(formatter),
+        time = { Text(if (state.isNow) stringResource(R.string.date_time_now) else state.time.format(formatter)) },
         icon = {
-            Column(
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Image(
-                    painter = state.desc.image(),
-                    contentDescription = null,
-                    modifier = Modifier.size(32.dp)
-                )
-                state.pop?.let { PopAndDrop(it.string()) }
+            Image(
+                painter = state.desc.image(),
+                contentDescription = null,
+                modifier = Modifier.fillMaxSize()
+            )
+        },
+        pop = state.pop?.string()?.let {
+            @Composable {
+                PopAndDrop(it)
             }
         },
-        value = state.temp.string(),
+        temperature = { Text(state.temp.string()) },
         modifier = modifier
     )
 }

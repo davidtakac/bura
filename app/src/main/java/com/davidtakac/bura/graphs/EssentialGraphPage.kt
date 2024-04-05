@@ -20,15 +20,12 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -37,6 +34,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.davidtakac.bura.R
+import com.davidtakac.bura.common.TextPlaceholder
 import com.davidtakac.bura.graphs.common.GraphArgs
 import com.davidtakac.bura.graphs.common.GraphScreenSectionLabel
 import com.davidtakac.bura.graphs.pop.PopGraph
@@ -135,35 +133,41 @@ fun EssentialGraphPage(
 
 @Composable
 fun EssentialGraphPageLoadingIndicator(shimmerColor: State<Color>, modifier: Modifier = Modifier) {
-    Column(
-        modifier = modifier
-            .padding(contentPadding)
-            .wrapContentHeight(unbounded = true, align = Alignment.Top),
+    LazyColumn(
+        modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(verticalSpacing),
+        userScrollEnabled = false,
+        contentPadding = contentPadding
     ) {
-        NowSummarySkeleton(
-            color = shimmerColor,
-            modifier = Modifier.fillMaxWidth()
-        )
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .aspectRatio(graphAspectRatio)
-                .background(shape = MaterialTheme.shapes.large, color = shimmerColor.value),
-        )
-        Column(verticalArrangement = Arrangement.spacedBy(graphLabelSpacing)) {
-            Box(
-                modifier = Modifier
-                    .width(200.dp)
-                    .height(with(LocalDensity.current) { MaterialTheme.typography.titleSmall.lineHeight.toDp() })
-                    .background(shape = MaterialTheme.shapes.small, color = shimmerColor.value)
+        item {
+            NowSummarySkeleton(
+                color = shimmerColor,
+                modifier = Modifier.fillMaxWidth()
             )
+        }
+        item {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .aspectRatio(graphAspectRatio)
                     .background(shape = MaterialTheme.shapes.large, color = shimmerColor.value),
             )
+        }
+        item {
+            Column(verticalArrangement = Arrangement.spacedBy(graphLabelSpacing)) {
+                TextPlaceholder(
+                    color = shimmerColor,
+                    shape = MaterialTheme.shapes.small,
+                    style = MaterialTheme.typography.titleSmall,
+                    modifier = Modifier.width(160.dp)
+                )
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .aspectRatio(graphAspectRatio)
+                        .background(shape = MaterialTheme.shapes.large, color = shimmerColor.value),
+                )
+            }
         }
     }
 }

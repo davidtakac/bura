@@ -23,12 +23,16 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.davidtakac.bura.common.AppTheme
 import com.davidtakac.bura.condition.Condition
@@ -40,7 +44,11 @@ import java.time.LocalDateTime
 private val contentPadding = 16.dp
 
 @Composable
-fun HourSummaryLazyRow(state: List<HourSummary>, onClick: () -> Unit, modifier: Modifier = Modifier) {
+fun HourSummaryLazyRow(
+    state: List<HourSummary>,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     Surface(
         shape = MaterialTheme.shapes.medium,
         tonalElevation = 1.dp,
@@ -48,10 +56,17 @@ fun HourSummaryLazyRow(state: List<HourSummary>, onClick: () -> Unit, modifier: 
         modifier = modifier
     ) {
         Box(contentAlignment = Alignment.Center) {
+            val density = LocalDensity.current
+            var dummyHeight by remember { mutableStateOf(0.dp) }
+            HourSummaryMaxHeightDummy(
+                modifier = Modifier
+                    .padding(vertical = contentPadding)
+                    .onSizeChanged { dummyHeight = with(density) { it.height.toDp() } }
+            )
             LazyRow(
                 horizontalArrangement = Arrangement.spacedBy(24.dp),
                 contentPadding = PaddingValues(contentPadding),
-                modifier = Modifier.height(rememberHeight())
+                modifier = Modifier.height(dummyHeight + contentPadding * 2)
             ) {
                 items(state) {
                     when (it) {
@@ -66,26 +81,8 @@ fun HourSummaryLazyRow(state: List<HourSummary>, onClick: () -> Unit, modifier: 
 
 @Composable
 fun HourSummaryLazyRowSkeleton(color: State<Color>, modifier: Modifier = Modifier) {
-    Box(
-        modifier = modifier
-            .height(rememberHeight())
-            .background(color = color.value, shape = MaterialTheme.shapes.medium)
-    )
-}
-
-@Composable
-private fun rememberHeight(): Dp {
-    val density = LocalDensity.current
-    val iconHeight = 48.dp
-    val titleType = MaterialTheme.typography.titleSmall
-    val popType = MaterialTheme.typography.bodySmall
-    val tempType = MaterialTheme.typography.titleMedium
-    return with(density) {
-        titleType.lineHeight.toDp() +
-                iconHeight +
-                popType.lineHeight.toDp() +
-                tempType.lineHeight.toDp() +
-                contentPadding * 2
+    Box(modifier.background(color = color.value, shape = MaterialTheme.shapes.medium)) {
+        HourSummaryMaxHeightDummy(modifier = Modifier.padding(vertical = contentPadding))
     }
 }
 

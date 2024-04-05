@@ -12,10 +12,11 @@ package com.davidtakac.bura.summary
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
@@ -224,21 +225,27 @@ private fun SummaryGrid(
 @Composable
 private fun SummaryScreenSkeleton(modifier: Modifier = Modifier) {
     val shimmerColor = animateShimmerColorAsState()
-    Column(
-        modifier = modifier.padding(16.dp),
+    LazyColumn(
+        contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        NowSummarySkeleton(
-            color = shimmerColor,
-            modifier = Modifier.fillMaxWidth()
-        )
-        HourSummaryLazyRowSkeleton(
-            color = shimmerColor,
-            modifier = Modifier.fillMaxWidth()
-        )
-        DailySummaryColumnSkeleton(
-            color = shimmerColor,
-            modifier = Modifier.fillMaxWidth()
-        )
+        item {
+            NowSummarySkeleton(
+                color = shimmerColor,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+        item {
+            HourSummaryLazyRowSkeleton(
+                color = shimmerColor,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+        item {
+            DailySummaryColumnSkeleton(
+                color = shimmerColor,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
     }
 }
