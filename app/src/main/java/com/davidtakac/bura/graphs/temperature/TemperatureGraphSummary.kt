@@ -11,27 +11,16 @@
 package com.davidtakac.bura.graphs.temperature
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.State
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -41,6 +30,7 @@ import com.davidtakac.bura.common.rememberDateTimeFormatter
 import com.davidtakac.bura.condition.Condition
 import com.davidtakac.bura.condition.image
 import com.davidtakac.bura.condition.string
+import com.davidtakac.bura.summary.now.NowSummary
 import com.davidtakac.bura.temperature.Temperature
 import com.davidtakac.bura.temperature.string
 import java.time.LocalDate
@@ -48,106 +38,58 @@ import java.time.LocalDate
 @Composable
 fun TemperatureGraphSummary(state: TemperatureGraphSummary, modifier: Modifier = Modifier) {
     val formatter = rememberDateTimeFormatter(ofPattern = R.string.date_time_pattern_dow_dom_month)
-    Row(modifier = modifier, horizontalArrangement = Arrangement.SpaceBetween) {
-        val now = state.now
-        Column {
-            Text(
-                text = if (now == null) formatter.format(state.day) else stringResource(id = R.string.date_time_now),
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.secondary
+    val now = state.now
+    NowSummary(
+        date = { Text(if (now == null) formatter.format(state.day) else stringResource(id = R.string.date_time_now)) },
+        temperature = {
+            when (now) {
+                null -> {
+                    Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                        Text(state.maxTemp.string())
+                        Text(
+                            text = state.minTemp.string(),
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                }
+
+                else -> Text(text = now.temp.string())
+            }
+        },
+        icon = {
+            Image(
+                painter = state.condition.image(),
+                contentDescription = null,
+                modifier = Modifier.fillMaxSize()
             )
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                CompositionLocalProvider(LocalTextStyle provides MaterialTheme.typography.displayMedium) {
-                    when (now) {
-                        null -> {
-                            Text(text = state.maxTemp.string())
-                            Spacer(modifier = Modifier.width(4.dp))
-                            Text(
-                                text = state.minTemp.string(),
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        }
-                        else -> Text(text = now.temp.string())
-                    }
+        },
+        highLow = {
+            when (now) {
+                null -> when {
+                    state.minTemp.unit == Temperature.Unit.DegreesCelsius -> Text(stringResource(R.string.cond_screen_temp_unit_celsius))
+                    else -> Text(stringResource(R.string.cond_screen_temp_unit_fahrenheit))
+                }
 
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Image(
-                        painter = state.condition.image(),
-                        contentDescription = null,
-                        modifier = Modifier.size(48.dp)
+                else -> Text(
+                    text = stringResource(
+                        id = R.string.temp_value_high_low,
+                        state.maxTemp.string(),
+                        state.minTemp.string()
                     )
-                }
-            }
-            CompositionLocalProvider(
-                LocalTextStyle provides MaterialTheme.typography.bodyLarge,
-                LocalContentColor provides MaterialTheme.colorScheme.onSurfaceVariant
-            ) {
-                when (now) {
-                    null -> when {
-                        state.minTemp.unit == Temperature.Unit.DegreesCelsius -> Text(stringResource(R.string.cond_screen_temp_unit_celsius))
-                        else -> Text(stringResource(R.string.cond_screen_temp_unit_fahrenheit))
-                    }
-                    else -> Text(
-                        text = stringResource(
-                            id = R.string.temp_value_high_low,
-                            state.maxTemp.string(),
-                            state.minTemp.string()
-                        ),
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-            }
-        }
-        if (now != null) {
-            Column(horizontalAlignment = Alignment.End) {
-                Text(
-                    text = state.condition.string(),
-                    style = MaterialTheme.typography.bodyLarge
-                )
-                Text(
-                    text = stringResource(R.string.feels_like_value, now.feelsLike.string()),
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
-        }
-    }
-}
-
-@Composable
-fun TemperatureGraphSummarySkeleton(color: State<Color>, modifier: Modifier = Modifier) {
-    Row(
-        modifier = modifier,
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-            Box(
-                modifier = Modifier
-                    .width(64.dp)
-                    .height(16.dp)
-                    .background(color = color.value, shape = MaterialTheme.shapes.small)
-            ) {}
-            Box(
-                modifier = Modifier
-                    .width(160.dp)
-                    .height(60.dp)
-                    .background(color = color.value, shape = MaterialTheme.shapes.medium)
-            ) {}
-            Box(
-                modifier = Modifier
-                    .width(180.dp)
-                    .height(20.dp)
-                    .background(color = color.value, shape = MaterialTheme.shapes.small)
-            ) {}
-        }
-        Box(
-            modifier = Modifier
-                .width(120.dp)
-                .height(48.dp)
-                .background(color = color.value, shape = MaterialTheme.shapes.medium)
-        ) {}
-    }
+        },
+        feelsLike = {
+            if (now != null) Text(
+                stringResource(
+                    R.string.feels_like_value,
+                    now.feelsLike.string()
+                )
+            )
+        },
+        condition = { if (now != null) Text(state.condition.string()) },
+        modifier = modifier
+    )
 }
 
 @Preview

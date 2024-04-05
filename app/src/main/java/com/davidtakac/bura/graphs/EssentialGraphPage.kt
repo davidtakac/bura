@@ -44,7 +44,7 @@ import com.davidtakac.bura.graphs.precipitation.PrecipitationToday
 import com.davidtakac.bura.graphs.precipitation.PrecipitationTotal
 import com.davidtakac.bura.graphs.temperature.TemperatureGraph
 import com.davidtakac.bura.graphs.temperature.TemperatureGraphSummary
-import com.davidtakac.bura.graphs.temperature.TemperatureGraphSummarySkeleton
+import com.davidtakac.bura.summary.now.NowSummarySkeleton
 import com.davidtakac.bura.temperature.Temperature
 
 private const val graphAspectRatio = 4f / 3f
@@ -140,7 +140,7 @@ fun EssentialGraphPageLoadingIndicator(shimmerColor: State<Color>, modifier: Mod
             .wrapContentHeight(unbounded = true, align = Alignment.Top),
         verticalArrangement = Arrangement.spacedBy(verticalSpacing),
     ) {
-        TemperatureGraphSummarySkeleton(
+        NowSummarySkeleton(
             color = shimmerColor,
             modifier = Modifier.fillMaxWidth()
         )

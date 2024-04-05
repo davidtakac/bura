@@ -16,16 +16,19 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -44,44 +47,82 @@ import com.davidtakac.bura.temperature.string
 
 @Composable
 fun NowSummary(state: NowSummary, modifier: Modifier = Modifier) {
-    Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = modifier) {
-        Column {
-            Text(
-                text = stringResource(R.string.date_time_now),
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.secondary
+    NowSummary(
+        date = { Text(stringResource(id = R.string.date_time_now)) },
+        temperature = { Text(state.temp.string()) },
+        icon = {
+            Image(
+                painter = state.cond.image(),
+                contentDescription = null,
+                modifier = Modifier.fillMaxSize()
             )
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(
-                    text = state.temp.string(),
-                    style = MaterialTheme.typography.displayMedium
-                )
-                Spacer(modifier = Modifier.width(4.dp))
-                Image(
-                    painter = state.cond.image(),
-                    contentDescription = null,
-                    modifier = Modifier.size(48.dp)
-                )
-            }
+        },
+        highLow = {
             Text(
-                text = stringResource(
+                stringResource(
                     id = R.string.temp_value_high_low,
                     state.maxTemp.string(),
                     state.minTemp.string()
-                ),
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            )
+        },
+        feelsLike = {
+            Text(
+                stringResource(
+                    id = R.string.feels_like_value,
+                    state.feelsLike.string()
+                )
+            )
+        },
+        condition = { Text(state.cond.string()) },
+        modifier = modifier
+    )
+}
+
+@Composable
+fun NowSummary(
+    date: @Composable () -> Unit,
+    temperature: @Composable () -> Unit,
+    icon: @Composable () -> Unit,
+    highLow: @Composable () -> Unit,
+    feelsLike: @Composable () -> Unit,
+    condition: @Composable () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = modifier) {
+        Column {
+            CompositionLocalProvider(
+                LocalTextStyle provides MaterialTheme.typography.titleMedium,
+                LocalContentColor provides MaterialTheme.colorScheme.secondary,
+                content = date
+            )
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                CompositionLocalProvider(
+                    LocalTextStyle provides MaterialTheme.typography.displayMedium,
+                    content = temperature
+                )
+                Box(modifier = Modifier.size(48.dp)) {
+                    icon()
+                }
+            }
+            CompositionLocalProvider(
+                LocalTextStyle provides MaterialTheme.typography.bodyLarge,
+                LocalContentColor provides MaterialTheme.colorScheme.onSurfaceVariant,
+                content = highLow
             )
         }
         Column(horizontalAlignment = Alignment.End) {
-            Text(
-                text = state.cond.string(),
-                style = MaterialTheme.typography.bodyLarge
+            CompositionLocalProvider(
+                LocalTextStyle provides MaterialTheme.typography.bodyLarge,
+                content = condition
             )
-            Text(
-                text = stringResource(R.string.feels_like_value, state.feelsLike.string()),
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+            CompositionLocalProvider(
+                LocalTextStyle provides MaterialTheme.typography.bodyLarge,
+                LocalContentColor provides MaterialTheme.colorScheme.onSurfaceVariant,
+                content = feelsLike
             )
         }
     }
