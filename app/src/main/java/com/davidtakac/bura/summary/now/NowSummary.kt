@@ -37,6 +37,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.max
 import com.davidtakac.bura.R
 import com.davidtakac.bura.common.AppTheme
 import com.davidtakac.bura.condition.Condition
@@ -139,23 +140,26 @@ fun NowSummarySkeleton(color: State<Color>, modifier: Modifier = Modifier) {
         modifier = modifier,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+        Column {
             Box(
                 modifier = Modifier
                     .width(64.dp)
                     .height(with(density) { nowType.lineHeight.toDp() })
+                    .padding(vertical = 2.dp)
                     .background(color = color.value, shape = MaterialTheme.shapes.small)
             ) {}
             Box(
                 modifier = Modifier
                     .width(160.dp)
                     .height(with(density) { tempType.lineHeight.toDp() })
+                    .padding(vertical = 2.dp)
                     .background(color = color.value, shape = MaterialTheme.shapes.medium)
             ) {}
             Box(
                 modifier = Modifier
                     .width(180.dp)
                     .height(with(density) { lowHighType.lineHeight.toDp() })
+                    .padding(vertical = 2.dp)
                     .background(color = color.value, shape = MaterialTheme.shapes.small)
             ) {}
         }
