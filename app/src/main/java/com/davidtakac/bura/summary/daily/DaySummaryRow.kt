@@ -17,10 +17,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
@@ -32,6 +32,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
@@ -101,33 +102,35 @@ fun DaySummaryRow(
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .padding(vertical = verticalPadding, horizontal = 16.dp)
-                .height(rememberHeight())
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
+            modifier = Modifier.padding(vertical = verticalPadding, horizontal = 16.dp)
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier.weight(1f)
             ) {
-                Column(verticalArrangement = Arrangement.Center) {
-                    Text(
-                        text = if (state.isToday) stringResource(R.string.date_time_today) else state.time.format(formatter),
-                        style = MaterialTheme.typography.titleMedium,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                    state.pop?.string()?.let {
-                        PopAndDrop(it)
+                DayAndPopMaxHeightDummy()
+                DayAndPop(
+                    day = {
+                        Text(
+                            text = if (state.isToday) stringResource(R.string.date_time_today) else state.time.format(formatter),
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    },
+                    pop = state.pop?.string()?.let {
+                        @Composable {
+                            PopAndDrop(it)
+                        }
                     }
-                }
+                )
+                Spacer(modifier = Modifier.weight(1f).widthIn(min = 4.dp))
                 Image(
                     painter = state.desc.image(),
                     contentDescription = null,
                     modifier = Modifier.size(32.dp)
                 )
             }
-            Spacer(modifier = Modifier.width(4.dp))
             Row(
                 horizontalArrangement = Arrangement.spacedBy(4.dp),
                 verticalAlignment = Alignment.CenterVertically,
@@ -166,10 +169,37 @@ fun DaySummaryRowSkeleton(
     position: DaySummaryPosition,
     modifier: Modifier = Modifier
 ) {
-    Box(
+    Box(modifier.background(color = color.value, shape = position.shape())) {
+        DayAndPopMaxHeightDummy()
+    }
+}
+
+@Composable
+private fun DayAndPop(
+    day: @Composable () -> Unit,
+    pop: (@Composable () -> Unit)?,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        verticalArrangement = Arrangement.Center,
         modifier = modifier
-            .height(rememberHeight())
-            .background(color = color.value, shape = position.shape())
+    ) {
+        CompositionLocalProvider(
+            LocalTextStyle provides MaterialTheme.typography.titleMedium,
+            content = day
+        )
+        pop?.let { it() }
+    }
+}
+
+@Composable
+private fun DayAndPopMaxHeightDummy() {
+    DayAndPop(
+        day = { Text("") },
+        pop = { PopAndDrop("") },
+        modifier = Modifier
+            .width(0.dp)
+            .alpha(0f)
     )
 }
 
@@ -185,19 +215,6 @@ private fun rememberMaxTempWidth(): Dp {
             measurer.measure(maxTempString, textStyle).size.width.toDp()
         }
     }
-}
-
-@Composable
-private fun rememberHeight(): Dp {
-    val dayType = MaterialTheme.typography.titleMedium
-    val popType = MaterialTheme.typography.bodySmall
-    val iconSize = 32.dp
-    val dayPopHeight = with(LocalDensity.current) {
-        dayType.lineHeight.toDp() +
-                popType.lineHeight.toDp() +
-                (verticalPadding * 2)
-    }
-    return maxOf(iconSize, dayPopHeight)
 }
 
 @Preview
