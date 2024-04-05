@@ -12,24 +12,17 @@ package com.davidtakac.bura.graphs
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -38,7 +31,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import com.davidtakac.bura.R
 import com.davidtakac.bura.common.FailedToDownloadErrorScreen
 import com.davidtakac.bura.common.NoSelectedPlaceErrorScreen
@@ -46,6 +38,7 @@ import com.davidtakac.bura.common.OutdatedErrorScreen
 import com.davidtakac.bura.common.animateShimmerColorAsState
 import com.davidtakac.bura.graphs.common.GraphArgs
 import com.davidtakac.bura.graphs.common.GraphsPagerIndicator
+import com.davidtakac.bura.graphs.common.GraphsPagerIndicatorSkeleton
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 
@@ -153,24 +146,10 @@ private fun Pager(
 private fun EssentialGraphsLoadingIndicator(modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
         val shimmerColor = animateShimmerColorAsState()
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(70.dp)
-                .padding(start = 74.dp),
-            horizontalArrangement = Arrangement.spacedBy(40.dp)
-        ) {
-            for (i in 0..6) {
-                Surface(
-                    modifier = Modifier
-                        .padding(vertical = 8.dp)
-                        .fillMaxHeight()
-                        .width(48.dp),
-                    shape = MaterialTheme.shapes.small,
-                    color = shimmerColor.value
-                ) {}
-            }
-        }
+        GraphsPagerIndicatorSkeleton(
+            color = shimmerColor,
+            modifier = Modifier.fillMaxWidth()
+        )
         HorizontalDivider()
         EssentialGraphPageLoadingIndicator(
             shimmerColor = shimmerColor,
