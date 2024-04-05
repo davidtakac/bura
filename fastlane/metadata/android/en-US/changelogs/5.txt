@@ -1,0 +1,6 @@
+## [1.0.4] - 2024-04-05
+
+### Fixed
+- Search bar having no horizontal padding for larger font sizes
+- Graph screen scaling issues for larger font sizes
+- Inconsistency between Now header on Home and Graphs screen
