@@ -32,6 +32,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -149,20 +150,20 @@ fun EssentialGraphPageLoadingIndicator(shimmerColor: State<Color>, modifier: Mod
                 .fillMaxWidth()
                 .aspectRatio(graphAspectRatio)
                 .background(shape = MaterialTheme.shapes.large, color = shimmerColor.value),
-        ) {}
+        )
         Column(verticalArrangement = Arrangement.spacedBy(graphLabelSpacing)) {
             Box(
                 modifier = Modifier
                     .width(200.dp)
-                    .height(16.dp)
+                    .height(with(LocalDensity.current) { MaterialTheme.typography.titleSmall.lineHeight.toDp() })
                     .background(shape = MaterialTheme.shapes.small, color = shimmerColor.value)
-            ) {}
+            )
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .aspectRatio(graphAspectRatio)
                     .background(shape = MaterialTheme.shapes.large, color = shimmerColor.value),
-            ) {}
+            )
         }
     }
 }
