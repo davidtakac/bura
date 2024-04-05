@@ -70,7 +70,7 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
 
     // Compose
-    implementation(platform("androidx.compose:compose-bom:2024.03.00"))
+    implementation(platform("androidx.compose:compose-bom:2024.04.00"))
     implementation("androidx.compose.material3:material3")
     implementation("androidx.navigation:navigation-compose:2.7.7")
     // Previews

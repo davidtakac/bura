@@ -15,7 +15,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -37,7 +40,6 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.max
 import com.davidtakac.bura.R
 import com.davidtakac.bura.common.AppTheme
 import com.davidtakac.bura.condition.Condition
@@ -99,13 +101,14 @@ fun NowSummary(
             )
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(4.dp)
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                modifier = Modifier.height(IntrinsicSize.Min)
             ) {
                 CompositionLocalProvider(
                     LocalTextStyle provides MaterialTheme.typography.displayMedium,
                     content = temperature
                 )
-                Box(modifier = Modifier.size(48.dp)) {
+                Box(modifier = Modifier.fillMaxHeight().aspectRatio(1f)) {
                     icon()
                 }
             }
@@ -147,28 +150,28 @@ fun NowSummarySkeleton(color: State<Color>, modifier: Modifier = Modifier) {
                     .height(with(density) { nowType.lineHeight.toDp() })
                     .padding(vertical = 2.dp)
                     .background(color = color.value, shape = MaterialTheme.shapes.small)
-            ) {}
+            )
             Box(
                 modifier = Modifier
                     .width(160.dp)
                     .height(with(density) { tempType.lineHeight.toDp() })
                     .padding(vertical = 2.dp)
                     .background(color = color.value, shape = MaterialTheme.shapes.medium)
-            ) {}
+            )
             Box(
                 modifier = Modifier
                     .width(180.dp)
                     .height(with(density) { lowHighType.lineHeight.toDp() })
                     .padding(vertical = 2.dp)
                     .background(color = color.value, shape = MaterialTheme.shapes.small)
-            ) {}
+            )
         }
         Box(
             modifier = Modifier
                 .width(120.dp)
                 .height(with(density) { conditionFeelsLikeType.lineHeight.toDp() * 2 })
                 .background(color = color.value, shape = MaterialTheme.shapes.medium)
-        ) {}
+        )
     }
 }
 

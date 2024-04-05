@@ -70,7 +70,7 @@ fun HourSummaryLazyRowSkeleton(color: State<Color>, modifier: Modifier = Modifie
         modifier = modifier
             .height(rememberHeight())
             .background(color = color.value, shape = MaterialTheme.shapes.medium)
-    ) {}
+    )
 }
 
 @Composable
