@@ -40,7 +40,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.davidtakac.bura.R
 import com.davidtakac.bura.common.AppTheme
-import com.davidtakac.bura.common.TextPlaceholder
+import com.davidtakac.bura.common.TextSkeleton
 import com.davidtakac.bura.condition.Condition
 import com.davidtakac.bura.condition.image
 import com.davidtakac.bura.condition.string
@@ -139,7 +139,7 @@ fun NowSummary(
 fun NowSummarySkeleton(color: State<Color>, modifier: Modifier = Modifier) {
     NowSummary(
         date = {
-            TextPlaceholder(
+            TextSkeleton(
                 color = color,
                 shape = MaterialTheme.shapes.small,
                 contentPadding = PaddingValues(vertical = 2.dp),
@@ -147,7 +147,7 @@ fun NowSummarySkeleton(color: State<Color>, modifier: Modifier = Modifier) {
             )
         },
         temperature = {
-            TextPlaceholder(
+            TextSkeleton(
                 color = color,
                 shape = MaterialTheme.shapes.medium,
                 contentPadding = PaddingValues(vertical = 2.dp),
@@ -156,7 +156,7 @@ fun NowSummarySkeleton(color: State<Color>, modifier: Modifier = Modifier) {
         },
         icon = {},
         highLow = {
-            TextPlaceholder(
+            TextSkeleton(
                 color = color,
                 shape = MaterialTheme.shapes.small,
                 contentPadding = PaddingValues(vertical = 2.dp),
@@ -164,7 +164,7 @@ fun NowSummarySkeleton(color: State<Color>, modifier: Modifier = Modifier) {
             )
         },
         feelsLike = {
-            TextPlaceholder(
+            TextSkeleton(
                 color = color,
                 shape = MaterialTheme.shapes.small,
                 contentPadding = PaddingValues(vertical = 2.dp),
@@ -172,7 +172,7 @@ fun NowSummarySkeleton(color: State<Color>, modifier: Modifier = Modifier) {
             )
         },
         condition = {
-            TextPlaceholder(
+            TextSkeleton(
                 color = color,
                 shape = MaterialTheme.shapes.small,
                 contentPadding = PaddingValues(vertical = 2.dp),

@@ -19,7 +19,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
@@ -29,12 +28,11 @@ import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.davidtakac.bura.R
-import com.davidtakac.bura.common.TextPlaceholder
+import com.davidtakac.bura.common.TextSkeleton
 import com.davidtakac.bura.graphs.common.GraphArgs
 import com.davidtakac.bura.graphs.common.GraphScreenSectionLabel
 import com.davidtakac.bura.graphs.pop.PopGraph
@@ -155,7 +153,7 @@ fun EssentialGraphPageLoadingIndicator(shimmerColor: State<Color>, modifier: Mod
         }
         item {
             Column(verticalArrangement = Arrangement.spacedBy(graphLabelSpacing)) {
-                TextPlaceholder(
+                TextSkeleton(
                     color = shimmerColor,
                     shape = MaterialTheme.shapes.small,
                     style = MaterialTheme.typography.titleSmall,
