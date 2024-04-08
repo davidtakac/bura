@@ -1,5 +1,5 @@
 # Bura
-Modern fully-featured weather app with graphs and thoughtful data visualization. Spiritual successor to [Prognoza](https://github.com/davidtakac/prognoza).
+Modern weather app with graphs and thoughtful data visualization. Spiritual successor to [Prognoza](https://github.com/davidtakac/prognoza).
 
 <div>
     <a href="https://apt.izzysoft.de/fdroid/index/apk/com.davidtakac.bura">
@@ -38,18 +38,32 @@ Other features include:
 - Dark and light theme
 - Customizable measurement units
 
-## Planned
-- Graphs for precipitation, uv index, wind, pressure, humidity, visibility and feels like
-- Air quality data and graphs
-- Weather alerts
-- [F-Droid inclusion](https://gitlab.com/fdroid/rfp/-/issues/2703)
-- Customizable [Open-Meteo data sources](https://open-meteo.com/en/docs#data-sources)
-- Customizable refresh period
+## Planned features
+Sorted by priority.
+
+1. Graphs
+   1. Precipitation
+   2. UV index
+   3. Wind
+   4. Pressure
+   5. Humidity
+   6. Visibility
+   7. Feels like
+2. Air quality
+   1. Home screen tiles
+   2. Graphs
+3. Weather alerts
+4. Home screen widgets
+5. Notification widgets
+6. Customizable [Open-Meteo data sources](https://open-meteo.com/en/docs#data-sources)
 
 ## Not planned
-- Other weather sources
-- Widgets
+Issues requesting these features will be closed as not planned.
+
 - Manual refresh
+- Customizable refresh period
+- Other weather sources
+- OLED dark theme
 
 ## Translate
 Translations will be managed with [Weblate](https://hosted.weblate.org/) if/when my libre hosting request is approved.

@@ -1,1 +1,1 @@
-Modern fully-featured weather app with graphs and thoughtful data visualization
+Modern weather app with graphs and thoughtful data visualization
