@@ -1,0 +1,4 @@
+## [1.0.5] - 2024-04-08
+
+### Fixed
+- Skeleton loaders not corresponding to loaded elements
