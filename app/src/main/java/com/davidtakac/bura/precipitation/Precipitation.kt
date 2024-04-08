@@ -16,7 +16,7 @@ sealed class Precipitation(
     protected val millimeters: Double,
     val value: Double,
     val unit: Unit
-) {
+) : Comparable<Precipitation> {
     enum class Unit {
         Millimeters, Centimeters, Inches
     }
@@ -29,6 +29,9 @@ sealed class Precipitation(
         }
         return "${String.format("%.2f", value)} $unitStr"
     }
+
+    override fun compareTo(other: Precipitation): Int =
+        millimeters.compareTo(other.millimeters)
 }
 
 class Rain(millimeters: Double, value: Double, unit: Unit) :
