@@ -13,9 +13,11 @@ package com.davidtakac.bura.graphs
 import android.content.Context
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -69,7 +71,7 @@ fun PrecipitationGraph(
             measurer = measurer,
             args = args
         )*/
-        drawHorizontalAxisAndPlot(
+        drawHorizontalAxisAndBars(
             state = state,
             max = max,
             context = context,
@@ -82,7 +84,7 @@ fun PrecipitationGraph(
     }
 }
 
-private fun DrawScope.drawHorizontalAxisAndPlot(
+private fun DrawScope.drawHorizontalAxisAndBars(
     state: PrecipitationGraph,
     max: MixedPrecipitation,
     rainColor: Color,
@@ -94,8 +96,7 @@ private fun DrawScope.drawHorizontalAxisAndPlot(
 ) {
     val iconSize = 24.dp.toPx()
     val iconSizeRound = iconSize.roundToInt()
-    val hasSpaceFor12Icons =
-        (size.width - args.startGutter - args.endGutter) - (iconSizeRound * 12) >= (12 * 2.dp.toPx())
+    val hasSpaceFor12Icons = (size.width - args.startGutter - args.endGutter) - (iconSizeRound * 12) >= (12 * 2.dp.toPx())
     val iconY = ((args.topGutter / 2) - (iconSize / 2)).roundToInt()
     val range = max.value
 
@@ -105,12 +106,36 @@ private fun DrawScope.drawHorizontalAxisAndPlot(
     ) { i, x ->
         // Temperature line
         val point = state.points.getOrNull(i) ?: return@drawTimeAxis
-        val value = point.precip.value
-        val y = ((1 - value / range) * (size.height - args.topGutter - args.bottomGutter)).toFloat() + args.topGutter
+        val precip = point.precip
+        val rain = precip.rain.convertTo(precip.unit)
+        val showers = precip.showers.convertTo(precip.unit)
+        val snow = precip.snow.convertTo(precip.unit)
+        val rainHeight = ((rain.value / range) * (size.height - args.topGutter - args.bottomGutter)).toFloat()
+        val showersHeight = ((showers.value / range) * (size.height - args.topGutter - args.bottomGutter)).toFloat()
+        val snowHeight = ((snow.value / range) * (size.height - args.topGutter - args.bottomGutter)).toFloat()
+
+        val barSpacing = 1.dp.toPx()
+        val bottomOfGraph = size.height - args.bottomGutter
+        val topOfRain = bottomOfGraph - rainHeight
         drawLine(
             brush = SolidColor(rainColor),
-            start = Offset(x, size.height - args.bottomGutter),
-            end = Offset(x, y),
+            start = Offset(x, bottomOfGraph),
+            end = Offset(x, topOfRain),
+            strokeWidth = 8.dp.toPx()
+        )
+
+        val topOfShowers = topOfRain - showersHeight
+        drawLine(
+            brush = SolidColor(showersColor),
+            start = Offset(x, topOfRain - barSpacing),
+            end = Offset(x, topOfShowers),
+            strokeWidth = 8.dp.toPx()
+        )
+
+        drawLine(
+            brush = SolidColor(snowColor),
+            start = Offset(x, topOfShowers - barSpacing),
+            end = Offset(x, topOfShowers - snowHeight),
             strokeWidth = 8.dp.toPx()
         )
 
@@ -142,7 +167,8 @@ private fun PrecipitationGraphPreview() {
                 points = List(25) {
                     PrecipitationGraphPoint(
                         time = GraphTime(
-                            hour = LocalDateTime.parse("1970-01-01T00:00").plus(it.toLong(), ChronoUnit.HOURS),
+                            hour = LocalDateTime.parse("1970-01-01T00:00")
+                                .plus(it.toLong(), ChronoUnit.HOURS),
                             now = now
                         ),
                         precip = MixedPrecipitation.fromMillimeters(
@@ -157,13 +183,59 @@ private fun PrecipitationGraphPreview() {
                     )
                 }
             ),
-            args = GraphArgs.rememberPopArgs(),
+            args = GraphArgs.rememberTemperatureArgs(),
             max = MixedPrecipitation.fromMillimeters(
                 Rain.fromMillimeters(15.0),
-                Showers.fromMillimeters(0.0),
-                Snow.fromMillimeters(0.0)
+                Showers.Zero,
+                Snow.Zero
             ),
-            modifier = Modifier.fillMaxWidth().aspectRatio(4f / 3f).padding(16.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .aspectRatio(4f / 3f)
+                .background(MaterialTheme.colorScheme.surface)
+                .padding(16.dp)
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun PrecipitationGraphDarkPreview() {
+    val now = remember { LocalDateTime.parse("1970-01-01T08:00") }
+    AppTheme(darkTheme = true) {
+        PrecipitationGraph(
+            state = PrecipitationGraph(
+                day = LocalDate.parse("1970-01-01"),
+                points = List(25) {
+                    PrecipitationGraphPoint(
+                        time = GraphTime(
+                            hour = LocalDateTime.parse("1970-01-01T00:00")
+                                .plus(it.toLong(), ChronoUnit.HOURS),
+                            now = now
+                        ),
+                        precip = MixedPrecipitation.fromMillimeters(
+                            rain = Rain.fromMillimeters(Random.nextDouble(until = 5.0)),
+                            showers = Showers.fromMillimeters(Random.nextDouble(until = 5.0)),
+                            snow = Snow.fromMillimeters(Random.nextDouble(until = 5.0))
+                        ),
+                        cond = Condition(
+                            wmoCode = Random.nextInt(0, 3),
+                            isDay = Random.nextBoolean()
+                        )
+                    )
+                }
+            ),
+            args = GraphArgs.rememberTemperatureArgs(),
+            max = MixedPrecipitation.fromMillimeters(
+                Rain.fromMillimeters(15.0),
+                Showers.Zero,
+                Snow.Zero
+            ),
+            modifier = Modifier
+                .fillMaxWidth()
+                .aspectRatio(4f / 3f)
+                .background(MaterialTheme.colorScheme.surface)
+                .padding(16.dp)
         )
     }
 }
