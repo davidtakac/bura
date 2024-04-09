@@ -43,6 +43,7 @@ import java.time.LocalDate
 @Composable
 fun PrecipitationSummary(
     state: PrecipitationSummary,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     SummaryTile(
@@ -57,6 +58,7 @@ fun PrecipitationSummary(
             )
         },
         bottom = { Bottom(future = state.future) },
+        onClick = onClick,
         modifier = modifier
     )
 }
@@ -133,6 +135,7 @@ private fun PrecipitationSummaryPreview() {
                             total = Rain.fromMillimeters(5.0)
                         )
                     ),
+                    onClick = {},
                     modifier = Modifier.aspectRatio(1f)
                 )
                 PrecipitationSummary(
@@ -144,8 +147,9 @@ private fun PrecipitationSummaryPreview() {
                         future = FuturePrecipitation.InHours(
                             inHours = 24,
                             total = Rain.Zero
-                        )
+                        ),
                     ),
+                    onClick = {},
                     modifier = Modifier.aspectRatio(1f)
                 )
                 PrecipitationSummary(
@@ -156,6 +160,7 @@ private fun PrecipitationSummaryPreview() {
                         ),
                         future = FuturePrecipitation.None(inDays = 7)
                     ),
+                    onClick = {},
                     modifier = Modifier.aspectRatio(1f)
                 )
             }

@@ -34,6 +34,7 @@ fun SummaryTile(
     value: @Composable () -> Unit,
     bottom: @Composable () -> Unit,
     modifier: Modifier = Modifier,
+    onClick: () -> Unit = {},
     supportingValue: (@Composable () -> Unit)? = null,
 ) {
     BoxWithConstraints(modifier) {
@@ -42,7 +43,8 @@ fun SummaryTile(
                 .fillMaxWidth()
                 .heightIn(min = minWidth),
             tonalElevation = 1.dp,
-            shape = MaterialTheme.shapes.medium
+            shape = MaterialTheme.shapes.medium,
+            onClick = onClick
         ) {
             Column(
                 verticalArrangement = Arrangement.SpaceBetween,

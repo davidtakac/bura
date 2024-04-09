@@ -8,7 +8,7 @@
  * You should have received a copy of the GNU General Public License along with Bura. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.davidtakac.bura.graphs
+package com.davidtakac.bura.graphs.precipitation
 
 import android.content.Context
 import androidx.appcompat.content.res.AppCompatResources
@@ -101,7 +101,7 @@ private fun DrawScope.drawHorizontalAxisAndBars(
     val iconSizeRound = iconSize.roundToInt()
     val hasSpaceFor12Icons = (size.width - args.startGutter - args.endGutter) - (iconSizeRound * 12) >= (12 * 2.dp.toPx())
     val iconY = ((args.topGutter / 2) - (iconSize / 2)).roundToInt()
-    val range = max.value
+    val range = max.value * 1.2f
 
     drawTimeAxis(
         measurer = measurer,
@@ -115,7 +115,7 @@ private fun DrawScope.drawHorizontalAxisAndBars(
         val snow = precip.snow.convertTo(max.unit)
         val rainHeight = ((rain.value / range) * (size.height - args.topGutter - args.bottomGutter)).toFloat()
         val showersHeight = ((showers.value / range) * (size.height - args.topGutter - args.bottomGutter)).toFloat()
-        val snowHeight = ((snow.value / range) * (size.height - args.topGutter - args.bottomGutter)).toFloat()
+        val snowHeight = ((snow.liquidValue / range) * (size.height - args.topGutter - args.bottomGutter)).toFloat()
 
         val barSpacing = 1.dp.toPx()
         val barWidth = 8.dp.toPx()
@@ -128,7 +128,7 @@ private fun DrawScope.drawHorizontalAxisAndBars(
             strokeWidth = barWidth
         )
 
-        val bottomOfShowers = topOfRain - if (showersHeight > 0) barSpacing else 0f
+        val bottomOfShowers = topOfRain - if (showersHeight > 0 && rainHeight > 0) barSpacing else 0f
         val topOfShowers = bottomOfShowers - showersHeight
         drawLine(
             brush = SolidColor(showersColor),
@@ -137,7 +137,7 @@ private fun DrawScope.drawHorizontalAxisAndBars(
             strokeWidth = barWidth
         )
 
-        val bottomOfSnow = topOfShowers - if (snowHeight > 0) barSpacing else 0f
+        val bottomOfSnow = topOfShowers - if (snowHeight > 0 && showersHeight > 0) barSpacing else 0f
         val topOfSnow = bottomOfSnow - snowHeight
         drawLine(
             brush = SolidColor(snowColor),

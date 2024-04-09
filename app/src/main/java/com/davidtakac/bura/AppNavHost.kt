@@ -18,6 +18,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.davidtakac.bura.common.Theme
 import com.davidtakac.bura.graphs.EssentialGraphsDestination
+import com.davidtakac.bura.graphs.PrecipitationGraphsDestination
 import com.davidtakac.bura.settings.SettingsDestination
 import com.davidtakac.bura.summary.SummaryDestination
 import java.time.LocalDate
@@ -36,6 +37,9 @@ fun AppNavHost(theme: Theme, onThemeClick: (Theme) -> Unit) {
                 },
                 onSettingsButtonClick = {
                     controller.navigate("settings")
+                },
+                onPrecipitationClick = {
+                    controller.navigate("precipitation-graphs")
                 }
             )
         }
@@ -50,6 +54,22 @@ fun AppNavHost(theme: Theme, onThemeClick: (Theme) -> Unit) {
             )
         ) { backStackEntry ->
             EssentialGraphsDestination(
+                initialDay = backStackEntry.arguments?.getString("initialDay")?.let(LocalDate::parse),
+                onSelectPlaceClick = controller::popBackStack,
+                onBackClick = controller::popBackStack
+            )
+        }
+        composable(
+            route = "precipitation-graphs?initialDay={initialDay}",
+            arguments = listOf(
+                navArgument("initialDay") {
+                    nullable = true
+                    defaultValue = null
+                    type = NavType.StringType
+                }
+            )
+        ) { backStackEntry ->
+            PrecipitationGraphsDestination(
                 initialDay = backStackEntry.arguments?.getString("initialDay")?.let(LocalDate::parse),
                 onSelectPlaceClick = controller::popBackStack,
                 onBackClick = controller::popBackStack

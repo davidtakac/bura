@@ -8,7 +8,7 @@
  * You should have received a copy of the GNU General Public License along with Bura. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.davidtakac.bura.graphs
+package com.davidtakac.bura.graphs.precipitation
 
 import com.davidtakac.bura.condition.Condition
 import com.davidtakac.bura.condition.ConditionRepository
@@ -16,7 +16,6 @@ import com.davidtakac.bura.forecast.ForecastResult
 import com.davidtakac.bura.graphs.common.GraphTime
 import com.davidtakac.bura.place.Coordinates
 import com.davidtakac.bura.precipitation.MixedPrecipitation
-import com.davidtakac.bura.precipitation.Precipitation
 import com.davidtakac.bura.precipitation.PrecipitationRepository
 import com.davidtakac.bura.units.Units
 import java.time.LocalDate
@@ -76,7 +75,7 @@ class GetPrecipitationGraphs(
 }
 
 data class PrecipitationGraphs(
-    val max: Precipitation,
+    val max: MixedPrecipitation,
     val graphs: List<PrecipitationGraph>
 )
 

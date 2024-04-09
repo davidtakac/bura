@@ -13,13 +13,14 @@ package com.davidtakac.bura.graphs
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
@@ -31,22 +32,22 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import com.davidtakac.bura.R
 import com.davidtakac.bura.common.FailedToDownloadErrorScreen
 import com.davidtakac.bura.common.NoSelectedPlaceErrorScreen
 import com.davidtakac.bura.common.OutdatedErrorScreen
-import com.davidtakac.bura.common.animateShimmerColorAsState
 import com.davidtakac.bura.graphs.common.GraphArgs
 import com.davidtakac.bura.graphs.common.GraphsPagerIndicator
-import com.davidtakac.bura.graphs.common.GraphsPagerIndicatorSkeleton
+import com.davidtakac.bura.graphs.precipitation.PrecipitationGraph
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EssentialGraphsScreen(
+fun PrecipitationGraphsScreen(
+    state: PrecipitationGraphsState,
     initialDay: LocalDate?,
-    state: EssentialGraphsState,
     onTryAgainClick: () -> Unit,
     onSelectPlaceClick: () -> Unit,
     onBackClick: () -> Unit
@@ -54,7 +55,7 @@ fun EssentialGraphsScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(stringResource(R.string.cond_screen_title)) },
+                title = { Text(stringResource(R.string.precip_screen_title)) },
                 navigationIcon = {
                     IconButton(onClick = onBackClick) {
                         Icon(
@@ -72,27 +73,26 @@ fun EssentialGraphsScreen(
             label = "State crossfade"
         ) {
             when (it) {
-                is EssentialGraphsState.Success -> Pager(
+                is PrecipitationGraphsState.Success -> Pager(
                     state = it,
                     initialDay = initialDay,
                     modifier = Modifier.fillMaxSize()
                 )
 
-                EssentialGraphsState.Loading -> EssentialGraphsLoadingIndicator(
-                    modifier = Modifier.fillMaxSize()
-                )
+                // todo: proper shimmering placeholder
+                PrecipitationGraphsState.Loading -> CircularProgressIndicator()
 
-                EssentialGraphsState.FailedToDownload -> FailedToDownloadErrorScreen(
+                PrecipitationGraphsState.FailedToDownload -> FailedToDownloadErrorScreen(
                     modifier = Modifier.fillMaxSize(),
                     onTryAgainClick = onTryAgainClick
                 )
 
-                EssentialGraphsState.Outdated -> OutdatedErrorScreen(
+                PrecipitationGraphsState.Outdated -> OutdatedErrorScreen(
                     modifier = Modifier.fillMaxSize(),
                     onTryAgainClick = onTryAgainClick
                 )
 
-                EssentialGraphsState.NoSelectedPlace -> NoSelectedPlaceErrorScreen(
+                PrecipitationGraphsState.NoSelectedPlace -> NoSelectedPlaceErrorScreen(
                     modifier = Modifier.fillMaxSize(),
                     onSelectPlaceClick = onSelectPlaceClick
                 )
@@ -104,17 +104,16 @@ fun EssentialGraphsScreen(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun Pager(
-    state: EssentialGraphsState.Success,
+    state: PrecipitationGraphsState.Success,
     initialDay: LocalDate?,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
-        val summaries = state.tempGraphSummaries
-        val tempGraphs = state.tempGraphs
-        val tempArgs = GraphArgs.rememberTemperatureArgs()
-        val popArgs = GraphArgs.rememberPopArgs()
-        val dates = remember(summaries) { summaries.map { it.day } }
-        val pagerState = rememberPagerState(initialPage = initialDay?.let { dates.indexOf(it) } ?: 0) { summaries.size }
+        val graphs = state.graphs.graphs
+        val args = GraphArgs.rememberPrecipArgs()
+        val dates = remember(graphs) { graphs.map { it.day } }
+        val pagerState = rememberPagerState(initialPage = initialDay?.let { dates.indexOf(it) }
+            ?: 0) { graphs.size }
         val scope = rememberCoroutineScope()
         GraphsPagerIndicator(
             state = dates,
@@ -127,34 +126,15 @@ private fun Pager(
             modifier = Modifier.fillMaxWidth()
         )
         HorizontalPager(state = pagerState) { page ->
-            EssentialGraphPage(
-                summary = summaries[page],
-                temperatureGraph = tempGraphs.graphs[page],
-                minTemp = tempGraphs.minTemp,
-                maxTemp = tempGraphs.maxTemp,
-                temperatureArgs = tempArgs,
-                popGraph = state.popGraphs[page],
-                popArgs = popArgs,
-                precipitationTotal = state.precipTotals[page]
+            PrecipitationGraph(
+                state = graphs[page],
+                args = args,
+                max = state.graphs.max,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(1f)
+                    .padding(16.dp)
             )
         }
-    }
-}
-
-@Composable
-private fun EssentialGraphsLoadingIndicator(modifier: Modifier = Modifier) {
-    Column(modifier = modifier) {
-        val shimmerColor = animateShimmerColorAsState()
-        GraphsPagerIndicatorSkeleton(
-            color = shimmerColor,
-            modifier = Modifier.fillMaxWidth()
-        )
-        HorizontalDivider()
-        EssentialGraphPageLoadingIndicator(
-            shimmerColor = shimmerColor,
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxWidth()
-        )
     }
 }

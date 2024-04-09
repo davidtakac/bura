@@ -21,6 +21,7 @@ import com.davidtakac.bura.forecast.ForecastDataCacher
 import com.davidtakac.bura.forecast.ForecastDataDownloader
 import com.davidtakac.bura.forecast.ForecastRepository
 import com.davidtakac.bura.graphs.pop.GetPopGraphs
+import com.davidtakac.bura.graphs.precipitation.GetPrecipitationGraphs
 import com.davidtakac.bura.graphs.precipitation.GetPrecipitationTotals
 import com.davidtakac.bura.graphs.temperature.GetTemperatureGraphSummaries
 import com.davidtakac.bura.graphs.temperature.GetTemperatureGraphs
@@ -119,6 +120,7 @@ class AppContainer(private val appContext: Context) {
     val getPopGraphs get() = GetPopGraphs(popRepo)
     val getPrecipitationTotals get() = GetPrecipitationTotals(precipRepo)
     val getTemperatureGraphSummaries get() = GetTemperatureGraphSummaries(tempRepo, conditionRepo, feelsRepo)
+    val getPrecipitationGraphs get() = GetPrecipitationGraphs(precipRepo, conditionRepo)
 
     private val savedPlacesRepo: SavedPlacesRepository by lazy { FileSavedPlacesRepository(root) }
     val getSavedPlaces get() = GetSavedPlaces(savedPlacesRepo, staticTempRepo, staticConditionRepo)

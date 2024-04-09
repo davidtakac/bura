@@ -30,7 +30,8 @@ import java.time.LocalDate
 fun SummaryDestination(
     onHourlySectionClick: () -> Unit,
     onDayClick: (LocalDate) -> Unit,
-    onSettingsButtonClick: () -> Unit
+    onSettingsButtonClick: () -> Unit,
+    onPrecipitationClick: () -> Unit
 ) {
     val placePickerVM = viewModel<PlacePickerViewModel>(factory = PlacePickerViewModel.Factory)
     val summaryVM = viewModel<SummaryViewModel>(factory = SummaryViewModel.Factory)
@@ -71,6 +72,7 @@ fun SummaryDestination(
         onHourlySectionClick = onHourlySectionClick,
         onDayClick = onDayClick,
         onSettingsButtonClick = onSettingsButtonClick,
+        onPrecipitationClick = onPrecipitationClick,
 
         pickerState = pickerState,
         searchQuery = searchQuery,
