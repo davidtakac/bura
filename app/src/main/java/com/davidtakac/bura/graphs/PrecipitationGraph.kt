@@ -124,31 +124,30 @@ private fun DrawScope.drawHorizontalAxisAndBars(
             strokeWidth = 8.dp.toPx()
         )
 
-        val topOfShowers = topOfRain - showersHeight
+        val bottomOfShowers = topOfRain - if (showersHeight > 0) barSpacing else 0f
+        val topOfShowers = bottomOfShowers - showersHeight
         drawLine(
             brush = SolidColor(showersColor),
-            start = Offset(x, topOfRain - barSpacing),
+            start = Offset(x, bottomOfShowers),
             end = Offset(x, topOfShowers),
             strokeWidth = 8.dp.toPx()
         )
 
+        val bottomOfSnow = topOfShowers - if (snowHeight > 0) barSpacing else 0f
+        val topOfSnow = bottomOfSnow - snowHeight
         drawLine(
             brush = SolidColor(snowColor),
-            start = Offset(x, topOfShowers - barSpacing),
-            end = Offset(x, topOfShowers - snowHeight),
+            start = Offset(x, bottomOfSnow),
+            end = Offset(x, topOfSnow),
             strokeWidth = 8.dp.toPx()
         )
 
         // Condition icons
         if (i % (if (hasSpaceFor12Icons) 2 else 3) == 1) {
             val iconX = x - (iconSize / 2)
-            val iconDrawable = AppCompatResources.getDrawable(
-                context,
-                point.cond.image(context, args.icons)
-            )!!
+            val iconDrawable = AppCompatResources.getDrawable(context, point.cond.image(context, args.icons))!!
             drawImage(
-                image = iconDrawable.toBitmap(width = iconSizeRound, height = iconSizeRound)
-                    .asImageBitmap(),
+                image = iconDrawable.toBitmap(width = iconSizeRound, height = iconSizeRound).asImageBitmap(),
                 dstOffset = IntOffset(iconX.roundToInt(), y = iconY),
                 dstSize = IntSize(width = iconSizeRound, height = iconSizeRound),
             )
@@ -215,7 +214,7 @@ private fun PrecipitationGraphDarkPreview() {
                         ),
                         precip = MixedPrecipitation.fromMillimeters(
                             rain = Rain.fromMillimeters(Random.nextDouble(until = 5.0)),
-                            showers = Showers.fromMillimeters(Random.nextDouble(until = 5.0)),
+                            showers = Showers.fromMillimeters(0.0/*Random.nextDouble(until = 5.0)*/),
                             snow = Snow.fromMillimeters(Random.nextDouble(until = 5.0))
                         ),
                         cond = Condition(
