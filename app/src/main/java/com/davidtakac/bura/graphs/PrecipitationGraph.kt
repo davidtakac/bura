@@ -16,7 +16,6 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -232,7 +231,6 @@ private fun PrecipitationGraphPreview() {
                 .fillMaxWidth()
                 .aspectRatio(4f / 3f)
                 .background(MaterialTheme.colorScheme.surface)
-                .padding(16.dp)
         )
     }
 }
@@ -254,7 +252,7 @@ private fun PrecipitationGraphDarkPreview() {
                         ),
                         precip = MixedPrecipitation.fromMillimeters(
                             rain = Rain.fromMillimeters(Random.nextDouble(until = 5.0)),
-                            showers = Showers.fromMillimeters(0.0/*Random.nextDouble(until = 5.0)*/),
+                            showers = Showers.fromMillimeters(0.0),
                             snow = Snow.fromMillimeters(Random.nextDouble(until = 5.0))
                         ),
                         cond = Condition(
@@ -274,7 +272,6 @@ private fun PrecipitationGraphDarkPreview() {
                 .fillMaxWidth()
                 .aspectRatio(4f / 3f)
                 .background(MaterialTheme.colorScheme.surface)
-                .padding(16.dp)
         )
     }
 }
