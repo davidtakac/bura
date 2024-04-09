@@ -15,6 +15,7 @@ import com.davidtakac.bura.condition.ConditionRepository
 import com.davidtakac.bura.forecast.ForecastResult
 import com.davidtakac.bura.graphs.common.GraphTime
 import com.davidtakac.bura.place.Coordinates
+import com.davidtakac.bura.precipitation.MixedPrecipitation
 import com.davidtakac.bura.precipitation.Precipitation
 import com.davidtakac.bura.precipitation.PrecipitationRepository
 import com.davidtakac.bura.units.Units
@@ -86,6 +87,6 @@ data class PrecipitationGraph(
 
 data class PrecipitationGraphPoint(
     val time: GraphTime,
-    val precip: Precipitation,
+    val precip: MixedPrecipitation,
     val cond: Condition
 )
