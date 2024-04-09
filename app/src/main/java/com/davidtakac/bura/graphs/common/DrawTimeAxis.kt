@@ -45,10 +45,10 @@ fun DrawScope.drawTimeAxis(
                 color = args.axisColor,
                 topLeft = Offset(
                     x = (x - (label.size.width / 2)).coerceIn(
-                        minimumValue = args.startGutter + args.axisTextPadding,
-                        maximumValue = size.width - args.endGutter - label.size.width - args.axisTextPadding
+                        minimumValue = args.startGutter + args.textPaddingMinHorizontal,
+                        maximumValue = size.width - args.endGutter - label.size.width - args.textPaddingMinHorizontal
                     ),
-                    y = size.height - args.bottomGutter + args.axisTextPadding
+                    y = size.height - args.bottomGutter + args.bottomAxisTextPaddingTop
                 )
             )
         }

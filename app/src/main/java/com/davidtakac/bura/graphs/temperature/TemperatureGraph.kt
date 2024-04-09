@@ -213,7 +213,7 @@ private fun DrawScope.drawTempAxis(
             textLayoutResult = temp,
             color = args.axisColor,
             topLeft = Offset(
-                x = endX + args.axisTextPadding,
+                x = endX + args.endAxisTextPaddingStart,
                 y = y - (temp.size.height / 2)
             )
         )

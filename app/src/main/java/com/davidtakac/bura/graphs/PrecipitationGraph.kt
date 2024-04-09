@@ -186,7 +186,7 @@ private fun DrawScope.drawPrecipAxis(
                 textLayoutResult = labelString,
                 color = args.axisColor,
                 topLeft = Offset(
-                    x = endX + args.axisTextPadding,
+                    x = endX + args.endAxisTextPaddingStart,
                     y = y - (labelString.size.height / 2)
                 )
             )
@@ -221,7 +221,7 @@ private fun PrecipitationGraphPreview() {
                     )
                 }
             ),
-            args = GraphArgs.rememberTemperatureArgs(),
+            args = GraphArgs.rememberPrecipArgs(),
             max = MixedPrecipitation.fromMillimeters(
                 Rain.fromMillimeters(15.0),
                 Showers.Zero,
@@ -262,7 +262,7 @@ private fun PrecipitationGraphDarkPreview() {
                     )
                 }
             ),
-            args = GraphArgs.rememberTemperatureArgs(),
+            args = GraphArgs.rememberPrecipArgs(),
             max = MixedPrecipitation.fromMillimeters(
                 Rain.fromMillimeters(15.0),
                 Showers.Zero,

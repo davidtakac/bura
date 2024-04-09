@@ -16,7 +16,6 @@ import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.drawText
-import androidx.compose.ui.unit.dp
 
 fun DrawScope.drawPoint(
     center: Offset,
@@ -65,10 +64,10 @@ private fun DrawScope.drawPointLabel(
         textLayoutResult = labelMeasured,
         topLeft = Offset(
             x = (pointCenter.x - (labelMeasured.size.width / 2)).coerceIn(
-                minimumValue = args.startGutter + args.axisTextPadding,
-                maximumValue = size.width - args.endGutter - labelMeasured.size.width - args.axisTextPadding
+                minimumValue = args.startGutter + args.textPaddingMinHorizontal,
+                maximumValue = size.width - args.endGutter - labelMeasured.size.width - args.textPaddingMinHorizontal
             ),
-            y = pointCenter.y - (labelMeasured.size.height) - 6.dp.toPx()
+            y = pointCenter.y - (labelMeasured.size.height) - args.pointTextPaddingBottom
         )
     )
 }

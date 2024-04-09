@@ -149,7 +149,7 @@ private fun DrawScope.drawVerticalAxis(
             textLayoutResult = popMeasured,
             color = args.axisColor,
             topLeft = Offset(
-                x = endX + args.axisTextPadding,
+                x = endX + args.endAxisTextPaddingStart,
                 y = y - (popMeasured.size.height / 2)
             )
         )
