@@ -28,6 +28,7 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextMeasurer
+import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
@@ -40,10 +41,14 @@ import com.davidtakac.bura.condition.image
 import com.davidtakac.bura.graphs.common.GraphArgs
 import com.davidtakac.bura.graphs.common.GraphTime
 import com.davidtakac.bura.graphs.common.drawTimeAxis
+import com.davidtakac.bura.graphs.common.drawVerticalAxis
 import com.davidtakac.bura.precipitation.MixedPrecipitation
+import com.davidtakac.bura.precipitation.Precipitation
 import com.davidtakac.bura.precipitation.Rain
 import com.davidtakac.bura.precipitation.Showers
 import com.davidtakac.bura.precipitation.Snow
+import com.davidtakac.bura.precipitation.string
+import com.davidtakac.bura.precipitation.valueString
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
@@ -63,14 +68,13 @@ fun PrecipitationGraph(
     val showersColor = AppTheme.colors.showersColor
     val snowColor = AppTheme.colors.snowColor
     Canvas(modifier) {
-        /*drawTempAxis(
-            unit = absMinTemp.unit,
-            minTempC = minCelsius,
-            maxTempC = maxCelsius,
+        drawPrecipAxis(
+            unit = max.unit,
+            maxPrecipMm = max.value,
             context = context,
             measurer = measurer,
             args = args
-        )*/
+        )
         drawHorizontalAxisAndBars(
             state = state,
             max = max,
@@ -107,21 +111,22 @@ private fun DrawScope.drawHorizontalAxisAndBars(
         // Temperature line
         val point = state.points.getOrNull(i) ?: return@drawTimeAxis
         val precip = point.precip
-        val rain = precip.rain.convertTo(precip.unit)
-        val showers = precip.showers.convertTo(precip.unit)
-        val snow = precip.snow.convertTo(precip.unit)
+        val rain = precip.rain.convertTo(max.unit)
+        val showers = precip.showers.convertTo(max.unit)
+        val snow = precip.snow.convertTo(max.unit)
         val rainHeight = ((rain.value / range) * (size.height - args.topGutter - args.bottomGutter)).toFloat()
         val showersHeight = ((showers.value / range) * (size.height - args.topGutter - args.bottomGutter)).toFloat()
         val snowHeight = ((snow.value / range) * (size.height - args.topGutter - args.bottomGutter)).toFloat()
 
         val barSpacing = 1.dp.toPx()
+        val barWidth = 8.dp.toPx()
         val bottomOfGraph = size.height - args.bottomGutter
         val topOfRain = bottomOfGraph - rainHeight
         drawLine(
             brush = SolidColor(rainColor),
             start = Offset(x, bottomOfGraph),
             end = Offset(x, topOfRain),
-            strokeWidth = 8.dp.toPx()
+            strokeWidth = barWidth
         )
 
         val bottomOfShowers = topOfRain - if (showersHeight > 0) barSpacing else 0f
@@ -130,7 +135,7 @@ private fun DrawScope.drawHorizontalAxisAndBars(
             brush = SolidColor(showersColor),
             start = Offset(x, bottomOfShowers),
             end = Offset(x, topOfShowers),
-            strokeWidth = 8.dp.toPx()
+            strokeWidth = barWidth
         )
 
         val bottomOfSnow = topOfShowers - if (snowHeight > 0) barSpacing else 0f
@@ -139,7 +144,7 @@ private fun DrawScope.drawHorizontalAxisAndBars(
             brush = SolidColor(snowColor),
             start = Offset(x, bottomOfSnow),
             end = Offset(x, topOfSnow),
-            strokeWidth = 8.dp.toPx()
+            strokeWidth = barWidth
         )
 
         // Condition icons
@@ -150,6 +155,41 @@ private fun DrawScope.drawHorizontalAxisAndBars(
                 image = iconDrawable.toBitmap(width = iconSizeRound, height = iconSizeRound).asImageBitmap(),
                 dstOffset = IntOffset(iconX.roundToInt(), y = iconY),
                 dstSize = IntSize(width = iconSizeRound, height = iconSizeRound),
+            )
+        }
+    }
+}
+
+private fun DrawScope.drawPrecipAxis(
+    unit: Precipitation.Unit,
+    maxPrecipMm: Double,
+    context: Context,
+    measurer: TextMeasurer,
+    args: GraphArgs
+) {
+    val range = maxPrecipMm
+    var previousValueString = ""
+    drawVerticalAxis(
+        steps = 7,
+        args = args
+    ) { frac, endX, y ->
+        val rain = Rain.fromMillimeters(value = range * frac).convertTo(unit)
+        val valueString = rain.valueString(args.numberFormat)
+        val labelString = measurer.measure(
+            text = if (frac == 0f) rain.string(context, args.numberFormat) else valueString,
+            style = args.axisTextStyle
+        )
+        // This check prevents consecutive labels that mean the same thing
+        // as can be the case with inches
+        if (previousValueString != valueString) {
+            previousValueString = valueString
+            drawText(
+                textLayoutResult = labelString,
+                color = args.axisColor,
+                topLeft = Offset(
+                    x = endX + args.axisTextPadding,
+                    y = y - (labelString.size.height / 2)
+                )
             )
         }
     }
@@ -229,7 +269,7 @@ private fun PrecipitationGraphDarkPreview() {
                 Rain.fromMillimeters(15.0),
                 Showers.Zero,
                 Snow.Zero
-            ),
+            ).convertTo(Precipitation.Unit.Inches),
             modifier = Modifier
                 .fillMaxWidth()
                 .aspectRatio(4f / 3f)

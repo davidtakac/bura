@@ -30,7 +30,7 @@ private fun Precipitation.unitString(context: Context): String =
         }
     )
 
-private fun Precipitation.valueString(numberFormat: NumberFormat): String =
+fun Precipitation.valueString(numberFormat: NumberFormat): String =
     numberFormat.format(
         BigDecimal.valueOf(value).setScale(
             when (unit) {
@@ -42,7 +42,7 @@ private fun Precipitation.valueString(numberFormat: NumberFormat): String =
         )
     )
 
-private fun Precipitation.string(context: Context, numberFormat: NumberFormat): String =
+fun Precipitation.string(context: Context, numberFormat: NumberFormat): String =
     context.getString(
         when (unit) {
             Precipitation.Unit.Millimeters -> R.string.precip_value_mm
