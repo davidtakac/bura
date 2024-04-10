@@ -159,7 +159,7 @@ private fun Pager(
                         max = state.graphs.max,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .aspectRatio(4f / 3f)
+                            .aspectRatio(1f)
                             .border(
                                 width = Dp.Hairline,
                                 shape = MaterialTheme.shapes.large,

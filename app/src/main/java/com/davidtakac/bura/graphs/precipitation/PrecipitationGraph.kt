@@ -180,7 +180,6 @@ private fun DrawScope.drawPrecipAxis(
     args: GraphArgs
 ) {
     val range = max.convertTo(Precipitation.Unit.Millimeters).value
-    var previousValueString = ""
     drawVerticalAxis(
         steps = 7,
         args = args
@@ -191,19 +190,14 @@ private fun DrawScope.drawPrecipAxis(
             text = if (frac == 0f) rain.string(context, args.numberFormat) else valueString,
             style = args.axisTextStyle
         )
-        // This check prevents consecutive labels that mean the same thing
-        // as can be the case with inches
-        if (previousValueString != valueString) {
-            previousValueString = valueString
-            drawText(
-                textLayoutResult = labelString,
-                color = args.axisColor,
-                topLeft = Offset(
-                    x = endX + args.endAxisTextPaddingStart,
-                    y = y - (labelString.size.height / 2)
-                )
+        drawText(
+            textLayoutResult = labelString,
+            color = args.axisColor,
+            topLeft = Offset(
+                x = endX + args.endAxisTextPaddingStart,
+                y = y - (labelString.size.height / 2)
             )
-        }
+        )
     }
 }
 
