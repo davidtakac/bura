@@ -40,11 +40,11 @@ data class AppColors(
 
         val ForLightTheme get() = AppColors(
             temperatureColors = darkTemperatureColors,
-            popColor = Color(0xFF1565C0),
-            rainColor = Color(0xFF1565C0),
-            showersColor = Color(0xFF00695C),
-            snowColor = Color(0xFF757575),
-            precipitationColor = Color(0xFF283593)
+            popColor = Color(0xFF2196F3),
+            rainColor = Color(0xFF2196F3),
+            showersColor = Color(0xFF009688),
+            snowColor = Color(0xFF9E9E9E),
+            precipitationColor = Color(0xFF3F51B5)
         )
     }
 }
