@@ -26,7 +26,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.davidtakac.bura.R
 import com.davidtakac.bura.common.AppTheme
-import com.davidtakac.bura.common.rememberDateTimeFormatter
 import com.davidtakac.bura.condition.Condition
 import com.davidtakac.bura.condition.image
 import com.davidtakac.bura.condition.string
@@ -37,10 +36,8 @@ import java.time.LocalDate
 
 @Composable
 fun TemperatureGraphSummary(state: TemperatureGraphSummary, modifier: Modifier = Modifier) {
-    val formatter = rememberDateTimeFormatter(ofPattern = R.string.date_time_pattern_dow_dom_month)
     val now = state.now
     NowSummary(
-        date = { Text(if (now == null) formatter.format(state.day) else stringResource(id = R.string.date_time_now)) },
         temperature = {
             when (now) {
                 null -> {

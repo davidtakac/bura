@@ -83,21 +83,23 @@ fun NowSummary(state: NowSummary, modifier: Modifier = Modifier) {
 
 @Composable
 fun NowSummary(
-    date: @Composable () -> Unit,
     temperature: @Composable () -> Unit,
     icon: @Composable () -> Unit,
     highLow: @Composable () -> Unit,
     feelsLike: @Composable () -> Unit,
     condition: @Composable () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    date: (@Composable () -> Unit)? = null,
 ) {
     Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = modifier) {
         Column {
-            CompositionLocalProvider(
-                LocalTextStyle provides MaterialTheme.typography.titleMedium,
-                LocalContentColor provides MaterialTheme.colorScheme.secondary,
-                content = date
-            )
+            date?.let {
+                CompositionLocalProvider(
+                    LocalTextStyle provides MaterialTheme.typography.titleMedium,
+                    LocalContentColor provides MaterialTheme.colorScheme.secondary,
+                    content = it
+                )
+            }
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(4.dp),
@@ -136,16 +138,22 @@ fun NowSummary(
 }
 
 @Composable
-fun NowSummarySkeleton(color: State<Color>, modifier: Modifier = Modifier) {
+fun NowSummarySkeleton(
+    color: State<Color>,
+    modifier: Modifier = Modifier,
+    withDate: Boolean = false
+) {
     NowSummary(
-        date = {
-            TextSkeleton(
-                color = color,
-                shape = MaterialTheme.shapes.small,
-                contentPadding = PaddingValues(vertical = 2.dp),
-                modifier = Modifier.width(64.dp)
-            )
-        },
+        date = if (withDate) {
+            @Composable {
+                TextSkeleton(
+                    color = color,
+                    shape = MaterialTheme.shapes.small,
+                    contentPadding = PaddingValues(vertical = 2.dp),
+                    modifier = Modifier.width(64.dp)
+                )
+            }
+        } else null,
         temperature = {
             TextSkeleton(
                 color = color,

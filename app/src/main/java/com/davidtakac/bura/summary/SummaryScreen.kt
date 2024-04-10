@@ -236,6 +236,7 @@ private fun SummaryScreenSkeleton(modifier: Modifier = Modifier) {
         item {
             NowSummarySkeleton(
                 color = shimmerColor,
+                withDate = true,
                 modifier = Modifier.fillMaxWidth()
             )
         }
