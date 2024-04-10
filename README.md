@@ -39,10 +39,10 @@ Other features include:
 - Customizable measurement units
 
 ## Planned features
-Sorted by priority.
+Sorted by priority:
 
 1. Graphs
-   1. Precipitation
+   1. ~~Precipitation~~
    2. UV index
    3. Wind
    4. Pressure
@@ -58,7 +58,7 @@ Sorted by priority.
 6. Customizable [Open-Meteo data sources](https://open-meteo.com/en/docs#data-sources)
 
 ## Not planned
-Issues requesting these features will be closed as not planned.
+Issues requesting these features will be closed as not planned:
 
 - Manual refresh
 - Customizable refresh period
@@ -74,12 +74,15 @@ Open issues and/or pull requests targeting the `dev` branch.
 ## Donations
 I do not accept donations at the moment. I tried to accept them on Prognoza, but as soon as I received the first donation, PayPal shut down my account.
 
-## Why wasn't this an update to Prognoza?
-- Bura is a complete rewrite that has nothing in common with Prognoza, except the dev :)
-- Bura also looks completely different, and I figured some people might prefer Prognoza
-- Prognoza's app ID is hr.dtakac.prognoza, but I don't own the domain
-- Prognoza is licensed under the MIT License, which was a mistake
-- Prognoza is written in KMM, which was also a mistake
+## FAQ
+
+### Meaning of the colored temperature bar?
+Nicely explained by @LeftyDextrous in #28: 
+
+> The extreme ends of the spectrum are the full temperature range of the week. The colored bar is the temperature range for that day, and the dot is the current temperature.
+
+### Why wasn't this an update to Prognoza?
+Bura is a complete rewrite that has nothing in common with Prognoza, except being a weather app from the same dev. Also, its app ID is `hr.dtakac.prognoza`, but I don't own the domain. Finally, it is licensed under the MIT License, and I wanted the rewrite to be licensed under the GNU GPLv3.
 
 ## Credit
 - Forecast data by [Open-Meteo](https://open-meteo.com/) licensed under [Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/)  
