@@ -67,17 +67,23 @@ fun PrecipitationGraph(
     val rainColor = AppTheme.colors.rainColor
     val showersColor = AppTheme.colors.showersColor
     val snowColor = AppTheme.colors.snowColor
+    val maxAdjusted = remember(max) {
+        MixedPrecipitation.fromMillimeters(
+            rain = Rain.fromMillimeters((max.convertTo(Precipitation.Unit.Millimeters).value * 1.2f).coerceAtLeast(10.0)),
+            showers = Showers.Zero,
+            snow = Snow.Zero
+        )
+    }
     Canvas(modifier) {
         drawPrecipAxis(
-            unit = max.unit,
-            maxPrecipMm = max.value,
+            max = maxAdjusted,
             context = context,
             measurer = measurer,
             args = args
         )
         drawHorizontalAxisAndBars(
             state = state,
-            max = max,
+            max = maxAdjusted,
             context = context,
             measurer = measurer,
             rainColor = rainColor,
@@ -168,19 +174,18 @@ private fun DrawScope.drawHorizontalAxisAndBars(
 }
 
 private fun DrawScope.drawPrecipAxis(
-    unit: Precipitation.Unit,
-    maxPrecipMm: Double,
+    max: MixedPrecipitation,
     context: Context,
     measurer: TextMeasurer,
     args: GraphArgs
 ) {
-    val range = maxPrecipMm
+    val range = max.convertTo(Precipitation.Unit.Millimeters).value
     var previousValueString = ""
     drawVerticalAxis(
         steps = 7,
         args = args
     ) { frac, endX, y ->
-        val rain = Rain.fromMillimeters(value = range * frac).convertTo(unit)
+        val rain = Rain.fromMillimeters(value = range * frac).convertTo(max.unit)
         val valueString = rain.valueString(args.numberFormat)
         val labelString = measurer.measure(
             text = if (frac == 0f) rain.string(context, args.numberFormat) else valueString,
