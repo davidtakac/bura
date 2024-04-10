@@ -34,18 +34,11 @@ fun SummaryTile(
     value: @Composable () -> Unit,
     bottom: @Composable () -> Unit,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit = {},
+    onClick: (() -> Unit)? = null,
     supportingValue: (@Composable () -> Unit)? = null,
 ) {
     BoxWithConstraints(modifier) {
-        Surface(
-            modifier = Modifier
-                .fillMaxWidth()
-                .heightIn(min = minWidth),
-            tonalElevation = 1.dp,
-            shape = MaterialTheme.shapes.medium,
-            onClick = onClick
-        ) {
+        val content = @Composable {
             Column(
                 verticalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier
@@ -75,6 +68,26 @@ fun SummaryTile(
                     content = bottom
                 )
             }
+        }
+        if (onClick != null) {
+            Surface(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .heightIn(min = minWidth),
+                tonalElevation = 1.dp,
+                shape = MaterialTheme.shapes.medium,
+                onClick = onClick,
+                content = content
+            )
+        } else {
+            Surface(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .heightIn(min = minWidth),
+                tonalElevation = 1.dp,
+                shape = MaterialTheme.shapes.medium,
+                content = content
+            )
         }
     }
 }
