@@ -42,9 +42,11 @@ import com.davidtakac.bura.common.NoSelectedPlaceErrorScreen
 import com.davidtakac.bura.common.OutdatedErrorScreen
 import com.davidtakac.bura.graphs.common.GraphArgs
 import com.davidtakac.bura.graphs.common.GraphsPagerIndicator
+import com.davidtakac.bura.graphs.precipitation.FuturePrecipitation
 import com.davidtakac.bura.graphs.precipitation.PrecipitationGraph
 import com.davidtakac.bura.graphs.precipitation.PrecipitationGraphOtherDaySummary
 import com.davidtakac.bura.graphs.precipitation.PrecipitationGraphTodaySummary
+import com.davidtakac.bura.graphs.precipitation.PrecipitationToday
 import com.davidtakac.bura.graphs.precipitation.PrecipitationTotal
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -153,6 +155,19 @@ private fun Pager(
                         max = state.graphs.max,
                         modifier = Modifier.fillMaxWidth().aspectRatio(1f)
                     )
+                }
+                item {
+                    when (total) {
+                        is PrecipitationTotal.OtherDay -> FuturePrecipitation(
+                            state = total,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+
+                        is PrecipitationTotal.Today -> PrecipitationToday(
+                            state = total,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
                 }
             }
         }
