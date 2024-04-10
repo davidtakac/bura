@@ -38,14 +38,14 @@
     <string name="cond_screen_precip_value_in_next_hours">Next %s hours</string>
 
     <string name="precip_screen_title">Precipitation</string>
-    <string name="precip_screen_value_total_rain_in_last_hours">Total rain in last %sh</string>
-    <string name="precip_screen_value_total_showers_in_last_hours">Total showers in last %sh</string>
-    <string name="precip_screen_value_total_snow_in_last_hours">Total snowfall in last %sh</string>
-    <string name="precip_screen_value_total_precip_in_last_hours">Total precip. in last %sh</string>
-    <string name="precip_screen_value_total_rain_of_day">Total rain of day</string>
-    <string name="precip_screen_value_total_showers_of_day">Total showers of day</string>
-    <string name="precip_screen_value_total_snow_of_day">Total snowfall of day</string>
-    <string name="precip_screen_value_total_precip_of_day">Total precip. of day</string>
+    <string name="precip_screen_value_total_rain_in_last_hours">Rain in last %sh</string>
+    <string name="precip_screen_value_total_showers_in_last_hours">Showers in last %sh</string>
+    <string name="precip_screen_value_total_snow_in_last_hours">Snowfall in last %sh</string>
+    <string name="precip_screen_value_total_precip_in_last_hours">Precipitation in last %sh</string>
+    <string name="precip_screen_value_total_rain_of_day">Rain total</string>
+    <string name="precip_screen_value_total_showers_of_day">Showers total</string>
+    <string name="precip_screen_value_total_snow_of_day">Snowfall total</string>
+    <string name="precip_screen_value_total_precip_of_day">Precipitation total</string>
 
     <string name="settings_screen_title">Settings</string>
     <string name="settings_screen_title_units">Units</string>

@@ -21,9 +21,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.davidtakac.bura.R
 import com.davidtakac.bura.precipitation.MixedPrecipitation
+import com.davidtakac.bura.precipitation.Precipitation
 import com.davidtakac.bura.precipitation.Rain
 import com.davidtakac.bura.precipitation.Showers
 import com.davidtakac.bura.precipitation.Snow
+import com.davidtakac.bura.precipitation.string
 import com.davidtakac.bura.precipitation.unitString
 import com.davidtakac.bura.precipitation.valueString
 import com.davidtakac.bura.summary.ValueAndUnit
@@ -54,12 +56,16 @@ fun PrecipitationGraphTodaySummary(
     modifier: Modifier = Modifier
 ) {
     PrecipitationGraphSummary(
+        modifier = modifier,
         value = {
-            ValueAndUnit(
-                value = state.past.total.valueString(),
-                unit = state.past.total.unitString(),
-                modifier = modifier
-            )
+            if (state.past.total.unit == Precipitation.Unit.Inches) {
+                Text(text = state.past.total.string())
+            } else {
+                ValueAndUnit(
+                    value = state.past.total.valueString(),
+                    unit = state.past.total.unitString()
+                )
+            }
         },
         inHours = {
             Text(
@@ -83,12 +89,16 @@ fun PrecipitationGraphOtherDaySummary(
     modifier: Modifier = Modifier
 ) {
     PrecipitationGraphSummary(
+        modifier = modifier,
         value = {
-            ValueAndUnit(
-                value = state.total.valueString(),
-                unit = state.total.unitString(),
-                modifier = modifier
-            )
+            if (state.total.unit == Precipitation.Unit.Inches) {
+                Text(text = state.total.string())
+            } else {
+                ValueAndUnit(
+                    value = state.total.valueString(),
+                    unit = state.total.unitString()
+                )
+            }
         },
         inHours = {
             Text(
