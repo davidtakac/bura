@@ -38,7 +38,6 @@ fun PrecipitationGraphSummary(
 ) {
     Column(modifier = modifier) {
         CompositionLocalProvider(
-            LocalTextStyle provides MaterialTheme.typography.headlineMedium,
             LocalContentColor provides MaterialTheme.colorScheme.onSurface,
             content = value
         )
@@ -59,11 +58,16 @@ fun PrecipitationGraphTodaySummary(
         modifier = modifier,
         value = {
             if (state.past.total.unit == Precipitation.Unit.Inches) {
-                Text(text = state.past.total.string())
+                Text(
+                    text = state.past.total.string(),
+                    style = MaterialTheme.typography.headlineLarge
+                )
             } else {
                 ValueAndUnit(
                     value = state.past.total.valueString(),
-                    unit = state.past.total.unitString()
+                    unit = state.past.total.unitString(),
+                    valueStyle = MaterialTheme.typography.headlineLarge,
+                    unitStyle = MaterialTheme.typography.headlineMedium
                 )
             }
         },
@@ -92,11 +96,16 @@ fun PrecipitationGraphOtherDaySummary(
         modifier = modifier,
         value = {
             if (state.total.unit == Precipitation.Unit.Inches) {
-                Text(text = state.total.string())
+                Text(
+                    text = state.total.string(),
+                    style = MaterialTheme.typography.headlineLarge
+                )
             } else {
                 ValueAndUnit(
                     value = state.total.valueString(),
-                    unit = state.total.unitString()
+                    unit = state.total.unitString(),
+                    valueStyle = MaterialTheme.typography.headlineLarge,
+                    unitStyle = MaterialTheme.typography.headlineMedium
                 )
             }
         },
