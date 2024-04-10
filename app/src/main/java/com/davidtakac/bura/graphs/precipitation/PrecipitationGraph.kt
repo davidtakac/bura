@@ -39,6 +39,7 @@ import com.davidtakac.bura.condition.Condition
 import com.davidtakac.bura.condition.image
 import com.davidtakac.bura.graphs.common.GraphArgs
 import com.davidtakac.bura.graphs.common.GraphTime
+import com.davidtakac.bura.graphs.common.drawPastOverlay
 import com.davidtakac.bura.graphs.common.drawTimeAxis
 import com.davidtakac.bura.graphs.common.drawVerticalAxis
 import com.davidtakac.bura.precipitation.MixedPrecipitation
@@ -103,12 +104,15 @@ private fun DrawScope.drawHorizontalAxisAndBars(
     val iconY = ((args.topGutter / 2) - (iconSize / 2)).roundToInt()
     val range = max.value * 1.2f
 
+    var nowX: Float? = null
     drawTimeAxis(
         measurer = measurer,
         args = args
     ) { i, x ->
         // Temperature line
         val point = state.points.getOrNull(i) ?: return@drawTimeAxis
+        if (point.time.meta == GraphTime.Meta.Present) nowX = x
+
         val precip = point.precip
         val rain = precip.rain.convertTo(max.unit)
         val showers = precip.showers.convertTo(max.unit)
@@ -156,6 +160,10 @@ private fun DrawScope.drawHorizontalAxisAndBars(
                 dstSize = IntSize(width = iconSizeRound, height = iconSizeRound),
             )
         }
+    }
+
+    nowX?.let {
+        drawPastOverlay(it, args)
     }
 }
 

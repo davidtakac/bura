@@ -34,7 +34,7 @@ import com.davidtakac.bura.common.AppTheme
 import com.davidtakac.bura.graphs.common.GraphArgs
 import com.davidtakac.bura.graphs.common.GraphTime
 import com.davidtakac.bura.graphs.common.drawLabeledPoint
-import com.davidtakac.bura.graphs.common.drawPastOverlay
+import com.davidtakac.bura.graphs.common.drawPastOverlayWithPoint
 import com.davidtakac.bura.graphs.common.drawTimeAxis
 import com.davidtakac.bura.graphs.common.drawVerticalAxis
 import com.davidtakac.bura.pop.Pop
@@ -127,7 +127,7 @@ private fun DrawScope.drawHorizontalAxisAndPlot(
         )
     }
     nowCenter?.let {
-        drawPastOverlay(it, args)
+        drawPastOverlayWithPoint(it, args)
     }
 }
 

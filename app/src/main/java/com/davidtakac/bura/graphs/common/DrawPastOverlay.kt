@@ -15,25 +15,26 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.drawscope.DrawScope
 
 fun DrawScope.drawPastOverlay(
-    nowCenter: Offset,
+    nowX: Float,
     args: GraphArgs
 ) {
-    val nowX = nowCenter.x
     drawLine(
         color = args.axisColor,
         start = Offset(x = nowX, y = 0f),
         end = Offset(x = nowX, y = size.height),
         strokeWidth = 2f
     )
-    if (nowX > args.startGutter) {
-        drawRect(
-            color = args.pastOverlayColor,
-            topLeft = Offset.Zero,
-            size = Size(width = nowX, height = size.height)
-        )
-    }
-    drawPoint(
-        nowCenter,
-        args = args
+    drawRect(
+        color = args.pastOverlayColor,
+        topLeft = Offset.Zero,
+        size = Size(width = nowX, height = size.height)
     )
+}
+
+fun DrawScope.drawPastOverlayWithPoint(
+    nowCenter: Offset,
+    args: GraphArgs
+) {
+    drawPastOverlay(nowCenter.x, args)
+    drawPoint(nowCenter, args)
 }
