@@ -81,9 +81,6 @@ Nicely explained by @LeftyDextrous in #28:
 
 > The extreme ends of the spectrum are the full temperature range of the week. The colored bar is the temperature range for that day, and the dot is the current temperature.
 
-### Why wasn't this an update to Prognoza?
-Bura is a complete rewrite that has nothing in common with Prognoza, except being a weather app from the same dev. Also, its app ID is `hr.dtakac.prognoza`, but I don't own the domain. Finally, it is licensed under the MIT License, and I wanted the rewrite to be licensed under the GNU GPLv3.
-
 ## Credit
 - Forecast data by [Open-Meteo](https://open-meteo.com/) licensed under [Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/)  
 - Location data by [Open-Meteo](https://open-meteo.com/) licensed under [Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/)  
