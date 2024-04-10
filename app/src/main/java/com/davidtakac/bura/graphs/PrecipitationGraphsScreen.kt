@@ -153,7 +153,7 @@ private fun Pager(
                         state = graph,
                         args = args,
                         max = state.graphs.max,
-                        modifier = Modifier.fillMaxWidth().aspectRatio(1f)
+                        modifier = Modifier.fillMaxWidth().aspectRatio(4f / 3f)
                     )
                 }
                 item {
