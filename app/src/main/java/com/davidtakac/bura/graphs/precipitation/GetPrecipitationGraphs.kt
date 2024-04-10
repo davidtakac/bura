@@ -40,32 +40,15 @@ class GetPrecipitationGraphs(
                 graphs = precipDays.mapIndexed { dayIdx, day ->
                     PrecipitationGraph(
                         day = day.first().hour.toLocalDate(),
-                        points = buildList {
-                            addAll(
-                                day.mapIndexed { momentIdx, moment ->
-                                    PrecipitationGraphPoint(
-                                        time = GraphTime(
-                                            hour = moment.hour,
-                                            now = now
-                                        ),
-                                        precip = moment.precipitation,
-                                        cond = condDays[dayIdx][momentIdx].condition
-                                    )
-                                }
+                        points = day.mapIndexed { momentIdx, moment ->
+                            PrecipitationGraphPoint(
+                                time = GraphTime(
+                                    hour = moment.hour,
+                                    now = now
+                                ),
+                                precip = moment.precipitation,
+                                cond = condDays[dayIdx][momentIdx].condition
                             )
-                            val firstPrecipMomentTomorrow = precipDays.getOrNull(dayIdx + 1)?.first()
-                            if (firstPrecipMomentTomorrow != null) {
-                                add(
-                                    PrecipitationGraphPoint(
-                                        time = GraphTime(
-                                            hour = firstPrecipMomentTomorrow.hour,
-                                            now = now
-                                        ),
-                                        precip = firstPrecipMomentTomorrow.precipitation,
-                                        cond = condDays[dayIdx + 1][0].condition
-                                    )
-                                )
-                            }
                         }
                     )
                 }
