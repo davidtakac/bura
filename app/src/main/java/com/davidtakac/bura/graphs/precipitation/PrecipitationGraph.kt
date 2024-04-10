@@ -72,7 +72,7 @@ fun PrecipitationGraph(
             rain = Rain.fromMillimeters((max.convertTo(Precipitation.Unit.Millimeters).value * 1.2f).coerceAtLeast(10.0)),
             showers = Showers.Zero,
             snow = Snow.Zero
-        )
+        ).convertTo(max.unit)
     }
     Canvas(modifier) {
         drawPrecipAxis(
