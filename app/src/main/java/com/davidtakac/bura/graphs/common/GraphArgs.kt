@@ -73,7 +73,7 @@ data class GraphArgs(
             val axisTextStyle = typography.bodySmall
             val axisTextPadding = 6.dp.toPx()
             GraphArgs(
-                startGutter = 0f,
+                startGutter = 8.dp.toPx(),
                 endGutter = 48.dp.toPx(),
                 topGutter = 32.dp.toPx(),
                 bottomGutter = axisTextStyle.lineHeight.toPx() + (2 * axisTextPadding),
@@ -136,7 +136,6 @@ data class GraphArgs(
             return remember(density, colorScheme, typography, dateTimeFormatter, numberFormat, icons) {
                 val default = default(density, dateTimeFormatter, numberFormat, typography, colorScheme, icons)
                 default.copy(
-                    startGutter = with(density) { 8.dp.toPx() },
                     endAxisTextPaddingStart = default.endAxisTextPaddingStart + with(density) { 4.dp.toPx() }
                 )
             }

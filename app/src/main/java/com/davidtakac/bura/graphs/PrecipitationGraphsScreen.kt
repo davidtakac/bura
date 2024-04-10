@@ -12,6 +12,7 @@ package com.davidtakac.bura.graphs
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -26,6 +27,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -33,8 +35,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.davidtakac.bura.R
 import com.davidtakac.bura.common.FailedToDownloadErrorScreen
@@ -153,7 +157,15 @@ private fun Pager(
                         state = graph,
                         args = args,
                         max = state.graphs.max,
-                        modifier = Modifier.fillMaxWidth().aspectRatio(4f / 3f)
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .aspectRatio(4f / 3f)
+                            .border(
+                                width = Dp.Hairline,
+                                shape = MaterialTheme.shapes.large,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                            .clip(MaterialTheme.shapes.large)
                     )
                 }
                 item {
