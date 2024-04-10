@@ -12,11 +12,14 @@ package com.davidtakac.bura.graphs
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.CircularProgressIndicator
@@ -40,6 +43,9 @@ import com.davidtakac.bura.common.OutdatedErrorScreen
 import com.davidtakac.bura.graphs.common.GraphArgs
 import com.davidtakac.bura.graphs.common.GraphsPagerIndicator
 import com.davidtakac.bura.graphs.precipitation.PrecipitationGraph
+import com.davidtakac.bura.graphs.precipitation.PrecipitationGraphOtherDaySummary
+import com.davidtakac.bura.graphs.precipitation.PrecipitationGraphTodaySummary
+import com.davidtakac.bura.graphs.precipitation.PrecipitationTotal
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 
@@ -101,6 +107,9 @@ fun PrecipitationGraphsScreen(
     }
 }
 
+private val contentPadding = PaddingValues(horizontal = 16.dp, vertical = 24.dp)
+private val verticalSpacing = 24.dp
+
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun Pager(
@@ -109,32 +118,43 @@ private fun Pager(
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
-        val graphs = state.graphs.graphs
+        val days = remember(state.totals) { state.totals.map { it.day } }
         val args = GraphArgs.rememberPrecipArgs()
-        val dates = remember(graphs) { graphs.map { it.day } }
-        val pagerState = rememberPagerState(initialPage = initialDay?.let { dates.indexOf(it) }
-            ?: 0) { graphs.size }
+        val pagerState = rememberPagerState(initialPage = initialDay?.let { days.indexOf(it) } ?: 0) { days.size }
         val scope = rememberCoroutineScope()
         GraphsPagerIndicator(
-            state = dates,
+            state = days,
             selected = pagerState.currentPage,
             onClick = {
                 scope.launch {
-                    pagerState.animateScrollToPage(dates.indexOf(it))
+                    pagerState.animateScrollToPage(days.indexOf(it))
                 }
             },
             modifier = Modifier.fillMaxWidth()
         )
         HorizontalPager(state = pagerState) { page ->
-            PrecipitationGraph(
-                state = graphs[page],
-                args = args,
-                max = state.graphs.max,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(1f)
-                    .padding(16.dp)
-            )
+            val total = state.totals[page]
+            val graph = state.graphs.graphs[page]
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(verticalSpacing),
+                contentPadding = contentPadding,
+                modifier = Modifier.fillMaxSize()
+            ) {
+                item {
+                    when (total) {
+                        is PrecipitationTotal.OtherDay -> PrecipitationGraphOtherDaySummary(state = total, modifier = Modifier.fillMaxWidth())
+                        is PrecipitationTotal.Today -> PrecipitationGraphTodaySummary(state = total, modifier = Modifier.fillMaxWidth())
+                    }
+                }
+                item {
+                    PrecipitationGraph(
+                        state = graph,
+                        args = args,
+                        max = state.graphs.max,
+                        modifier = Modifier.fillMaxWidth().aspectRatio(1f)
+                    )
+                }
+            }
         }
     }
 }

@@ -108,7 +108,7 @@ fun EssentialGraphPage(
         }
         item {
             when (precipitationTotal) {
-                is PrecipitationTotal.Future -> FuturePrecipitation(
+                is PrecipitationTotal.OtherDay -> FuturePrecipitation(
                     state = precipitationTotal,
                     modifier = Modifier.fillMaxWidth()
                 )

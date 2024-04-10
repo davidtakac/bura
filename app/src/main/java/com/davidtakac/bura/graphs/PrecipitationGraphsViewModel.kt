@@ -17,7 +17,9 @@ import androidx.lifecycle.viewmodel.CreationExtras
 import com.davidtakac.bura.App
 import com.davidtakac.bura.forecast.ForecastResult
 import com.davidtakac.bura.graphs.precipitation.GetPrecipitationGraphs
+import com.davidtakac.bura.graphs.precipitation.GetPrecipitationTotals
 import com.davidtakac.bura.graphs.precipitation.PrecipitationGraphs
+import com.davidtakac.bura.graphs.precipitation.PrecipitationTotal
 import com.davidtakac.bura.place.selected.SelectedPlaceRepository
 import com.davidtakac.bura.units.SelectedUnitsRepository
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,6 +30,7 @@ import java.time.Instant
 class PrecipitationGraphsViewModel (
     private val placeRepo: SelectedPlaceRepository,
     private val unitsRepo: SelectedUnitsRepository,
+    private val getPrecipitationTotals: GetPrecipitationTotals,
     private val getPrecipitationGraphs: GetPrecipitationGraphs
 ) : ViewModel() {
     private val _state = MutableStateFlow<PrecipitationGraphsState>(PrecipitationGraphsState.Loading)
@@ -48,6 +51,13 @@ class PrecipitationGraphsViewModel (
         val units = unitsRepo.getSelectedUnits()
         val now = Instant.now().atZone(location.timeZone).toLocalDateTime()
 
+        val totals = getPrecipitationTotals(coords, units, now)
+        when (totals) {
+            ForecastResult.FailedToDownload -> return PrecipitationGraphsState.FailedToDownload
+            ForecastResult.Outdated -> return PrecipitationGraphsState.Outdated
+            is ForecastResult.Success -> Unit
+        }
+
         val graphs = getPrecipitationGraphs(coords, units, now)
         when (graphs) {
             ForecastResult.FailedToDownload -> return PrecipitationGraphsState.FailedToDownload
@@ -55,7 +65,10 @@ class PrecipitationGraphsViewModel (
             is ForecastResult.Success -> Unit
         }
 
-        return PrecipitationGraphsState.Success(graphs = graphs.data)
+        return PrecipitationGraphsState.Success(
+            totals = totals.data,
+            graphs = graphs.data
+        )
     }
 
     companion object {
@@ -66,6 +79,7 @@ class PrecipitationGraphsViewModel (
                 return PrecipitationGraphsViewModel(
                     container.selectedPlaceRepo,
                     container.selectedUnitsRepo,
+                    container.getPrecipitationTotals,
                     container.getPrecipitationGraphs
                 ) as T
             }
@@ -75,6 +89,7 @@ class PrecipitationGraphsViewModel (
 
 sealed interface PrecipitationGraphsState {
     data class Success(
+        val totals: List<PrecipitationTotal>,
         val graphs: PrecipitationGraphs
     ) : PrecipitationGraphsState
 

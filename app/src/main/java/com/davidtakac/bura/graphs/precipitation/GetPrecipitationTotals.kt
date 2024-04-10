@@ -37,7 +37,7 @@ class GetPrecipitationTotals(private val repo: PrecipitationRepository) {
                 add(today)
                 addAll(
                     daysAfterToday.map { day ->
-                        PrecipitationTotal.Future(
+                        PrecipitationTotal.OtherDay(
                             day = day.first().hour.toLocalDate(),
                             total = day.total.reduce()
                         )
@@ -73,7 +73,7 @@ sealed interface PrecipitationTotal {
         val future: TotalPrecipitationInHours
     ) : PrecipitationTotal
 
-    data class Future(
+    data class OtherDay(
         override val day: LocalDate,
         val total: Precipitation
     ) : PrecipitationTotal

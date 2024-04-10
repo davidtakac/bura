@@ -128,7 +128,7 @@ private fun DrawScope.drawHorizontalAxisAndBars(
             strokeWidth = barWidth
         )
 
-        val bottomOfShowers = topOfRain - if (showersHeight > 0 && rainHeight > 0) barSpacing else 0f
+        val bottomOfShowers = topOfRain - if (rainHeight > 0) barSpacing else 0f
         val topOfShowers = bottomOfShowers - showersHeight
         drawLine(
             brush = SolidColor(showersColor),
@@ -137,7 +137,7 @@ private fun DrawScope.drawHorizontalAxisAndBars(
             strokeWidth = barWidth
         )
 
-        val bottomOfSnow = topOfShowers - if (snowHeight > 0 && showersHeight > 0) barSpacing else 0f
+        val bottomOfSnow = topOfShowers - if (rainHeight > 0 || showersHeight > 0) barSpacing else 0f
         val topOfSnow = bottomOfSnow - snowHeight
         drawLine(
             brush = SolidColor(snowColor),

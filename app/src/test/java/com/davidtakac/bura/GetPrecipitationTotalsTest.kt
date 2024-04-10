@@ -86,7 +86,7 @@ class GetPrecipitationTotalsTest {
                         )
                     )
                 ),
-                PrecipitationTotal.Future(
+                PrecipitationTotal.OtherDay(
                     day = LocalDate.parse("1970-01-02"),
                     total = Showers.fromMillimeters(48.0)
                 )

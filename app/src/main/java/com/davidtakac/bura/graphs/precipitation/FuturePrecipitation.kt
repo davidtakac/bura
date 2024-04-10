@@ -28,7 +28,7 @@ import com.davidtakac.bura.common.AppTheme
 import java.time.LocalDate
 
 @Composable
-fun FuturePrecipitation(state: PrecipitationTotal.Future, modifier: Modifier = Modifier) {
+fun FuturePrecipitation(state: PrecipitationTotal.OtherDay, modifier: Modifier = Modifier) {
     Column(modifier, verticalArrangement = Arrangement.spacedBy(12.dp)) {
         ColoredPrecipitation(
             state = state.total,
@@ -43,7 +43,7 @@ private fun FuturePrecipitationPreview() {
     AppTheme {
         Surface {
             FuturePrecipitation(
-                state = PrecipitationTotal.Future(
+                state = PrecipitationTotal.OtherDay(
                     day = LocalDate.parse("1970-01-01"),
                     total = MixedPrecipitation.fromMillimeters(
                         Rain.fromMillimeters(10.0),
