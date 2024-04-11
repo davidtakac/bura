@@ -11,20 +11,19 @@
 package com.davidtakac.bura.forecast
 
 import com.davidtakac.bura.common.UserAgentProvider
-import com.davidtakac.bura.common.toHumidity
-import com.davidtakac.bura.common.toInts
-import com.davidtakac.bura.common.toLocalDateTimes
-import com.davidtakac.bura.common.toPop
-import com.davidtakac.bura.common.toPressures
-import com.davidtakac.bura.common.toRain
-import com.davidtakac.bura.common.toShowers
-import com.davidtakac.bura.common.toSnowfall
-import com.davidtakac.bura.common.toTemperatures
-import com.davidtakac.bura.common.toUvIndices
-import com.davidtakac.bura.common.toVisibilities
-import com.davidtakac.bura.common.toWindDirections
-import com.davidtakac.bura.common.toWindSpeeds
+import com.davidtakac.bura.common.mapToList
+import com.davidtakac.bura.humidity.Humidity
 import com.davidtakac.bura.place.Coordinates
+import com.davidtakac.bura.pop.Pop
+import com.davidtakac.bura.precipitation.Rain
+import com.davidtakac.bura.precipitation.Showers
+import com.davidtakac.bura.precipitation.Snow
+import com.davidtakac.bura.pressure.Pressure
+import com.davidtakac.bura.temperature.Temperature
+import com.davidtakac.bura.uvindex.UvIndex
+import com.davidtakac.bura.visibility.Visibility
+import com.davidtakac.bura.wind.WindDirection
+import com.davidtakac.bura.wind.WindSpeed
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
@@ -71,33 +70,34 @@ class ForecastDataDownloader(private val userAgentProvider: UserAgentProvider) {
             val daily = json.getJSONObject("daily")
             // When a day has no sunrise or sunset, Open-Meteo returns 1970-01-01, but the app
             // expects an omitted timestamp. These filters drop such placeholders.
-            val sunrises = daily.getJSONArray("sunrise").toLocalDateTimes().filter { it != LocalDateTime.MIN }
-            val sunsets = daily.getJSONArray("sunset").toLocalDateTimes().filter { it != LocalDateTime.MIN }
+            val sunrises = daily.getJSONArray("sunrise").mapToList(LocalDateTime::parse).filter { it != LocalDateTime.MIN }
+            val sunsets = daily.getJSONArray("sunset").mapToList(LocalDateTime::parse).filter { it != LocalDateTime.MIN }
 
             val hourly = json.getJSONObject("hourly")
 
             // Open-Meteo sometimes returns only the first hour of the last day. The app expects
             // full 0-23h days, so this slicing is a way to drop such incomplete days.
-            val times = hourly.getJSONArray("time").toLocalDateTimes()
+            val times = hourly.getJSONArray("time").mapToList(LocalDateTime::parse)
             val indexOfLast23HourInstant = times.indexOfLast { it.toLocalTime() == LocalTime.parse("23:00") }
             val timesProcessed = times.slice(0..indexOfLast23HourInstant)
 
-            val temperature = hourly.getJSONArray("temperature_2m").toTemperatures()
-            val feelsLikeTemperature = hourly.getJSONArray("apparent_temperature").toTemperatures()
-            val dewPointTemperature = hourly.getJSONArray("dew_point_2m").toTemperatures()
-            val wmoCode = hourly.getJSONArray("weather_code").toInts()
-            val isDay = hourly.getJSONArray("is_day").toInts().map { it == 1 }
-            val pop = hourly.getJSONArray("precipitation_probability").toPop()
-            val rain = hourly.getJSONArray("rain").toRain()
-            val showers = hourly.getJSONArray("showers").toShowers()
-            val snowfall = hourly.getJSONArray("snowfall").toSnowfall()
-            val uvIndex = hourly.getJSONArray("uv_index").toUvIndices()
-            val windSpeed = hourly.getJSONArray("wind_speed_10m").toWindSpeeds()
-            val windDirection = hourly.getJSONArray("wind_direction_10m").toWindDirections()
-            val gustSpeed = hourly.getJSONArray("wind_gusts_10m").toWindSpeeds()
-            val visibility = hourly.getJSONArray("visibility").toVisibilities()
-            val humidity = hourly.getJSONArray("relative_humidity_2m").toHumidity()
-            val pressure = hourly.getJSONArray("pressure_msl").toPressures()
+            val temperature = hourly.getJSONArray("temperature_2m").mapToList { Temperature.fromDegreesCelsius(it.toDouble()) }
+            val feelsLikeTemperature = hourly.getJSONArray("apparent_temperature").mapToList { Temperature.fromDegreesCelsius(it.toDouble()) }
+            val dewPointTemperature = hourly.getJSONArray("dew_point_2m").mapToList { Temperature.fromDegreesCelsius(it.toDouble()) }
+            val wmoCode = hourly.getJSONArray("weather_code").mapToList(String::toInt)
+            val isDay = hourly.getJSONArray("is_day").mapToList(String::toInt).map { it == 1 }
+            val pop = hourly.getJSONArray("precipitation_probability").mapToList { Pop(it.toDouble()) }
+            val rain = hourly.getJSONArray("rain").mapToList { Rain.fromMillimeters(it.toDouble()) }
+            val showers = hourly.getJSONArray("showers").mapToList { Showers.fromMillimeters(it.toDouble()) }
+            // Open-Meteo returns snow in centimeters
+            val snowfall = hourly.getJSONArray("snowfall").mapToList { Snow.fromMillimeters(value = it.toDouble() * 10) }
+            val uvIndex = hourly.getJSONArray("uv_index").mapToList { UvIndex(it.toDouble().toInt()) }
+            val windSpeed = hourly.getJSONArray("wind_speed_10m").mapToList { WindSpeed.fromMetersPerSecond(it.toDouble()) }
+            val windDirection = hourly.getJSONArray("wind_direction_10m").mapToList { WindDirection(it.toDouble()) }
+            val gustSpeed = hourly.getJSONArray("wind_gusts_10m").mapToList { WindSpeed.fromMetersPerSecond(it.toDouble()) }
+            val visibility = hourly.getJSONArray("visibility").mapToList { Visibility.fromMeters(it.toDouble()) }
+            val humidity = hourly.getJSONArray("relative_humidity_2m").mapToList { Humidity(it.toDouble()) }
+            val pressure = hourly.getJSONArray("pressure_msl").mapToList { Pressure.fromHectopascal(it.toDouble()) }
 
             ForecastData(
                 timestamp = Instant.now(),

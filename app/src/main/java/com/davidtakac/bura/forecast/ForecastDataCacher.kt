@@ -10,39 +10,27 @@
 
 package com.davidtakac.bura.forecast
 
-import com.davidtakac.bura.common.toBooleans
-import com.davidtakac.bura.common.toHumidity
-import com.davidtakac.bura.common.toInts
-import com.davidtakac.bura.common.toHectopascalJSONArray
-import com.davidtakac.bura.common.toMetersJSONArray
-import com.davidtakac.bura.common.toDegreesJSONArray
-import com.davidtakac.bura.common.toMetersPerSecondJSONArray
-import com.davidtakac.bura.common.toIndexJSONArray
-import com.davidtakac.bura.common.toSnowMillimetersJSONArray
-import com.davidtakac.bura.common.toShowerMillimetersJSONArray
-import com.davidtakac.bura.common.toRainMillimetersJSONArray
-import com.davidtakac.bura.common.toPopPercentJSONArray
-import com.davidtakac.bura.common.toHumidityPercentJSONArray
-import com.davidtakac.bura.common.toCelsiusJSONArray
-import com.davidtakac.bura.common.toLocalDateTimeJSONArray
-import com.davidtakac.bura.common.toLocalDateTimes
-import com.davidtakac.bura.common.toPop
-import com.davidtakac.bura.common.toPressures
-import com.davidtakac.bura.common.toRain
-import com.davidtakac.bura.common.toShowers
-import com.davidtakac.bura.common.toSnowfall
-import com.davidtakac.bura.common.toTemperatures
-import com.davidtakac.bura.common.toUvIndices
-import com.davidtakac.bura.common.toVisibilities
-import com.davidtakac.bura.common.toWindDirections
-import com.davidtakac.bura.common.toWindSpeeds
+import com.davidtakac.bura.common.mapToJSONArray
+import com.davidtakac.bura.common.mapToList
+import com.davidtakac.bura.humidity.Humidity
 import com.davidtakac.bura.place.Coordinates
+import com.davidtakac.bura.pop.Pop
+import com.davidtakac.bura.precipitation.Precipitation
+import com.davidtakac.bura.precipitation.Rain
+import com.davidtakac.bura.precipitation.Showers
+import com.davidtakac.bura.precipitation.Snow
+import com.davidtakac.bura.pressure.Pressure
+import com.davidtakac.bura.temperature.Temperature
+import com.davidtakac.bura.uvindex.UvIndex
+import com.davidtakac.bura.visibility.Visibility
+import com.davidtakac.bura.wind.WindDirection
+import com.davidtakac.bura.wind.WindSpeed
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.json.JSONArray
 import org.json.JSONObject
 import java.io.File
 import java.time.Instant
+import java.time.LocalDateTime
 
 class ForecastDataCacher(private val root: File) {
     private val coordsToData = mutableMapOf<Coordinates, ForecastData?>()
@@ -83,25 +71,25 @@ class ForecastDataCacher(private val root: File) {
             val record = JSONObject(jsonString)
             ForecastData(
                 timestamp = Instant.ofEpochSecond(record.getLong("timestamp")),
-                times = record.getJSONArray("times").toLocalDateTimes(),
-                temperature = record.getJSONArray("temperature").toTemperatures(),
-                feelsLikeTemperature = record.getJSONArray("feelsLike").toTemperatures(),
-                dewPointTemperature = record.getJSONArray("dewPoint").toTemperatures(),
-                sunrises = record.getJSONArray("sunrises").toLocalDateTimes(),
-                sunsets = record.getJSONArray("sunsets").toLocalDateTimes(),
-                pop = record.getJSONArray("pop").toPop(),
-                rain = record.getJSONArray("rain").toRain(),
-                showers = record.getJSONArray("showers").toShowers(),
-                snow = record.getJSONArray("snow").toSnowfall(),
-                uvIndex = record.getJSONArray("uvIndex").toUvIndices(),
-                windSpeed = record.getJSONArray("windSpeed").toWindSpeeds(),
-                windDirection = record.getJSONArray("windDirection").toWindDirections(),
-                gustSpeed = record.getJSONArray("gustSpeed").toWindSpeeds(),
-                pressure = record.getJSONArray("pressure").toPressures(),
-                visibility = record.getJSONArray("visibility").toVisibilities(),
-                humidity = record.getJSONArray("humidity").toHumidity(),
-                wmoCode = record.getJSONArray("wmoCode").toInts(),
-                isDay = record.getJSONArray("isDay").toBooleans()
+                times = record.getJSONArray("times").mapToList(LocalDateTime::parse),
+                temperature = record.getJSONArray("temperature").mapToList { Temperature.fromDegreesCelsius(it.toDouble()) },
+                feelsLikeTemperature = record.getJSONArray("feelsLike").mapToList { Temperature.fromDegreesCelsius(it.toDouble()) },
+                dewPointTemperature = record.getJSONArray("dewPoint").mapToList { Temperature.fromDegreesCelsius(it.toDouble()) },
+                sunrises = record.getJSONArray("sunrises").mapToList(LocalDateTime::parse),
+                sunsets = record.getJSONArray("sunsets").mapToList(LocalDateTime::parse),
+                pop = record.getJSONArray("pop").mapToList { Pop(it.toDouble()) },
+                rain = record.getJSONArray("rain").mapToList { Rain.fromMillimeters(it.toDouble()) },
+                showers = record.getJSONArray("showers").mapToList { Showers.fromMillimeters(it.toDouble()) },
+                snow = record.getJSONArray("snow").mapToList { Snow.fromMillimeters(it.toDouble()) },
+                uvIndex = record.getJSONArray("uvIndex").mapToList { UvIndex(it.toInt()) },
+                windSpeed = record.getJSONArray("windSpeed").mapToList { WindSpeed.fromMetersPerSecond(it.toDouble()) },
+                windDirection = record.getJSONArray("windDirection").mapToList { WindDirection(it.toDouble()) },
+                gustSpeed = record.getJSONArray("gustSpeed").mapToList { WindSpeed.fromMetersPerSecond(it.toDouble()) },
+                pressure = record.getJSONArray("pressure").mapToList { Pressure.fromHectopascal(it.toDouble()) },
+                visibility = record.getJSONArray("visibility").mapToList { Visibility.fromMeters(it.toDouble()) },
+                humidity = record.getJSONArray("humidity").mapToList { Humidity(it.toDouble()) },
+                wmoCode = record.getJSONArray("wmoCode").mapToList(String::toInt),
+                isDay = record.getJSONArray("isDay").mapToList(String::toBoolean)
             )
         }
 
@@ -109,25 +97,25 @@ class ForecastDataCacher(private val root: File) {
         withContext(Dispatchers.Default) {
             JSONObject().apply {
                 put("timestamp", data.timestamp.epochSecond)
-                put("times", data.times.toLocalDateTimeJSONArray())
-                put("temperature", data.temperature.toCelsiusJSONArray())
-                put("feelsLike", data.feelsLikeTemperature.toCelsiusJSONArray())
-                put("dewPoint", data.dewPointTemperature.toCelsiusJSONArray())
-                put("sunrises", data.sunrises.toLocalDateTimeJSONArray())
-                put("sunsets", data.sunsets.toLocalDateTimeJSONArray())
-                put("pop", data.pop.toPopPercentJSONArray())
-                put("rain", data.rain.toRainMillimetersJSONArray())
-                put("showers", data.showers.toShowerMillimetersJSONArray())
-                put("snow", data.snow.toSnowMillimetersJSONArray())
-                put("uvIndex", data.uvIndex.toIndexJSONArray())
-                put("windSpeed", data.windSpeed.toMetersPerSecondJSONArray())
-                put("windDirection", data.windDirection.toDegreesJSONArray())
-                put("gustSpeed", data.gustSpeed.toMetersPerSecondJSONArray())
-                put("pressure", data.pressure.toHectopascalJSONArray())
-                put("visibility", data.visibility.toMetersJSONArray())
-                put("humidity", data.humidity.toHumidityPercentJSONArray())
-                put("wmoCode", JSONArray(data.wmoCode))
-                put("isDay", JSONArray(data.isDay))
+                put("times", data.times.mapToJSONArray { it.toString() })
+                put("temperature", data.temperature.mapToJSONArray { it.convertTo(Temperature.Unit.DegreesCelsius).value })
+                put("feelsLike", data.feelsLikeTemperature.mapToJSONArray { it.convertTo(Temperature.Unit.DegreesCelsius).value })
+                put("dewPoint", data.dewPointTemperature.mapToJSONArray { it.convertTo(Temperature.Unit.DegreesCelsius).value })
+                put("sunrises", data.sunrises.mapToJSONArray { it.toString() })
+                put("sunsets", data.sunsets.mapToJSONArray { it.toString() })
+                put("pop", data.pop.mapToJSONArray { it.value })
+                put("rain", data.rain.mapToJSONArray { it.convertTo(Precipitation.Unit.Millimeters).value })
+                put("showers", data.showers.mapToJSONArray { it.convertTo(Precipitation.Unit.Millimeters).value })
+                put("snow", data.snow.mapToJSONArray { it.convertTo(Precipitation.Unit.Millimeters).value })
+                put("uvIndex", data.uvIndex.mapToJSONArray { it.value })
+                put("windSpeed", data.windSpeed.mapToJSONArray { it.convertTo(WindSpeed.Unit.MetersPerSecond).value })
+                put("windDirection", data.windDirection.mapToJSONArray { it.degrees })
+                put("gustSpeed", data.gustSpeed.mapToJSONArray { it.convertTo(WindSpeed.Unit.MetersPerSecond).value })
+                put("pressure", data.pressure.mapToJSONArray { it.convertTo(Pressure.Unit.Hectopascal).value })
+                put("visibility", data.visibility.mapToJSONArray { it.convertTo(Visibility.Unit.Meters).value })
+                put("humidity", data.humidity.mapToJSONArray { it.value })
+                put("wmoCode", data.wmoCode.mapToJSONArray())
+                put("isDay", data.isDay.mapToJSONArray())
             }.toString()
         }
 
