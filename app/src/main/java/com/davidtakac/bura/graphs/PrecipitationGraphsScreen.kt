@@ -181,6 +181,13 @@ private fun Pager(
                         )
                     }
                 }
+                item {
+                    Text(
+                        text = stringResource(id = R.string.credit_weather),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
             }
         }
     }
