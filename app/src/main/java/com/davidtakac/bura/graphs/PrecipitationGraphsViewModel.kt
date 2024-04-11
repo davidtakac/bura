@@ -16,6 +16,8 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
 import com.davidtakac.bura.App
 import com.davidtakac.bura.forecast.ForecastResult
+import com.davidtakac.bura.graphs.pop.GetPopGraphs
+import com.davidtakac.bura.graphs.pop.PopGraph
 import com.davidtakac.bura.graphs.precipitation.GetPrecipitationGraphs
 import com.davidtakac.bura.graphs.precipitation.GetPrecipitationTotals
 import com.davidtakac.bura.graphs.precipitation.PrecipitationGraphs
@@ -31,7 +33,8 @@ class PrecipitationGraphsViewModel (
     private val placeRepo: SelectedPlaceRepository,
     private val unitsRepo: SelectedUnitsRepository,
     private val getPrecipitationTotals: GetPrecipitationTotals,
-    private val getPrecipitationGraphs: GetPrecipitationGraphs
+    private val getPrecipitationGraphs: GetPrecipitationGraphs,
+    private val getPopGraphs: GetPopGraphs,
 ) : ViewModel() {
     private val _state = MutableStateFlow<PrecipitationGraphsState>(PrecipitationGraphsState.Loading)
     val state = _state.asStateFlow()
@@ -58,16 +61,21 @@ class PrecipitationGraphsViewModel (
             is ForecastResult.Success -> Unit
         }
 
-        val graphs = getPrecipitationGraphs(coords, units, now)
-        when (graphs) {
+        val precipGraphs = getPrecipitationGraphs(coords, units, now)
+        when (precipGraphs) {
             ForecastResult.FailedToDownload -> return PrecipitationGraphsState.FailedToDownload
             ForecastResult.Outdated -> return PrecipitationGraphsState.Outdated
             is ForecastResult.Success -> Unit
         }
 
+        val popGraphs = getPopGraphs(coords, units, now)
+        when (popGraphs) {
+
+        }
+
         return PrecipitationGraphsState.Success(
             totals = totals.data,
-            graphs = graphs.data
+            precipGraphs = precipGraphs.data
         )
     }
 
@@ -80,7 +88,8 @@ class PrecipitationGraphsViewModel (
                     container.selectedPlaceRepo,
                     container.selectedUnitsRepo,
                     container.getPrecipitationTotals,
-                    container.getPrecipitationGraphs
+                    container.getPrecipitationGraphs,
+                    container.getPopGraphs
                 ) as T
             }
         }
@@ -90,7 +99,8 @@ class PrecipitationGraphsViewModel (
 sealed interface PrecipitationGraphsState {
     data class Success(
         val totals: List<PrecipitationTotal>,
-        val graphs: PrecipitationGraphs
+        val precipGraphs: PrecipitationGraphs,
+        val popGraphs: List<PopGraph>
     ) : PrecipitationGraphsState
 
     data object Loading : PrecipitationGraphsState

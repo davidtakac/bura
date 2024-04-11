@@ -124,8 +124,8 @@ private fun Pager(
         HorizontalPager(state = pagerState) { page ->
             PrecipitationGraphPage(
                 total = state.totals[page],
-                graph = state.graphs.graphs[page],
-                max = state.graphs.max,
+                graph = state.precipGraphs.graphs[page],
+                max = state.precipGraphs.max,
                 args = args
             )
         }
