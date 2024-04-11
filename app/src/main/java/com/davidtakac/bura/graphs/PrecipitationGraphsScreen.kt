@@ -12,22 +12,16 @@ package com.davidtakac.bura.graphs
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -35,23 +29,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import com.davidtakac.bura.R
 import com.davidtakac.bura.common.FailedToDownloadErrorScreen
 import com.davidtakac.bura.common.NoSelectedPlaceErrorScreen
 import com.davidtakac.bura.common.OutdatedErrorScreen
 import com.davidtakac.bura.graphs.common.GraphArgs
 import com.davidtakac.bura.graphs.common.GraphsPagerIndicator
-import com.davidtakac.bura.graphs.precipitation.FuturePrecipitation
-import com.davidtakac.bura.graphs.precipitation.PrecipitationGraph
-import com.davidtakac.bura.graphs.precipitation.PrecipitationGraphOtherDaySummary
-import com.davidtakac.bura.graphs.precipitation.PrecipitationGraphTodaySummary
-import com.davidtakac.bura.graphs.precipitation.PrecipitationToday
-import com.davidtakac.bura.graphs.precipitation.PrecipitationTotal
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 
@@ -113,9 +98,6 @@ fun PrecipitationGraphsScreen(
     }
 }
 
-private val contentPadding = PaddingValues(horizontal = 16.dp, vertical = 24.dp)
-private val verticalSpacing = 24.dp
-
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun Pager(
@@ -126,7 +108,8 @@ private fun Pager(
     Column(modifier = modifier) {
         val days = remember(state.totals) { state.totals.map { it.day } }
         val args = GraphArgs.rememberPrecipArgs()
-        val pagerState = rememberPagerState(initialPage = initialDay?.let { days.indexOf(it) } ?: 0) { days.size }
+        val pagerState = rememberPagerState(initialPage = initialDay?.let { days.indexOf(it) }
+            ?: 0) { days.size }
         val scope = rememberCoroutineScope()
         GraphsPagerIndicator(
             state = days,
@@ -139,56 +122,12 @@ private fun Pager(
             modifier = Modifier.fillMaxWidth()
         )
         HorizontalPager(state = pagerState) { page ->
-            val total = state.totals[page]
-            val graph = state.graphs.graphs[page]
-            LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(verticalSpacing),
-                contentPadding = contentPadding,
-                modifier = Modifier.fillMaxSize()
-            ) {
-                item {
-                    when (total) {
-                        is PrecipitationTotal.OtherDay -> PrecipitationGraphOtherDaySummary(state = total, modifier = Modifier.fillMaxWidth())
-                        is PrecipitationTotal.Today -> PrecipitationGraphTodaySummary(state = total, modifier = Modifier.fillMaxWidth())
-                    }
-                }
-                item {
-                    PrecipitationGraph(
-                        state = graph,
-                        args = args,
-                        max = state.graphs.max,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .aspectRatio(1f)
-                            .border(
-                                width = Dp.Hairline,
-                                shape = MaterialTheme.shapes.large,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                            .clip(MaterialTheme.shapes.large)
-                    )
-                }
-                item {
-                    when (total) {
-                        is PrecipitationTotal.OtherDay -> FuturePrecipitation(
-                            state = total,
-                            modifier = Modifier.fillMaxWidth()
-                        )
-
-                        is PrecipitationTotal.Today -> PrecipitationToday(
-                            state = total,
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                    }
-                }
-                item {
-                    Text(
-                        text = stringResource(id = R.string.credit_weather),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-            }
+            PrecipitationGraphPage(
+                total = state.totals[page],
+                graph = state.graphs.graphs[page],
+                max = state.graphs.max,
+                args = args
+            )
         }
     }
 }
