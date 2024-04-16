@@ -38,7 +38,7 @@ Other features include:
 - Dark and light theme
 - Customizable measurement units
 
-## Planned features
+## Will be implemented
 Sorted by priority:
 
 1. Graphs
@@ -57,7 +57,7 @@ Sorted by priority:
 5. Notification widgets
 6. Customizable [Open-Meteo data sources](https://open-meteo.com/en/docs#data-sources)
 
-## Not planned
+## Will not be implemented
 Issues requesting these features will be closed as not planned:
 
 - Manual refresh
