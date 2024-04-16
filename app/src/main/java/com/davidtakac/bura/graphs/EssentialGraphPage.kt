@@ -37,10 +37,12 @@ import com.davidtakac.bura.graphs.common.GraphArgs
 import com.davidtakac.bura.graphs.common.GraphScreenSectionLabel
 import com.davidtakac.bura.graphs.pop.PopGraph
 import com.davidtakac.bura.graphs.precipitation.FuturePrecipitation
+import com.davidtakac.bura.graphs.precipitation.PrecipitationGraph
 import com.davidtakac.bura.graphs.precipitation.PrecipitationToday
 import com.davidtakac.bura.graphs.precipitation.PrecipitationTotal
 import com.davidtakac.bura.graphs.temperature.TemperatureGraph
 import com.davidtakac.bura.graphs.temperature.TemperatureGraphSummary
+import com.davidtakac.bura.precipitation.MixedPrecipitation
 import com.davidtakac.bura.summary.now.NowSummarySkeleton
 import com.davidtakac.bura.temperature.Temperature
 
@@ -58,6 +60,9 @@ fun EssentialGraphPage(
     temperatureArgs: GraphArgs,
     popGraph: PopGraph,
     popArgs: GraphArgs,
+    precipGraph: PrecipitationGraph,
+    precipArgs: GraphArgs,
+    precipMax: MixedPrecipitation,
     precipitationTotal: PrecipitationTotal
 ) {
     LazyColumn(
@@ -94,6 +99,25 @@ fun EssentialGraphPage(
                 PopGraph(
                     state = popGraph,
                     args = popArgs,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .aspectRatio(graphAspectRatio)
+                        .border(
+                            width = Dp.Hairline,
+                            shape = MaterialTheme.shapes.large,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                        .clip(MaterialTheme.shapes.large)
+                )
+            }
+        }
+        item {
+            Column(verticalArrangement = Arrangement.spacedBy(graphLabelSpacing)) {
+                GraphScreenSectionLabel(stringResource(R.string.cond_screen_precip))
+                PrecipitationGraph(
+                    state = precipGraph,
+                    max = precipMax,
+                    args = precipArgs,
                     modifier = Modifier
                         .fillMaxWidth()
                         .aspectRatio(graphAspectRatio)

@@ -69,7 +69,7 @@ fun PrecipitationGraph(
     val snowColor = AppTheme.colors.snowColor
     val maxAdjusted = remember(max) {
         MixedPrecipitation.fromMillimeters(
-            rain = Rain.fromMillimeters((max.convertTo(Precipitation.Unit.Millimeters).value * 1.2f).coerceAtLeast(10.0)),
+            rain = Rain.fromMillimeters((max.convertTo(Precipitation.Unit.Millimeters).value * 1.2f).coerceAtLeast(5.0)),
             showers = Showers.Zero,
             snow = Snow.Zero
         ).convertTo(max.unit)

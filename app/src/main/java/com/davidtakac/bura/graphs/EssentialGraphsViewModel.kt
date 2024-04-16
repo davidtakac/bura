@@ -18,8 +18,10 @@ import com.davidtakac.bura.App
 import com.davidtakac.bura.forecast.ForecastResult
 import com.davidtakac.bura.graphs.pop.PopGraph
 import com.davidtakac.bura.graphs.pop.GetPopGraphs
+import com.davidtakac.bura.graphs.precipitation.GetPrecipitationGraphs
 import com.davidtakac.bura.graphs.precipitation.PrecipitationTotal
 import com.davidtakac.bura.graphs.precipitation.GetPrecipitationTotals
+import com.davidtakac.bura.graphs.precipitation.PrecipitationGraphs
 import com.davidtakac.bura.graphs.temperature.GetTemperatureGraphSummaries
 import com.davidtakac.bura.graphs.temperature.TemperatureGraphSummary
 import com.davidtakac.bura.graphs.temperature.TemperatureGraphs
@@ -34,10 +36,11 @@ import java.time.Instant
 class EssentialGraphsViewModel(
     private val placeRepo: SelectedPlaceRepository,
     private val unitsRepo: SelectedUnitsRepository,
-    private val tempGraphSummariesUseCase: GetTemperatureGraphSummaries,
-    private val tempGraphsUseCase: GetTemperatureGraphs,
+    private val getTempGraphSummaries: GetTemperatureGraphSummaries,
+    private val getTempGraphs: GetTemperatureGraphs,
     private val getPopGraphs: GetPopGraphs,
-    private val precipTotalsUseCase: GetPrecipitationTotals
+    private val getPrecipGraphs: GetPrecipitationGraphs,
+    private val getPrecipTotals: GetPrecipitationTotals
 ) : ViewModel() {
     private val _state = MutableStateFlow<EssentialGraphsState>(EssentialGraphsState.Loading)
     val state = _state.asStateFlow()
@@ -57,14 +60,14 @@ class EssentialGraphsViewModel(
         val units = unitsRepo.getSelectedUnits()
         val now = Instant.now().atZone(location.timeZone).toLocalDateTime()
 
-        val tempGraphSummaries = tempGraphSummariesUseCase(coords, units, now)
+        val tempGraphSummaries = getTempGraphSummaries(coords, units, now)
         when (tempGraphSummaries) {
             ForecastResult.FailedToDownload -> return EssentialGraphsState.FailedToDownload
             ForecastResult.Outdated -> return EssentialGraphsState.Outdated
             is ForecastResult.Success -> Unit
         }
 
-        val tempGraphs = tempGraphsUseCase(coords, units, now)
+        val tempGraphs = getTempGraphs(coords, units, now)
         when (tempGraphs) {
             ForecastResult.FailedToDownload -> return EssentialGraphsState.FailedToDownload
             ForecastResult.Outdated -> return EssentialGraphsState.Outdated
@@ -78,7 +81,14 @@ class EssentialGraphsViewModel(
             is ForecastResult.Success -> Unit
         }
 
-        val precipTotals = precipTotalsUseCase(coords, units, now)
+        val precipGraphs = getPrecipGraphs(coords, units, now)
+        when (precipGraphs) {
+            ForecastResult.FailedToDownload -> return EssentialGraphsState.FailedToDownload
+            ForecastResult.Outdated -> return EssentialGraphsState.Outdated
+            is ForecastResult.Success -> Unit
+        }
+
+        val precipTotals = getPrecipTotals(coords, units, now)
         when (precipTotals) {
             ForecastResult.FailedToDownload -> return EssentialGraphsState.FailedToDownload
             ForecastResult.Outdated -> return EssentialGraphsState.Outdated
@@ -89,6 +99,7 @@ class EssentialGraphsViewModel(
             tempGraphSummaries = tempGraphSummaries.data,
             tempGraphs = tempGraphs.data,
             popGraphs = popGraphs.data,
+            precipGraphs = precipGraphs.data,
             precipTotals = precipTotals.data
         )
     }
@@ -104,6 +115,7 @@ class EssentialGraphsViewModel(
                     container.getTemperatureGraphSummaries,
                     container.getTemperatureGraphs,
                     container.getPopGraphs,
+                    container.getPrecipitationGraphs,
                     container.getPrecipitationTotals
                 ) as T
             }
@@ -116,6 +128,7 @@ sealed interface EssentialGraphsState {
         val tempGraphSummaries: List<TemperatureGraphSummary>,
         val tempGraphs: TemperatureGraphs,
         val popGraphs: List<PopGraph>,
+        val precipGraphs: PrecipitationGraphs,
         val precipTotals: List<PrecipitationTotal>
     ) : EssentialGraphsState
 

@@ -32,20 +32,11 @@
 
     <string name="cond_screen_title">Conditions</string>
     <string name="cond_screen_pop">Chance of Precipitation</string>
+    <string name="cond_screen_precip">Precipitation Totals</string>
     <string name="cond_screen_temp_unit_celsius">Celsius (°C)</string>
     <string name="cond_screen_temp_unit_fahrenheit">Fahrenheit (°F)</string>
     <string name="cond_screen_precip_value_in_last_hours">Last %s hours</string>
     <string name="cond_screen_precip_value_in_next_hours">Next %s hours</string>
-
-    <string name="precip_screen_title">Precipitation</string>
-    <string name="precip_screen_value_total_rain_in_last_hours">Rain in last %sh</string>
-    <string name="precip_screen_value_total_showers_in_last_hours">Showers in last %sh</string>
-    <string name="precip_screen_value_total_snow_in_last_hours">Snow in last %sh</string>
-    <string name="precip_screen_value_total_precip_in_last_hours">Precipitation in last %sh</string>
-    <string name="precip_screen_value_total_rain_of_day">Rain total</string>
-    <string name="precip_screen_value_total_showers_of_day">Showers total</string>
-    <string name="precip_screen_value_total_snow_of_day">Snow total</string>
-    <string name="precip_screen_value_total_precip_of_day">Precipitation total</string>
 
     <string name="settings_screen_title">Settings</string>
     <string name="settings_screen_title_units">Units</string>
