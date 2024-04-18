@@ -158,7 +158,7 @@ private fun DrawScope.drawHorizontalAxisAndBars(
             strokeWidth = barWidth
         )
 
-        /*// Condition icons
+        // Condition icons
         if (i % (if (hasSpaceFor12Icons) 2 else 3) == 1) {
             val iconX = x - (iconSize / 2)
             val iconDrawable = AppCompatResources.getDrawable(context, point.cond.image(context, args.icons))!!
@@ -167,7 +167,7 @@ private fun DrawScope.drawHorizontalAxisAndBars(
                 dstOffset = IntOffset(iconX.roundToInt(), y = iconY),
                 dstSize = IntSize(width = iconSizeRound, height = iconSizeRound),
             )
-        }*/
+        }
     }
 
     nowX?.let {
