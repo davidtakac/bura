@@ -43,7 +43,7 @@ import com.davidtakac.bura.precipitation.typeString
 import com.davidtakac.bura.common.AppTheme
 
 @Composable
-fun ColoredPrecipitation(state: Precipitation, modifier: Modifier = Modifier) {
+fun PrecipitationBullets(state: Precipitation, modifier: Modifier = Modifier) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -90,7 +90,7 @@ private fun LabelAndValue(
 private fun PrecipitationZeroPreview() {
     AppTheme {
         Surface {
-            ColoredPrecipitation(
+            PrecipitationBullets(
                 state = Rain.Zero,
                 modifier = Modifier
                     .width(400.dp)
@@ -105,7 +105,7 @@ private fun PrecipitationZeroPreview() {
 private fun PrecipitationRainSnowPreview() {
     AppTheme {
         Surface {
-            ColoredPrecipitation(
+            PrecipitationBullets(
                 state = MixedPrecipitation.fromMillimeters(
                     Rain.fromMillimeters(1.0),
                     Showers.Zero,

@@ -38,9 +38,9 @@ import com.davidtakac.bura.common.TextSkeleton
 import com.davidtakac.bura.graphs.common.GraphArgs
 import com.davidtakac.bura.graphs.common.GraphScreenSectionLabel
 import com.davidtakac.bura.graphs.pop.PopGraph
-import com.davidtakac.bura.graphs.precipitation.FuturePrecipitation
+import com.davidtakac.bura.graphs.precipitation.PrecipitationBullets
 import com.davidtakac.bura.graphs.precipitation.PrecipitationGraph
-import com.davidtakac.bura.graphs.precipitation.PrecipitationToday
+import com.davidtakac.bura.graphs.precipitation.TodayPrecipitationBullets
 import com.davidtakac.bura.graphs.precipitation.PrecipitationTotal
 import com.davidtakac.bura.graphs.temperature.TemperatureGraph
 import com.davidtakac.bura.graphs.temperature.TemperatureGraphSummary
@@ -134,12 +134,12 @@ fun EssentialGraphPage(
         }
         item {
             when (precipitationTotal) {
-                is PrecipitationTotal.OtherDay -> FuturePrecipitation(
-                    state = precipitationTotal,
+                is PrecipitationTotal.OtherDay -> PrecipitationBullets(
+                    state = precipitationTotal.total,
                     modifier = Modifier.fillMaxWidth()
                 )
 
-                is PrecipitationTotal.Today -> PrecipitationToday(
+                is PrecipitationTotal.Today -> TodayPrecipitationBullets(
                     state = precipitationTotal,
                     modifier = Modifier.fillMaxWidth()
                 )

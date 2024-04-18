@@ -33,7 +33,7 @@ import com.davidtakac.bura.common.AppTheme
 import java.time.LocalDate
 
 @Composable
-fun PrecipitationToday(state: PrecipitationTotal.Today, modifier: Modifier = Modifier) {
+fun TodayPrecipitationBullets(state: PrecipitationTotal.Today, modifier: Modifier = Modifier) {
     Column(modifier, verticalArrangement = Arrangement.spacedBy(12.dp)) {
         PrecipitationHours(past = true, state = state.past, modifier = Modifier.fillMaxWidth())
         PrecipitationHours(past = false, state = state.future, modifier = Modifier.fillMaxWidth())
@@ -54,7 +54,7 @@ private fun PrecipitationHours(
                 "${state.hours}"
             ),
         )
-        ColoredPrecipitation(state = state.total, modifier = Modifier.fillMaxWidth())
+        PrecipitationBullets(state = state.total, modifier = Modifier.fillMaxWidth())
     }
 }
 
@@ -63,7 +63,7 @@ private fun PrecipitationHours(
 private fun PrecipitationTodayPreview() {
     AppTheme {
         Surface {
-            PrecipitationToday(
+            TodayPrecipitationBullets(
                 state = PrecipitationTotal.Today(
                     day = LocalDate.parse("1970-01-01"),
                     past = TotalPrecipitationInHours(
