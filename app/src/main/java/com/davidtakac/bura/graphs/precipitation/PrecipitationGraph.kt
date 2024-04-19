@@ -130,13 +130,16 @@ private fun DrawScope.drawHorizontalAxisAndBars(
         val snowHeight = ((snow.liquidValue / range) * (size.height - args.topGutter - args.bottomGutter)).toFloat()
 
         val barSpacing = 1.dp.toPx()
-        val barWidth = 8.dp.toPx()
+        val desiredBarWidth = 8.dp.toPx()
         val bottomOfGraph = size.height - args.bottomGutter
         val topOfRain = bottomOfGraph - rainHeight
+
+        val barX = if (i == 0) x + desiredBarWidth / 4 else x
+        val barWidth = if (i == 0) desiredBarWidth / 2 else desiredBarWidth
         drawLine(
             brush = SolidColor(rainColor),
-            start = Offset(x, bottomOfGraph),
-            end = Offset(x, topOfRain),
+            start = Offset(barX, bottomOfGraph),
+            end = Offset(barX, topOfRain),
             strokeWidth = barWidth
         )
 
@@ -144,8 +147,8 @@ private fun DrawScope.drawHorizontalAxisAndBars(
         val topOfShowers = bottomOfShowers - showersHeight
         drawLine(
             brush = SolidColor(showersColor),
-            start = Offset(x, bottomOfShowers),
-            end = Offset(x, topOfShowers),
+            start = Offset(barX, bottomOfShowers),
+            end = Offset(barX, topOfShowers),
             strokeWidth = barWidth
         )
 
@@ -153,8 +156,8 @@ private fun DrawScope.drawHorizontalAxisAndBars(
         val topOfSnow = bottomOfSnow - snowHeight
         drawLine(
             brush = SolidColor(snowColor),
-            start = Offset(x, bottomOfSnow),
-            end = Offset(x, topOfSnow),
+            start = Offset(barX, bottomOfSnow),
+            end = Offset(barX, topOfSnow),
             strokeWidth = barWidth
         )
 
