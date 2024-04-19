@@ -25,8 +25,8 @@ import java.util.Locale
 private val fallbackLocale = Locale.US
 private val supportedLocales = listOf(
     fallbackLocale,
+    Locale.forLanguageTag("fr"),
     Locale.forLanguageTag("hr"),
-    Locale.forLanguageTag("fr")
 )
 
 private fun appLocale(context: Context): Locale {
