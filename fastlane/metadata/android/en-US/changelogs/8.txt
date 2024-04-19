@@ -1,0 +1,4 @@
+## [1.1.1] - 2024-04-19
+
+### Fixed
+- Crash when selecting a place that has no sunrise or sunset in a given day (#31)
