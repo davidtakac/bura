@@ -70,10 +70,10 @@ class ForecastDataDownloader(private val userAgentProvider: UserAgentProvider) {
             val json = JSONObject(jsonString)
 
             val daily = json.getJSONObject("daily")
-            // When a day has no sunrise or sunset, Open-Meteo returns 1970-01-01, but the app
+            // When a day has no sunrise or sunset, Open-Meteo returns epoch second 0, but the app
             // expects an omitted timestamp. These filters drop such placeholders.
-            val sunrises = daily.getJSONArray("sunrise").mapToList(LocalDateTime::parse).filter { it != LocalDateTime.MIN }
-            val sunsets = daily.getJSONArray("sunset").mapToList(LocalDateTime::parse).filter { it != LocalDateTime.MIN }
+            val sunrises = daily.getJSONArray("sunrise").mapToList(LocalDateTime::parse).filter { it.year != 1970 }
+            val sunsets = daily.getJSONArray("sunset").mapToList(LocalDateTime::parse).filter { it.year != 1970 }
 
             val hourly = json.getJSONObject("hourly")
 
