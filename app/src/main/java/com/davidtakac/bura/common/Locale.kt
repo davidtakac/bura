@@ -23,7 +23,11 @@ import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 private val fallbackLocale = Locale.US
-private val supportedLocales = listOf(fallbackLocale, Locale.forLanguageTag("hr"))
+private val supportedLocales = listOf(
+    fallbackLocale,
+    Locale.forLanguageTag("hr"),
+    Locale.forLanguageTag("fr")
+)
 
 private fun appLocale(context: Context): Locale {
     val defaultLocale = context.resources.configuration.locales[0]
