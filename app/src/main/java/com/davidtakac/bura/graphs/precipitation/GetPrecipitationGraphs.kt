@@ -55,19 +55,6 @@ class GetPrecipitationGraphs(
                                     )
                                 }
                             )
-                            val firstPrecipMomentTomorrow = precipDays.getOrNull(dayIdx + 1)?.first()
-                            if (firstPrecipMomentTomorrow != null) {
-                                add(
-                                    PrecipitationGraphPoint(
-                                        time = GraphTime(
-                                            hour = firstPrecipMomentTomorrow.hour,
-                                            now = now
-                                        ),
-                                        precip = firstPrecipMomentTomorrow.precipitation,
-                                        cond = condDays[dayIdx + 1][0].condition
-                                    )
-                                )
-                            }
                         }
                     )
                 }
