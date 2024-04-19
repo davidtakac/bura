@@ -127,7 +127,7 @@
     <string name="sunrise_value_more_than_days_away">&gt; %sd</string>
     <string name="sunrise_value_more_than_hours_away">&gt; %sh</string>
     <string name="sunset_value_more_than_days_away">&gt; %sd</string>
-    <string name="sunset_value_more_than_hours_away">&gt; %sd</string>
+    <string name="sunset_value_more_than_hours_away">&gt; %sh</string>
 
     <string name="temp_value_degree">%s°</string>
     <string name="temp_value_high_low">H:%s L:%s</string>
