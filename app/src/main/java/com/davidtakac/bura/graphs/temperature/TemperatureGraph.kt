@@ -23,13 +23,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.drawText
@@ -39,17 +43,17 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.drawable.toBitmap
-import com.davidtakac.bura.temperature.Temperature
-import com.davidtakac.bura.temperature.string
 import com.davidtakac.bura.common.AppTheme
 import com.davidtakac.bura.condition.Condition
 import com.davidtakac.bura.condition.image
-import com.davidtakac.bura.graphs.common.GraphTime
 import com.davidtakac.bura.graphs.common.GraphArgs
+import com.davidtakac.bura.graphs.common.GraphTime
 import com.davidtakac.bura.graphs.common.drawLabeledPoint
 import com.davidtakac.bura.graphs.common.drawPastOverlayWithPoint
 import com.davidtakac.bura.graphs.common.drawTimeAxis
 import com.davidtakac.bura.graphs.common.drawVerticalAxis
+import com.davidtakac.bura.temperature.Temperature
+import com.davidtakac.bura.temperature.string
 import java.time.LocalDate
 import java.time.LocalTime
 import kotlin.math.roundToInt
@@ -150,18 +154,34 @@ private fun DrawScope.drawHorizontalAxisAndPlot(
     plotFillPath.close()
     val gradientStart = size.height - args.bottomGutter
     val gradientEnd = args.topGutter
-    drawPath(
-        plotPath,
-        brush = Brush.verticalGradient(
-            colors = plotColors,
-            startY = gradientStart,
-            endY = gradientEnd
-        ),
-        style = Stroke(
-            width = args.plotWidth,
-            join = StrokeJoin.Round
+    // Clip path makes sure the plot ends are within graph bounds
+    clipPath(
+        path = Path().apply {
+            addRect(
+                Rect(
+                    offset = Offset(x = args.startGutter, y = args.topGutter),
+                    size = Size(
+                        width = size.width - args.startGutter - args.endGutter,
+                        height = size.height - args.topGutter - args.bottomGutter
+                    )
+                )
+            )
+        }
+    ) {
+        drawPath(
+            plotPath,
+            brush = Brush.verticalGradient(
+                colors = plotColors,
+                startY = gradientStart,
+                endY = gradientEnd
+            ),
+            style = Stroke(
+                width = args.plotWidth,
+                join = StrokeJoin.Round,
+                cap = StrokeCap.Square
+            )
         )
-    )
+    }
     drawPath(
         plotFillPath,
         brush = Brush.verticalGradient(

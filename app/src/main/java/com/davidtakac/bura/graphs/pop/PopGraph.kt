@@ -21,11 +21,15 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.drawText
@@ -107,14 +111,30 @@ private fun DrawScope.drawHorizontalAxisAndPlot(
     plotFillPath.lineTo(x = lastX, y = plotBottom)
     plotFillPath.lineTo(x = args.startGutter, y = plotBottom)
     plotFillPath.close()
-    drawPath(
-        plotPath,
-        color = plotColor,
-        style = Stroke(
-            width = args.plotWidth,
-            join = StrokeJoin.Round
+    // Clip path makes sure the plot ends are within graph bounds
+    clipPath(
+        path = Path().apply {
+            addRect(
+                Rect(
+                    offset = Offset(x = args.startGutter, y = args.topGutter),
+                    size = Size(
+                        width = size.width - args.startGutter - args.endGutter,
+                        height = size.height - args.topGutter - args.bottomGutter
+                    )
+                )
+            )
+        }
+    ) {
+        drawPath(
+            plotPath,
+            color = plotColor,
+            style = Stroke(
+                width = args.plotWidth,
+                join = StrokeJoin.Round,
+                cap = StrokeCap.Square
+            )
         )
-    )
+    }
     drawPath(
         plotFillPath,
         color = plotColor,
