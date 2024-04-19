@@ -211,7 +211,7 @@ private fun PrecipitationGraphPreview() {
         PrecipitationGraph(
             state = PrecipitationGraph(
                 day = LocalDate.parse("1970-01-01"),
-                points = List(25) {
+                points = List(24) {
                     PrecipitationGraphPoint(
                         time = GraphTime(
                             hour = LocalDateTime.parse("1970-01-01T00:00")
@@ -252,7 +252,7 @@ private fun PrecipitationGraphDarkPreview() {
         PrecipitationGraph(
             state = PrecipitationGraph(
                 day = LocalDate.parse("1970-01-01"),
-                points = List(25) {
+                points = List(24) {
                     PrecipitationGraphPoint(
                         time = GraphTime(
                             hour = LocalDateTime.parse("1970-01-01T00:00")
