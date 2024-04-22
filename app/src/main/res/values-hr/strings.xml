@@ -65,7 +65,7 @@
     <string name="settings_screen_label_light">Svijetla</string>
     <string name="settings_screen_label_follow_system">Prati sustav</string>
     <string name="date_time_now">Sada</string>
-    <string name="date_time_today">danas</string>
+    <string name="date_time_today">Danas</string>
     <string name="date_time_pattern_hour">HH</string>
     <string name="date_time_pattern_hour_minute">HH:mm</string>
     <string name="date_time_pattern_dow">E</string>
