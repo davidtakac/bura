@@ -1,0 +1,17 @@
+## [1.2.0] - 2024-04-22
+
+### Added
+- French translation
+
+### Changed
+- Precipitation graph no longer displays first hour of next day
+- Replaced H:22° L:18° with up and down arrows
+
+### Fixed
+- Place search not working with trailing and/or leading whitespace (#34)
+- Plot line going outside of graph bounds
+- First precipitation bar going outside of graph bounds
+- Search bar hint being cut off when it is too long
+- Delete place dialog title not being center-aligned when place name is long
+- Days of week not being capitalized for languages other than English
+- Croatian translation of "Precipitation Totals"
