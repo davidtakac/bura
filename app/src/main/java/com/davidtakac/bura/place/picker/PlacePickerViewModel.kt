@@ -76,12 +76,13 @@ class PlacePickerViewModel(
     }
 
     fun searchPlaces(query: String, languageCode: String) {
+        val trimmedQuery = query.trim()
         viewModelScope.launch {
             _state.value = _state.value.copy(loading = true)
-            val results = searchPlaces.invoke(query, languageCode)
+            val results = searchPlaces.invoke(trimmedQuery, languageCode)
             _state.value = _state.value.copy(
                 loading = false,
-                results = PlacePickerResults.SearchedPlaces(query, results)
+                results = PlacePickerResults.SearchedPlaces(trimmedQuery, results)
             )
         }
     }
