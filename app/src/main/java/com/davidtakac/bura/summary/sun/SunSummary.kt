@@ -25,6 +25,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.davidtakac.bura.R
+import com.davidtakac.bura.common.capitalize
+import com.davidtakac.bura.common.rememberAppLocale
 import com.davidtakac.bura.summary.SummaryTile
 import com.davidtakac.bura.common.rememberDateTimeFormatter
 import java.time.Duration
@@ -33,6 +35,7 @@ import java.time.LocalTime
 
 @Composable
 fun SunSummary(state: SunSummary, modifier: Modifier = Modifier) {
+    val locale = rememberAppLocale()
     val dayFormatter = rememberDateTimeFormatter(ofPattern = R.string.date_time_pattern_dow)
     val timeFormatter = rememberDateTimeFormatter(ofPattern = R.string.date_time_pattern_hour_minute)
     val dayAndTimeFormatter = rememberDateTimeFormatter(ofPattern = R.string.date_time_pattern_dow_hour_minute)
@@ -45,8 +48,8 @@ fun SunSummary(state: SunSummary, modifier: Modifier = Modifier) {
                     is Sunrise.WithSunsetSoon -> timeFormatter.format(state.time)
                     is Sunset.WithSunriseSoon -> timeFormatter.format(state.time)
 
-                    is Sunrise.Later -> dayFormatter.format(state.time)
-                    is Sunset.Later -> dayFormatter.format(state.time)
+                    is Sunrise.Later -> dayFormatter.format(state.time).capitalize(locale)
+                    is Sunset.Later -> dayFormatter.format(state.time).capitalize(locale)
 
                     is Sunrise.WithSunsetLater -> timeFormatter.format(state.time)
                     is Sunset.WithSunriseLater -> timeFormatter.format(state.time)

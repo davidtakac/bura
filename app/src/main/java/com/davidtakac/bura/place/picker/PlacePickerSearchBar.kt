@@ -35,6 +35,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.davidtakac.bura.R
@@ -117,7 +118,11 @@ fun PlacePickerSearchBar(
             )
         },
         placeholder = {
-            Text(text = stringResource(id = R.string.place_picker_hint_search))
+            Text(
+                text = stringResource(id = R.string.place_picker_hint_search),
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 1
+            )
         },
         modifier = Modifier
             .fillMaxWidth()

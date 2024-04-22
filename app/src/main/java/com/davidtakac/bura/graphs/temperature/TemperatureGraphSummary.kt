@@ -28,6 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.davidtakac.bura.R
 import com.davidtakac.bura.common.AppTheme
+import com.davidtakac.bura.common.HighLowText
 import com.davidtakac.bura.condition.Condition
 import com.davidtakac.bura.condition.image
 import com.davidtakac.bura.condition.string
@@ -69,12 +70,9 @@ fun TemperatureGraphSummary(state: TemperatureGraphSummary, modifier: Modifier =
                     else -> Text(stringResource(R.string.cond_screen_temp_unit_fahrenheit))
                 }
 
-                else -> Text(
-                    text = stringResource(
-                        id = R.string.temp_value_high_low,
-                        state.maxTemp.string(),
-                        state.minTemp.string()
-                    )
+                else -> HighLowText(
+                    high = state.maxTemp.string(),
+                    low = state.minTemp.string()
                 )
             }
         },

@@ -46,6 +46,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.davidtakac.bura.R
 import com.davidtakac.bura.common.AppTheme
+import com.davidtakac.bura.common.capitalize
+import com.davidtakac.bura.common.rememberAppLocale
 import com.davidtakac.bura.common.rememberDateTimeFormatter
 import com.davidtakac.bura.condition.Condition
 import com.davidtakac.bura.condition.image
@@ -115,7 +117,7 @@ fun DaySummaryRow(
                 DayAndPop(
                     day = {
                         Text(
-                            text = if (state.isToday) stringResource(R.string.date_time_today) else state.time.format(formatter),
+                            text = if (state.isToday) stringResource(R.string.date_time_today) else state.time.format(formatter).capitalize(rememberAppLocale()),
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis
                         )
@@ -126,7 +128,9 @@ fun DaySummaryRow(
                         }
                     }
                 )
-                Spacer(modifier = Modifier.weight(1f).widthIn(min = 4.dp))
+                Spacer(modifier = Modifier
+                    .weight(1f)
+                    .widthIn(min = 4.dp))
                 Image(
                     painter = state.desc.image(),
                     contentDescription = null,

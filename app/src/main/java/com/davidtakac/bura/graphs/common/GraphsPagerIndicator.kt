@@ -36,6 +36,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.davidtakac.bura.R
 import com.davidtakac.bura.common.AppTheme
+import com.davidtakac.bura.common.capitalize
+import com.davidtakac.bura.common.rememberAppLocale
 import com.davidtakac.bura.common.rememberDateTimeFormatter
 import java.time.LocalDate
 
@@ -53,7 +55,7 @@ fun GraphsPagerIndicator(
                 selected = idx == selected,
                 onClick = { onClick(date) },
                 unselectedContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                text = { Text(formatter.format(date)) },
+                text = { Text(formatter.format(date).capitalize(rememberAppLocale())) },
                 icon = { Text(text = "${date.dayOfMonth}") }
             )
         }

@@ -29,6 +29,7 @@
     <string name="delete_place_description">Ovo će obrisati i spremljenu prognozu mjesta.</string>
     <string name="cond_screen_title">Uvjeti</string>
     <string name="cond_screen_pop">Vjerojatnost padalina</string>
+    <string name="cond_screen_precip">Količina padalina</string>
     <string name="cond_screen_temp_unit_celsius">Celzij (°C)</string>
     <string name="cond_screen_temp_unit_fahrenheit">Fahrenheit (°F)</string>
     <string name="cond_screen_precip_value_in_last_hours">Posljednja %s sata</string>
@@ -65,12 +66,11 @@
     <string name="settings_screen_label_light">Svijetla</string>
     <string name="settings_screen_label_follow_system">Prati sustav</string>
     <string name="date_time_now">Sada</string>
-    <string name="date_time_today">danas</string>
+    <string name="date_time_today">Danas</string>
     <string name="date_time_pattern_hour">HH</string>
     <string name="date_time_pattern_hour_minute">HH:mm</string>
     <string name="date_time_pattern_dow">E</string>
     <string name="date_time_pattern_dow_hour_minute">E, HH:mm</string>
-    <string name="date_time_pattern_dow_dom_month">E, d. MMM</string>
     <string name="precip_mixed">Padaline</string>
     <string name="precip_rain">Kiša</string>
     <string name="precip_showers">Pljuskovi</string>
@@ -116,7 +116,6 @@
     <string name="sunset_value_more_than_days_away">&gt; %sd</string>
     <string name="sunset_value_more_than_hours_away">&gt; %sd</string>
     <string name="temp_value_degree">%s°</string>
-    <string name="temp_value_high_low">V:%s N:%s</string>
     <string name="dew_point_value_right_now">Rosište je %s sada.</string>
     <string name="feels_like">Osjet</string>
     <string name="feels_like_value">Osjet %s</string>
