@@ -29,6 +29,7 @@
     <string name="delete_place_description">Ovo će obrisati i spremljenu prognozu mjesta.</string>
     <string name="cond_screen_title">Uvjeti</string>
     <string name="cond_screen_pop">Vjerojatnost padalina</string>
+    <string name="cond_screen_precip">Količina padalina</string>
     <string name="cond_screen_temp_unit_celsius">Celzij (°C)</string>
     <string name="cond_screen_temp_unit_fahrenheit">Fahrenheit (°F)</string>
     <string name="cond_screen_precip_value_in_last_hours">Posljednja %s sata</string>
