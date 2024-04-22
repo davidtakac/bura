@@ -42,6 +42,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.davidtakac.bura.R
 import com.davidtakac.bura.common.AppTheme
+import com.davidtakac.bura.common.HighLowText
 import com.davidtakac.bura.common.TextSkeleton
 import com.davidtakac.bura.condition.Condition
 import com.davidtakac.bura.condition.image
@@ -62,12 +63,9 @@ fun NowSummary(state: NowSummary, modifier: Modifier = Modifier) {
             )
         },
         highLow = {
-            Text(
-                stringResource(
-                    id = R.string.temp_value_high_low,
-                    state.maxTemp.string(),
-                    state.minTemp.string()
-                )
+            HighLowText(
+                high = state.maxTemp.string(),
+                low = state.minTemp.string()
             )
         },
         feelsLike = {
