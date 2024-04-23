@@ -16,7 +16,6 @@ import androidx.annotation.CallSuper
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
-import java.util.Objects
 
 open class HourPeriod<T : HourMoment>(private val moments: List<T>) : List<T> by moments {
     init {
@@ -72,24 +71,6 @@ open class HourPeriod<T : HourMoment>(private val moments: List<T>) : List<T> by
                 .map { HourPeriod(it) }
     }
 
-    @CallSuper
-    open fun contDaysFrom(
-        dayInclusive: LocalDate,
-        takeDays: Int? = null
-    ): List<HourPeriod<T>>? {
-        val regularDays = daysFrom(dayInclusive, takeDays) ?: return null
-        val contDays = mutableListOf<HourPeriod<T>>()
-        for (i in regularDays.indices) {
-            val currDay = regularDays[i]
-            val nextDay = regularDays.getOrNull(i + 1)
-            contDays.add(
-                if (nextDay != null) HourPeriod(moments = currDay + nextDay.first())
-                else currDay
-            )
-        }
-        return contDays
-    }
-
     fun matches(other: HourPeriod<*>): Boolean =
         moments.map { it.hour } == other.moments.map { it.hour }
 
@@ -107,13 +88,6 @@ open class HourPeriod<T : HourMoment>(private val moments: List<T>) : List<T> by
 
     private fun requireNotEmpty() =
         require(moments.isNotEmpty()) { "Moments of HourPeriod must not be empty." }
-
-    override fun equals(other: Any?): Boolean =
-        other is HourPeriod<*> && other.moments == moments
-
-    override fun hashCode(): Int = Objects.hash(moments)
-
-    override fun toString(): String = moments.toString()
 }
 
 inline fun requireMatching(vararg periods: HourPeriod<*>, lazyMessage: () -> Any = { "Periods must have matching times." }) {
