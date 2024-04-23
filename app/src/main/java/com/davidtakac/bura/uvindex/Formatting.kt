@@ -19,7 +19,7 @@ import com.davidtakac.bura.R
 import com.davidtakac.bura.common.rememberNumberFormat
 import java.text.NumberFormat
 
-private fun UvIndex.valueString(numberFormat: NumberFormat): String = numberFormat.format(value)
+fun UvIndex.valueString(numberFormat: NumberFormat): String = numberFormat.format(value)
 
 private fun UvIndex.riskString(context: Context): String = context.getString(
     when (risk) {

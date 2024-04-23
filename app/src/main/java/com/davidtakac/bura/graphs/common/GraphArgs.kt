@@ -139,5 +139,18 @@ data class GraphArgs(
                 default(density, dateTimeFormatter, numberFormat, typography, colorScheme, icons)
             }
         }
+
+        @Composable
+        fun rememberUvIndexArgs(): GraphArgs {
+            val density = LocalDensity.current
+            val colorScheme = MaterialTheme.colorScheme
+            val typography = MaterialTheme.typography
+            val dateTimeFormatter = rememberDateTimeFormatter(ofPattern = R.string.date_time_pattern_hour)
+            val numberFormat = rememberNumberFormat()
+            val icons = AppTheme.icons
+            return remember(density, colorScheme, typography, dateTimeFormatter, numberFormat, icons) {
+                default(density, dateTimeFormatter, numberFormat, typography, colorScheme, icons)
+            }
+        }
     }
 }
