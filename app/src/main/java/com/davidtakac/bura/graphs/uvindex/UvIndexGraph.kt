@@ -13,12 +13,15 @@
 package com.davidtakac.bura.graphs.uvindex
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
@@ -42,6 +45,7 @@ import com.davidtakac.bura.uvindex.UvIndex
 import com.davidtakac.bura.uvindex.valueString
 import java.time.LocalDateTime
 import kotlin.math.roundToInt
+import kotlin.random.Random
 
 @Composable
 fun UvIndexGraph(
@@ -50,8 +54,7 @@ fun UvIndexGraph(
     modifier: Modifier = Modifier
 ) {
     val measurer = rememberTextMeasurer()
-    // todo: change plot color
-    val plotColor = AppTheme.colors.popColor
+    val colors = AppTheme.colors.uvIndexColors(toUvIndex = state.max.value)
     Canvas(modifier) {
         drawVerticalAxis(
             measurer = measurer,
@@ -59,8 +62,8 @@ fun UvIndexGraph(
         )
         drawHorizontalAxisAndPlot(
             state = state,
+            colors = colors,
             measurer = measurer,
-            plotColor = plotColor,
             args = args,
         )
     }
@@ -68,8 +71,8 @@ fun UvIndexGraph(
 
 private fun DrawScope.drawHorizontalAxisAndPlot(
     state: UvIndexGraph,
+    colors: List<Color>,
     measurer: TextMeasurer,
-    plotColor: Color,
     args: GraphArgs,
 ) {
     val range = 11f
@@ -107,6 +110,8 @@ private fun DrawScope.drawHorizontalAxisAndPlot(
     plotFillPath.lineTo(x = lastX, y = plotBottom)
     plotFillPath.lineTo(x = args.startGutter, y = plotBottom)
     plotFillPath.close()
+    val gradientStart = size.height - args.bottomGutter
+    val gradientEnd = args.topGutter
     // Clip path makes sure the plot ends are within graph bounds
     clipPath(
         path = Path().apply {
@@ -123,7 +128,11 @@ private fun DrawScope.drawHorizontalAxisAndPlot(
     ) {
         drawPath(
             plotPath,
-            color = plotColor,
+            brush = Brush.verticalGradient(
+                colors = colors,
+                startY = gradientStart,
+                endY = gradientEnd
+            ),
             style = Stroke(
                 width = args.plotWidth,
                 join = StrokeJoin.Round,
@@ -133,7 +142,11 @@ private fun DrawScope.drawHorizontalAxisAndPlot(
     }
     drawPath(
         plotFillPath,
-        color = plotColor,
+        brush = Brush.verticalGradient(
+            colors = colors,
+            startY = gradientStart,
+            endY = gradientEnd
+        ),
         alpha = args.plotFillAlpha
     )
     maxCenter?.let { (offset, index) ->
@@ -153,11 +166,12 @@ private fun DrawScope.drawVerticalAxis(
     measurer: TextMeasurer,
     args: GraphArgs
 ) {
+    val steps = 11
     drawVerticalAxis(
-        steps = 11,
+        steps = steps,
         args = args
     ) { frac, endX, y ->
-        val index = UvIndex((frac * 11).roundToInt())
+        val index = UvIndex((frac * steps).roundToInt())
         val indexMeasured = measurer.measure(
             text = index.valueString(args.numberFormat),
             style = args.axisTextStyle
@@ -176,10 +190,10 @@ private fun DrawScope.drawVerticalAxis(
 @Preview
 @Composable
 private fun UvIndexGraphPreview() {
-    AppTheme {
+    AppTheme(darkTheme = true) {
         UvIndexGraph(
             state = UvIndexGraph(
-                max = UvIndex(7),
+                max = UvIndex(11),
                 points = List(25) {
                     val now = LocalDateTime.parse("2001-01-01T12:00")
                     val hour = LocalDateTime.parse("2001-01-01T00:00").plusHours(it.toLong())
@@ -190,19 +204,16 @@ private fun UvIndexGraphPreview() {
                             value = UvIndex(0),
                             meta = GraphUvIndex.Meta.Regular
                         )
-                    ) else if (it < 15) UvIndexGraphPoint(
-                        time = time,
-                        uvIndex = GraphUvIndex(
-                            value = UvIndex(it - 15 + 7),
-                            meta = if (it == 14) GraphUvIndex.Meta.Maximum else GraphUvIndex.Meta.Regular
+                    ) else if (it < 19) {
+                        val index = Random.nextInt(1, 12)
+                        UvIndexGraphPoint(
+                            time = time,
+                            uvIndex = GraphUvIndex(
+                                value = UvIndex(index),
+                                meta = if (index == 11) GraphUvIndex.Meta.Maximum else GraphUvIndex.Meta.Regular
+                            )
                         )
-                    ) else if (it < 19) UvIndexGraphPoint(
-                        time = time,
-                        uvIndex = GraphUvIndex(
-                            value = UvIndex(it - 19 + 5),
-                            meta = GraphUvIndex.Meta.Regular
-                        )
-                    )else UvIndexGraphPoint(
+                    } else UvIndexGraphPoint(
                         time = time,
                         uvIndex = GraphUvIndex(
                             value = UvIndex(0),
@@ -212,7 +223,9 @@ private fun UvIndexGraphPreview() {
                 }
             ),
             args = GraphArgs.rememberUvIndexArgs(),
-            modifier = Modifier.size(400.dp)
+            modifier = Modifier
+                .size(400.dp)
+                .background(MaterialTheme.colorScheme.surface)
         )
     }
 }

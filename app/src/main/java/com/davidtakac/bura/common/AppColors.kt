@@ -18,7 +18,7 @@ import kotlin.math.roundToInt
 
 data class AppColors(
     private val temperatureColors: List<Color>,
-    private val uvIndexColors: Map<Int, Color>,
+    private val uvIndexColors: List<Pair<Int, Color>>,
     val popColor: Color,
     val rainColor: Color,
     val showersColor: Color,
@@ -29,7 +29,10 @@ data class AppColors(
         temperatureColors.slice(getIndexOfNearestColor(fromCelsius)..getIndexOfNearestColor(toCelsius))
 
     val uvIndexColorStops: List<Pair<Float, Color>>  get() =
-        uvIndexColors.map { it.key / 11f to it.value }
+        uvIndexColors.map { it.first / 11f to it.second }
+
+    fun uvIndexColors(toUvIndex: Int): List<Color> =
+        uvIndexColors.dropLastWhile { it.first > toUvIndex }.map { it.second }
 
     private fun getIndexOfNearestColor(celsius: Double): Int =
         40 + celsius.roundToInt().coerceIn(-40, 55)
@@ -65,7 +68,7 @@ val LocalAppColors = staticCompositionLocalOf {
         showersColor = Color.Unspecified,
         snowColor = Color.Unspecified,
         precipitationColor = Color.Unspecified,
-        uvIndexColors = mapOf()
+        uvIndexColors = listOf()
     )
 }
 
@@ -167,7 +170,7 @@ private val darkTemperatureColors = listOf(
     Color(46, 14, 90),
 ).reversed()
 
-private val darkUvIndexColors = mapOf(
+private val darkUvIndexColors = listOf(
     2 to Color(0xFF8BC34A),
     5 to Color(0xFFFFEB3B),
     7 to Color(0xFFFF9800),
