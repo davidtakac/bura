@@ -32,6 +32,8 @@ class GetUvIndexGraphs(private val repo: UvIndexRepository) {
             data = buildList {
                 for (i in days.indices) {
                     val day = days[i]
+                    // todo: make max take into account moments from now on, maybe even extract it
+                    //  into a separate use case like the temp stuff?
                     val maxMoment = day.reversed().maxBy { it.uvIndex }
                     val points = buildList {
                         addAll(
