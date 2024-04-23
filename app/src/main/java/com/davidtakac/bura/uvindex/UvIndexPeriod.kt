@@ -29,6 +29,9 @@ class UvIndexPeriod(moments: List<UvIndexMoment>) : HourPeriod<UvIndexMoment>(mo
     override fun getDay(day: LocalDate) =
         super.getDay(day)?.let { UvIndexPeriod(it) }
 
+    override fun daysFrom(dayInclusive: LocalDate, takeDays: Int?): List<UvIndexPeriod>? =
+        super.daysFrom(dayInclusive, takeDays)?.map { UvIndexPeriod(it) }
+
     private fun protectionWindows(dangerousUvIndex: UvIndex): List<SunProtectionWindow> =
         buildList {
             val iterator = this@UvIndexPeriod.iterator()
