@@ -22,19 +22,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
+import com.davidtakac.bura.common.AppTheme
 import com.davidtakac.bura.uvindex.UvIndex
-
-private val colorStops = arrayOf(
-    0.15f to Color(0xFF8BC34A),
-    0.25f to Color(0xFFFFEB3B),
-    0.5f to Color(0xFFFF9800),
-    0.65f to Color(0xFFF44336),
-    1f to Color(0xFF8E24AA)
-)
 
 @Composable
 fun AppleUvIndexScale(uvIndexNow: UvIndex, modifier: Modifier = Modifier) {
@@ -46,7 +38,7 @@ fun AppleUvIndexScale(uvIndexNow: UvIndex, modifier: Modifier = Modifier) {
             .height(6.dp)
             .then(modifier)
             .clip(RoundedCornerShape(percent = 100))
-            .background(Brush.horizontalGradient(colorStops = colorStops))
+            .background(Brush.horizontalGradient(colorStops = AppTheme.colors.uvIndexColorStops.toTypedArray()))
     ) {
         val nowRadius = size.height / 2
         val nowStart = ((uvIndexNow.value / 11.0).coerceIn(0.0, 1.0) * size.width).toFloat()

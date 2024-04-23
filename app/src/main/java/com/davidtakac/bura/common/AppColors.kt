@@ -18,14 +18,18 @@ import kotlin.math.roundToInt
 
 data class AppColors(
     private val temperatureColors: List<Color>,
+    private val uvIndexColors: Map<Int, Color>,
     val popColor: Color,
     val rainColor: Color,
     val showersColor: Color,
     val snowColor: Color,
-    val precipitationColor: Color
+    val precipitationColor: Color,
 ) {
     fun temperatureColors(fromCelsius: Double, toCelsius: Double): List<Color> =
         temperatureColors.slice(getIndexOfNearestColor(fromCelsius)..getIndexOfNearestColor(toCelsius))
+
+    val uvIndexColorStops: List<Pair<Float, Color>>  get() =
+        uvIndexColors.map { it.key / 11f to it.value }
 
     private fun getIndexOfNearestColor(celsius: Double): Int =
         40 + celsius.roundToInt().coerceIn(-40, 55)
@@ -33,20 +37,22 @@ data class AppColors(
     companion object {
         val ForDarkTheme get() = AppColors(
             temperatureColors = darkTemperatureColors,
+            uvIndexColors = darkUvIndexColors,
             popColor = Color(0xFF64B5F6),
             rainColor = Color(0xFF64B5F6),
             showersColor = Color(0xFF4DB6AC),
             snowColor = Color(0xFFE0E0E0),
-            precipitationColor = Color(0xFF9575CD)
+            precipitationColor = Color(0xFF9575CD),
         )
 
         val ForLightTheme get() = AppColors(
             temperatureColors = darkTemperatureColors,
+            uvIndexColors = darkUvIndexColors,
             popColor = Color(0xFF2196F3),
             rainColor = Color(0xFF2196F3),
             showersColor = Color(0xFF009688),
             snowColor = Color(0xFF9E9E9E),
-            precipitationColor = Color(0xFF3F51B5)
+            precipitationColor = Color(0xFF3F51B5),
         )
     }
 }
@@ -58,7 +64,8 @@ val LocalAppColors = staticCompositionLocalOf {
         rainColor = Color.Unspecified,
         showersColor = Color.Unspecified,
         snowColor = Color.Unspecified,
-        precipitationColor = Color.Unspecified
+        precipitationColor = Color.Unspecified,
+        uvIndexColors = mapOf()
     )
 }
 
@@ -159,3 +166,11 @@ private val darkTemperatureColors = listOf(
     Color(51, 22, 104),
     Color(46, 14, 90),
 ).reversed()
+
+private val darkUvIndexColors = mapOf(
+    2 to Color(0xFF8BC34A),
+    5 to Color(0xFFFFEB3B),
+    7 to Color(0xFFFF9800),
+    10 to Color(0xFFF44336),
+    11 to Color(0xFF8E24AA)
+)
