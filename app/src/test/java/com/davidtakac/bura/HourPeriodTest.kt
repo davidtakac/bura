@@ -174,4 +174,18 @@ class HourPeriodTest {
         val moments = HourPeriod(listOf(HourMoment(unixEpochStart)))
         assertNull(moments.getDay(LocalDate.MIN.plus(2, ChronoUnit.DAYS),))
     }
+
+    @Test
+    fun `continuous days from returns days with first hour of the next day`() {
+        val startOfSecondDay = unixEpochStart.plusDays(1)
+        val endOfFirstDay = startOfSecondDay.minusHours(1)
+        val period = HourPeriod(listOf(HourMoment(endOfFirstDay), HourMoment(startOfSecondDay)))
+        assertEquals(
+            listOf(
+                HourPeriod(listOf(HourMoment(endOfFirstDay), HourMoment(startOfSecondDay))),
+                HourPeriod(listOf(HourMoment(startOfSecondDay)))
+            ),
+            period.contDaysFrom(dayInclusive = endOfFirstDay.toLocalDate())
+        )
+    }
 }

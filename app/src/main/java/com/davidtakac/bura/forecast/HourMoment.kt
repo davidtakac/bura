@@ -13,6 +13,7 @@
 package com.davidtakac.bura.forecast
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
+import java.util.Objects
 
 open class HourMoment(val hour: LocalDateTime) {
     init {
@@ -20,4 +21,9 @@ open class HourMoment(val hour: LocalDateTime) {
             "Time of HourMoment must be whole hour, but was $hour."
         }
     }
+
+    override fun equals(other: Any?): Boolean =
+        other is HourMoment && other.hour == hour
+
+    override fun hashCode(): Int = Objects.hash(hour)
 }
