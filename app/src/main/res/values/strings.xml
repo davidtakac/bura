@@ -40,6 +40,8 @@
     <string name="cond_screen_precip_value_in_last_hours">Last %s hours</string>
     <string name="cond_screen_precip_value_in_next_hours">Next %s hours</string>
 
+    <string name="uv_index_screen_title">UV Index</string>
+
     <string name="settings_screen_title">Settings</string>
     <string name="settings_screen_title_units">Units</string>
     <string name="settings_screen_title_temp_unit">Temperature</string>

@@ -33,7 +33,8 @@ fun SummaryDestination(
     onHourlySectionClick: () -> Unit,
     onDayClick: (LocalDate) -> Unit,
     onSettingsButtonClick: () -> Unit,
-    onPrecipitationClick: () -> Unit
+    onPrecipitationClick: () -> Unit,
+    onUvIndexClick: () -> Unit,
 ) {
     val placePickerVM = viewModel<PlacePickerViewModel>(factory = PlacePickerViewModel.Factory)
     val summaryVM = viewModel<SummaryViewModel>(factory = SummaryViewModel.Factory)
@@ -75,6 +76,7 @@ fun SummaryDestination(
         onDayClick = onDayClick,
         onSettingsButtonClick = onSettingsButtonClick,
         onPrecipitationClick = onPrecipitationClick,
+        onUvIndexClick = onUvIndexClick,
 
         pickerState = pickerState,
         searchQuery = searchQuery,

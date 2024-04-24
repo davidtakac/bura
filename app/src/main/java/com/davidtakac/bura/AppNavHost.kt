@@ -20,6 +20,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.davidtakac.bura.common.Theme
 import com.davidtakac.bura.graphs.EssentialGraphsDestination
+import com.davidtakac.bura.graphs.UvIndexGraphDestination
 import com.davidtakac.bura.settings.SettingsDestination
 import com.davidtakac.bura.summary.SummaryDestination
 import java.time.LocalDate
@@ -41,6 +42,9 @@ fun AppNavHost(theme: Theme, onThemeClick: (Theme) -> Unit) {
                 },
                 onPrecipitationClick = {
                     controller.navigate("essential-graphs")
+                },
+                onUvIndexClick = {
+                    controller.navigate("uv-index-graph")
                 }
             )
         }
@@ -58,6 +62,12 @@ fun AppNavHost(theme: Theme, onThemeClick: (Theme) -> Unit) {
                 initialDay = backStackEntry.arguments?.getString("initialDay")?.let(LocalDate::parse),
                 onSelectPlaceClick = controller::popBackStack,
                 onBackClick = controller::popBackStack
+            )
+        }
+        composable("uv-index-graph") {
+            UvIndexGraphDestination(
+                onBackClick = controller::popBackStack,
+                onSelectPlaceClick = controller::popBackStack
             )
         }
         composable("settings") {

@@ -38,7 +38,11 @@ import com.davidtakac.bura.uvindex.valueString
 import java.time.LocalTime
 
 @Composable
-fun UvIndexSummary(state: UvIndexSummary, modifier: Modifier = Modifier) {
+fun UvIndexSummary(
+    state: UvIndexSummary,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     val formatter = rememberDateTimeFormatter(ofPattern = R.string.date_time_pattern_hour_minute)
     SummaryTile(
         label = { Text(text = stringResource(R.string.uv_index)) },
@@ -75,6 +79,7 @@ fun UvIndexSummary(state: UvIndexSummary, modifier: Modifier = Modifier) {
                 )
             }
         },
+        onClick = onClick,
         modifier = modifier
     )
 }
@@ -99,6 +104,7 @@ private fun UvIndexSummaryPreview() {
                             endExclusive = LocalTime.parse("20:00")
                         )
                     ),
+                    onClick = {},
                     modifier = Modifier.fillMaxWidth()
                 )
                 UvIndexSummary(
@@ -108,6 +114,7 @@ private fun UvIndexSummaryPreview() {
                             endExclusive = LocalTime.parse("20:00")
                         )
                     ),
+                    onClick = {},
                     modifier = Modifier.fillMaxWidth()
                 )
                 UvIndexSummary(
@@ -115,6 +122,7 @@ private fun UvIndexSummaryPreview() {
                         now = UvIndex(9),
                         useProtection = UseProtection.UntilEndOfDay
                     ),
+                    onClick = {},
                     modifier = Modifier.fillMaxWidth()
                 )
             }

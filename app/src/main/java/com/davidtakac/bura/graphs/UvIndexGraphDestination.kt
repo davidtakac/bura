@@ -19,15 +19,13 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.viewmodel.compose.viewModel
-import java.time.LocalDate
 
 @Composable
-fun EssentialGraphsDestination(
-    initialDay: LocalDate?,
+fun UvIndexGraphDestination(
+    onBackClick: () -> Unit,
     onSelectPlaceClick: () -> Unit,
-    onBackClick: () -> Unit
 ) {
-    val viewModel = viewModel<EssentialGraphsViewModel>(factory = EssentialGraphsViewModel.Factory)
+    val viewModel = viewModel<UvIndexGraphViewModel>(factory = UvIndexGraphViewModel.Factory)
     val lifecycleOwner = LocalLifecycleOwner.current
     DisposableEffect(lifecycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
@@ -39,11 +37,10 @@ fun EssentialGraphsDestination(
         onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
     }
 
-    EssentialGraphsScreen(
-        initialDay = initialDay,
+    UvIndexGraphScreen(
         state = viewModel.state.collectAsState().value,
+        onBackClick = onBackClick,
         onTryAgainClick = viewModel::getGraphs,
-        onSelectPlaceClick = onSelectPlaceClick,
-        onBackClick = onBackClick
+        onSelectPlaceClick = onSelectPlaceClick
     )
 }

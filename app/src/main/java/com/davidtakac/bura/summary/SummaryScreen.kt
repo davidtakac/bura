@@ -60,6 +60,7 @@ fun SummaryScreen(
     onDayClick: (date: LocalDate) -> Unit,
     onSettingsButtonClick: () -> Unit,
     onPrecipitationClick: () -> Unit,
+    onUvIndexClick: () -> Unit,
 
     pickerState: PlacePickerState,
     searchQuery: String,
@@ -104,6 +105,7 @@ fun SummaryScreen(
                     onHourlyClick = onHourlySectionClick,
                     onDayClick = onDayClick,
                     onPrecipitationClick = onPrecipitationClick,
+                    onUvIndexClick = onUvIndexClick,
                     modifier = Modifier.fillMaxSize()
                 )
 
@@ -136,6 +138,7 @@ private fun SummaryGrid(
     onHourlyClick: () -> Unit,
     onDayClick: (date: LocalDate) -> Unit,
     onPrecipitationClick: () -> Unit,
+    onUvIndexClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyVerticalStaggeredGrid(
@@ -178,6 +181,7 @@ private fun SummaryGrid(
         item {
             UvIndexSummary(
                 state = state.uvIndex,
+                onClick = onUvIndexClick,
                 modifier = Modifier.fillMaxWidth()
             )
         }
