@@ -1,0 +1,221 @@
+<!--
+  ~ Copyright 2024 David Takač
+  ~
+  ~ This file is part of Bura.
+  ~
+  ~ Bura is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+  ~
+  ~ Bura is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with Bura. If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<resources>
+    <string name="app_name">Bura</string>
+    <string name="general_error_failed_to_download">Không tải được dự báo xuống. Hãy kết nối Internet và thử lại.</string>
+    <string name="general_error_outdated">Dữ liệu dự báo của bạn đã hết hạn. Hãy kết nối Internet và thử lại.</string>
+    <string name="general_error_no_selected_place">Chưa chọn địa điểm nào.</string>
+    <string name="general_btn_try_again">Hãy thử lại</string>
+    <string name="general_btn_select_place">Chọn địa điểm</string>
+    <string name="general_btn_dialog_confirm">ỪA</string>
+    <string name="general_btn_dialog_cancel">Hủy</string>
+
+    <string name="credit_weather">Dữ liệu thời tiết của Open-Meteo.com</string>
+    <string name="credit_geocoding">Dữ liệu mã hóa địa lý của Open-Meteo.com</string>
+
+    <string name="place_picker_hint_search">Tìm kiếm địa điểm…</string>
+    <string name="place_picker_title_saved_places">Địa điểm đã lưu</string>
+    <string name="place_picker_title_search_results">Kết quả tìm kiếm</string>
+    <string name="place_picker_error_no_internet">Có vẻ như bạn đang ngoại tuyến. Hãy kết nối Internet và thử lại.</string>
+    <string name="place_picker_error_value_no_results_for">Không có kết quả nào cho \"%s\".</string>
+    <string name="place_picker_error_no_saved_places">Không có địa điểm nào được lưu.</string>
+    <string name="delete_place_value">Xóa %s?</string>
+    <string name="delete_place_description">Thao tác này cũng sẽ xóa dữ liệu dự báo đã lưu đệm của nó.</string>
+
+    <string name="cond_screen_title">Điều kiện</string>
+    <string name="cond_screen_pop">Khả năng có mưa</string>
+    <string name="cond_screen_precip">Tổng lượng mưa</string>
+    <string name="cond_screen_temp_unit_celsius">Độ C (°C)</string>
+    <string name="cond_screen_temp_unit_fahrenheit">Độ F (°F)</string>
+    <string name="cond_screen_precip_value_in_last_hours">%s giờ qua</string>
+    <string name="cond_screen_precip_value_in_next_hours">%s giờ tiếp theo</string>
+
+    <string name="settings_screen_title">Thiết đặt</string>
+    <string name="settings_screen_title_units">Đơn vị</string>
+    <string name="settings_screen_title_temp_unit">Nhiệt độ</string>
+    <string name="settings_screen_label_temp_unit_celsius">Độ C</string>
+    <string name="settings_screen_label_temp_unit_fahrenheit">Độ F</string>
+    <string name="settings_screen_title_wind_unit">Gió</string>
+    <string name="settings_screen_label_wind_unit_mps">Mét trên giây</string>
+    <string name="settings_screen_label_wind_unit_kph">Kilômét trên giờ</string>
+    <string name="settings_screen_label_wind_unit_mph">Dặm trên giờ</string>
+    <string name="settings_screen_label_wind_unit_kn">Hải lý</string>
+    <string name="settings_screen_title_precip_unit">Lượng mưa</string>
+    <string name="settings_screen_title_rain_unit">Mưa</string>
+    <string name="settings_screen_title_showers_unit">Mưa rào</string>
+    <string name="settings_screen_title_snow_unit">Tuyết</string>
+    <string name="settings_screen_label_precip_unit_mm">Milimet</string>
+    <string name="settings_screen_label_precip_unit_cm">Centimét</string>
+    <string name="settings_screen_label_precip_unit_in">Inch</string>
+    <string name="settings_screen_title_pressure_unit">Áp suất</string>
+    <string name="settings_screen_label_pressure_unit_hpa">Hectopascal</string>
+    <string name="settings_screen_label_pressure_unit_inhg">Inch thủy ngân</string>
+    <string name="settings_screen_label_pressure_unit_mmhg">Milimet thủy ngân</string>
+    <string name="settings_screen_title_vis_unit">Tầm nhìn xa</string>
+    <string name="settings_screen_label_vis_unit_km">Kilômét</string>
+    <string name="settings_screen_label_vis_unit_mi">Dặm</string>
+    <string name="settings_screen_label_vis_unit_m">Mét</string>
+    <string name="settings_screen_label_vis_unit_ft">Feet</string>
+    <string name="settings_screen_title_appearance">Diện mạo</string>
+    <string name="settings_screen_title_theme">Chủ đề</string>
+    <string name="settings_screen_label_dark">Tối</string>
+    <string name="settings_screen_label_light">Sáng</string>
+    <string name="settings_screen_label_follow_system">Theo hệ thống</string>
+
+    <string name="date_time_now">Bây giờ</string>
+    <string name="date_time_today">Hôm nay</string>
+    <string name="date_time_pattern_hour">HH</string>
+    <string name="date_time_pattern_hour_minute">HH:mm</string>
+    <string name="date_time_pattern_dow">E</string>
+    <string name="date_time_pattern_dow_hour_minute">E, HH:mm</string>
+
+    <string name="precip_mixed">Lượng mưa</string>
+    <string name="precip_rain">Mưa</string>
+    <string name="precip_showers">Mưa rào</string>
+    <string name="precip_snow">Tuyết</string>
+    <string name="precip_value_in_last_hours">Trong %sh cuối cùng</string>
+    <string name="precip_value_showers_in_next_hours">Dự kiến sẽ có %1$s mưa rào vào %2$sh tiếp theo.</string>
+    <string name="precip_value_rain_in_next_hours">Dự kiến sẽ có %1$s mưa vào %2$sh tiếp theo.</string>
+    <string name="precip_value_snow_in_next_hours">Dự kiến sẽ có %1$s tuyết rơi vào %2$sh tiếp theo.</string>
+    <string name="precip_value_mixed_in_next_hours">%1$s dự kiến vào %2$sh tiếp theo.</string>
+    <string name="precip_value_showers_on_day">Dự kiến tiếp theo là sẽ có %1$s mưa rào vào %2$s.</string>
+    <string name="precip_value_rain_on_day">Dự kiến tiếp theo là sẽ có %1$s mưa vào %2$s.</string>
+    <string name="precip_value_snow_on_day">Dự kiến tiếp theo là sẽ có %1$s tuyết rơi vào %2$s.</string>
+    <string name="precip_value_mixed_on_day">Dự kiến tiếp theo là %1$s vào %2$s.</string>
+    <string name="precip_value_none_in_next_days">Dự kiến không có gì trong %sd tiếp theo.</string>
+    <string name="precip_unit_mm">mm</string>
+    <string name="precip_value_mm">%s mm</string>
+    <string name="precip_unit_cm">cm</string>
+    <string name="precip_value_cm">%s cm</string>
+    <string name="precip_unit_in">″</string>
+    <string name="precip_value_in">%s″</string>
+
+    <string name="pop_value_percent">%s%%</string>
+
+    <string name="pressure">Áp suất</string>
+    <string name="pressure_trend_falling">Đang giảm</string>
+    <string name="pressure_trend_steady">Ổn định</string>
+    <string name="pressure_trend_rising">Đang tăng</string>
+    <string name="pressure_value_average">Trung bình: %s</string>
+    <string name="pressure_unit_hpa">hPa</string>
+    <string name="pressure_value_hpa">%s hPa</string>
+    <string name="pressure_unit_inhg">inHg</string>
+    <string name="pressure_value_inhg">%s inHg</string>
+    <string name="pressure_unit_mmhg">mmHg</string>
+    <string name="pressure_value_mmhg">%s mmHg</string>
+
+    <string name="humidity">Độ ẩm</string>
+    <string name="humidity_value_percent">%s%%</string>
+
+    <string name="sunrise">Bình minh</string>
+    <string name="sunset">Hoàng hôn</string>
+    <string name="sunrise_value">Bình minh: %s</string>
+    <string name="sunset_value">Hoàng hôn: %s</string>
+    <string name="sunrise_not_today">Hôm nay không có bình minh.</string>
+    <string name="sunset_not_today">Hôm nay không có hoàng hôn.</string>
+    <string name="sunrise_value_more_than_days_away">&gt; %sd</string>
+    <string name="sunrise_value_more_than_hours_away">&gt; %sh</string>
+    <string name="sunset_value_more_than_days_away">&gt; %sd</string>
+    <string name="sunset_value_more_than_hours_away">&gt; %sh</string>
+
+    <string name="temp_value_degree">%s°</string>
+    <string name="dew_point_value_right_now">Điểm sương là %s ngay lúc này.</string>
+    <string name="feels_like">Cảm giác như</string>
+    <string name="feels_like_value">Cảm giác như %s</string>
+    <string name="feels_like_value_actual">Thực tế là %s</string>
+    <string name="feels_like_cooler_than_actual">Gió đang làm cho nó cảm thấy mát mẻ hơn.</string>
+    <string name="feels_like_colder_than_actual">Gió đang khiến trời trở nên lạnh hơn.</string>
+    <string name="feels_like_warmer_than_actual">Độ ẩm khiến nó có cảm giác ấm hơn.</string>
+    <string name="feels_like_hotter_than_actual">Độ ẩm khiến trời nóng hơn.</string>
+    <string name="feels_like_similar_to_actual">Tương tự với nhiệt độ thực tế.</string>
+
+    <string name="uv_index">Chỉ số UV</string>
+    <string name="uv_index_risk_low">Thấp</string>
+    <string name="uv_index_risk_moderate">Trung bình</string>
+    <string name="uv_index_risk_high">Cao</string>
+    <string name="uv_index_risk_very_high">Rất cao</string>
+    <string name="uv_index_risk_extreme">Cực đoan</string>
+    <string name="uv_index_protection_value_from_until">Sử dụng kem chống nắng %1$s-%2$s.</string>
+    <string name="uv_index_protection_value_from">Sử dụng kem chống nắng từ %s.</string>
+    <string name="uv_index_protection_value_until">Sử dụng kem chống nắng cho đến %s.</string>
+    <string name="uv_index_protection_value_until_end_of_day">Sử dụng kem chống nắng trong thời gian còn lại trong ngày.</string>
+    <string name="uv_index_protection_value_none">Thấp trong thời gian còn lại trong ngày.</string>
+
+    <string name="vis">Tầm nhìn xa</string>
+    <string name="vis_unit_m">m</string>
+    <string name="vis_value_m">%s m</string>
+    <string name="vis_unit_ft">ft</string>
+    <string name="vis_value_ft">%s ft</string>
+    <string name="vis_unit_km">km</string>
+    <string name="vis_value_km">%skm</string>
+    <string name="vis_unit_mi">mi</string>
+    <string name="vis_value_mi">%s mi</string>
+    <string name="vis_description_perfect">Tầm nhìn hoàn toàn rõ ràng.</string>
+    <string name="vis_description_clear">Tầm nhìn rõ ràng.</string>
+    <string name="vis_description_fair">Tầm nhìn khá rõ ràng.</string>
+    <string name="vis_description_low">Tầm nhìn bị che khuất.</string>
+    <string name="vis_description_very_low">Tầm nhìn bị che rất khuất.</string>
+
+    <string name="wind_label">Gió</string>
+    <string name="wind_bft_0">Êm đềm</string>
+    <string name="wind_bft_1">Gió rất nhẹ</string>
+    <string name="wind_bft_2">Gió yếu</string>
+    <string name="wind_bft_3">Gió nhẹ</string>
+    <string name="wind_bft_4">Gió vừa phải</string>
+    <string name="wind_bft_5">Gió mạnh vừa phải</string>
+    <string name="wind_bft_6">Gió khá mạnh</string>
+    <string name="wind_bft_7">Gió mạnh</string>
+    <string name="wind_bft_8">Gió rất mạnh</string>
+    <string name="wind_bft_9">Gió lốc mạnh</string>
+    <string name="wind_bft_10">Bão</string>
+    <string name="wind_bft_11">Bão rất mạnh</string>
+    <string name="wind_bft_12">Bão cuồng phong</string>
+    <string name="wind_value_gusts_at">Gió giật cấp %s.</string>
+    <string name="wind_unit_mps">m/s</string>
+    <string name="wind_value_mps">%sm/s</string>
+    <string name="wind_unit_kph">km/h</string>
+    <string name="wind_value_kph">%s km/h</string>
+    <string name="wind_unit_kn">kn</string>
+    <string name="wind_value_kn">%s kn</string>
+    <string name="wind_unit_mph">mi/h</string>
+    <string name="wind_value_mph">%s mi/h</string>
+
+    <string name="wmo_0">Trong xanh</string>
+    <string name="wmo_1">Trời khá trong</string>
+    <string name="wmo_2">Có mây rải rác</string>
+    <string name="wmo_3">U ám</string>
+    <string name="wmo_45">Sương mù</string>
+    <string name="wmo_48">Lắng đọng sương mù</string>
+    <string name="wmo_51">Mưa phùn nhẹ</string>
+    <string name="wmo_53">Mưa phùn</string>
+    <string name="wmo_55">Mưa phùn dày đặc</string>
+    <string name="wmo_56">Mưa phùn lạnh giá</string>
+    <string name="wmo_57">Mưa phùn đóng băng</string>
+    <string name="wmo_61">Mưa nhẹ</string>
+    <string name="wmo_63">Mưa</string>
+    <string name="wmo_65">Mưa lớn</string>
+    <string name="wmo_66">Mưa nhẹ lạnh giá</string>
+    <string name="wmo_67">Mưa nặng đóng băng</string>
+    <string name="wmo_71">Tuyết nhẹ</string>
+    <string name="wmo_73">Tuyết</string>
+    <string name="wmo_75">Tuyết dày</string>
+    <string name="wmo_77">Hạt tuyết</string>
+    <string name="wmo_80">Mưa rào nhẹ</string>
+    <string name="wmo_81">Mưa rào</string>
+    <string name="wmo_82">Mưa rào nặng hạt</string>
+    <string name="wmo_85">Mưa tuyết nhẹ</string>
+    <string name="wmo_86">Mưa tuyết dày đặc</string>
+    <string name="wmo_95">Sấm sét</string>
+    <string name="wmo_96">Dông kèm mưa đá nhẹ</string>
+    <string name="wmo_99">Dông kèm mưa đá lớn</string>
+</resources>
