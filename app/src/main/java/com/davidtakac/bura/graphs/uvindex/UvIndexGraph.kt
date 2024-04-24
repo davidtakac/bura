@@ -44,7 +44,6 @@ import com.davidtakac.bura.graphs.common.drawVerticalAxis
 import com.davidtakac.bura.uvindex.UvIndex
 import com.davidtakac.bura.uvindex.valueString
 import java.time.LocalDateTime
-import kotlin.math.roundToInt
 import kotlin.random.Random
 
 @Composable
@@ -55,14 +54,17 @@ fun UvIndexGraph(
 ) {
     val measurer = rememberTextMeasurer()
     val colors = AppTheme.colors.uvIndexColors(toUvIndex = state.max.value)
+    val max = state.max.value.let { if (it <= 11) 11 else (it + 3) }
     Canvas(modifier) {
         drawVerticalAxis(
             measurer = measurer,
+            max = max,
             args = args,
         )
         drawHorizontalAxisAndPlot(
             state = state,
             colors = colors,
+            max = max,
             measurer = measurer,
             args = args,
         )
@@ -71,11 +73,12 @@ fun UvIndexGraph(
 
 private fun DrawScope.drawHorizontalAxisAndPlot(
     state: UvIndexGraph,
+    max: Int,
     colors: List<Color>,
     measurer: TextMeasurer,
     args: GraphArgs,
 ) {
-    val range = 11f
+    val range = max
     val plotPath = Path()
     val plotFillPath = Path()
     fun movePlot(x: Float, y: Float) {
@@ -93,10 +96,10 @@ private fun DrawScope.drawHorizontalAxisAndPlot(
     ) { i, x ->
         // Plot line
         val point = state.points.getOrNull(i) ?: return@drawTimeAxis
-        val index = point.uvIndex.value.value
+        val value = point.uvIndex.value.value
         val minY = args.topGutter + args.axisWidth + (args.plotWidth / 2)
         val maxY = size.height - args.bottomGutter - args.axisWidth - (args.plotWidth / 2)
-        val y = (((1 - (index / range)) * (size.height - args.bottomGutter - args.topGutter)) + args.topGutter).coerceIn(minY, maxY)
+        val y = (((1 - (value / range)) * (size.height - args.bottomGutter - args.topGutter)) + args.topGutter).coerceIn(minY, maxY)
         movePlot(x, y)
         lastX = x
 
@@ -164,26 +167,29 @@ private fun DrawScope.drawHorizontalAxisAndPlot(
 
 private fun DrawScope.drawVerticalAxis(
     measurer: TextMeasurer,
+    max: Int,
     args: GraphArgs
 ) {
-    val steps = 11
+    val everySecondValue = max > 11
     drawVerticalAxis(
-        steps = steps,
+        steps = max,
         args = args
-    ) { frac, endX, y ->
-        val index = UvIndex((frac * steps).roundToInt())
-        val indexMeasured = measurer.measure(
-            text = index.valueString(args.numberFormat),
-            style = args.axisTextStyle
-        )
-        drawText(
-            textLayoutResult = indexMeasured,
-            color = args.axisColor,
-            topLeft = Offset(
-                x = endX + args.endAxisTextPaddingStart,
-                y = y - (indexMeasured.size.height / 2)
+    ) { step, x, y ->
+        if (!everySecondValue || step % 2 == 0) {
+            val value = UvIndex(step)
+            val indexMeasured = measurer.measure(
+                text = value.valueString(args.numberFormat),
+                style = args.axisTextStyle
             )
-        )
+            drawText(
+                textLayoutResult = indexMeasured,
+                color = args.axisColor,
+                topLeft = Offset(
+                    x = x + args.endAxisTextPaddingStart,
+                    y = y - (indexMeasured.size.height / 2)
+                )
+            )
+        }
     }
 }
 
@@ -205,12 +211,12 @@ private fun UvIndexGraphPreview() {
                             meta = GraphUvIndex.Meta.Regular
                         )
                     ) else if (it < 19) {
-                        val index = Random.nextInt(1, 12)
+                        val value = Random.nextInt(1, 12)
                         UvIndexGraphPoint(
                             time = time,
                             uvIndex = GraphUvIndex(
-                                value = UvIndex(index),
-                                meta = if (index == 11) GraphUvIndex.Meta.Maximum else GraphUvIndex.Meta.Regular
+                                value = UvIndex(value),
+                                meta = if (value == 11) GraphUvIndex.Meta.Maximum else GraphUvIndex.Meta.Regular
                             )
                         )
                     } else UvIndexGraphPoint(

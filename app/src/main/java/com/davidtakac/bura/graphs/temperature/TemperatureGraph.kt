@@ -219,11 +219,13 @@ private fun DrawScope.drawTempAxis(
     measurer: TextMeasurer,
     args: GraphArgs
 ) {
+    val steps = 7
     val rangeC = maxTempC - minTempC
     drawVerticalAxis(
-        steps = 7,
+        steps = steps,
         args = args
-    ) { frac, endX, y ->
+    ) { step, x, y ->
+        val frac = step / steps.toFloat()
         val temp = measurer.measure(
             text = Temperature
                 .fromDegreesCelsius(value = (rangeC * frac) + minTempC)
@@ -235,7 +237,7 @@ private fun DrawScope.drawTempAxis(
             textLayoutResult = temp,
             color = args.axisColor,
             topLeft = Offset(
-                x = endX + args.endAxisTextPaddingStart,
+                x = x + args.endAxisTextPaddingStart,
                 y = y - (temp.size.height / 2)
             )
         )

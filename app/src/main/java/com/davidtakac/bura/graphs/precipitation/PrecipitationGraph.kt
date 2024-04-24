@@ -184,11 +184,13 @@ private fun DrawScope.drawPrecipAxis(
     measurer: TextMeasurer,
     args: GraphArgs
 ) {
+    val steps = 7
     val range = max.convertTo(Precipitation.Unit.Millimeters).value
     drawVerticalAxis(
         steps = 7,
         args = args
-    ) { frac, endX, y ->
+    ) { step, x, y ->
+        val frac = step / steps.toFloat()
         val rain = Rain.fromMillimeters(value = range * frac).convertTo(max.unit)
         val valueString = rain.valueString(args.numberFormat)
         val labelString = measurer.measure(
@@ -199,7 +201,7 @@ private fun DrawScope.drawPrecipAxis(
             textLayoutResult = labelString,
             color = args.axisColor,
             topLeft = Offset(
-                x = endX + args.endAxisTextPaddingStart,
+                x = x + args.endAxisTextPaddingStart,
                 y = y - (labelString.size.height / 2)
             )
         )

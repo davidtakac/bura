@@ -158,10 +158,12 @@ private fun DrawScope.drawVerticalAxis(
     measurer: TextMeasurer,
     args: GraphArgs
 ) {
+    val steps = 5
     drawVerticalAxis(
-        steps = 5,
+        steps = steps,
         args = args
-    ) { frac, endX, y ->
+    ) { step, x, y ->
+        val frac = step / steps.toFloat()
         val pop = Pop(frac * 100.0)
         val popMeasured = measurer.measure(
             text = pop.string(context, args.numberFormat),
@@ -171,7 +173,7 @@ private fun DrawScope.drawVerticalAxis(
             textLayoutResult = popMeasured,
             color = args.axisColor,
             topLeft = Offset(
-                x = endX + args.endAxisTextPaddingStart,
+                x = x + args.endAxisTextPaddingStart,
                 y = y - (popMeasured.size.height / 2)
             )
         )
