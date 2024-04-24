@@ -46,11 +46,10 @@ class GetSunSummary(
         val isDayNow = futureDesc[now]!!.condition.isDay
         val lastMoment = futureDesc.last().hour
         val duration = Duration.between(now, lastMoment).plusHours(1)
-        return ForecastResult.Success(if (isDayNow) {
-            Sunrise.OutOfSight(duration)
-        } else {
-            Sunset.OutOfSight(duration)
-        })
+        return ForecastResult.Success(
+            if (isDayNow) Sunset.OutOfSight(duration)
+            else Sunrise.OutOfSight(duration)
+        )
     }
 
     private fun sunrise(

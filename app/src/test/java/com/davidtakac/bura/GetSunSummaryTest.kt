@@ -232,7 +232,7 @@ class GetSunSummaryTest {
         val descRepo = FakeConditionRepository(ConditionPeriod(List(48) {
             ConditionMoment(
                 now.plus(it.toLong(), ChronoUnit.HOURS),
-                condition = Condition(1, true)
+                condition = Condition(1, false)
             )
         }))
         val useCase = GetSunSummary(
@@ -253,7 +253,7 @@ class GetSunSummaryTest {
         val descRepo = FakeConditionRepository(ConditionPeriod(List(48) {
             ConditionMoment(
                 now.plus(it.toLong(), ChronoUnit.HOURS),
-                condition = Condition(1, false)
+                condition = Condition(1, true)
             )
         }))
         val useCase = GetSunSummary(
