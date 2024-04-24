@@ -22,7 +22,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
@@ -109,11 +108,12 @@ fun DaySummaryRow(
             horizontalArrangement = Arrangement.spacedBy(4.dp),
             modifier = Modifier.padding(vertical = verticalPadding, horizontal = 16.dp)
         ) {
+            DayAndPopMaxHeightDummy()
             Row(
                 verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier.weight(1f)
             ) {
-                DayAndPopMaxHeightDummy()
                 DayAndPop(
                     day = {
                         Text(
@@ -126,11 +126,10 @@ fun DaySummaryRow(
                         @Composable {
                             PopAndDrop(it)
                         }
-                    }
+                    },
+                    modifier = Modifier.weight(1f)
                 )
-                Spacer(modifier = Modifier
-                    .weight(1f)
-                    .widthIn(min = 4.dp))
+                Spacer(modifier = Modifier.width(4.dp))
                 Image(
                     painter = state.desc.image(),
                     contentDescription = null,

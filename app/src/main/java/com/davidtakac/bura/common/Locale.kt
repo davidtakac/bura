@@ -27,6 +27,7 @@ private val supportedLocales = listOf(
     fallbackLocale,
     Locale.forLanguageTag("fr"),
     Locale.forLanguageTag("hr"),
+    Locale.forLanguageTag("vi"),
 )
 
 private fun appLocale(context: Context): Locale {
