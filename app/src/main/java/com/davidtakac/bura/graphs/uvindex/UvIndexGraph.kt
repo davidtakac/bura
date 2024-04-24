@@ -78,7 +78,7 @@ private fun DrawScope.drawHorizontalAxisAndPlot(
     measurer: TextMeasurer,
     args: GraphArgs,
 ) {
-    val range = max
+    val range = max.toFloat()
     val plotPath = Path()
     val plotFillPath = Path()
     fun movePlot(x: Float, y: Float) {
@@ -204,26 +204,11 @@ private fun UvIndexGraphPreview() {
                     val now = LocalDateTime.parse("2001-01-01T12:00")
                     val hour = LocalDateTime.parse("2001-01-01T00:00").plusHours(it.toLong())
                     val time = GraphTime(hour = hour, now = now)
-                    if (it < 8) UvIndexGraphPoint(
+                    UvIndexGraphPoint(
                         time = time,
                         uvIndex = GraphUvIndex(
-                            value = UvIndex(0),
-                            meta = GraphUvIndex.Meta.Regular
-                        )
-                    ) else if (it < 19) {
-                        val value = Random.nextInt(1, 12)
-                        UvIndexGraphPoint(
-                            time = time,
-                            uvIndex = GraphUvIndex(
-                                value = UvIndex(value),
-                                meta = if (value == 11) GraphUvIndex.Meta.Maximum else GraphUvIndex.Meta.Regular
-                            )
-                        )
-                    } else UvIndexGraphPoint(
-                        time = time,
-                        uvIndex = GraphUvIndex(
-                            value = UvIndex(0),
-                            meta = GraphUvIndex.Meta.Regular
+                            value = UvIndex(Random.nextInt(0, 11)),
+                            meta = if (it == 8) GraphUvIndex.Meta.Maximum else GraphUvIndex.Meta.Regular
                         )
                     )
                 }
