@@ -25,49 +25,51 @@ class GetUvIndexGraphs(private val repo: UvIndexRepository) {
         coords: Coordinates,
         units: Units,
         now: LocalDateTime
-    ): ForecastResult<List<UvIndexGraph>> {
+    ): ForecastResult<UvIndexGraphs> {
         val period = repo.period(coords, units) ?: return ForecastResult.FailedToDownload
         val days = period.daysFrom(now.toLocalDate()) ?: return ForecastResult.Outdated
-        return ForecastResult.Success(
-            data = buildList {
-                for (i in days.indices) {
-                    val day = days[i]
-                    val maxMoment = day.reversed().maxBy { it.uvIndex }
-                    val points = buildList {
-                        addAll(
-                            day.map {
-                                UvIndexGraphPoint(
-                                    time = GraphTime(hour = it.hour, now = now),
-                                    uvIndex = GraphUvIndex(
-                                        value = it.uvIndex,
-                                        meta = if (it == maxMoment) GraphUvIndex.Meta.Maximum else GraphUvIndex.Meta.Regular
-                                    )
-                                )
-                            }
-                        )
-                        days.getOrNull(i + 1)?.first()?.let {
-                            add(
-                                UvIndexGraphPoint(
-                                    time = GraphTime(hour = it.hour, now = now),
-                                    uvIndex = GraphUvIndex(
-                                        value = it.uvIndex,
-                                        meta = GraphUvIndex.Meta.Regular
-                                    )
+        val graphs = buildList {
+            for (i in days.indices) {
+                val day = days[i]
+                val maxMoment = day.reversed().maxBy { it.uvIndex }
+                val points = buildList {
+                    addAll(
+                        day.map {
+                            UvIndexGraphPoint(
+                                time = GraphTime(hour = it.hour, now = now),
+                                uvIndex = GraphUvIndex(
+                                    value = it.uvIndex,
+                                    meta = if (it == maxMoment) GraphUvIndex.Meta.Maximum else GraphUvIndex.Meta.Regular
                                 )
                             )
                         }
+                    )
+                    days.getOrNull(i + 1)?.first()?.let {
+                        add(
+                            UvIndexGraphPoint(
+                                time = GraphTime(hour = it.hour, now = now),
+                                uvIndex = GraphUvIndex(
+                                    value = it.uvIndex,
+                                    meta = GraphUvIndex.Meta.Regular
+                                )
+                            )
+                        )
                     }
-                    add(UvIndexGraph(max = maxMoment.uvIndex, points = points))
                 }
+                add(UvIndexGraph(points))
             }
+        }
+        return ForecastResult.Success(
+            UvIndexGraphs(
+                max = period.maximum,
+                graphs = graphs
+            )
         )
     }
 }
 
-data class UvIndexGraph(
-    val max: UvIndex,
-    val points: List<UvIndexGraphPoint>
-)
+data class UvIndexGraphs(val max: UvIndex, val graphs: List<UvIndexGraph>)
+data class UvIndexGraph(val points: List<UvIndexGraphPoint>)
 
 data class UvIndexGraphPoint(
     val time: GraphTime,

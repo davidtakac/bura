@@ -20,6 +20,7 @@ import com.davidtakac.bura.App
 import com.davidtakac.bura.forecast.ForecastResult
 import com.davidtakac.bura.graphs.uvindex.GetUvIndexGraphs
 import com.davidtakac.bura.graphs.uvindex.UvIndexGraph
+import com.davidtakac.bura.graphs.uvindex.UvIndexGraphs
 import com.davidtakac.bura.place.selected.SelectedPlaceRepository
 import com.davidtakac.bura.units.SelectedUnitsRepository
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -78,9 +79,7 @@ class UvIndexGraphViewModel (
 }
 
 sealed interface UvIndexGraphState {
-    data class Success(
-        val graphs: List<UvIndexGraph>
-    ) : UvIndexGraphState
+    data class Success(val graphs: UvIndexGraphs) : UvIndexGraphState
 
     data object Loading : UvIndexGraphState
     data object FailedToDownload : UvIndexGraphState

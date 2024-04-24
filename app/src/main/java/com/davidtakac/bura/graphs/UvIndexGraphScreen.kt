@@ -13,8 +13,13 @@
 package com.davidtakac.bura.graphs
 
 import androidx.compose.animation.Crossfade
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -22,6 +27,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -29,6 +36,10 @@ import com.davidtakac.bura.R
 import com.davidtakac.bura.common.FailedToDownloadErrorScreen
 import com.davidtakac.bura.common.NoSelectedPlaceErrorScreen
 import com.davidtakac.bura.common.OutdatedErrorScreen
+import com.davidtakac.bura.graphs.common.GraphArgs
+import com.davidtakac.bura.graphs.common.GraphsPagerIndicator
+import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -59,7 +70,10 @@ fun UvIndexGraphScreen(
             label = "State crossfade"
         ) {
             when (it) {
-                is UvIndexGraphState.Success -> Text(text = "PAGER TODO")
+                is UvIndexGraphState.Success -> Pager(
+                    state = it,
+                    modifier = Modifier.fillMaxSize()
+                )
 
                 UvIndexGraphState.Loading -> Text(text = "LOADING TODO")
 
@@ -78,6 +92,37 @@ fun UvIndexGraphScreen(
                     onSelectPlaceClick = onSelectPlaceClick
                 )
             }
+        }
+    }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+private fun Pager(
+    state: UvIndexGraphState.Success,
+    modifier: Modifier = Modifier
+) {
+    Column(modifier = modifier) {
+        val graphs = state.graphs
+        val dates = remember(graphs.graphs) { graphs.graphs.indices.toList().map { LocalDate.parse("1970-01-0${it + 1}") } }
+        val pagerState = rememberPagerState { dates.size }
+        val scope = rememberCoroutineScope()
+        GraphsPagerIndicator(
+            state = dates,
+            selected = pagerState.currentPage,
+            onClick = {
+                scope.launch {
+                    pagerState.animateScrollToPage(dates.indexOf(it))
+                }
+            },
+            modifier = Modifier.fillMaxWidth()
+        )
+        HorizontalPager(state = pagerState) { page ->
+            UvIndexGraphPage(
+                state = state.graphs.graphs[page],
+                max = state.graphs.max,
+                args = GraphArgs.rememberUvIndexArgs(),
+            )
         }
     }
 }

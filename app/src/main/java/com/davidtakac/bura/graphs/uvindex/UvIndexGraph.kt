@@ -49,22 +49,23 @@ import kotlin.random.Random
 @Composable
 fun UvIndexGraph(
     state: UvIndexGraph,
+    max: UvIndex,
     args: GraphArgs,
     modifier: Modifier = Modifier
 ) {
     val measurer = rememberTextMeasurer()
-    val colors = AppTheme.colors.uvIndexColors(toUvIndex = state.max.value)
-    val max = state.max.value.let { if (it <= 11) 11 else (it + 3) }
+    val colors = AppTheme.colors.uvIndexColors(toUvIndex = max.value)
+    val paddedMax = max.value.let { if (it <= 11) 11 else (it + 3) }
     Canvas(modifier) {
         drawVerticalAxis(
             measurer = measurer,
-            max = max,
+            max = paddedMax,
             args = args,
         )
         drawHorizontalAxisAndPlot(
             state = state,
             colors = colors,
-            max = max,
+            max = paddedMax,
             measurer = measurer,
             args = args,
         )
@@ -199,7 +200,6 @@ private fun UvIndexGraphPreview() {
     AppTheme(darkTheme = true) {
         UvIndexGraph(
             state = UvIndexGraph(
-                max = UvIndex(11),
                 points = List(25) {
                     val now = LocalDateTime.parse("2001-01-01T12:00")
                     val hour = LocalDateTime.parse("2001-01-01T00:00").plusHours(it.toLong())
@@ -213,6 +213,7 @@ private fun UvIndexGraphPreview() {
                     )
                 }
             ),
+            max = UvIndex(11),
             args = GraphArgs.rememberUvIndexArgs(),
             modifier = Modifier
                 .size(400.dp)
