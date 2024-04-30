@@ -76,7 +76,7 @@ data class GraphArgs(
             val axisTextPadding = 6.dp.toPx()
             GraphArgs(
                 startGutter = 8.dp.toPx(),
-                endGutter = 32.dp.toPx(),
+                endGutter = 48.dp.toPx(),
                 topGutter = 32.dp.toPx(),
                 bottomGutter = axisTextStyle.lineHeight.toPx() + (2 * axisTextPadding),
                 plotWidth = 4.dp.toPx(),
