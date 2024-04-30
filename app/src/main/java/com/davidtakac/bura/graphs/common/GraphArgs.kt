@@ -149,7 +149,9 @@ data class GraphArgs(
             val numberFormat = rememberNumberFormat()
             val icons = AppTheme.icons
             return remember(density, colorScheme, typography, dateTimeFormatter, numberFormat, icons) {
-                default(density, dateTimeFormatter, numberFormat, typography, colorScheme, icons)
+                default(density, dateTimeFormatter, numberFormat, typography, colorScheme, icons).copy(
+                    endGutter = with(density) { 32.dp.toPx() }
+                )
             }
         }
     }
