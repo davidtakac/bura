@@ -12,23 +12,23 @@
 
 <resources>
     <string name="app_name">Bura</string>
-    <string name="general_error_failed_to_download">der Download der Vorhersage ist fehlgeschlagen. Stellen Sie eine Internetverbindung her und versuchen Sie es erneut.</string>
-    <string name="general_error_outdated">ihre Vorhersagedaten sind abgelaufen. Verbinden Sie sich mit dem Internet und versuchen Sie es erneut.</string>
-    <string name="general_error_no_selected_place">kein ausgewählter Ort</string>
-    <string name="general_btn_try_again">erneut versuchen</string>
-    <string name="general_btn_select_place">Ort auswählen </string>
+    <string name="general_error_failed_to_download">Der Download der Vorhersage ist fehlgeschlagen. Stellen Sie eine Internetverbindung her und versuchen Sie es erneut.</string>
+    <string name="general_error_outdated">Ihre Vorhersagedaten sind abgelaufen. Verbinden Sie sich mit dem Internet und versuchen Sie es erneut.</string>
+    <string name="general_error_no_selected_place">Kein ausgewählter Ort.</string>
+    <string name="general_btn_try_again">Erneut versuchen</string>
+    <string name="general_btn_select_place">Ort auswählen</string>
     <string name="general_btn_dialog_confirm">OK</string>
-    <string name="general_btn_dialog_cancel">abbrechen</string>
+    <string name="general_btn_dialog_cancel">Abbrechen</string>
 
     <string name="credit_weather">Wetterdaten von Open-Meteo.com</string>
     <string name="credit_geocoding">Geokodierungsdaten von Open-Meteo.com</string>
 
-    <string name="place_picker_hint_search">Orte dursuchen…</string>
+    <string name="place_picker_hint_search">Orte durchsuchen…</string>
     <string name="place_picker_title_saved_places">Gespeicherte Orte</string>
     <string name="place_picker_title_search_results">Suchergebnisse</string>
     <string name="place_picker_error_no_internet">Sie scheinen offline zu sein. Verbinden Sie sich mit dem Internet und versuchen Sie es erneut.</string>
     <string name="place_picker_error_value_no_results_for">Keine Ergebnisse für \"%s\".</string>
-    <string name="place_picker_error_no_saved_places">keine gespeicherte Orte</string>
+    <string name="place_picker_error_no_saved_places">Keine gespeicherte Orte</string>
     <string name="delete_place_value">%s löschen?</string>
     <string name="delete_place_description">Dabei werden auch die zwischengespeicherten Prognosedaten gelöscht.</string>
 
@@ -59,21 +59,21 @@
     <string name="settings_screen_label_precip_unit_in">Zoll</string>
     <string name="settings_screen_title_pressure_unit">Druck</string>
     <string name="settings_screen_label_pressure_unit_hpa">Hectopascal</string>
-    <string name="settings_screen_label_pressure_unit_inhg">Zoll von Quecksilber</string>
+    <string name="settings_screen_label_pressure_unit_inhg">Zoll Quecksilber</string>
     <string name="settings_screen_label_pressure_unit_mmhg">Millimeter von Quecksilber</string>
     <string name="settings_screen_title_vis_unit">Sichtbarkeit</string>
-    <string name="settings_screen_label_vis_unit_km">Killometer</string>
+    <string name="settings_screen_label_vis_unit_km">Kilometer</string>
     <string name="settings_screen_label_vis_unit_mi">Meilen</string>
     <string name="settings_screen_label_vis_unit_m">Meter</string>
     <string name="settings_screen_label_vis_unit_ft">Feet</string>
     <string name="settings_screen_title_appearance">Erscheinungsbild</string>
     <string name="settings_screen_title_theme">Thema</string>
     <string name="settings_screen_label_dark">Dunkel</string>
-    <string name="settings_screen_label_light">hell</string>
+    <string name="settings_screen_label_light">Hell</string>
     <string name="settings_screen_label_follow_system">System folgen</string>
 
-    <string name="date_time_now">jetzt</string>
-    <string name="date_time_today">heute</string>
+    <string name="date_time_now">Jetzt</string>
+    <string name="date_time_today">Heute</string>
     <string name="date_time_pattern_hour">HH</string>
     <string name="date_time_pattern_hour_minute">HH:mm</string>
     <string name="date_time_pattern_dow">E</string>
@@ -104,7 +104,7 @@
 
     <string name="pressure">Druck</string>
     <string name="pressure_trend_falling">Fallend</string>
-    <string name="pressure_trend_steady">Ständig</string>
+    <string name="pressure_trend_steady">Konstant</string>
     <string name="pressure_trend_rising">Steigend</string>
     <string name="pressure_value_average">Durchschnittswert: %s</string>
     <string name="pressure_unit_hpa">hPa</string>
@@ -132,22 +132,22 @@
     <string name="dew_point_value_right_now">Der Taupunkt liegt im Moment bei %s.</string>
     <string name="feels_like">Fühlt sich an wie</string>
     <string name="feels_like_value">Fühlt sich an wie %s</string>
-    <string name="feels_like_value_actual">Tatsächliche %s</string>
-    <string name="feels_like_cooler_than_actual">Durch den Wind ist es kühler geworden.</string>
+    <string name="feels_like_value_actual">Tatsächlich %s</string>
+    <string name="feels_like_cooler_than_actual">Durch den Wind fühlt es sich kühler an.</string>
     <string name="feels_like_colder_than_actual">Der Wind lässt es kälter werden.</string>
     <string name="feels_like_warmer_than_actual">Durch die Feuchtigkeit fühlt es sich wärmer an.</string>
     <string name="feels_like_hotter_than_actual">Durch die Luftfeuchtigkeit fühlt es sich noch heißer an.</string>
     <string name="feels_like_similar_to_actual">Ähnlich wie die tatsächliche Temperatur.</string>
 
-    <string name="uv_index">UV Index</string>
+    <string name="uv_index">UV-Index</string>
     <string name="uv_index_risk_low">Niedrig</string>
     <string name="uv_index_risk_moderate">Mäßig</string>
     <string name="uv_index_risk_high">Hoch</string>
     <string name="uv_index_risk_very_high">Sehr hoch</string>
     <string name="uv_index_risk_extreme">Extreme</string>
-    <string name="uv_index_protection_value_from_until">Verwenden Sie Sonnenschutzmittel %1$s-%2$s.</string>
-    <string name="uv_index_protection_value_from">Verwenden Sie einen Sonnenschutz von %s.</string>
-    <string name="uv_index_protection_value_until">Sonnenschutz bis %s verwenden.</string>
+    <string name="uv_index_protection_value_from_until">Verwenden Sie Sonnenschutz von %1$s bis %2$s.</string>
+    <string name="uv_index_protection_value_from">Verwenden Sie Sonnenschutz ab %s.</string>
+    <string name="uv_index_protection_value_until">Verwenden Sie Sonnenschutz bis %s.</string>
     <string name="uv_index_protection_value_until_end_of_day">Benutzen Sie den Rest des Tages Sonnenschutz.</string>
     <string name="uv_index_protection_value_none">Niedrig für den Rest des Tages.</string>
 
@@ -164,7 +164,7 @@
     <string name="vis_description_clear">Freie Sicht.</string>
     <string name="vis_description_fair">Ziemlich klare Sicht.</string>
     <string name="vis_description_low">Eingeschränkte Sicht.</string>
-    <string name="vis_description_very_low">Sehr eingeschränkte Sicht.</string>
+    <string name="vis_description_very_low">Stark eingeschränkte Sicht.</string>
 
     <string name="wind_label">Wind</string>
     <string name="wind_bft_0">Ruhig</string>
@@ -180,7 +180,7 @@
     <string name="wind_bft_10">Ganzer Sturm</string>
     <string name="wind_bft_11">Gewaltsamer Sturm</string>
     <string name="wind_bft_12">Wirbelsturm</string>
-    <string name="wind_value_gusts_at">Gusts at %s.</string>
+    <string name="wind_value_gusts_at">Böen um %s.</string>
     <string name="wind_unit_mps">m/s</string>
     <string name="wind_value_mps">%s m/s</string>
     <string name="wind_unit_kph">km/h</string>
