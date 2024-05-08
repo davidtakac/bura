@@ -53,8 +53,8 @@ class ForecastDataDownloader(private val userAgentProvider: UserAgentProvider) {
 
             try {
                 conn.requestMethod = "GET"
-                conn.connectTimeout = 5_000
-                conn.readTimeout = 5_000
+                conn.connectTimeout = 10_000
+                conn.readTimeout = 10_000
                 conn.setRequestProperty("User-Agent", userAgentProvider.userAgent)
                 if (conn.responseCode != 200) return@withContext null
                 BufferedReader(InputStreamReader(conn.inputStream)).use(BufferedReader::readText)
