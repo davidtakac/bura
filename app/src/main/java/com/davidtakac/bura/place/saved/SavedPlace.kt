@@ -24,7 +24,7 @@ data class SavedPlace(
     val conditions: Conditions?
 ) {
     data class Conditions(
-        val temp: Temperature?,
+        val temp: Temperature,
         val minTemp: Temperature,
         val maxTemp: Temperature,
         val condition: Condition
