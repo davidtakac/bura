@@ -1,27 +1,15 @@
-<!--
-  ~ Copyright 2024 David Takač
-  ~
-  ~ This file is part of Bura.
-  ~
-  ~ Bura is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
-  ~
-  ~ Bura is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-  ~
-  ~ You should have received a copy of the GNU General Public License along with Bura. If not, see <https://www.gnu.org/licenses/>.
-  -->
-
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="24dp"
     android:height="24dp"
     android:viewportWidth="24"
     android:viewportHeight="24">
   <path
-      android:pathData="M16,8C15.044,8 14.189,8.452 13.639,9.154C14.042,9.514 14.405,9.924 14.717,10.377C16.305,10.479 17.707,11.307 18.576,12.531C18.845,12.082 19,11.559 19,11C19,9.349 17.651,8 16,8zM14.406,13.314C14.311,13.315 14.216,13.321 14.121,13.334C14.628,13.743 15.269,13.992 15.965,14C15.584,13.578 15.033,13.314 14.406,13.314z"
-      android:strokeLineJoin="miter"
+      android:pathData="m16,8c-0.956,0 -1.811,0.452 -2.361,1.154 0.403,0.36 0.767,0.769 1.078,1.223 1.589,0.103 2.99,0.93 3.859,2.154 0.268,-0.449 0.424,-0.973 0.424,-1.531 0,-1.651 -1.349,-3 -3,-3zM14.406,13.314c-0.095,0 -0.191,0.006 -0.285,0.02 0.507,0.409 1.147,0.658 1.844,0.666 -0.381,-0.422 -0.932,-0.686 -1.559,-0.686z"
+      android:strokeLineJoin="round"
       android:strokeWidth="1"
       android:fillColor="#ffeb3b"
       android:strokeColor="#00000000"
-      android:strokeLineCap="butt"/>
+      android:strokeLineCap="round"/>
   <path
       android:pathData="M16,5.5L16,6.5"
       android:strokeLineJoin="round"
@@ -58,7 +46,7 @@
       android:strokeColor="#ffeb3b"
       android:strokeLineCap="round"/>
   <path
-      android:pathData="M9.417,9.019A4.99,4.99 0,0 0,4.469 13.434,2.81 2.795,0 0,0 2,16.205 2.81,2.795 0,0 0,4.81 19H9.417,14.407A3.593,3.593 0,0 0,18 15.407,3.593 3.593,0 0,0 14.407,11.814 3.593,3.593 0,0 0,13.914 11.848,4.99 4.99,0 0,0 9.417,9.019Z"
+      android:pathData="m9.417,9.019a4.99,4.99 0,0 0,-4.948 4.415,2.81 2.795,0 0,0 -2.469,2.771 2.81,2.795 0,0 0,2.81 2.795h9.597a3.593,3.593 0,0 0,3.593 -3.593,3.593 3.593,0 0,0 -3.593,-3.593 3.593,3.593 0,0 0,-0.493 0.034,4.99 4.99,0 0,0 -4.497,-2.829z"
       android:strokeLineJoin="round"
       android:fillColor="#e0e0e0"
       android:strokeLineCap="round"/>
