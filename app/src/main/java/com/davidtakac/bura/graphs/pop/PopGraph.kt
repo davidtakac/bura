@@ -118,7 +118,7 @@ private fun DrawScope.drawHorizontalAxisAndPlot(
                 Rect(
                     offset = Offset(x = args.startGutter, y = args.topGutter),
                     size = Size(
-                        width = size.width - args.startGutter - args.endGutter,
+                        width = lastX - args.startGutter,
                         height = size.height - args.topGutter - args.bottomGutter
                     )
                 )
