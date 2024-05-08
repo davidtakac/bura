@@ -1,0 +1,221 @@
+<!--
+  ~ Copyright 2024 David Takač
+  ~
+  ~ This file is part of Bura.
+  ~
+  ~ Bura is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+  ~
+  ~ Bura is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with Bura. If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<resources>
+    <string name="app_name">Bura</string>
+    <string name="general_error_failed_to_download">Не удалось загрузить прогноз. Подключитесь к сети.</string>
+    <string name="general_error_outdated">Прогноз устарел. Подключитесь к сети.</string>
+    <string name="general_error_no_selected_place">Не выбрано место.</string>
+    <string name="general_btn_try_again">Попробовать снова</string>
+    <string name="general_btn_select_place">Выбрать место</string>
+    <string name="general_btn_dialog_confirm">ОК</string>
+    <string name="general_btn_dialog_cancel">Отмена</string>
+
+    <string name="credit_weather">Данные предоставлены Open-Meteo.com</string>
+    <string name="credit_geocoding">Данные о геокодировании предоставлены Open-Meteo.com</string>
+
+    <string name="place_picker_hint_search">Поиск мест...</string>
+    <string name="place_picker_title_saved_places">Сохраненные места</string>
+    <string name="place_picker_title_search_results">Результат поиска</string>
+    <string name="place_picker_error_no_internet">Похоже, вы не подключены к сети. Подключитесь к сети.</string>
+    <string name="place_picker_error_value_no_results_for">По запросу \"%s\" ничего не найдено.</string>
+    <string name="place_picker_error_no_saved_places">Нет сохраненных мест.</string>
+    <string name="delete_place_value">Удалить %s?</string>
+    <string name="delete_place_description">Это также удалит кэшированные данные о прогнозе для этого места.</string>
+
+    <string name="cond_screen_title">Погодные условия</string>
+    <string name="cond_screen_pop">Вероятность осадков</string>
+    <string name="cond_screen_precip">Суммарные осадки</string>
+    <string name="cond_screen_temp_unit_celsius">Цельсия (°C)</string>
+    <string name="cond_screen_temp_unit_fahrenheit">Фаренгейт (°F)</string>
+    <string name="cond_screen_precip_value_in_last_hours">за последние %s ч.</string>
+    <string name="cond_screen_precip_value_in_next_hours">в следующие %s ч.</string>
+
+    <string name="settings_screen_title">Настройки</string>
+    <string name="settings_screen_title_units">Единицы измерения</string>
+    <string name="settings_screen_title_temp_unit">Температура</string>
+    <string name="settings_screen_label_temp_unit_celsius">Градус Цельсия</string>
+    <string name="settings_screen_label_temp_unit_fahrenheit">Градус Фаренгейта</string>
+    <string name="settings_screen_title_wind_unit">Ветер</string>
+    <string name="settings_screen_label_wind_unit_mps">м/с</string>
+    <string name="settings_screen_label_wind_unit_kph">км/ч</string>
+    <string name="settings_screen_label_wind_unit_mph">миля/ч</string>
+    <string name="settings_screen_label_wind_unit_kn">узлы</string>
+    <string name="settings_screen_title_precip_unit">Осадки</string>
+    <string name="settings_screen_title_rain_unit">Дождь</string>
+    <string name="settings_screen_title_showers_unit">Ливень</string>
+    <string name="settings_screen_title_snow_unit">Снег</string>
+    <string name="settings_screen_label_precip_unit_mm">Миллиметры</string>
+    <string name="settings_screen_label_precip_unit_cm">Сантиметры</string>
+    <string name="settings_screen_label_precip_unit_in">Дюймы</string>
+    <string name="settings_screen_title_pressure_unit">Давление</string>
+    <string name="settings_screen_label_pressure_unit_hpa">гПа</string>
+    <string name="settings_screen_label_pressure_unit_inhg">дюймы рт.ст.</string>
+    <string name="settings_screen_label_pressure_unit_mmhg">мм рт.ст.</string>
+    <string name="settings_screen_title_vis_unit">Видимость</string>
+    <string name="settings_screen_label_vis_unit_km">Километры</string>
+    <string name="settings_screen_label_vis_unit_mi">Мили</string>
+    <string name="settings_screen_label_vis_unit_m">Метры</string>
+    <string name="settings_screen_label_vis_unit_ft">Фут</string>
+    <string name="settings_screen_title_appearance">Персонализация</string>
+    <string name="settings_screen_title_theme">Тема оформления</string>
+    <string name="settings_screen_label_dark">Тёмная</string>
+    <string name="settings_screen_label_light">Светлая</string>
+    <string name="settings_screen_label_follow_system">По умолчанию</string>
+
+    <string name="date_time_now">Сейчас</string>
+    <string name="date_time_today">Сегодня</string>
+    <string name="date_time_pattern_hour">HH</string>
+    <string name="date_time_pattern_hour_minute">HH:mm</string>
+    <string name="date_time_pattern_dow">E</string>
+    <string name="date_time_pattern_dow_hour_minute">E, HH:mm</string>
+
+    <string name="precip_mixed">Осадки</string>
+    <string name="precip_rain">Дождь</string>
+    <string name="precip_showers">Ливень</string>
+    <string name="precip_snow">Снег</string>
+    <string name="precip_value_in_last_hours">В последние %sh</string>
+    <string name="precip_value_showers_in_next_hours">%1$s ливня ожидается в ближайшие %2$sh.</string>
+    <string name="precip_value_rain_in_next_hours">%1$s дождя ожидается в ближайшие %2$sh.</string>
+    <string name="precip_value_snow_in_next_hours">%1$s снега ожидается в ближайшие %2$sh.</string>
+    <string name="precip_value_mixed_in_next_hours">%1$s ожидается в ближайшие %2$sh.</string>
+    <string name="precip_value_showers_on_day">Следующие ожидаемые %1$s ливня на %2$s.</string>
+    <string name="precip_value_rain_on_day">Следующий ожидаемый %1$s дождя на %2$s.</string>
+    <string name="precip_value_snow_on_day">Следующий ожидаемый %1$s снега на %2$s.</string>
+    <string name="precip_value_mixed_on_day">Следующий ожидается %1$s на %2$s.</string>
+    <string name="precip_value_none_in_next_days">Не ожидается в ближайшие %sd.</string>
+    <string name="precip_unit_mm">мм</string>
+    <string name="precip_value_mm">%s мм</string>
+    <string name="precip_unit_cm">см</string>
+    <string name="precip_value_cm">%s см</string>
+    <string name="precip_unit_in">″</string>
+    <string name="precip_value_in">%s″</string>
+
+    <string name="pop_value_percent">%s%%</string>
+
+    <string name="pressure">Давление</string>
+    <string name="pressure_trend_falling">Пониженное</string>
+    <string name="pressure_trend_steady">Стабильно</string>
+    <string name="pressure_trend_rising">Повышенное</string>
+    <string name="pressure_value_average">Среднее значение: %s</string>
+    <string name="pressure_unit_hpa">гПа</string>
+    <string name="pressure_value_hpa">%s гПа</string>
+    <string name="pressure_unit_inhg">дюйм рт.ст.</string>
+    <string name="pressure_value_inhg">%s дюйм рт.ст.</string>
+    <string name="pressure_unit_mmhg">мм рт.ст.</string>
+    <string name="pressure_value_mmhg">%s мм рт.ст.</string>
+
+    <string name="humidity">Влажность</string>
+    <string name="humidity_value_percent">%s%%</string>
+
+    <string name="sunrise">Восход</string>
+    <string name="sunset">Закат</string>
+    <string name="sunrise_value">Восход в %s</string>
+    <string name="sunset_value">Закат в %s</string>
+    <string name="sunrise_not_today">Сегодня нет восхода солнца.</string>
+    <string name="sunset_not_today">Сегодня нет заката.</string>
+    <string name="sunrise_value_more_than_days_away">&gt; %sd</string>
+    <string name="sunrise_value_more_than_hours_away">&gt; %sh</string>
+    <string name="sunset_value_more_than_days_away">&gt; %sd</string>
+    <string name="sunset_value_more_than_hours_away">&gt; %sh</string>
+
+    <string name="temp_value_degree">%s°</string>
+    <string name="dew_point_value_right_now">Сейчас точка росы равна %s.</string>
+    <string name="feels_like">Ощущается как</string>
+    <string name="feels_like_value">Ощущается как %s</string>
+    <string name="feels_like_value_actual">при %s</string>
+    <string name="feels_like_cooler_than_actual">Чувствуется холод</string>
+    <string name="feels_like_colder_than_actual">Чувствуется прохлада.</string>
+    <string name="feels_like_warmer_than_actual">Чувствуется тепло.</string>
+    <string name="feels_like_hotter_than_actual">Чувствуется жара.</string>
+    <string name="feels_like_similar_to_actual">Похоже на фактическую температуру.</string>
+
+    <string name="uv_index">УФ-индекс</string>
+    <string name="uv_index_risk_low">Низкий</string>
+    <string name="uv_index_risk_moderate">Умеренный</string>
+    <string name="uv_index_risk_high">Высокий</string>
+    <string name="uv_index_risk_very_high">Очень высокий</string>
+    <string name="uv_index_risk_extreme">Экстремальный</string>
+    <string name="uv_index_protection_value_from_until">Используйте солнцезащитное средство с %1$s до %2$s.</string>
+    <string name="uv_index_protection_value_from">Используйте солнцезащитное средство с %s.</string>
+    <string name="uv_index_protection_value_until">Используйте солнцезащитное средство до %s.</string>
+    <string name="uv_index_protection_value_until_end_of_day">Используйте солнцезащитное средство до конца дня.</string>
+    <string name="uv_index_protection_value_none">Низкое значение до конца дня.</string>
+
+    <string name="vis">Видимость</string>
+    <string name="vis_unit_m">м</string>
+    <string name="vis_value_m">%s м</string>
+    <string name="vis_unit_ft">фт</string>
+    <string name="vis_value_ft">%s фт</string>
+    <string name="vis_unit_km">км</string>
+    <string name="vis_value_km">%s км</string>
+    <string name="vis_unit_mi">мили</string>
+    <string name="vis_value_mi">%s мили</string>
+    <string name="vis_description_perfect">Отлично видно.</string>
+    <string name="vis_description_clear">Хорошо видно.</string>
+    <string name="vis_description_fair">Достаточно хорошо видно.</string>
+    <string name="vis_description_low">Плохо видно.</string>
+    <string name="vis_description_very_low">Очень плохо видно.</string>
+
+    <string name="wind_label">Ветер</string>
+    <string name="wind_bft_0">Спокойный</string>
+    <string name="wind_bft_1">Легкий воздух</string>
+    <string name="wind_bft_2">Легкий бриз</string>
+    <string name="wind_bft_3">Легкий бриз</string>
+    <string name="wind_bft_4">Умеренный бриз</string>
+    <string name="wind_bft_5">Свежий бриз</string>
+    <string name="wind_bft_6">Сильный бриз</string>
+    <string name="wind_bft_7">Скоростной шторм</string>
+    <string name="wind_bft_8">Свежий шторм</string>
+    <string name="wind_bft_9">Сильный шторм</string>
+    <string name="wind_bft_10">Сильный шторм</string>
+    <string name="wind_bft_11">Сильный шторм</string>
+    <string name="wind_bft_12">Ураганная сила</string>
+    <string name="wind_value_gusts_at">Порывы при %s.</string>
+    <string name="wind_unit_mps">м/с</string>
+    <string name="wind_value_mps">%s м/с</string>
+    <string name="wind_unit_kph">км/ч</string>
+    <string name="wind_value_kph">%s км/ч</string>
+    <string name="wind_unit_kn">узл.</string>
+    <string name="wind_value_kn">%s узл.</string>
+    <string name="wind_unit_mph">миля/ч</string>
+    <string name="wind_value_mph">%s миля/ч</string>
+
+    <string name="wmo_0">Ясно</string>
+    <string name="wmo_1">Почти ясно</string>
+    <string name="wmo_2">Частично облачно</string>
+    <string name="wmo_3">Облачно</string>
+    <string name="wmo_45">Туман</string>
+    <string name="wmo_48">Осаждающийся туман с известью</string>
+    <string name="wmo_51">Легкий моросящий дождь</string>
+    <string name="wmo_53">Морось</string>
+    <string name="wmo_55">Сильный морось</string>
+    <string name="wmo_56">Легкая морось</string>
+    <string name="wmo_57">Плотный сильный морось</string>
+    <string name="wmo_61">Легкий дождь</string>
+    <string name="wmo_63">Дождь</string>
+    <string name="wmo_65">Сильный дождь</string>
+    <string name="wmo_66">Легкий ледяной дождь</string>
+    <string name="wmo_67">Сильный ледяной дождь</string>
+    <string name="wmo_71">Легкий снег</string>
+    <string name="wmo_73">Снег</string>
+    <string name="wmo_75">Сильный снегопад</string>
+    <string name="wmo_77">Зерна снега</string>
+    <string name="wmo_80">Легкий ливень</string>
+    <string name="wmo_81">Ливень</string>
+    <string name="wmo_82">Тяжелый ливень</string>
+    <string name="wmo_85">Легкий ливнень со снегом</string>
+    <string name="wmo_86">Тяжелый ливень со снегом</string>
+    <string name="wmo_95">Гроза</string>
+    <string name="wmo_96">Гроза с мелким градом</string>
+    <string name="wmo_99">Гроза с крупным градом</string>
+</resources>
