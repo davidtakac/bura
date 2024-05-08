@@ -1,0 +1,221 @@
+<!--
+  ~ Copyright 2024 David Takač
+  ~
+  ~ This file is part of Bura.
+  ~
+  ~ Bura is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+  ~
+  ~ Bura is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with Bura. If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<resources>
+    <string name="app_name">Bura</string>
+    <string name="general_error_failed_to_download">无法下载预报数据，请在联网后重试</string>
+    <string name="general_error_outdated">预报数据已过期，请在联网后重试</string>
+    <string name="general_error_no_selected_place">未选择地点</string>
+    <string name="general_btn_try_again">重试</string>
+    <string name="general_btn_select_place">选择地点</string>
+    <string name="general_btn_dialog_confirm">确认</string>
+    <string name="general_btn_dialog_cancel">取消</string>
+
+    <string name="credit_weather">天气数据由 Open-Meteo.com 提供</string>
+    <string name="credit_geocoding">地理编码数据由 Open-Meteo.com 提供</string>
+
+    <string name="place_picker_hint_search">搜索地点……</string>
+    <string name="place_picker_title_saved_places">收藏地点</string>
+    <string name="place_picker_title_search_results">搜索结果</string>
+    <string name="place_picker_error_no_internet">似乎没有网络连接，请在联网后重试。</string>
+    <string name="place_picker_error_value_no_results_for">搜索 “%s” 没有结果。</string>
+    <string name="place_picker_error_no_saved_places">收藏地点为空</string>
+    <string name="delete_place_value">要删除 %s 吗？</string>
+    <string name="delete_place_description">此地点的缓存预报数据也会被删除。</string>
+
+    <string name="cond_screen_title">详情</string>
+    <string name="cond_screen_pop">降水概率</string>
+    <string name="cond_screen_precip">降水总量</string>
+    <string name="cond_screen_temp_unit_celsius">摄氏度（°C）</string>
+    <string name="cond_screen_temp_unit_fahrenheit">华氏度（°F）</string>
+    <string name="cond_screen_precip_value_in_last_hours">过去 %s 小时</string>
+    <string name="cond_screen_precip_value_in_next_hours">将来 %s 小时</string>
+
+    <string name="settings_screen_title">设置</string>
+    <string name="settings_screen_title_units">单位</string>
+    <string name="settings_screen_title_temp_unit">温度</string>
+    <string name="settings_screen_label_temp_unit_celsius">摄氏度</string>
+    <string name="settings_screen_label_temp_unit_fahrenheit">华氏度</string>
+    <string name="settings_screen_title_wind_unit">风力</string>
+    <string name="settings_screen_label_wind_unit_mps">米每秒（m/s）</string>
+    <string name="settings_screen_label_wind_unit_kph">千米每时（km/h）</string>
+    <string name="settings_screen_label_wind_unit_mph">英里每时（mph）</string>
+    <string name="settings_screen_label_wind_unit_kn">节</string>
+    <string name="settings_screen_title_precip_unit">降水</string>
+    <string name="settings_screen_title_rain_unit">雨量</string>
+    <string name="settings_screen_title_showers_unit">阵雨量</string>
+    <string name="settings_screen_title_snow_unit">雪深</string>
+    <string name="settings_screen_label_precip_unit_mm">毫米（mm）</string>
+    <string name="settings_screen_label_precip_unit_cm">厘米（cm）</string>
+    <string name="settings_screen_label_precip_unit_in">英寸（in）</string>
+    <string name="settings_screen_title_pressure_unit">气压</string>
+    <string name="settings_screen_label_pressure_unit_hpa">百帕（hPa）</string>
+    <string name="settings_screen_label_pressure_unit_inhg">英寸汞柱（inHg）</string>
+    <string name="settings_screen_label_pressure_unit_mmhg">毫米汞柱（mmHg）</string>
+    <string name="settings_screen_title_vis_unit">能见度</string>
+    <string name="settings_screen_label_vis_unit_km">千米（km）</string>
+    <string name="settings_screen_label_vis_unit_mi">英里（mi）</string>
+    <string name="settings_screen_label_vis_unit_m">米（m）</string>
+    <string name="settings_screen_label_vis_unit_ft">英尺（ft）</string>
+    <string name="settings_screen_title_appearance">外观</string>
+    <string name="settings_screen_title_theme">主题</string>
+    <string name="settings_screen_label_dark">暗色</string>
+    <string name="settings_screen_label_light">亮色</string>
+    <string name="settings_screen_label_follow_system">跟随系统</string>
+
+    <string name="date_time_now">现在</string>
+    <string name="date_time_today">今天</string>
+    <string name="date_time_pattern_hour">H 点</string>
+    <string name="date_time_pattern_hour_minute">HH:mm</string>
+    <string name="date_time_pattern_dow">E</string>
+    <string name="date_time_pattern_dow_hour_minute">E HH:mm</string>
+
+    <string name="precip_mixed">降水</string>
+    <string name="precip_rain">降雨</string>
+    <string name="precip_showers">阵雨</string>
+    <string name="precip_snow">降雪</string>
+    <string name="precip_value_in_last_hours">过去 %s 小时</string>
+    <string name="precip_value_showers_in_next_hours">%2$s 小时内将有 %1$s 阵雨</string>
+    <string name="precip_value_rain_in_next_hours">%2$s 小时内将有 %1$s 雨</string>
+    <string name="precip_value_snow_in_next_hours">%2$s 小时内将有 %1$s 雪</string>
+    <string name="precip_value_mixed_in_next_hours">%2$s 小时内预计有 %1$s</string>
+    <string name="precip_value_showers_on_day">%2$s有阵雨，预计 %1$s</string>
+    <string name="precip_value_rain_on_day">%2$s会下雨，预计 %1$s</string>
+    <string name="precip_value_snow_on_day">%2$s会下雪，预计 %1$s</string>
+    <string name="precip_value_mixed_on_day">%2$s 会下 %1$s</string>
+    <string name="precip_value_none_in_next_days">最近 %s 天内不会降水</string>
+    <string name="precip_unit_mm">mm</string>
+    <string name="precip_value_mm">%s mm</string>
+    <string name="precip_unit_cm">cm</string>
+    <string name="precip_value_cm">%s cm</string>
+    <string name="precip_unit_in">″</string>
+    <string name="precip_value_in">%s″</string>
+
+    <string name="pop_value_percent">%s%%</string>
+
+    <string name="pressure">气压</string>
+    <string name="pressure_trend_falling">正降低</string>
+    <string name="pressure_trend_steady">无变化</string>
+    <string name="pressure_trend_rising">正上升</string>
+    <string name="pressure_value_average">平均 %s</string>
+    <string name="pressure_unit_hpa">hPa</string>
+    <string name="pressure_value_hpa">%s hPa</string>
+    <string name="pressure_unit_inhg">inHg</string>
+    <string name="pressure_value_inhg">%s inHg</string>
+    <string name="pressure_unit_mmhg">mmHg</string>
+    <string name="pressure_value_mmhg">%s mmHg</string>
+
+    <string name="humidity">湿度</string>
+    <string name="humidity_value_percent">%s%%</string>
+
+    <string name="sunrise">日出</string>
+    <string name="sunset">日落</string>
+    <string name="sunrise_value">日出：%s</string>
+    <string name="sunset_value">日落：%s</string>
+    <string name="sunrise_not_today">今天没有日出</string>
+    <string name="sunset_not_today">今天不会日落</string>
+    <string name="sunrise_value_more_than_days_away">&gt; %s 天</string>
+    <string name="sunrise_value_more_than_hours_away">&gt; %s 小时</string>
+    <string name="sunset_value_more_than_days_away">&gt; %s 天</string>
+    <string name="sunset_value_more_than_hours_away">&gt; %s 小时</string>
+
+    <string name="temp_value_degree">%s°</string>
+    <string name="dew_point_value_right_now">目前露点温度 %s</string>
+    <string name="feels_like">体感</string>
+    <string name="feels_like_value">体感 %s</string>
+    <string name="feels_like_value_actual">实际 %s</string>
+    <string name="feels_like_cooler_than_actual">风使体感更凉</string>
+    <string name="feels_like_colder_than_actual">风使体感更冷</string>
+    <string name="feels_like_warmer_than_actual">湿度使体感更暖</string>
+    <string name="feels_like_hotter_than_actual">湿度使体感更热</string>
+    <string name="feels_like_similar_to_actual">体感温度和实际相差不大</string>
+
+    <string name="uv_index">紫外线指数</string>
+    <string name="uv_index_risk_low">低</string>
+    <string name="uv_index_risk_moderate">中</string>
+    <string name="uv_index_risk_high">高</string>
+    <string name="uv_index_risk_very_high">很高</string>
+    <string name="uv_index_risk_extreme">非常高</string>
+    <string name="uv_index_protection_value_from_until">应在 %1$s~%2$s 注意防晒</string>
+    <string name="uv_index_protection_value_from">在 %s 之后应注意防晒</string>
+    <string name="uv_index_protection_value_until">直到 %s 前都应注意防晒</string>
+    <string name="uv_index_protection_value_until_end_of_day">全天注意防晒</string>
+    <string name="uv_index_protection_value_none">无需特别防晒</string>
+
+    <string name="vis">能见度</string>
+    <string name="vis_unit_m">m</string>
+    <string name="vis_value_m">%s m</string>
+    <string name="vis_unit_ft">英尺</string>
+    <string name="vis_value_ft">%s 英尺</string>
+    <string name="vis_unit_km">km</string>
+    <string name="vis_value_km">%s km</string>
+    <string name="vis_unit_mi">英里</string>
+    <string name="vis_value_mi">%s 英里</string>
+    <string name="vis_description_perfect">能见度极佳</string>
+    <string name="vis_description_clear">能见度好</string>
+    <string name="vis_description_fair">能见度一般</string>
+    <string name="vis_description_low">能见度差</string>
+    <string name="vis_description_very_low">能见度极差</string>
+
+    <string name="wind_label">风力</string>
+    <string name="wind_bft_0">无风</string>
+    <string name="wind_bft_1">软风</string>
+    <string name="wind_bft_2">轻风</string>
+    <string name="wind_bft_3">微风</string>
+    <string name="wind_bft_4">和风</string>
+    <string name="wind_bft_5">清风</string>
+    <string name="wind_bft_6">强风</string>
+    <string name="wind_bft_7">疾风</string>
+    <string name="wind_bft_8">大风</string>
+    <string name="wind_bft_9">烈风</string>
+    <string name="wind_bft_10">狂风</string>
+    <string name="wind_bft_11">暴风</string>
+    <string name="wind_bft_12">飓风</string>
+    <string name="wind_value_gusts_at">阵风 %s</string>
+    <string name="wind_unit_mps">m/s</string>
+    <string name="wind_value_mps">%s m/s</string>
+    <string name="wind_unit_kph">km/h</string>
+    <string name="wind_value_kph">%s km/h</string>
+    <string name="wind_unit_kn">节</string>
+    <string name="wind_value_kn">%s 节</string>
+    <string name="wind_unit_mph">mi/h</string>
+    <string name="wind_value_mph">%s mi/h</string>
+
+    <string name="wmo_0">晴朗</string>
+    <string name="wmo_1">大部晴朗</string>
+    <string name="wmo_2">局部多云</string>
+    <string name="wmo_3">阴</string>
+    <string name="wmo_45">雾</string>
+    <string name="wmo_48">雾凇</string>
+    <string name="wmo_51">小毛毛雨</string>
+    <string name="wmo_53">毛毛雨</string>
+    <string name="wmo_55">密集毛毛雨</string>
+    <string name="wmo_56">小冻毛毛雨</string>
+    <string name="wmo_57">密集冻毛毛雨</string>
+    <string name="wmo_61">小雨</string>
+    <string name="wmo_63">中雨</string>
+    <string name="wmo_65">大雨</string>
+    <string name="wmo_66">小冻雨</string>
+    <string name="wmo_67">大冻雨</string>
+    <string name="wmo_71">小雪</string>
+    <string name="wmo_73">中雪</string>
+    <string name="wmo_75">大雪</string>
+    <string name="wmo_77">细雪</string>
+    <string name="wmo_80">小阵雨</string>
+    <string name="wmo_81">阵雨</string>
+    <string name="wmo_82">大阵雨</string>
+    <string name="wmo_85">小阵雪</string>
+    <string name="wmo_86">大阵雪</string>
+    <string name="wmo_95">雷暴雨</string>
+    <string name="wmo_96">雷暴雨夹冰雹</string>
+    <string name="wmo_99">雷暴雨夹大冰雹</string>
+</resources>
