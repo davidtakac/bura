@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  - Copyright 2024 David Takač
+  -
+  - This file is part of Bura.
+  -
+  - Bura is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+  -
+  - Bura is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+  -
+  - You should have received a copy of the GNU General Public License along with Bura. If not, see <https://www.gnu.org/licenses/>.
+  -->
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg id="svg1" width="24" height="24" version="1.1" viewBox="0 0 24 24" xml:space="preserve" xmlns="http://www.w3.org/2000/svg"><g id="layer1"><g id="g2" transform="matrix(.75 0 0 .75 3 3)" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><g id="g4" transform="translate(33.333 -3)" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><g id="g13" stroke="#757575"><line id="line1-6" x1="-21.333" x2="-21.333" y1="5.3333" y2="12.333"/><line id="line6-6" x1="-10.333" x2="-32.333" y1="25.333" y2="25.333"/><polyline id="polyline6" transform="translate(-33.333 3.3333)" points="8 6 12 2 16 6"/></g><g id="g12"><line id="line2-7" x1="-29.113" x2="-27.693" y1="13.553" y2="14.973" fill="none" stroke="#F57F17"/><line id="line3-3" x1="-32.333" x2="-30.333" y1="21.333" y2="21.333" fill="none" stroke="#F57F17"/><line id="line4-6" x1="-12.333" x2="-10.333" y1="21.333" y2="21.333" fill="none" stroke="#F57F17"/><line id="line5-5" x1="-14.973" x2="-13.553" y1="14.973" y2="13.553" fill="none" stroke="#F57F17"/><g id="g11" fill="#F57F17" stroke="none"><path id="path1" d="m-21.334 15.334c-1.4722 0-2.9579 0.48535-4.1016 1.502-1.1437 1.0166-1.8984 2.5814-1.8984 4.498a1 1 0 0 0 1 1 1 1 0 0 0 1-1c0-1.4167 0.49524-2.3538 1.2266-3.0039 0.73132-0.65006 1.7457-0.99609 2.7734-0.99609 1.0278 0 2.0421 0.34604 2.7734 0.99609 0.73132 0.65006 1.2266 1.5872 1.2266 3.0039a1 1 0 0 0 1 1 1 1 0 0 0 1-1c0-1.9167-0.75476-3.4814-1.8984-4.498-1.1437-1.0166-2.6293-1.502-4.1016-1.502z" color="#000000" style="-inkscape-stroke:none"/><path id="path10" d="m-26.333 22.333h10l-2.3333-6h-5.3333z"/></g></g></g></g></g></svg>
