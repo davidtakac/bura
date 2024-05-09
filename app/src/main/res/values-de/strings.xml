@@ -28,7 +28,7 @@
     <string name="place_picker_title_search_results">Suchergebnisse</string>
     <string name="place_picker_error_no_internet">Sie scheinen offline zu sein. Verbinden Sie sich mit dem Internet und versuchen Sie es erneut.</string>
     <string name="place_picker_error_value_no_results_for">Keine Ergebnisse für \"%s\".</string>
-    <string name="place_picker_error_no_saved_places">Keine gespeicherte Orte</string>
+    <string name="place_picker_error_no_saved_places">Keine gespeicherte Orte. </string>
     <string name="delete_place_value">%s löschen?</string>
     <string name="delete_place_description">Dabei werden auch die zwischengespeicherten Prognosedaten gelöscht.</string>
 
@@ -144,7 +144,7 @@
     <string name="uv_index_risk_moderate">Mäßig</string>
     <string name="uv_index_risk_high">Hoch</string>
     <string name="uv_index_risk_very_high">Sehr hoch</string>
-    <string name="uv_index_risk_extreme">Extreme</string>
+    <string name="uv_index_risk_extreme">Extrem</string>
     <string name="uv_index_protection_value_from_until">Verwenden Sie Sonnenschutz von %1$s bis %2$s.</string>
     <string name="uv_index_protection_value_from">Verwenden Sie Sonnenschutz ab %s.</string>
     <string name="uv_index_protection_value_until">Verwenden Sie Sonnenschutz bis %s.</string>
