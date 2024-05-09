@@ -53,7 +53,7 @@ class GetSavedPlaces(
         tempDay: TemperaturePeriod,
         conditionDay: ConditionPeriod
     ): SavedPlace.Conditions = SavedPlace.Conditions(
-        temp = tempDay[now]?.temperature,
+        temp = tempDay[now]!!.temperature,
         minTemp = tempDay.minimum,
         maxTemp = tempDay.maximum,
         condition = conditionDay[now]?.condition

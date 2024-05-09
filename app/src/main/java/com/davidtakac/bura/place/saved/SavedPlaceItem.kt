@@ -19,7 +19,10 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -65,7 +68,7 @@ fun SavedPlaceItem(
     modifier: Modifier = Modifier
 ) {
     val hapticFeedback = LocalHapticFeedback.current
-    Row(
+    Column(
         Modifier
             .combinedClickable(
                 interactionSource = remember { MutableInteractionSource() },
@@ -76,84 +79,118 @@ fun SavedPlaceItem(
                     onLongClick()
                 }
             )
-            .then(modifier),
-        horizontalArrangement = Arrangement.SpaceBetween
+            .then(modifier)
     ) {
-        Column(
-            modifier = Modifier.weight(2f),
-            verticalArrangement = Arrangement.SpaceBetween
-        ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                if (state.selected) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.location_on),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .padding(end = 2.dp)
-                            .size(16.dp)
-                    )
-                }
-                Text(
-                    text = state.place.name,
-                    style = MaterialTheme.typography.titleMedium,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
+        Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.Top) {
+            PlaceName(
+                place = state.place.name,
+                selected = state.selected,
+                modifier = Modifier.weight(1f)
+            )
+            state.conditions?.let {
+                TemperatureAndCondition(
+                    temperature = it.temp,
+                    condition = it.condition
                 )
             }
-            BoxWithConstraints(modifier = Modifier.fillMaxWidth()) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(4.dp),
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(
-                        text = state.place.countryName ?: state.place.countryCode,
-                        style = MaterialTheme.typography.bodyMedium,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier.widthIn(
-                            max = with(LocalDensity.current) {
-                                val maxWidth = this@BoxWithConstraints.constraints.maxWidth
-                                (maxWidth * .75f).toDp()
-                            }
-                        )
-                    )
-                    VerticalDivider(modifier = Modifier.height(12.dp))
-                    val formatter =
-                        rememberDateTimeFormatter(ofPattern = R.string.date_time_pattern_hour_minute)
-                    Text(
-                        text = formatter.format(state.time),
-                        style = MaterialTheme.typography.bodyMedium,
-                        maxLines = 1,
-                    )
-                }
-            }
         }
-        state.conditions?.let {
-            Column(
-                Modifier.weight(1f),
-                verticalArrangement = Arrangement.SpaceBetween,
-                horizontalAlignment = Alignment.End
-            ) {
-                Row(verticalAlignment = Alignment.Bottom) {
-                    it.temp?.let {
-                        Text(
-                            text = it.string(),
-                            style = MaterialTheme.typography.titleLarge
-                        )
-                    }
-                    Image(
-                        painter = it.condition.image(),
-                        modifier = Modifier.size(28.dp),
-                        contentDescription = null
-                    )
-                }
+        Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+            CountryAndTime(
+                country = state.place.countryName ?: state.place.countryCode,
+                time = state.time,
+                modifier = Modifier.weight(1f)
+            )
+            state.conditions?.let {
                 HighLowText(
                     high = it.maxTemp.string(),
                     low = it.minTemp.string(),
                     style = MaterialTheme.typography.bodyMedium
                 )
             }
+        }
+    }
+}
+
+@Composable
+private fun PlaceName(
+    place: String,
+    selected: Boolean,
+    modifier: Modifier = Modifier
+) {
+    Row(verticalAlignment = Alignment.CenterVertically, modifier = modifier) {
+        if (selected) {
+            Icon(
+                painter = painterResource(id = R.drawable.location_on),
+                contentDescription = null,
+                modifier = Modifier
+                    .padding(end = 2.dp)
+                    .size(16.dp)
+            )
+        }
+        Text(
+            text = place,
+            style = MaterialTheme.typography.titleMedium,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
+    }
+}
+
+@Composable
+private fun TemperatureAndCondition(
+    temperature: Temperature,
+    condition: Condition,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier.height(IntrinsicSize.Min),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.End
+    ) {
+        Text(
+            text = temperature.string(),
+            style = MaterialTheme.typography.titleLarge
+        )
+        Image(
+            painter = condition.image(),
+            modifier = Modifier
+                .fillMaxHeight()
+                .aspectRatio(1f),
+            contentDescription = null
+        )
+    }
+}
+
+@Composable
+private fun CountryAndTime(
+    country: String,
+    time: LocalTime,
+    modifier: Modifier = Modifier
+) {
+    BoxWithConstraints(modifier = modifier) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
+        ) {
+            Text(
+                text = country,
+                style = MaterialTheme.typography.bodyMedium,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.widthIn(
+                    max = with(LocalDensity.current) {
+                        val maxWidth = this@BoxWithConstraints.constraints.maxWidth
+                        (maxWidth * .75f).toDp()
+                    }
+                )
+            )
+            VerticalDivider(modifier = Modifier.height(12.dp))
+            val formatter = rememberDateTimeFormatter(ofPattern = R.string.date_time_pattern_hour_minute)
+            Text(
+                text = formatter.format(time),
+                style = MaterialTheme.typography.bodyMedium,
+                maxLines = 1,
+            )
         }
     }
 }

@@ -1,0 +1,6 @@
+### Fixed
+- UV index gradient
+- Day summary name of day ellipsis
+
+### Added
+- Vietnamese translation

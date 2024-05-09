@@ -20,6 +20,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import java.io.File
+import java.nio.file.Files
+import java.nio.file.attribute.BasicFileAttributes
 import java.time.ZoneId
 
 class FileSavedPlacesRepository(private val root: File) : SavedPlacesRepository {
@@ -31,15 +33,22 @@ class FileSavedPlacesRepository(private val root: File) : SavedPlacesRepository 
         val file = File(getDir(), place.location.coordinates.id)
         val json = convertPlaceToJson(place)
         withContext(Dispatchers.IO) { file.writeText(json) }
-        memoryCache?.add(place)
+        memoryCache?.add(0, place)
     }
 
     override suspend fun getSavedPlaces(): List<Place> {
         val fromMemory = memoryCache
         if (fromMemory != null) return fromMemory
 
-        val fromFiles = getDir().listFiles()?.map { convertFileToPlace(it) } ?: emptyList()
-        this.memoryCache = mutableListOf<Place>().apply { addAll(fromFiles) }
+        val fromFiles = getDir()
+            .listFiles()
+            ?.sortedByDescending {
+                val attrs = Files.readAttributes(it.toPath(), BasicFileAttributes::class.java)
+                attrs.lastModifiedTime()
+            }
+            ?.map { convertFileToPlace(it) }
+            ?: emptyList()
+        memoryCache = mutableListOf<Place>().apply { addAll(fromFiles) }
         return fromFiles
     }
 

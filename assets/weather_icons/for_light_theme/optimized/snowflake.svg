@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  - Copyright 2024 David Takač
+  -
+  - This file is part of Bura.
+  -
+  - Bura is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+  -
+  - Bura is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+  -
+  - You should have received a copy of the GNU General Public License along with Bura. If not, see <https://www.gnu.org/licenses/>.
+  -->
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg id="svg1" width="24" height="24" version="1.1" viewBox="0 0 24 24" xml:space="preserve" xmlns="http://www.w3.org/2000/svg"><g id="layer1"><g id="g2" transform="matrix(.75 0 0 .75 3 3)" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><g id="g3" fill="#F57F17"><path id="path2" d="m12 1.3333a1.0667 1.0667 0 0 0-1.0667 1.0667v2.3167l-0.75417-0.75417a1.0667 1.0667 0 0 0-1.5083 0 1.0667 1.0667 0 0 0 0 1.5083l2.2625 2.2625v3.2h-3.2l-2.2625-2.2625a1.0667 1.0667 0 0 0-1.5083 0 1.0667 1.0667 0 0 0 0 1.5083l0.75417 0.75417h-2.3167a1.0667 1.0667 0 0 0-1.0667 1.0667 1.0667 1.0667 0 0 0 1.0667 1.0667h2.3167l-0.75417 0.75417a1.0667 1.0667 0 0 0 0 1.5083 1.0667 1.0667 0 0 0 1.5083 0l2.2625-2.2625h3.2v3.2l-2.2625 2.2625a1.0667 1.0667 0 0 0 0 1.5083 1.0667 1.0667 0 0 0 1.5083 0l0.75417-0.75417v2.3167a1.0667 1.0667 0 0 0 1.0667 1.0667 1.0667 1.0667 0 0 0 1.0667-1.0667v-2.3167l0.75417 0.75417a1.0667 1.0667 0 0 0 1.5083 0 1.0667 1.0667 0 0 0 0-1.5083l-2.2625-2.2625v-3.2h3.2l2.2625 2.2625a1.0667 1.0667 0 0 0 1.5083 0 1.0667 1.0667 0 0 0 0-1.5083l-0.75417-0.75417h2.3167a1.0667 1.0667 0 0 0 1.0667-1.0667 1.0667 1.0667 0 0 0-1.0667-1.0667h-2.3167l0.75417-0.75417a1.0667 1.0667 0 0 0 0-1.5083 1.0667 1.0667 0 0 0-1.5083 0l-2.2625 2.2625h-3.2v-3.2l2.2625-2.2625a1.0667 1.0667 0 0 0 0-1.5083 1.0667 1.0667 0 0 0-1.5083 0l-0.75417 0.75417v-2.3167a1.0667 1.0667 0 0 0-1.0667-1.0667z" fill="#757575" stroke="none"/></g></g></g></svg>

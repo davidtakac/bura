@@ -28,6 +28,7 @@ private val supportedLocales = listOf(
     Locale.forLanguageTag("fr"),
     Locale.forLanguageTag("hr"),
     Locale.forLanguageTag("vi"),
+    Locale("zh", "CN"),
     Locale.forLanguageTag("de"),
 )
 

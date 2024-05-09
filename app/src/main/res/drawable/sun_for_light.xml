@@ -16,12 +16,12 @@
     android:viewportWidth="24"
     android:viewportHeight="24">
   <path
-      android:pathData="M12,7.5C9.524,7.5 7.5,9.524 7.5,12C7.5,14.476 9.524,16.5 12,16.5C14.476,16.5 16.5,14.476 16.5,12C16.5,9.524 14.476,7.5 12,7.5z"
-      android:strokeLineJoin="miter"
+      android:pathData="m12,7.5c-2.476,0 -4.5,2.024 -4.5,4.5 0,2.476 2.024,4.5 4.5,4.5 2.476,0 4.5,-2.024 4.5,-4.5 0,-2.476 -2.024,-4.5 -4.5,-4.5z"
+      android:strokeLineJoin="round"
       android:strokeWidth="1.5"
       android:fillColor="#F57F17"
       android:strokeColor="#00000000"
-      android:strokeLineCap="butt"/>
+      android:strokeLineCap="round"/>
   <path
       android:pathData="M12,3.75L12,5.25"
       android:strokeLineJoin="round"
