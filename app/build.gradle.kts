@@ -27,7 +27,7 @@ android {
         versionName = "1.3.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        resourceConfigurations.addAll(listOf("en", "fr", "hr", "vi", "zh-rCN", "ru"))
+        resourceConfigurations.addAll(listOf("en", "fr", "hr", "vi", "zh-rCN", "de", "ru"))
     }
 
     buildTypes {
