@@ -88,10 +88,10 @@
     <string name="precip_value_rain_in_next_hours">%1$s дождя ожидается в ближайшие %2$sh.</string>
     <string name="precip_value_snow_in_next_hours">%1$s снега ожидается в ближайшие %2$sh.</string>
     <string name="precip_value_mixed_in_next_hours">%1$s ожидается в ближайшие %2$sh.</string>
-    <string name="precip_value_showers_on_day">Следующие ожидаемые %1$s ливня на %2$s.</string>
-    <string name="precip_value_rain_on_day">Следующий ожидаемый %1$s дождя на %2$s.</string>
-    <string name="precip_value_snow_on_day">Следующий ожидаемый %1$s снега на %2$s.</string>
-    <string name="precip_value_mixed_on_day">Следующий ожидается %1$s на %2$s.</string>
+    <string name="precip_value_showers_on_day">Ожидается %1$s ливня на %2$s.</string>
+    <string name="precip_value_rain_on_day">Ожидается %1$s дождя на %2$s.</string>
+    <string name="precip_value_snow_on_day">Ожидается %1$s снега на %2$s.</string>
+    <string name="precip_value_mixed_on_day">Ожидается %1$s на %2$s.</string>
     <string name="precip_value_none_in_next_days">Не ожидается в ближайшие %sd.</string>
     <string name="precip_unit_mm">мм</string>
     <string name="precip_value_mm">%s мм</string>
@@ -133,7 +133,7 @@
     <string name="feels_like">Ощущается как</string>
     <string name="feels_like_value">Ощущается как %s</string>
     <string name="feels_like_value_actual">при %s</string>
-    <string name="feels_like_cooler_than_actual">Чувствуется холод</string>
+    <string name="feels_like_cooler_than_actual">Чувствуется холод.</string>
     <string name="feels_like_colder_than_actual">Чувствуется прохлада.</string>
     <string name="feels_like_warmer_than_actual">Чувствуется тепло.</string>
     <string name="feels_like_hotter_than_actual">Чувствуется жара.</string>
