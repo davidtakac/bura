@@ -78,7 +78,7 @@ fun WindSummary(state: WindSummary, modifier: Modifier = Modifier) {
                         contentDescription = null,
                         modifier = Modifier
                             .fillMaxSize()
-                            .rotate(state.windNow.direction.degrees.toFloat())
+                            .rotate(state.windNow.direction.degrees.toFloat() + 180f)
                     )
                 }
             )
