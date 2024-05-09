@@ -23,8 +23,8 @@ android {
         applicationId = "com.davidtakac.bura"
         minSdk = 28
         targetSdk = 34
-        versionCode = 10
-        versionName = "1.3.0"
+        versionCode = 11
+        versionName = "1.4.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         resourceConfigurations.addAll(listOf("en", "fr", "hr", "vi", "zh-rCN", "de", "ru"))
