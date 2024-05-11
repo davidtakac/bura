@@ -1,0 +1,13 @@
+### Fixed
+- Misaligned saved place item UI elements
+- Graph plot line peeking over its fill
+
+### Changed
+- Saved places sorted by modification date descending
+- Network timeouts increased to 10s
+
+### Added
+- Russian
+- German
+- Chinese (Simplified)
+- Optimized weather icon SVGs
