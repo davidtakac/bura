@@ -179,7 +179,7 @@
     <string name="wind_bft_10">Wichura</string>
     <string name="wind_bft_11">Gwałtowna wichura</string>
     <string name="wind_bft_12">Huragan</string>
-    <string name="wind_value_gusts_at">Podmuchy za %s.</string>
+    <string name="wind_value_gusts_at">Podmuchy od %s.</string>
     <string name="wind_unit_mps">m/s</string>
     <string name="wind_value_mps">%s m/s</string>
     <string name="wind_unit_kph">km/h</string>
