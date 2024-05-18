@@ -19,4 +19,6 @@
     <locale android:name="zh-CN"/>
     <locale android:name="de"/>
     <locale android:name="ru"/>
+    <locale android:name="pl"/>
+
 </locale-config>
