@@ -2,6 +2,9 @@
 Modern weather app with graphs and thoughtful data visualization. Spiritual successor to [Prognoza](https://github.com/davidtakac/prognoza).
 
 <div>
+    <a href="https://www.f-droid.org/app/com.davidtakac.bura">
+        <img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" height="80", align="center"/>
+    </a>
     <a href="https://apt.izzysoft.de/fdroid/index/apk/com.davidtakac.bura">
         <img src="assets/badge_izzyondroid.png" height="80" align="center"/>
     </a>
