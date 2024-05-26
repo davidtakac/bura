@@ -1,0 +1,10 @@
+### Fixed
+- Wind direction arrow orientation
+
+### Changed
+- Day summary PoP is now maximum of day
+
+### Added
+- Swedish
+- Polish
+- Themed app icon
