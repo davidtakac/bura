@@ -16,12 +16,14 @@ import java.util.Objects
 
 class Wind(
     val speed: WindSpeed,
-    val direction: WindDirection
+    val from: WindDirection
 ) {
+    val to: WindDirection = WindDirection(degrees = from.degrees + 180)
+
     override fun equals(other: Any?): Boolean =
-        other is Wind && other.speed == speed && other.direction == direction
+        other is Wind && other.speed == speed && other.from == from
 
-    override fun hashCode(): Int = Objects.hash(speed, direction)
+    override fun hashCode(): Int = Objects.hash(speed, from)
 
-    override fun toString(): String = "$speed, $direction"
+    override fun toString(): String = "$speed from $from"
 }
