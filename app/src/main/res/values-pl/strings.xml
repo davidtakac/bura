@@ -75,7 +75,6 @@
     <string name="date_time_pattern_hour_minute">HH:mm</string>
     <string name="date_time_pattern_dow">E</string>
     <string name="date_time_pattern_dow_hour_minute">E, HH:mm</string>
-    <string name="date_time_pattern_dow_dom_month">E, MMM d</string>
 
     <string name="precip_mixed">Opady</string>
     <string name="precip_rain">Deszcz</string>
@@ -127,7 +126,6 @@
     <string name="sunset_value_more_than_hours_away">&gt; %sd</string>
 
     <string name="temp_value_degree">%s°</string>
-    <string name="temp_value_high_low">H:%s L:%s</string>
     <string name="dew_point_value_right_now">Punkt rosy %s teraz.</string>
     <string name="feels_like">Odczuwalna</string>
     <string name="feels_like_value">Odczuwalna %s</string>
