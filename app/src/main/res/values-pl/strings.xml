@@ -32,6 +32,7 @@
 
     <string name="cond_screen_title">Warunki pogodowe</string>
     <string name="cond_screen_pop">Szansa na opady</string>
+    <string name="cond_screen_precip">Suma opadów</string>
     <string name="cond_screen_temp_unit_celsius">Celsiusz (°C)</string>
     <string name="cond_screen_temp_unit_fahrenheit">Fahrenheit (°F)</string>
     <string name="cond_screen_precip_value_in_last_hours">Ostatnie %s godziny</string>
@@ -80,7 +81,7 @@
     <string name="precip_rain">Deszcz</string>
     <string name="precip_showers">Mżawka</string>
     <string name="precip_snow">Snieg</string>
-    <string name="precip_value_in_last_hours">In last %sh</string>
+    <string name="precip_value_in_last_hours">w ciągu ostatnich %sh</string>
     <string name="precip_value_showers_in_next_hours">%1$s mżawka spodziewana w ciągu %2$sh.</string>
     <string name="precip_value_rain_in_next_hours">%1$s deszcz spodziewany w ciągu %2$sh.</string>
     <string name="precip_value_snow_in_next_hours">%1$s snieg spodziewany w ciągu %2$sh.</string>
