@@ -53,7 +53,7 @@ class GetDailySummary(
                             tempNow = futureTempDays[i][now]?.temperature,
                             min = futureTempDays[i].minimum,
                             max = futureTempDays[i].maximum,
-                            pop = popDays[i].once.takeIf { it.value > 0 },
+                            pop = popDays[i].maximum.takeIf { it.value > 0 },
                             desc = descDays[i].day ?: descDays[i].night!!
                         )
                     )

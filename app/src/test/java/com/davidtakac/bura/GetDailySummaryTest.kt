@@ -104,7 +104,7 @@ class GetDailySummaryTest {
                             min = Temperature.fromDegreesCelsius(3.0),
                             max = Temperature.fromDegreesCelsius(4.0),
                             desc = Condition(wmoCode = 5, isDay = false),
-                            pop = Pop((1 - 0.95.pow(2)) * 100)
+                            pop = Pop(5.0)
                         )
                     )
                 )

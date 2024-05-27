@@ -78,7 +78,7 @@ fun WindSummary(state: WindSummary, modifier: Modifier = Modifier) {
                         contentDescription = null,
                         modifier = Modifier
                             .fillMaxSize()
-                            .rotate(state.windNow.direction.degrees.toFloat())
+                            .rotate(state.windNow.to.degrees.toFloat())
                     )
                 }
             )
@@ -107,7 +107,7 @@ private fun WindSummaryPreview() {
                 state = WindSummary(
                     windNow = Wind(
                         speed = WindSpeed.fromMetersPerSecond(9.0),
-                        direction = WindDirection(76.0)
+                        from = WindDirection(76.0)
                     ),
                     gustNow = WindSpeed.fromMetersPerSecond(20.0)
                 ),

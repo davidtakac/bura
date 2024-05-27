@@ -1,0 +1,221 @@
+<!--
+  ~ Copyright 2024 David Takač
+  ~
+  ~ This file is part of Bura.
+  ~
+  ~ Bura is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+  ~
+  ~ Bura is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with Bura. If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<resources>
+    <string name="app_name">Bura</string>
+    <string name="general_error_failed_to_download">Misslyckades med att ladda ner prognos. Anslut till internet och försök igen.</string>
+    <string name="general_error_outdated">Dina prognosdata har utlöpt. Anslut till internet och försök igen.</string>
+    <string name="general_error_no_selected_place">Ingen vald plats.</string>
+    <string name="general_btn_try_again">Försök igen</string>
+    <string name="general_btn_select_place">Välj plats</string>
+    <string name="general_btn_dialog_confirm">OK</string>
+    <string name="general_btn_dialog_cancel">Avbryt</string>
+
+    <string name="credit_weather">Väderdata från Open-Meteo.com</string>
+    <string name="credit_geocoding">Geokodningsdata från Open-Meteo.com</string>
+
+    <string name="place_picker_hint_search">Sök platser …</string>
+    <string name="place_picker_title_saved_places">Sparade platser</string>
+    <string name="place_picker_title_search_results">Sökresultat</string>
+    <string name="place_picker_error_no_internet">Du verkar vara offline. Anslut till internet och försök igen.</string>
+    <string name="place_picker_error_value_no_results_for">Inga resultat för \"%s\".</string>
+    <string name="place_picker_error_no_saved_places">Inga sparade platser.</string>
+    <string name="delete_place_value">Radera %s?</string>
+    <string name="delete_place_description">Detta kommer även att radera dess cachade prognosdata.</string>
+
+    <string name="cond_screen_title">Förhållanden</string>
+    <string name="cond_screen_pop">Risk för nederbörd</string>
+    <string name="cond_screen_precip">Nederbördsmängder</string>
+    <string name="cond_screen_temp_unit_celsius">Celsius (°C)</string>
+    <string name="cond_screen_temp_unit_fahrenheit">Fahrenheit (°F)</string>
+    <string name="cond_screen_precip_value_in_last_hours">Senaste %s timmarna</string>
+    <string name="cond_screen_precip_value_in_next_hours">Kommande %s timmarna</string>
+
+    <string name="settings_screen_title">Inställningar</string>
+    <string name="settings_screen_title_units">Enheter</string>
+    <string name="settings_screen_title_temp_unit">Temperatur</string>
+    <string name="settings_screen_label_temp_unit_celsius">Grader Celsius</string>
+    <string name="settings_screen_label_temp_unit_fahrenheit">Grader Fahrenheit</string>
+    <string name="settings_screen_title_wind_unit">Vind</string>
+    <string name="settings_screen_label_wind_unit_mps">Meter per sekund</string>
+    <string name="settings_screen_label_wind_unit_kph">Kilometer per timme</string>
+    <string name="settings_screen_label_wind_unit_mph">Engelska mil per timme</string>
+    <string name="settings_screen_label_wind_unit_kn">Knop</string>
+    <string name="settings_screen_title_precip_unit">Nederbörd</string>
+    <string name="settings_screen_title_rain_unit">Regn</string>
+    <string name="settings_screen_title_showers_unit">Skurar</string>
+    <string name="settings_screen_title_snow_unit">Snö</string>
+    <string name="settings_screen_label_precip_unit_mm">Millimeter</string>
+    <string name="settings_screen_label_precip_unit_cm">Centimeter</string>
+    <string name="settings_screen_label_precip_unit_in">Tum</string>
+    <string name="settings_screen_title_pressure_unit">Lufttryck</string>
+    <string name="settings_screen_label_pressure_unit_hpa">Hektopascal</string>
+    <string name="settings_screen_label_pressure_unit_inhg">Tum kvicksilver</string>
+    <string name="settings_screen_label_pressure_unit_mmhg">Millimeter kvicksilver</string>
+    <string name="settings_screen_title_vis_unit">Sikt</string>
+    <string name="settings_screen_label_vis_unit_km">Kilometer</string>
+    <string name="settings_screen_label_vis_unit_mi">Engelska mil</string>
+    <string name="settings_screen_label_vis_unit_m">Meter</string>
+    <string name="settings_screen_label_vis_unit_ft">Fot</string>
+    <string name="settings_screen_title_appearance">Utseende</string>
+    <string name="settings_screen_title_theme">Tema</string>
+    <string name="settings_screen_label_dark">Mörkt</string>
+    <string name="settings_screen_label_light">Ljust</string>
+    <string name="settings_screen_label_follow_system">Följ systemet</string>
+
+    <string name="date_time_now">Nu</string>
+    <string name="date_time_today">I dag</string>
+    <string name="date_time_pattern_hour">HH</string>
+    <string name="date_time_pattern_hour_minute">HH:mm</string>
+    <string name="date_time_pattern_dow">E</string>
+    <string name="date_time_pattern_dow_hour_minute">E, HH:mm</string>
+
+    <string name="precip_mixed">Nederbörd</string>
+    <string name="precip_rain">Regn</string>
+    <string name="precip_showers">Skurar</string>
+    <string name="precip_snow">Snö</string>
+    <string name="precip_value_in_last_hours">Senaste %s tim</string>
+    <string name="precip_value_showers_in_next_hours">%1$s skurar förväntas inom de närmaste %2$s tim</string>
+    <string name="precip_value_rain_in_next_hours">%1$s regn förväntas inom de närmaste %2$s tim</string>
+    <string name="precip_value_snow_in_next_hours">%1$s snö förväntas inom de närmaste %2$s tim</string>
+    <string name="precip_value_mixed_in_next_hours">%1$s förväntas inom de närmaste %2$s tim</string>
+    <string name="precip_value_showers_on_day">Nästa förväntade är %1$s skurar på %2$s.</string>
+    <string name="precip_value_rain_on_day">Nästa förväntade är %1$s regn på %2$s.</string>
+    <string name="precip_value_snow_on_day">Nästa förväntade är %1$s snö på %2$s.</string>
+    <string name="precip_value_mixed_on_day">Nästa förväntade är %1$s på %2$s.</string>
+    <string name="precip_value_none_in_next_days">Ingen förväntas inom de närmaste %s dagarna.</string>
+    <string name="precip_unit_mm">mm</string>
+    <string name="precip_value_mm">%s mm</string>
+    <string name="precip_unit_cm">cm</string>
+    <string name="precip_value_cm">%s cm</string>
+    <string name="precip_unit_in">″</string>
+    <string name="precip_value_in">%s″</string>
+
+    <string name="pop_value_percent">%s %%</string>
+
+    <string name="pressure">Lufttryck</string>
+    <string name="pressure_trend_falling">Fallande</string>
+    <string name="pressure_trend_steady">Stabilt</string>
+    <string name="pressure_trend_rising">Stigande</string>
+    <string name="pressure_value_average">Medel: %s</string>
+    <string name="pressure_unit_hpa">hPa</string>
+    <string name="pressure_value_hpa">%s hPa</string>
+    <string name="pressure_unit_inhg">inHg</string>
+    <string name="pressure_value_inhg">%s inHg</string>
+    <string name="pressure_unit_mmhg">mmHg</string>
+    <string name="pressure_value_mmhg">%s mmHg</string>
+
+    <string name="humidity">Luftfuktighet</string>
+    <string name="humidity_value_percent">%s %%</string>
+
+    <string name="sunrise">Soluppgång</string>
+    <string name="sunset">Solnedgång</string>
+    <string name="sunrise_value">Soluppgång: %s</string>
+    <string name="sunset_value">Solnedgång: %s</string>
+    <string name="sunrise_not_today">Ingen soluppgång i dag.</string>
+    <string name="sunset_not_today">Ingen solnedgång i dag.</string>
+    <string name="sunrise_value_more_than_days_away">&gt; %s dagar</string>
+    <string name="sunrise_value_more_than_hours_away">&gt; %s tim</string>
+    <string name="sunset_value_more_than_days_away">&gt; %s dagar</string>
+    <string name="sunset_value_more_than_hours_away">&gt; %s tim</string>
+
+    <string name="temp_value_degree">%s°</string>
+    <string name="dew_point_value_right_now">Daggpunkten är %s just nu.</string>
+    <string name="feels_like">Känns som</string>
+    <string name="feels_like_value">Känns som %s</string>
+    <string name="feels_like_value_actual">Faktisk %s</string>
+    <string name="feels_like_cooler_than_actual">Vinden gör att det känns svalare.</string>
+    <string name="feels_like_colder_than_actual">Vinden gör att det känns kallare.</string>
+    <string name="feels_like_warmer_than_actual">Luftfuktigheten gör att det känns varmare.</string>
+    <string name="feels_like_hotter_than_actual">Luftfuktigheten gör att det känns hetare.</string>
+    <string name="feels_like_similar_to_actual">Ungefär samma som den faktiska temperaturen.</string>
+
+    <string name="uv_index">UV-index</string>
+    <string name="uv_index_risk_low">Lågt</string>
+    <string name="uv_index_risk_moderate">Medelhögt</string>
+    <string name="uv_index_risk_high">Högt</string>
+    <string name="uv_index_risk_very_high">Mycket högt</string>
+    <string name="uv_index_risk_extreme">Extremt</string>
+    <string name="uv_index_protection_value_from_until">Använd solskydd %1$s-%2$s.</string>
+    <string name="uv_index_protection_value_from">Använd solskydd från %s.</string>
+    <string name="uv_index_protection_value_until">Använd solskydd till %s.</string>
+    <string name="uv_index_protection_value_until_end_of_day">Använd solskydd under resten av dagen.</string>
+    <string name="uv_index_protection_value_none">Lågt under resten av dagen.</string>
+
+    <string name="vis">Sikt</string>
+    <string name="vis_unit_m">m</string>
+    <string name="vis_value_m">%s m</string>
+    <string name="vis_unit_ft">ft</string>
+    <string name="vis_value_ft">%s ft</string>
+    <string name="vis_unit_km">km</string>
+    <string name="vis_value_km">%s km</string>
+    <string name="vis_unit_mi">mi</string>
+    <string name="vis_value_mi">%s mi</string>
+    <string name="vis_description_perfect">Mycket god sikt.</string>
+    <string name="vis_description_clear">God sikt.</string>
+    <string name="vis_description_fair">Måttlig sikt.</string>
+    <string name="vis_description_low">Disigt.</string>
+    <string name="vis_description_very_low">Mycket disigt.</string>
+
+    <string name="wind_label">Vind</string>
+    <string name="wind_bft_0">Lugnt</string>
+    <string name="wind_bft_1">Svag vind</string>
+    <string name="wind_bft_2">Svag vind</string>
+    <string name="wind_bft_3">Måttlig vind</string>
+    <string name="wind_bft_4">Måttlig vind</string>
+    <string name="wind_bft_5">Frisk vind</string>
+    <string name="wind_bft_6">Frisk vind</string>
+    <string name="wind_bft_7">Hård vind</string>
+    <string name="wind_bft_8">Hård vind</string>
+    <string name="wind_bft_9">Hård vind</string>
+    <string name="wind_bft_10">Storm</string>
+    <string name="wind_bft_11">Storm</string>
+    <string name="wind_bft_12">Orkan</string>
+    <string name="wind_value_gusts_at">Vindbyar på %s.</string>
+    <string name="wind_unit_mps">m/s</string>
+    <string name="wind_value_mps">%s m/s</string>
+    <string name="wind_unit_kph">km/tim</string>
+    <string name="wind_value_kph">%s km/tim</string>
+    <string name="wind_unit_kn">kn</string>
+    <string name="wind_value_kn">%s kn</string>
+    <string name="wind_unit_mph">mi/tim</string>
+    <string name="wind_value_mph">%s mi/tim</string>
+
+    <string name="wmo_0">Klart</string>
+    <string name="wmo_1">Mestadels klart</string>
+    <string name="wmo_2">Delvis molnigt</string>
+    <string name="wmo_3">Mulet</string>
+    <string name="wmo_45">Dimma</string>
+    <string name="wmo_48">Avsättande frostdimma</string>
+    <string name="wmo_51">Lätt duggregn</string>
+    <string name="wmo_53">Duggregn</string>
+    <string name="wmo_55">Kraftigt duggregn</string>
+    <string name="wmo_56">Lätt underkylt duggregn</string>
+    <string name="wmo_57">Kraftigt underkylt duggregn</string>
+    <string name="wmo_61">Lätt regn</string>
+    <string name="wmo_63">Regn</string>
+    <string name="wmo_65">Kraftigt regn</string>
+    <string name="wmo_66">Lätt underkylt regn</string>
+    <string name="wmo_67">Kraftigt underkylt regn</string>
+    <string name="wmo_71">Lätt snöfall</string>
+    <string name="wmo_73">Snöfall</string>
+    <string name="wmo_75">Kraftigt snöfall</string>
+    <string name="wmo_77">Kornsnö</string>
+    <string name="wmo_80">Lätta regnskurar</string>
+    <string name="wmo_81">Regnskurar</string>
+    <string name="wmo_82">Kraftiga regnskurar</string>
+    <string name="wmo_85">Lätta snöbyar</string>
+    <string name="wmo_86">Kraftiga snöbyar</string>
+    <string name="wmo_95">Åska</string>
+    <string name="wmo_96">Åska med lätt hagel</string>
+    <string name="wmo_99">Åska med kraftigt hagel</string>
+</resources>

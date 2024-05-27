@@ -13,14 +13,11 @@
 package com.davidtakac.bura.wind
 
 import java.util.Objects
+import kotlin.math.ceil
 
-class WindDirection(val degrees: Double) {
-    val compass: Compass
-
-    init {
-        val index = (degrees / 22.5 + 0.5).toInt() % 16
-        compass = Compass.values()[index]
-    }
+class WindDirection(degrees: Double) {
+    val degrees: Double = degrees + ceil(-degrees / 360) * 360
+    val compass: Compass = Compass.entries[(degrees / 22.5 + 0.5).toInt() % 16]
 
     enum class Compass {
         N, NNE, NE, ENE,
