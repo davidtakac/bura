@@ -39,6 +39,7 @@ private val supportedLocales = listOf(
     Locale.forLanguageTag("ar"),
     Locale("zh", "TW"),
     Locale.forLanguageTag("cs"),
+    Locale("pt", "BR")
 )
 
 @Composable
