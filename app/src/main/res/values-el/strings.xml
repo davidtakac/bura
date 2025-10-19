@@ -1,0 +1,233 @@
+<!--
+  ~ Copyright 2024 David Takač
+  ~
+  ~ This file is part of Bura.
+  ~
+  ~ Bura is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+  ~
+  ~ Bura is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with Bura. If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<resources>
+    <string name="app_name">Bura</string>
+    <string name="general_error_failed_to_download">Αποτυχία λήψης πρόβλεψης. Συνδεθείτε στο Διαδίκτυο και δοκιμάστε ξανά.</string>
+    <string name="general_error_outdated">Τα δεδομένα πρόβλεψής σας έχουν λήξει. Συνδεθείτε στο Διαδίκτυο και δοκιμάστε ξανά.</string>
+    <string name="general_error_no_selected_place">Δεν έχει επιλεχθεί περιοχή.</string>
+    <string name="general_btn_try_again">Δοκίμασε ξανά</string>
+    <string name="general_btn_select_place">Επέλεξε περιοχή</string>
+    <string name="general_btn_dialog_confirm">Εντάξει</string>
+    <string name="general_btn_dialog_cancel">Ακύρωση</string>
+
+    <string name="credit_weather">Δεδομένα καιρού από το Open-Meteo.com</string>
+    <string name="credit_geocoding">Δεδομένα γεωκωδικοποίησης απο το Open-Meteo.com</string>
+
+    <string name="place_picker_hint_search">Αναζήτησε περιοχές…</string>
+    <string name="place_picker_title_saved_places">Αποθηκευμένες περιοχές</string>
+    <string name="place_picker_title_search_results">Αποτελέσματα αναζήτησης</string>
+    <string name="place_picker_error_no_internet">Φαίνεται ότι είστε εκτός διαδικτύου. Συνδεθείτε και δοκιμάστε ξανά.</string>
+    <string name="place_picker_error_value_no_results_for">Δεν υπάρχουν αποτελέσματα για \"%s\".</string>
+    <string name="place_picker_error_no_saved_places">Δεν υπάρχουν αποθηκευμένες περιοχές.</string>
+    <string name="delete_place_value">Διαγραφή %s;</string>
+    <string name="delete_place_description">Αυτό θα διαγράψει επίσης τα αποθηκευμένα δεδομένα πρόβλεψης.</string>
+
+    <string name="cond_screen_title">Συνθήκες</string>
+    <string name="cond_screen_pop">Πιθανότητα βροχόπτωσης</string>
+    <string name="cond_screen_precip">Σύνολα Βροχόπτωσης</string>
+    <string name="cond_screen_temp_unit_celsius">Κελσίου (°C)</string>
+    <string name="cond_screen_temp_unit_fahrenheit">Φαρενάιτ (°F)</string>
+    <string name="cond_screen_precip_value_in_last_hours">Τελευταίες %s ώρες</string>
+    <string name="cond_screen_precip_value_in_next_hours">Επόμενες %s ώρες</string>
+
+    <string name="settings_screen_title">Ρυθμίσεις</string>
+    <string name="settings_screen_title_units">Μονάδες</string>
+    <string name="settings_screen_title_temp_unit">Θερμοκρασία</string>
+    <string name="settings_screen_label_temp_unit_celsius">Βαθμοί Κελσίου</string>
+    <string name="settings_screen_label_temp_unit_fahrenheit">Βαθμοί Φαρενάιτ</string>
+    <string name="settings_screen_title_wind_unit">Άνεμος</string>
+    <string name="settings_screen_label_wind_unit_mps">Μέτρα ανά δευτερόλεπτο</string>
+    <string name="settings_screen_label_wind_unit_kph">Χιλιόμετρα ανά ώρα</string>
+    <string name="settings_screen_label_wind_unit_mph">Μίλια ανά ώρα</string>
+    <string name="settings_screen_label_wind_unit_kn">Κόμβοι</string>
+    <string name="settings_screen_title_precip_unit">Βροχόπτωση</string>
+    <string name="settings_screen_title_rain_unit">Βροχή</string>
+    <string name="settings_screen_title_showers_unit">Μπόρες</string>
+    <string name="settings_screen_title_snow_unit">Χιονόπτωση</string>
+    <string name="settings_screen_label_precip_unit_mm">Χιλιοστά</string>
+    <string name="settings_screen_label_precip_unit_cm">Εκατοστά</string>
+    <string name="settings_screen_label_precip_unit_in">Ίντσες</string>
+    <string name="settings_screen_title_pressure_unit">Πίεση</string>
+    <string name="settings_screen_label_pressure_unit_hpa">Εκτοπασκάλ</string>
+    <string name="settings_screen_label_pressure_unit_inhg">Ίντσες υδραργύρου</string>
+    <string name="settings_screen_label_pressure_unit_mmhg">Χιλιοστά υδραργύρου</string>
+    <string name="settings_screen_title_vis_unit">Ορατότητα</string>
+    <string name="settings_screen_label_vis_unit_km">Χιλιόμετρα</string>
+    <string name="settings_screen_label_vis_unit_mi">Μίλια</string>
+    <string name="settings_screen_label_vis_unit_m">Μέτρα</string>
+    <string name="settings_screen_label_vis_unit_ft">Πόδια</string>
+    <string name="settings_screen_title_appearance">Εμφάνιση</string>
+    <string name="settings_screen_title_theme">Θέμα</string>
+    <string name="settings_screen_label_dark">Σκούρο</string>
+    <string name="settings_screen_label_light">Φωτεινό</string>
+    <string name="settings_screen_label_follow_system">Προεπιλογή συστήματος</string>
+
+    <string name="date_time_now">Τώρα</string>
+    <string name="date_time_today">Σήμερα</string>
+    <string name="date_time_pattern_hour">HH</string>
+    <string name="date_time_pattern_hour_ampm">h\u2009a</string>
+    <string name="date_time_pattern_hour_minute">HH:mm</string>
+    <string name="date_time_pattern_hour_minute_ampm">h:mm\u2009a</string>
+    <string name="date_time_pattern_dow">E</string>
+    <string name="date_time_pattern_dow_hour_minute">E, HH:mm</string>
+    <string name="date_time_pattern_dow_hour_minute_ampm">E, h:mm\u2009a</string>
+
+    <string name="precip_mixed">Βροχόπτωση</string>
+    <string name="precip_rain">Βροχή</string>
+    <string name="precip_showers">Μπόρες</string>
+    <string name="precip_snow">Χιονόπτωση</string>
+    <string name="precip_value_in_last_hours">Στις τελευταίες %sh</string>
+    <string name="precip_value_showers_in_next_hours">%1$s μπόρες αναμένονται στις επόμενες %2$sh.</string>
+    <string name="precip_value_rain_in_next_hours">%1$s βροχή αναμένεται στις επόμενες %2$sh.</string>
+    <string name="precip_value_snow_in_next_hours">%1$s χιόνια αναμένονται στις επόμενες %2$sh.</string>
+    <string name="precip_value_mixed_in_next_hours">%1$s αναμένεται στις επόμενες %2$sh.</string>
+    <string name="precip_value_showers_on_day">Η επόμενη αναμενόμενη μπόρα είναι %1$s στις %2$s.</string>
+    <string name="precip_value_rain_on_day">Η επόμενη αναμενόμενη βροχόπτωση είναι %1$s στις %2$s.</string>
+    <string name="precip_value_snow_on_day">Η επόμενη αναμενόμενη χιονόπτωση είναι %1$s στις %2$s.</string>
+    <string name="precip_value_mixed_on_day">Η επόμενη αναμενόμενη %1$s στις %2$s.</string>
+    <string name="precip_value_none_in_next_days">Δεν αναμένεται τίποτα στις επόμενες %sd.</string>
+    <string name="precip_unit_mm">χιλ</string>
+    <string name="precip_value_mm">%s χιλ</string>
+    <string name="precip_unit_cm">εκ</string>
+    <string name="precip_value_cm">%s εκ</string>
+    <string name="precip_unit_in">″</string>
+    <string name="precip_value_in">%s″</string>
+
+    <string name="pop_value_percent">%s%%</string>
+
+    <string name="pressure">Πίεση</string>
+    <string name="pressure_trend_falling">Πτώση</string>
+    <string name="pressure_trend_steady">Σταθερή</string>
+    <string name="pressure_trend_rising">Αυξανόμενη</string>
+    <string name="pressure_value_average">Μέση: %s</string>
+    <string name="pressure_unit_hpa">hPa</string>
+    <string name="pressure_value_hpa">%s hPa</string>
+    <string name="pressure_unit_inhg">inHg</string>
+    <string name="pressure_value_inhg">%s inHg</string>
+    <string name="pressure_unit_mmhg">mmhg</string>
+    <string name="pressure_value_mmhg">%s mmHg</string>
+
+    <string name="humidity">Υγρασία</string>
+    <string name="humidity_value_percent">%s%%</string>
+
+    <string name="sunrise">Ανατολή ηλίου</string>
+    <string name="sunset">Ηλιοβασίλεμα</string>
+    <!--
+    sunrise_short and sunset_short are used in the hourly forecast on the Summary (Home) screen.
+    To make these strings visually consistent with the hour strings, you can override them with
+    shorter strings when it makes sense and sounds natural for the language in question. Otherwise
+    reference the full strings @string/sunrise and @string/sunset. For more info, see issue #62.
+    -->
+    <string name="sunrise_short">@string/Ανατολή ηλίου</string>
+    <string name="sunset_short">@string/Ηλιοβασίλεμα</string>
+
+    <string name="sunrise_value">Ανατολή ηλίου: %s</string>
+    <string name="sunset_value">Ηλιοβασίλεμα: %s</string>
+    <string name="sunrise_not_today">Δεν θα ανατείλει ο ήλιος σήμερα.</string>
+    <string name="sunset_not_today">Δεν θα δύσει ο ήλιος σήμερα.</string>
+    <string name="sunrise_value_more_than_days_away">&gt; %sd</string>
+    <string name="sunrise_value_more_than_hours_away">&gt; %sh</string>
+    <string name="sunset_value_more_than_days_away">&gt; %sd</string>
+    <string name="sunset_value_more_than_hours_away">&gt; %sh</string>
+
+    <string name="temp_value_degree">%s°</string>
+    <string name="dew_point_value_right_now">Η θερμοκρασία δρόσου είναι %s αυτή τη στιγμή.</string>
+    <string name="feels_like">Αισθητή</string>
+    <string name="feels_like_value">Αισθητή %s</string>
+    <string name="feels_like_value_actual">Πραγματική %s</string>
+    <string name="feels_like_cooler_than_actual">Ο άνεμος την κάνει αισθητά πιο δροσερή.</string>
+    <string name="feels_like_colder_than_actual">Ο άνεμος την κάνει αισθητά πιο κρύα.</string>
+    <string name="feels_like_warmer_than_actual">Η υγρασία την κάνει αισθητά πιο ζεστή.</string>
+    <string name="feels_like_hotter_than_actual">Η υγρασία την κάνει αισθητά πιο καυτή.</string>
+    <string name="feels_like_similar_to_actual">Σύμφωνο με την πραγματική θερμοκρασία.</string>
+
+    <string name="uv_index">Δείκτης UV</string>
+    <string name="uv_index_risk_low">Χαμηλό</string>
+    <string name="uv_index_risk_moderate">Μέτριο</string>
+    <string name="uv_index_risk_high">Υψηλό</string>
+    <string name="uv_index_risk_very_high">Πολύ υψηλό</string>
+    <string name="uv_index_risk_extreme">Ακραίο</string>
+    <string name="uv_index_protection_value_from_until">Χρησιμοποίησε αντηλιακή προστασία %1$s-%2$s.</string>
+    <string name="uv_index_protection_value_from">Χρησιμοποίησε αντηλιακή προστασία από %s.</string>
+    <string name="uv_index_protection_value_until">Χρησιμοποίησε αντηλιακή προστασία μέχρι %s.</string>
+    <string name="uv_index_protection_value_until_end_of_day">Χρησιμοποίησε αντηλιακή προστασία για το υπόλοιπο της ημέρας.</string>
+    <string name="uv_index_protection_value_none">Χαμηλό για το υπόλοιπο της ημέρας.</string>
+
+    <string name="vis">Ορατότητα</string>
+    <string name="vis_unit_m">μ</string>
+    <string name="vis_value_m">%s μ</string>
+    <string name="vis_unit_ft">π</string>
+    <string name="vis_value_ft">%s π</string>
+    <string name="vis_unit_km">χλμ</string>
+    <string name="vis_value_km">%s χλμ</string>
+    <string name="vis_unit_mi">μιλ</string>
+    <string name="vis_value_mi">%s μιλ</string>
+    <string name="vis_description_perfect">Απόλυτα καθαρή ορατότητα.</string>
+    <string name="vis_description_clear">Καθαρή ορατότητα.</string>
+    <string name="vis_description_fair">Σχετικά καθαρή ορατότητα.</string>
+    <string name="vis_description_low">Μειωμένη ορατότητα.</string>
+    <string name="vis_description_very_low">Πολύ χαμηλή ορατότητα.</string>
+
+    <string name="wind_label">Άνεμος</string>
+    <string name="wind_bft_0">Ήρεμος</string>
+    <string name="wind_bft_1">Ασθενής άνεμος</string>
+    <string name="wind_bft_2">Ασθενής αεράκι</string>
+    <string name="wind_bft_3">Απαλό αεράκι</string>
+    <string name="wind_bft_4">Μέτριο αεράκι</string>
+    <string name="wind_bft_5">Ισχυρό αεράκι</string>
+    <string name="wind_bft_6">Δυνατό αεράκι</string>
+    <string name="wind_bft_7">Σχεδόν θυελώδης άνεμος</string>
+    <string name="wind_bft_8">Ισχυρός θυελώδης άνεμος</string>
+    <string name="wind_bft_9">Πολύ ισχυρός θυελώδης άνεμος</string>
+    <string name="wind_bft_10">Πλήρης θυελώδης άνεμος</string>
+    <string name="wind_bft_11">Σφοδρές καταιγίδες</string>
+    <string name="wind_bft_12">Άνεμος ισχύος τυφώνα</string>
+    <string name="wind_value_gusts_at">Ριπές ανέμου ως %s.</string>
+    <string name="wind_unit_mps">μ/δ</string>
+    <string name="wind_value_mps">%s μ/δ</string>
+    <string name="wind_unit_kph">χλμ/ω</string>
+    <string name="wind_value_kph">%s χλμ/ω</string>
+    <string name="wind_unit_kn">kn</string>
+    <string name="wind_value_kn">%s kn</string>
+    <string name="wind_unit_mph">μιλ/ω</string>
+    <string name="wind_value_mph">%s μιλ/ω</string>
+
+    <string name="wmo_0">Αίθριος</string>
+    <string name="wmo_1">Κυρίως αίθριος</string>
+    <string name="wmo_2">Μερικώς νεφελώδης</string>
+    <string name="wmo_3">Πλήρης συννεφιά</string>
+    <string name="wmo_45">Ομίχλη</string>
+    <string name="wmo_48">Ομίχλη με επικάθηση πάχνης</string>
+    <string name="wmo_51">Ελαφρά ψιχάλα</string>
+    <string name="wmo_53">Ψιχάλα</string>
+    <string name="wmo_55">Πυκνή ψιχάλα</string>
+    <string name="wmo_56">Ασθενής παγωμένη ψιχάλα</string>
+    <string name="wmo_57">Πυκνή παγωμένη ψιχάλα</string>
+    <string name="wmo_61">Ελαφρά βροχή</string>
+    <string name="wmo_63">Βροχή</string>
+    <string name="wmo_65">Δυνατή Βροχή</string>
+    <string name="wmo_66">Ασθενής παγωμένη βροχή</string>
+    <string name="wmo_67">Ισχυρή παγωμένη βροχή</string>
+    <string name="wmo_71">Ελαφρά χιονόπτωση</string>
+    <string name="wmo_73">Χιονόπτωση</string>
+    <string name="wmo_75">Ισχυρή χιονόπτωση</string>
+    <string name="wmo_77">Χιονοκκόκοι</string>
+    <string name="wmo_80">Ελαφριές μπόρες</string>
+    <string name="wmo_81">Μπόρες</string>
+    <string name="wmo_82">Ισχυρές βροχοπτώσεις</string>
+    <string name="wmo_85">Ελαφριές χιονοπτώσεις κατά διαστήματα</string>
+    <string name="wmo_86">Έντονες χιονοπτώσεις κατά διαστήματα</string>
+    <string name="wmo_95">Καταιγίδα</string>
+    <string name="wmo_96">Καταιγίδα με ελαφριά χαλαζόπτωση</string>
+    <string name="wmo_99">Καταιγίδα με έντονη χαλαζόπτωση</string>
+</resources>
