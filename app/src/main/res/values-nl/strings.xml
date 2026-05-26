@@ -40,6 +40,12 @@
     <string name="cond_screen_precip_value_in_last_hours">Afgelopen %s uren</string>
     <string name="cond_screen_precip_value_in_next_hours">Komende %s uren</string>
 
+    <string name="unexpected_error_screen_title">Fout</string>
+    <string name="unexpected_error_screen_description">Er is een onverwachte fout opgetreden. Ga naar het beginscherm en probeer of alles weer werkt. Als je wilt helpen, maak dan een issue aan op GitHub en voeg het volgende foutrapport toe.</string>
+    <string name="unexpected_error_screen_label_clip_entry">Foutrapport</string>
+    <string name="unexpected_error_screen_btn_copy_logs">Alles kopiëren</string>
+    <string name="unexpected_error_screen_btn_go_home">Beginscherm</string>
+
     <string name="settings_screen_title">Instellingen</string>
     <string name="settings_screen_title_units">Eenheden</string>
     <string name="settings_screen_title_temp_unit">Temperatuur</string>
