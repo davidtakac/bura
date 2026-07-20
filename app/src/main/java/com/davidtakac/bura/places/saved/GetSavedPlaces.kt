@@ -35,7 +35,7 @@ class GetSavedPlaces(
             val forecast = forecastRepo.get(
                 coords = place.location.coordinates,
                 units = selectedUnits,
-                updateFrequency = UpdateFrequency.Static
+                updateFrequency = UpdateFrequency.Never
             )
             getSavedPlace(
                 now = now,

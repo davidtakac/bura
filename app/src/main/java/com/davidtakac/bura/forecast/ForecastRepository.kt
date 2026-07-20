@@ -50,18 +50,17 @@ class ForecastRepository(
         }?.convertTo(units)
 
     private fun shouldUpdate(cached: Forecast?, updateFrequency: UpdateFrequency): Boolean {
+        val expiresAfter = updateFrequency.expiresAfter ?: return false
         val shouldUpdate = cached == null
-                || updateFrequency.expiresAfter?.let {
-                    Duration.between(
+                || Duration.between(
                         cached.timestamp,
                         Instant.now()
-                    ) >= it
-                } ?: false
+                ) >= expiresAfter
         return shouldUpdate && internetChecker.hasInternet()
     }
 }
 
 enum class UpdateFrequency(val expiresAfter: Duration?) {
     App(expiresAfter = Duration.ofHours(1)),
-    Static(expiresAfter = null)
+    Never(expiresAfter = null)
 }
