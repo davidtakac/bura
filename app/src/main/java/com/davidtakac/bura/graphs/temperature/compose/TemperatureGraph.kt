@@ -148,6 +148,7 @@ private fun DrawScope.drawHorizontalAxisAndPlot(
 
     drawTimeAxis(
         measurer = measurer,
+        times = state.points.map { it.time.value },
         args = args
     ) { i, x, calcY ->
         // Temperature line
@@ -642,7 +643,7 @@ private val previewState =
                 ),
             TemperatureGraphPoint(
                 time = GraphTime(
-                    value = ZonedDateTime.parse("2023-01-01T00:00Z"),
+                    value = ZonedDateTime.parse("2023-01-02T00:00Z"),
                     meta = GraphTime.Meta.Future
                 ),
                 temperature = GraphTemperature(

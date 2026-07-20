@@ -34,6 +34,8 @@ class GraphTime(
         other is GraphTime && other.value == value && other.meta == meta
 
     override fun hashCode(): Int = Objects.hash(value, meta)
+
+    override fun toString(): String = "$value ($meta)"
 }
 
 private fun getMeta(hour: ZonedDateTime, now: Instant): GraphTime.Meta {

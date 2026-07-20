@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.davidtakac.bura.theme.AppIcons
 import com.davidtakac.bura.theme.AppTheme
-import com.davidtakac.bura.common.compose.rememberDateTimeHourFormatter
+import com.davidtakac.bura.common.compose.rememberDateTimeHourMinuteFormatter
 import com.davidtakac.bura.common.compose.rememberNumberFormat
 import java.text.NumberFormat
 import java.time.format.DateTimeFormatter
@@ -107,7 +107,7 @@ data class GraphArgs(
             val density = LocalDensity.current
             val colorScheme = MaterialTheme.colorScheme
             val typography = MaterialTheme.typography
-            val dateTimeFormatter = rememberDateTimeHourFormatter()
+            val dateTimeFormatter = rememberDateTimeHourMinuteFormatter()
             val numberFormat = rememberNumberFormat()
             val icons = AppTheme.icons
             return remember(
