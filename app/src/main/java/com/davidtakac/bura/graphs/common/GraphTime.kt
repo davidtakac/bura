@@ -13,19 +13,18 @@
 package com.davidtakac.bura.graphs.common
 
 import java.time.Instant
-import java.time.LocalTime
 import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
 import java.util.Objects
 
 class GraphTime(
-    val value: LocalTime,
+    val value: ZonedDateTime,
     val meta: Meta
 ) {
     constructor(
         hour: ZonedDateTime,
         now: Instant
-    ) : this(value = hour.toLocalTime(), meta = getMeta(hour, now))
+    ) : this(value = hour, meta = getMeta(hour, now))
 
     enum class Meta {
         Past, Present, Future

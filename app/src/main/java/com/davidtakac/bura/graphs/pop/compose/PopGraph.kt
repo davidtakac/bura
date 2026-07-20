@@ -57,7 +57,7 @@ import com.davidtakac.bura.graphs.pop.GraphPop
 import com.davidtakac.bura.graphs.pop.PopGraph
 import com.davidtakac.bura.graphs.pop.PopGraphPoint
 import java.time.LocalDate
-import java.time.LocalTime
+import java.time.ZonedDateTime
 import kotlin.math.roundToInt
 
 @Composable
@@ -265,7 +265,7 @@ private val previewState = PopGraph(
     points = listOf(
         PopGraphPoint(
             time = GraphTime(
-                value = LocalTime.parse("00:00"),
+                value = ZonedDateTime.parse("1970-01-01T00:00Z"),
                 meta = GraphTime.Meta.Past
             ),
             pop = GraphPop(
@@ -276,7 +276,7 @@ private val previewState = PopGraph(
         ),
         PopGraphPoint(
             time = GraphTime(
-                value = LocalTime.parse("01:00"),
+                value = ZonedDateTime.parse("1970-01-01T01:00Z"),
                 meta = GraphTime.Meta.Past
             ),
             pop = GraphPop(
@@ -287,7 +287,7 @@ private val previewState = PopGraph(
         ),
         PopGraphPoint(
             time = GraphTime(
-                value = LocalTime.parse("02:00"),
+                value = ZonedDateTime.parse("1970-01-01T02:00Z"),
                 meta = GraphTime.Meta.Past
             ),
             pop = GraphPop(
@@ -298,7 +298,7 @@ private val previewState = PopGraph(
         ),
         PopGraphPoint(
             time = GraphTime(
-                value = LocalTime.parse("03:00"),
+                value = ZonedDateTime.parse("1970-01-01T03:00Z"),
                 meta = GraphTime.Meta.Past
             ),
             pop = GraphPop(
@@ -309,7 +309,7 @@ private val previewState = PopGraph(
         ),
         PopGraphPoint(
             time = GraphTime(
-                value = LocalTime.parse("04:00"),
+                value = ZonedDateTime.parse("1970-01-01T04:00Z"),
                 meta = GraphTime.Meta.Past
             ),
             pop = GraphPop(
@@ -320,7 +320,7 @@ private val previewState = PopGraph(
         ),
         PopGraphPoint(
             time = GraphTime(
-                value = LocalTime.parse("05:00"),
+                value = ZonedDateTime.parse("1970-01-01T05:00Z"),
                 meta = GraphTime.Meta.Past
             ),
             pop = GraphPop(
@@ -331,7 +331,7 @@ private val previewState = PopGraph(
         ),
         PopGraphPoint(
             time = GraphTime(
-                value = LocalTime.parse("06:00"),
+                value = ZonedDateTime.parse("1970-01-01T06:00Z"),
                 meta = GraphTime.Meta.Past
             ),
             pop = GraphPop(
@@ -342,7 +342,7 @@ private val previewState = PopGraph(
         ),
         PopGraphPoint(
             time = GraphTime(
-                value = LocalTime.parse("07:00"),
+                value = ZonedDateTime.parse("1970-01-01T07:00Z"),
                 meta = GraphTime.Meta.Past
             ),
             pop = GraphPop(
@@ -353,7 +353,7 @@ private val previewState = PopGraph(
         ),
         PopGraphPoint(
             time = GraphTime(
-                value = LocalTime.parse("08:00"),
+                value = ZonedDateTime.parse("1970-01-01T08:00Z"),
                 meta = GraphTime.Meta.Present
             ),
             pop = GraphPop(
@@ -364,7 +364,7 @@ private val previewState = PopGraph(
         ),
         PopGraphPoint(
             time = GraphTime(
-                value = LocalTime.parse("09:00"),
+                value = ZonedDateTime.parse("1970-01-01T09:00Z"),
                 meta = GraphTime.Meta.Future
             ),
             pop = GraphPop(
@@ -375,7 +375,7 @@ private val previewState = PopGraph(
         ),
         PopGraphPoint(
             time = GraphTime(
-                value = LocalTime.parse("10:00"),
+                value = ZonedDateTime.parse("1970-01-01T10:00Z"),
                 meta = GraphTime.Meta.Future
             ),
             pop = GraphPop(
@@ -386,7 +386,7 @@ private val previewState = PopGraph(
         ),
         PopGraphPoint(
             time = GraphTime(
-                value = LocalTime.parse("11:00"),
+                value = ZonedDateTime.parse("1970-01-01T11:00Z"),
                 meta = GraphTime.Meta.Future
             ),
             pop = GraphPop(
@@ -397,7 +397,7 @@ private val previewState = PopGraph(
         ),
         PopGraphPoint(
             time = GraphTime(
-                value = LocalTime.parse("12:00"),
+                value = ZonedDateTime.parse("1970-01-01T12:00Z"),
                 meta = GraphTime.Meta.Future
             ),
             pop = GraphPop(
@@ -408,7 +408,7 @@ private val previewState = PopGraph(
         ),
         PopGraphPoint(
             time = GraphTime(
-                value = LocalTime.parse("13:00"),
+                value = ZonedDateTime.parse("1970-01-01T13:00Z"),
                 meta = GraphTime.Meta.Future
             ),
             pop = GraphPop(
@@ -419,7 +419,7 @@ private val previewState = PopGraph(
         ),
         PopGraphPoint(
             time = GraphTime(
-                value = LocalTime.parse("14:00"),
+                value = ZonedDateTime.parse("1970-01-01T14:00Z"),
                 meta = GraphTime.Meta.Future
             ),
             pop = GraphPop(
@@ -430,7 +430,7 @@ private val previewState = PopGraph(
         ),
         PopGraphPoint(
             time = GraphTime(
-                value = LocalTime.parse("15:00"),
+                value = ZonedDateTime.parse("1970-01-01T15:00Z"),
                 meta = GraphTime.Meta.Future
             ),
             pop = GraphPop(
@@ -441,7 +441,7 @@ private val previewState = PopGraph(
         ),
         PopGraphPoint(
             time = GraphTime(
-                value = LocalTime.parse("16:00"),
+                value = ZonedDateTime.parse("1970-01-01T16:00Z"),
                 meta = GraphTime.Meta.Future
             ),
             pop = GraphPop(
@@ -452,7 +452,7 @@ private val previewState = PopGraph(
         ),
         PopGraphPoint(
             time = GraphTime(
-                value = LocalTime.parse("17:00"),
+                value = ZonedDateTime.parse("1970-01-01T17:00Z"),
                 meta = GraphTime.Meta.Future
             ),
             pop = GraphPop(
@@ -463,7 +463,7 @@ private val previewState = PopGraph(
         ),
         PopGraphPoint(
             time = GraphTime(
-                value = LocalTime.parse("18:00"),
+                value = ZonedDateTime.parse("1970-01-01T18:00Z"),
                 meta = GraphTime.Meta.Future
             ),
             pop = GraphPop(
@@ -474,7 +474,7 @@ private val previewState = PopGraph(
         ),
         PopGraphPoint(
             time = GraphTime(
-                value = LocalTime.parse("19:00"),
+                value = ZonedDateTime.parse("1970-01-01T19:00Z"),
                 meta = GraphTime.Meta.Future
             ),
             pop = GraphPop(
@@ -485,7 +485,7 @@ private val previewState = PopGraph(
         ),
         PopGraphPoint(
             time = GraphTime(
-                value = LocalTime.parse("20:00"),
+                value = ZonedDateTime.parse("1970-01-01T20:00Z"),
                 meta = GraphTime.Meta.Future
             ),
             pop = GraphPop(
@@ -496,7 +496,7 @@ private val previewState = PopGraph(
         ),
         PopGraphPoint(
             time = GraphTime(
-                value = LocalTime.parse("21:00"),
+                value = ZonedDateTime.parse("1970-01-01T21:00Z"),
                 meta = GraphTime.Meta.Future
             ),
             pop = GraphPop(
@@ -507,7 +507,7 @@ private val previewState = PopGraph(
         ),
         PopGraphPoint(
             time = GraphTime(
-                value = LocalTime.parse("22:00"),
+                value = ZonedDateTime.parse("1970-01-01T22:00Z"),
                 meta = GraphTime.Meta.Future
             ),
             pop = GraphPop(
@@ -518,7 +518,7 @@ private val previewState = PopGraph(
         ),
         PopGraphPoint(
             time = GraphTime(
-                value = LocalTime.parse("23:00"),
+                value = ZonedDateTime.parse("1970-01-01T23:00Z"),
                 meta = GraphTime.Meta.Future
             ),
             pop = GraphPop(
@@ -529,7 +529,7 @@ private val previewState = PopGraph(
         ),
         PopGraphPoint(
             time = GraphTime(
-                value = LocalTime.parse("00:00"),
+                value = ZonedDateTime.parse("1970-01-02T00:00Z"),
                 meta = GraphTime.Meta.Future
             ),
             pop = GraphPop(
