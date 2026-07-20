@@ -12,18 +12,12 @@
 
 package com.davidtakac.bura.forecast.parameters
 
-import com.davidtakac.bura.forecast.HourMoment
-import com.davidtakac.bura.forecast.HourPeriod
 import com.davidtakac.bura.forecast.requireMatching
 import com.davidtakac.bura.unixEpochStart
 import org.junit.Assert
 import org.junit.Test
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
-
-class TestHourMoment(time: LocalDateTime) : HourMoment(time)
-class TestHourPeriod(moments: List<TestHourMoment>) : HourPeriod<TestHourMoment>(moments)
 
 class HourPeriodTest {
     @Test(expected = IllegalArgumentException::class)

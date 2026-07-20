@@ -10,14 +10,8 @@
  * You should have received a copy of the GNU General Public License along with Bura. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.davidtakac.bura.forecast
-import java.time.LocalDateTime
-import java.time.temporal.ChronoUnit
+package com.davidtakac.bura.forecast.parameters
 
-abstract class HourMoment(val hour: LocalDateTime) {
-    init {
-        require(hour == hour.truncatedTo(ChronoUnit.HOURS)) {
-            "Time of HourMoment must be whole hour, but was $hour."
-        }
-    }
-}
+import com.davidtakac.bura.forecast.HourPeriod
+
+class TestHourPeriod(moments: List<TestHourMoment>) : HourPeriod<TestHourMoment>(moments)
