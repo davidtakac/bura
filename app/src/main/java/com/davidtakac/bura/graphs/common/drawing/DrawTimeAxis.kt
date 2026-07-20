@@ -101,41 +101,34 @@ fun DrawScope.drawTimeAxis(
         calculateY: (percent: Double) -> YData,
     ) -> Unit
 ) {
-    val range = ChronoUnit.SECONDS.between(
+    val plotWidth = size.width - args.endGutter - args.startGutter
+    val xOffset = if (layoutDirection == LayoutDirection.Ltr) args.startGutter else args.endGutter - args.startGutter
+    val totalSeconds = ChronoUnit.SECONDS.between(
         times.first().toInstant(),
         times.last().toInstant()
     )
-    // Four graph divisions which will result in lines and labels at 00, 06, 12, 18, 00
-    // for 24h days. Days with other numbers of hours will have equally spaced lines as well, but
-    // non-whole-hour labels.
-    val graphDivisions = 4
-    val labelInterval = range / graphDivisions
     // Times in the dataset can be assumed to be multiples of 5 minutes, hence the step
-    for (seconds in times.first().toInstant().epochSecond..times.last().toInstant().epochSecond step 300) {
-        val secondsFromFirst = seconds - times.first().toInstant().epochSecond
-        val rangePercent = secondsFromFirst / range.toFloat()
-
-        val xPercent = if (layoutDirection == LayoutDirection.Ltr) rangePercent else 1 - rangePercent
-        val xOffset = if (layoutDirection == LayoutDirection.Ltr) args.startGutter else args.endGutter - args.startGutter
-        val plotWidth = size.width - args.endGutter - args.startGutter
-        val x = xPercent * plotWidth + xOffset
-
-        if (secondsFromFirst % labelInterval == 0L) {
-            val time = Instant.ofEpochSecond(seconds).atZone(times.first().zone)
-            drawTimeLabelAndHelperLine(
-                args = args,
-                x = x,
-                time = time,
-                atStart = secondsFromFirst == 0L,
-                atEnd = secondsFromFirst == range,
-                measurer = measurer
-            )
+    // This should save resources compared to iterating over each second
+    for (secondsAbsolute in times.first().toInstant().epochSecond..times.last().toInstant().epochSecond step 300) {
+        val seconds = secondsAbsolute - times.first().toInstant().epochSecond
+        val percentOfTotal = if (layoutDirection == LayoutDirection.Ltr) seconds / totalSeconds.toFloat() else 1 - (seconds / totalSeconds.toFloat())
+        val x = percentOfTotal * plotWidth + xOffset
+        val time = Instant.ofEpochSecond(secondsAbsolute).atZone(times.first().zone)
+        if (seconds == 0L) {
+            drawTimeHelperLine(args, x, drawSolidLine = true)
+            drawTimeLabel(args, x, time, measurer)
+        } else if (seconds == totalSeconds) {
+            drawTimeHelperLine(args, x, drawSolidLine = true)
+            // We do not draw the end label to avoid clashing with first Y axis label
+        } else if (time.toLocalTime().run { minute == 0 && hour in listOf(6, 12, 18) }) {
+            drawTimeHelperLine(args, x, drawSolidLine = false)
+            drawTimeLabel(args, x, time, measurer)
         }
 
         // If the current time is one of the passed in times, the caller of this method wants to
         // draw its data point.
         times
-            .indexOfFirst { it.toInstant() == Instant.ofEpochSecond(seconds) }
+            .indexOfFirst { it.toInstant() == Instant.ofEpochSecond(secondsAbsolute) }
             .takeUnless { it < 0 }
             ?.let { i ->
                 drawData(i, x) { percent ->
@@ -153,15 +146,11 @@ fun DrawScope.drawTimeAxis(
     }
 }
 
-private fun DrawScope.drawTimeLabelAndHelperLine(
-    x: Float,
-    time: ZonedDateTime,
-    atStart: Boolean,
-    atEnd: Boolean,
-    measurer: TextMeasurer,
+private fun DrawScope.drawTimeHelperLine(
     args: GraphArgs,
+    x: Float,
+    drawSolidLine: Boolean,
 ) {
-    val drawSolidLine = atStart || atEnd
     drawLine(
         color = args.axisColor,
         start = Offset(x, y = if (drawSolidLine) 0f else args.topGutter),
@@ -169,8 +158,14 @@ private fun DrawScope.drawTimeLabelAndHelperLine(
         strokeWidth = args.axisWidth,
         pathEffect = if (!drawSolidLine) PathEffect.dashPathEffect(args.axisDashIntervals.toFloatArray()) else null
     )
+}
 
-    if (atEnd) return
+private fun DrawScope.drawTimeLabel(
+    args: GraphArgs,
+    x: Float,
+    time: ZonedDateTime,
+    measurer: TextMeasurer
+) {
     val label = measurer.measure(args.axisTimeFormatter.format(time), style = args.axisTextStyle)
     val textTopLeftX =
         if (layoutDirection == LayoutDirection.Ltr) x + args.bottomAxisTextPaddingHorizontal
