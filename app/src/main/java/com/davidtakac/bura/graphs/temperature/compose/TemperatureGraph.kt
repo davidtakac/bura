@@ -62,8 +62,13 @@ import com.davidtakac.bura.forecast.parameters.temperature.TemperaturePeriod
 import com.davidtakac.bura.forecast.parameters.temperature.string
 import com.davidtakac.bura.graphs.temperature.GraphTemperature
 import com.davidtakac.bura.graphs.temperature.TemperatureGraph
+import com.davidtakac.bura.graphs.temperature.TemperatureGraphs
 import com.davidtakac.bura.graphs.temperature.getTemperatureGraphs
+import java.time.Instant
+import java.time.ZoneId
+import java.time.ZoneOffset
 import java.time.ZonedDateTime
+import java.time.temporal.ChronoUnit
 import kotlin.math.roundToInt
 import kotlin.random.Random
 
@@ -247,12 +252,48 @@ private fun DrawScope.drawTempAxis(
 @Preview
 @Composable
 private fun ConditionGraphNowMiddlePreview() {
-    val state = generateRegularDayState()
     AppTheme {
+        val state = generateRegularDayState()
         TemperatureGraph(
-            state = state,
-            absMinTemp = state.points.minOf { it.temperature.value },
-            absMaxTemp = state.points.maxOf { it.temperature.value },
+            state = state.graphs.first(),
+            absMinTemp = state.minTemp,
+            absMaxTemp = state.maxTemp,
+            args = GraphArgs.rememberTemperatureArgs(),
+            modifier = Modifier
+                .width(400.dp)
+                .height(300.dp)
+                .background(MaterialTheme.colorScheme.background)
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun ConditionGraphNowMiddleSpringForwardPreview() {
+    AppTheme {
+        val springForwardState = generateSpringForwardDayState()
+        TemperatureGraph(
+            state = springForwardState.graphs.first(),
+            absMinTemp = springForwardState.minTemp,
+            absMaxTemp = springForwardState.maxTemp,
+            args = GraphArgs.rememberTemperatureArgs(),
+            modifier = Modifier
+                .width(400.dp)
+                .height(300.dp)
+                .background(MaterialTheme.colorScheme.background)
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun ConditionGraphNowMiddleFallBackPreview() {
+    AppTheme {
+        val fallBackState = generateFallBackDayState()
+        TemperatureGraph(
+            state = fallBackState.graphs.first(),
+            absMinTemp = fallBackState.minTemp,
+            absMaxTemp = fallBackState.maxTemp,
             args = GraphArgs.rememberTemperatureArgs(),
             modifier = Modifier
                 .width(400.dp)
@@ -269,9 +310,9 @@ private fun ConditionGraphNowMiddleRtlPreview() {
     AppTheme {
         CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
             TemperatureGraph(
-                state = state,
-                absMinTemp = state.points.minOf { it.temperature.value },
-                absMaxTemp = state.points.maxOf { it.temperature.value },
+                state = state.graphs.first(),
+                absMinTemp = state.minTemp,
+                absMaxTemp = state.maxTemp,
                 args = GraphArgs.rememberTemperatureArgs(),
                 modifier = Modifier
                     .width(400.dp)
@@ -288,9 +329,9 @@ private fun ConditionGraphNowStartPreview() {
     val state = generateRegularDayState(nowOffset = 0L)
     AppTheme {
         TemperatureGraph(
-            state = state,
-            absMinTemp = state.points.minOf { it.temperature.value },
-            absMaxTemp = state.points.maxOf { it.temperature.value },
+            state = state.graphs.first(),
+            absMinTemp = state.minTemp,
+            absMaxTemp = state.maxTemp,
             args = GraphArgs.rememberTemperatureArgs(),
             modifier = Modifier
                 .width(400.dp)
@@ -306,9 +347,9 @@ private fun ConditionGraphNowEndPreview() {
     val state = generateRegularDayState(nowOffset = 23L)
     AppTheme {
         TemperatureGraph(
-            state = state,
-            absMinTemp = state.points.minOf { it.temperature.value },
-            absMaxTemp = state.points.maxOf { it.temperature.value },
+            state = state.graphs.first(),
+            absMinTemp = state.minTemp,
+            absMaxTemp = state.maxTemp,
             args = GraphArgs.rememberTemperatureArgs(),
             modifier = Modifier
                 .width(400.dp)
@@ -321,12 +362,13 @@ private fun ConditionGraphNowEndPreview() {
 @Preview
 @Composable
 private fun ConditionGraphFlatPreview() {
+    // TODO: How do I flatten this more elegantly?
     val state = generateRegularDayState()
-    val flatState = state.points.map { it.copy(temperature = state.points.first().temperature) }
+    val flatState = state.graphs.first().points.map { it.copy(temperature = state.graphs.first().points.first().temperature) }
     AppTheme {
         TemperatureGraph(
             state = TemperatureGraph(
-                day = state.day,
+                day = state.graphs.first().day,
                 points = flatState
             ),
             absMinTemp = flatState.minOf { it.temperature.value },
@@ -340,23 +382,32 @@ private fun ConditionGraphFlatPreview() {
     }
 }
 
+private const val momentCount = 30
+private val temps = buildList(momentCount) {
+    repeat(momentCount) {
+        add(
+            Temperature(
+                value = Random.nextDouble(-2.0, 1.0),
+                unit = Temperature.Unit.DegreesCelsius
+            )
+        )
+    }
+}
+
 private fun generateRegularDayState(
     nowOffset: Long = 12L
-): TemperatureGraph {
+): TemperatureGraphs {
     val startingTime: ZonedDateTime = ZonedDateTime.parse("2023-01-01T00:00Z")
     val times = buildList<ZonedDateTime> {
-        repeat(25) {
+        repeat(momentCount) {
             add(startingTime.plusHours(it.toLong()))
         }
     }
     val temperatures = TemperaturePeriod(
-        times.map {
+        times.mapIndexed { index, time ->
             TemperatureMoment(
-                timeZdt = it,
-                temperature = Temperature(
-                    value = Random.nextDouble(-5.0, 5.0),
-                    unit = Temperature.Unit.DegreesCelsius
-                )
+                timeZdt = time,
+                temperature = temps[index]
             )
         }
     )
@@ -376,5 +427,85 @@ private fun generateRegularDayState(
         tempPeriod = temperatures,
         condPeriod = condition
     )
-    return graphs!!.graphs.first()
+    return graphs!!
+}
+
+private fun generateSpringForwardDayState(nowOffset: Long = 12L): TemperatureGraphs {
+    val summerTimeZone = ZoneId.ofOffset("GMT", ZoneOffset.ofHours(2))
+    val standardTimeZone = ZoneId.ofOffset("GMT", ZoneOffset.ofHours(1))
+    val startingTime = Instant.ofEpochSecond(1774825200) // 2026-03-29T23:00Z so that applying the offset starts us at 2026-03-30T00:00
+    val times = buildList {
+        repeat(momentCount) {
+            add(
+                startingTime
+                    .plus(it.toLong(), ChronoUnit.HOURS)
+                    .atZone(if (it <= 2) standardTimeZone else summerTimeZone)
+            )
+        }
+    }
+    val temperatures = TemperaturePeriod(
+        times.mapIndexed { index, time ->
+            TemperatureMoment(
+                timeZdt = time,
+                temperature = temps[index]
+            )
+        }
+    )
+    val condition = ConditionPeriod(
+        times.map {
+            ConditionMoment(
+                timeZdt = it,
+                condition = Condition(
+                    wmoCode = 0,
+                    isDay = it.toLocalTime().hour >= 7
+                )
+            )
+        }
+    )
+    val graphs = getTemperatureGraphs(
+        now = startingTime.plus(nowOffset, ChronoUnit.HOURS).atZone(times.first().zone),
+        tempPeriod = temperatures,
+        condPeriod = condition
+    )
+    return graphs!!
+}
+
+private fun generateFallBackDayState(nowOffset: Long = 12L): TemperatureGraphs {
+    val summerTimeZone = ZoneId.ofOffset("GMT", ZoneOffset.ofHours(2))
+    val standardTimeZone = ZoneId.ofOffset("GMT", ZoneOffset.ofHours(1))
+    val startingTime = Instant.ofEpochSecond(1792965600) // 2026-10-25T22:00Z so that applying the offset starts us at 2026-10-26T00:00
+    val times = buildList {
+        repeat(momentCount) {
+            add(
+                startingTime
+                    .plus(it.toLong(), ChronoUnit.HOURS)
+                    .atZone(if (it <= 3) summerTimeZone else standardTimeZone)
+            )
+        }
+    }
+    val temperatures = TemperaturePeriod(
+        times.mapIndexed { index, time ->
+            TemperatureMoment(
+                timeZdt = time,
+                temperature = temps[index]
+            )
+        }
+    )
+    val condition = ConditionPeriod(
+        times.map {
+            ConditionMoment(
+                timeZdt = it,
+                condition = Condition(
+                    wmoCode = 0,
+                    isDay = it.toLocalTime().hour >= 7
+                )
+            )
+        }
+    )
+    val graphs = getTemperatureGraphs(
+        now = startingTime.plus(nowOffset, ChronoUnit.HOURS).atZone(times.first().zone),
+        tempPeriod = temperatures,
+        condPeriod = condition
+    )
+    return graphs!!
 }
