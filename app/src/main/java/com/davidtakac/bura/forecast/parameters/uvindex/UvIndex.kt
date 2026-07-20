@@ -42,5 +42,5 @@ class UvIndex(val preciseValue: Double) : Comparable<UvIndex> {
 
     override fun hashCode(): Int = Objects.hash(value)
 
-    override fun toString(): String = "${String.format(Locale.ROOT, "%d", value)} ($risk)"
+    override fun toString(): String = "${String.format(Locale.ROOT, "%.2f", preciseValue)} ($risk)"
 }

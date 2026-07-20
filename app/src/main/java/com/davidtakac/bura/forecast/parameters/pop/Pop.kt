@@ -26,5 +26,5 @@ class Pop(val preciseValue: Double) : Comparable<Pop> {
 
     override fun hashCode(): Int = Objects.hash(value)
 
-    override fun toString(): String = "${String.format(Locale.ROOT, "%d", value)}%"
+    override fun toString(): String = "${String.format(Locale.ROOT, "%.2f", preciseValue)}%"
 }
