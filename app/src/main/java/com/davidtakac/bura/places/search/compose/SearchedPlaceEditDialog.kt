@@ -10,7 +10,7 @@
  * You should have received a copy of the GNU General Public License along with Bura. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.davidtakac.bura.places.search
+package com.davidtakac.bura.places.search.compose
 
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.clickable
@@ -44,6 +44,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.davidtakac.bura.R
 import com.davidtakac.bura.common.compose.AlertDialogWithoutHorizontalPadding
+import com.davidtakac.bura.places.search.SearchedPlace
 import java.time.ZoneId
 
 @Composable

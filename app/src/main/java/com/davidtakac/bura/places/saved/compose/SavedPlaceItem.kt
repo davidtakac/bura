@@ -10,7 +10,7 @@
  * You should have received a copy of the GNU General Public License along with Bura. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.davidtakac.bura.places.saved
+package com.davidtakac.bura.places.saved.compose
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -56,6 +56,7 @@ import com.davidtakac.bura.places.Location
 import com.davidtakac.bura.places.Place
 import com.davidtakac.bura.forecast.parameters.temperature.Temperature
 import com.davidtakac.bura.forecast.parameters.temperature.string
+import com.davidtakac.bura.places.saved.SavedPlace
 import java.time.LocalTime
 import java.time.ZoneOffset
 

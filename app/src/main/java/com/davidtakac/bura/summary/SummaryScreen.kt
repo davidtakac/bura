@@ -35,7 +35,7 @@ import com.davidtakac.bura.common.compose.NoSelectedPlaceErrorScreen
 import com.davidtakac.bura.common.compose.OutdatedErrorScreen
 import com.davidtakac.bura.common.compose.animateShimmerColorAsState
 import com.davidtakac.bura.places.Place
-import com.davidtakac.bura.places.picker.PlacePickerSearchBar
+import com.davidtakac.bura.places.picker.compose.PlacePickerSearchBar
 import com.davidtakac.bura.places.picker.PlacePickerState
 import com.davidtakac.bura.places.search.SearchedPlace
 import com.davidtakac.bura.summary.daily.compose.DailySummaryColumn

@@ -10,7 +10,7 @@
  * You should have received a copy of the GNU General Public License along with Bura. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.davidtakac.bura.places
+package com.davidtakac.bura.places.compose
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,7 +20,7 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.davidtakac.bura.places.picker.ContentLoadingIndicator
+import com.davidtakac.bura.places.picker.compose.ContentLoadingIndicator
 
 @Composable
 fun PlacesScaffold(

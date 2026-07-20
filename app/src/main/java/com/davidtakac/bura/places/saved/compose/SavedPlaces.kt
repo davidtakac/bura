@@ -10,7 +10,7 @@
  * You should have received a copy of the GNU General Public License along with Bura. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.davidtakac.bura.places.saved
+package com.davidtakac.bura.places.saved.compose
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -36,7 +36,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.davidtakac.bura.R
 import com.davidtakac.bura.places.Place
-import com.davidtakac.bura.places.PlacesScaffold
+import com.davidtakac.bura.places.compose.PlacesScaffold
 import com.davidtakac.bura.places.picker.PlacePickerResults
 
 private val horizontalPadding = 16.dp

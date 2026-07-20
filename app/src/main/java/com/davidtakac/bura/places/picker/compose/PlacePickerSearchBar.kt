@@ -10,7 +10,7 @@
  * You should have received a copy of the GNU General Public License along with Bura. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.davidtakac.bura.places.picker
+package com.davidtakac.bura.places.picker.compose
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.CubicBezierEasing
@@ -40,11 +40,12 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.davidtakac.bura.R
 import com.davidtakac.bura.places.Place
-import com.davidtakac.bura.places.saved.SavedPlaces
+import com.davidtakac.bura.places.picker.PlacePickerResults
+import com.davidtakac.bura.places.picker.PlacePickerState
+import com.davidtakac.bura.places.saved.compose.SavedPlaces
 import com.davidtakac.bura.places.search.SearchedPlace
-import com.davidtakac.bura.places.search.SearchedPlaceEditDialog
-import com.davidtakac.bura.places.search.SearchedPlaces
-import java.time.ZoneId
+import com.davidtakac.bura.places.search.compose.SearchedPlaceEditDialog
+import com.davidtakac.bura.places.search.compose.SearchedPlaces
 
 // region Collapsed search bar horizontal padding workaround
 

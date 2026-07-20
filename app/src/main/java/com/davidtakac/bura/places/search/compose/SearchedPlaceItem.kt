@@ -10,7 +10,7 @@
  * You should have received a copy of the GNU General Public License along with Bura. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.davidtakac.bura.places.search
+package com.davidtakac.bura.places.search.compose
 
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.clickable
@@ -21,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import com.davidtakac.bura.places.search.SearchedPlace
 
 @Composable
 fun SearchedPlaceItem(state: SearchedPlace, onClick: () -> Unit, modifier: Modifier = Modifier) {
