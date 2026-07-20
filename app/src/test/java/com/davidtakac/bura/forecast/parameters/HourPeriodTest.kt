@@ -17,7 +17,10 @@ import com.davidtakac.bura.unixEpochStartInstant
 import com.davidtakac.bura.unixEpochStartZdt
 import org.junit.Assert
 import org.junit.Test
+import java.time.Instant
 import java.time.LocalDate
+import java.time.ZoneId
+import java.time.ZoneOffset
 import java.time.temporal.ChronoUnit
 
 class HourPeriodTest {
@@ -183,5 +186,81 @@ class HourPeriodTest {
         val first = TestHourPeriod(listOf(TestHourMoment(unixEpochStartZdt)))
         val second = TestHourPeriod(listOf(TestHourMoment(unixEpochStartZdt.plus(1, ChronoUnit.HOURS))))
         requireMatching(first, second)
+    }
+
+    @Test
+    fun `DST fall back day consists of 25 moments when DST offset is 1h`() {
+        val summerTimeZone = ZoneId.ofOffset("GMT", ZoneOffset.ofHours(2))
+        val standardTimeZone = ZoneId.ofOffset("GMT", ZoneOffset.ofHours(1))
+        val startingTime = Instant.ofEpochSecond(1792965600) // 2026-10-25T22:00Z so that applying the offset starts us at 2026-10-26T00:00
+        val times = buildList {
+            repeat(30) {
+                add(
+                    startingTime
+                        .plus(it.toLong(), ChronoUnit.HOURS)
+                        .atZone(if (it <= 3) summerTimeZone else standardTimeZone)
+                )
+            }
+        }
+
+        val period = TestHourPeriod(times.map { TestHourMoment(it) })
+        Assert.assertEquals(25, period.dayMomentsOn(LocalDate.parse("2026-10-26"))?.size)
+    }
+
+    @Test
+    fun `DST spring forward day consists of 23 moments when DST offset is 1h`() {
+        val summerTimeZone = ZoneId.ofOffset("GMT", ZoneOffset.ofHours(2))
+        val standardTimeZone = ZoneId.ofOffset("GMT", ZoneOffset.ofHours(1))
+        val startingTime = Instant.ofEpochSecond(1774825200) // 2026-03-29T23:00Z so that applying the offset starts us at 2026-03-30T00:00
+        val times = buildList {
+            repeat(30) {
+                add(
+                    startingTime
+                        .plus(it.toLong(), ChronoUnit.HOURS)
+                        .atZone(if (it <= 2) standardTimeZone else summerTimeZone)
+                )
+            }
+        }
+
+        val period = TestHourPeriod(times.map { TestHourMoment(it) })
+        Assert.assertEquals(23, period.dayMomentsOn(LocalDate.parse("2026-03-30"))?.size)
+    }
+
+    @Test
+    fun `DST spring forward day consists of 24 moments when DST offset is 30min`() {
+        val summerTimeZone = ZoneId.ofOffset("GMT", ZoneOffset.ofHoursMinutes(10, 30))
+        val standardTimeZone = ZoneId.ofOffset("GMT", ZoneOffset.ofHours(11))
+        val startingTime = Instant.ofEpochSecond(1791034200) // 2026-10-03T13:30Z so that applying the offset starts us at 2026-10-04T00:00
+        val times = buildList {
+            repeat(30) {
+                add(
+                    startingTime
+                        .plus(it.toLong(), ChronoUnit.HOURS)
+                        .atZone(if (it <= 2) summerTimeZone else standardTimeZone)
+                )
+            }
+        }
+
+        val period = TestHourPeriod(times.map { TestHourMoment(it) })
+        Assert.assertEquals(24, period.dayMomentsOn(LocalDate.parse("2026-10-04"))?.size)
+    }
+
+    @Test
+    fun `DST fall back day consists of 25 moments when DST offset is 30min`() {
+        val summerTimeZone = ZoneId.ofOffset("GMT", ZoneOffset.ofHoursMinutes(10, 30))
+        val standardTimeZone = ZoneId.ofOffset("GMT", ZoneOffset.ofHours(11))
+        val startingTime = Instant.ofEpochSecond(1775307600) // 2026-04-04T14:00Z so that applying the offset starts us at 2026-04-05T00:00
+        val times = buildList {
+            repeat(30) {
+                add(
+                    startingTime
+                        .plus(it.toLong(), ChronoUnit.HOURS)
+                        .atZone(if (it <= 2) standardTimeZone else summerTimeZone)
+                )
+            }
+        }
+
+        val period = TestHourPeriod(times.map { TestHourMoment(it) })
+        Assert.assertEquals(25, period.dayMomentsOn(LocalDate.parse("2026-04-05"))?.size)
     }
 }

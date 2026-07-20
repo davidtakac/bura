@@ -13,14 +13,7 @@
 package com.davidtakac.bura.forecast
 import java.time.Instant
 import java.time.ZonedDateTime
-import java.time.temporal.ChronoUnit
 
 abstract class HourMoment(val hourZdt: ZonedDateTime) {
     val hourInstant: Instant = hourZdt.toInstant()
-
-    init {
-        require(hourInstant == hourInstant.truncatedTo(ChronoUnit.HOURS)) {
-            "Time of HourMoment must be whole hour, but was $hourZdt."
-        }
-    }
 }
