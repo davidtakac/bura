@@ -39,7 +39,7 @@ fun getDailySummary(
                 add(
                     DaySummary(
                         isToday = i == 0,
-                        time = futureTempDays[i].first().hour.toLocalDate(),
+                        time = futureTempDays[i].first().zdt.toLocalDate(),
                         tempNow = futureTempDays[i][now]?.temperature,
                         min = futureTempDays[i].minimum,
                         max = futureTempDays[i].maximum,

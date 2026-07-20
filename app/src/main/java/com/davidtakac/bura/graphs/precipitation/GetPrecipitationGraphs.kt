@@ -31,13 +31,13 @@ fun getPrecipitationGraphs(
         max = precipDays.maxOf { it.max },
         graphs = precipDays.mapIndexed { dayIdx, day ->
             PrecipitationGraph(
-                day = day.first().hour.toLocalDate(),
+                day = day.first().zdt.toLocalDate(),
                 points = buildList {
                     addAll(
                         day.mapIndexed { momentIdx, moment ->
                             PrecipitationGraphPoint(
                                 time = GraphTime(
-                                    hour = moment.hour,
+                                    hour = moment.zdt,
                                     now = now
                                 ),
                                 precip = moment.precipitation,

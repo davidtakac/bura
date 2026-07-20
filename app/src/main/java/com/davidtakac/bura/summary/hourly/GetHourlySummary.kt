@@ -36,7 +36,7 @@ fun getHourlySummary(
         for (i in futureTemps.indices) {
             add(
                 HourSummary.Weather(
-                    time = futureTemps[i].hour,
+                    time = futureTemps[i].zdt,
                     isNow = i == 0,
                     temp = futureTemps[i].temperature,
                     pop = futurePops[i].pop.takeIf { it.value > 0 },

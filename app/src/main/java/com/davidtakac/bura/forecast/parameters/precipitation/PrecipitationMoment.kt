@@ -20,13 +20,13 @@ class PrecipitationMoment(
     hour: LocalDateTime,
     val precipitation: MixedPrecipitation
 ) : HourMoment(hour) {
-    override fun toString(): String = "$hour: $precipitation"
+    override fun toString(): String = "$zdt: $precipitation"
 
     override fun equals(other: Any?): Boolean =
         other is PrecipitationMoment
-                && other.hour == hour
+                && other.zdt == zdt
                 && other.precipitation == precipitation
 
     override fun hashCode(): Int =
-        Objects.hash(hour, precipitation)
+        Objects.hash(zdt, precipitation)
 }

@@ -20,13 +20,13 @@ class ConditionMoment(
     hour: LocalDateTime,
     val condition: Condition
 ) : HourMoment(hour) {
-    override fun toString(): String = "$hour: $condition"
+    override fun toString(): String = "$zdt: $condition"
 
     override fun equals(other: Any?): Boolean =
         other is ConditionMoment
-                && other.hour == hour
+                && other.zdt == zdt
                 && other.condition == condition
 
     override fun hashCode(): Int =
-        Objects.hash(hour, condition)
+        Objects.hash(zdt, condition)
 }

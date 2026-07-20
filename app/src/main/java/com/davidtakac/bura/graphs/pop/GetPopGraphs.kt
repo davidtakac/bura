@@ -45,7 +45,7 @@ private fun getPopGraph(
     conditionTomorrow: ConditionPeriod?
 ): PopGraph {
     return PopGraph(
-        day = popDay.first().hour.toLocalDate(),
+        day = popDay.first().zdt.toLocalDate(),
         points = buildList {
             val firstPopTomorrow = popTomorrow?.first()
             val popDayAdjusted: PopPeriod
@@ -76,7 +76,7 @@ private fun getPoint(
     maxPopMoment: PopMoment,
     conditionMoment: ConditionMoment,
 ): PopGraphPoint = PopGraphPoint(
-    time = GraphTime(moment.hour, now),
+    time = GraphTime(moment.zdt, now),
     pop = GraphPop(
         value = moment.pop,
         meta = if (moment == maxPopMoment) GraphPop.Meta.Maximum else GraphPop.Meta.Regular

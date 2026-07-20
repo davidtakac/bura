@@ -20,13 +20,13 @@ class PopMoment(
     hour: LocalDateTime,
     val pop: Pop
 ) : HourMoment(hour) {
-    override fun toString(): String = "$hour: $pop"
+    override fun toString(): String = "$zdt: $pop"
 
     override fun equals(other: Any?): Boolean =
         other is PopMoment
-                && other.hour == hour
+                && other.zdt == zdt
                 && other.pop == pop
 
     override fun hashCode(): Int =
-        Objects.hash(hour, pop)
+        Objects.hash(zdt, pop)
 }

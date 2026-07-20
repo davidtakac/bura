@@ -20,13 +20,13 @@ class PressureMoment(
     hour: LocalDateTime,
     val pressure: Pressure
 ) : HourMoment(hour) {
-    override fun toString(): String = "$hour: $pressure"
+    override fun toString(): String = "$zdt: $pressure"
 
     override fun equals(other: Any?): Boolean =
         other is PressureMoment
-                && other.hour == hour
+                && other.zdt == zdt
                 && other.pressure == pressure
 
     override fun hashCode(): Int =
-        Objects.hash(hour, pressure)
+        Objects.hash(zdt, pressure)
 }

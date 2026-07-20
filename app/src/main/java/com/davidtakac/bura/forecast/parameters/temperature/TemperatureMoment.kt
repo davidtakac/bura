@@ -20,13 +20,13 @@ class TemperatureMoment(
     hour: LocalDateTime,
     val temperature: Temperature
 ) : HourMoment(hour) {
-    override fun toString(): String = "$hour: $temperature"
+    override fun toString(): String = "$zdt: $temperature"
 
     override fun equals(other: Any?): Boolean =
         other is TemperatureMoment
-                && other.hour == hour
+                && other.zdt == zdt
                 && other.temperature == temperature
 
     override fun hashCode(): Int =
-        Objects.hash(hour, temperature)
+        Objects.hash(zdt, temperature)
 }

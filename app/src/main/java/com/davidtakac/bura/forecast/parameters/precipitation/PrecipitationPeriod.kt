@@ -31,7 +31,7 @@ class PrecipitationPeriod(moments: List<PrecipitationMoment>) : HourPeriod<Preci
 
     fun convertTo(unit: Precipitation.Unit): PrecipitationPeriod {
         if (first().precipitation.unit == unit) return this
-        val convertedMoments = map { PrecipitationMoment(it.hour, it.precipitation.convertTo(unit)) }
+        val convertedMoments = map { PrecipitationMoment(it.zdt, it.precipitation.convertTo(unit)) }
         return PrecipitationPeriod(convertedMoments)
     }
 }

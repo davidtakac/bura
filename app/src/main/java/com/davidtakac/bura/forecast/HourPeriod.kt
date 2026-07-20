@@ -12,8 +12,8 @@
 
 package com.davidtakac.bura.forecast
 
+import java.time.Instant
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
 abstract class HourPeriod<T : HourMoment>(private val moments: List<T>) : AbstractList<T>() {
@@ -28,22 +28,22 @@ abstract class HourPeriod<T : HourMoment>(private val moments: List<T>) : Abstra
     override fun get(index: Int): T =
         moments[index]
 
-    operator fun get(time: LocalDateTime): T? =
-        momentsFrom(time, take = 1)?.firstOrNull()
+    operator fun get(instant: Instant): T? =
+        momentsFrom(instant, take = 1)?.firstOrNull()
 
-    fun momentsUntil(hourExclusive: LocalDateTime, takeLast: Int? = null): List<T>? {
+    fun momentsUntil(instantExclusive: Instant, takeLast: Int? = null): List<T>? {
         require(takeLast == null || takeLast > 0) { "Take moments must either be null or positive." }
-        val hour = hourExclusive.truncatedTo(ChronoUnit.HOURS).minus(1, ChronoUnit.HOURS)
-        val indexOfHour = moments.indexOfFirst { it.hour == hour }
+        val instantAtHourBefore = instantExclusive.truncatedTo(ChronoUnit.HOURS).minus(1, ChronoUnit.HOURS)
+        val indexOfHour = moments.indexOfFirst { it.instant == instantAtHourBefore }
         return if (indexOfHour < 0) null else moments
             .slice(0..indexOfHour)
             .let { if (takeLast != null) it.takeLast(takeLast) else it }
     }
 
-    fun momentsFrom(hourInclusive: LocalDateTime, take: Int? = null): List<T>? {
+    fun momentsFrom(instantInclusive: Instant, take: Int? = null): List<T>? {
         require(take == null || take > 0) { "Take moments must either be null or positive." }
-        val hour = hourInclusive.truncatedTo(ChronoUnit.HOURS)
-        val indexOfHour = moments.indexOfFirst { it.hour == hour }
+        val instantAtHour = instantInclusive.truncatedTo(ChronoUnit.HOURS)
+        val indexOfHour = moments.indexOfFirst { it.instant == instantAtHour }
         return if (indexOfHour < 0) null else moments
             .subList(indexOfHour, moments.size)
             .let { if (take != null) it.take(take) else it }
@@ -58,7 +58,7 @@ abstract class HourPeriod<T : HourMoment>(private val moments: List<T>) : Abstra
     ): List<List<T>>? {
         require(take == null || take > 0) { "Take days must either be null or positive." }
         val momentsGroupedIntoDays = moments
-            .groupBy { it.hour.toLocalDate() }
+            .groupBy { it.zdt.toLocalDate() }
             .map { it.key to it.value }
         val indexOfDay = momentsGroupedIntoDays.indexOfFirst { it.first == dayInclusive }
         return if (indexOfDay < 0) null else
@@ -69,15 +69,15 @@ abstract class HourPeriod<T : HourMoment>(private val moments: List<T>) : Abstra
     }
 
     fun matches(other: HourPeriod<*>): Boolean =
-        moments.map { it.hour } == other.moments.map { it.hour }
+        moments.map { it.zdt } == other.moments.map { it.zdt }
 
     private fun requireAscendingAndComplete() {
         if (moments.size == 1) return
         var previousMoment = moments[0]
         for (i in 1..moments.lastIndex) {
             val nextMoment = moments[i]
-            require(ChronoUnit.HOURS.between(previousMoment.hour, nextMoment.hour) == 1L) {
-                "Moments of HourPeriod be sorted and spaced by one hour, but contained ${previousMoment.hour} before ${nextMoment.hour}."
+            require(ChronoUnit.HOURS.between(previousMoment.instant, nextMoment.instant) == 1L) {
+                "Moments of HourPeriod must be sorted and spaced by one hour, but contained ${previousMoment.zdt} before ${nextMoment.zdt}."
             }
             previousMoment = nextMoment
         }

@@ -20,13 +20,13 @@ class WindMoment(
     hour: LocalDateTime,
     val wind: Wind
 ) : HourMoment(hour) {
-    override fun toString(): String = "$hour: $wind"
+    override fun toString(): String = "$zdt: $wind"
 
     override fun equals(other: Any?): Boolean =
         other is WindMoment
-                && other.hour == hour
+                && other.zdt == zdt
                 && other.wind == wind
 
     override fun hashCode(): Int =
-        Objects.hash(hour, wind)
+        Objects.hash(zdt, wind)
 }

@@ -43,7 +43,7 @@ private fun outOfSight(
 ): SunSummary? {
     val futureDesc = condPeriod.periodFrom(now) ?: return null
     val isDayNow = futureDesc[now]!!.condition.isDay
-    val lastMoment = futureDesc.last().hour
+    val lastMoment = futureDesc.last().zdt
     val duration = Duration.between(now, lastMoment).plusHours(1)
     return if (isDayNow) {
         Sunset.OutOfSight(duration)

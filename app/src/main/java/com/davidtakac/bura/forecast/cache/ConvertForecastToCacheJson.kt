@@ -126,6 +126,6 @@ private fun conditionMomentToJson(moment: ConditionMoment): JSONObject =
 
 private fun <T : HourMoment> convertMomentToJson(moment: T, block: JSONObject.() -> Unit) =
     JSONObject().apply {
-        put(CacheJsonSerialNames.MOMENT_TIME, moment.hour.toString())
+        put(CacheJsonSerialNames.MOMENT_TIME, moment.zdt.toString())
         block()
     }

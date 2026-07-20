@@ -30,7 +30,7 @@ fun getTemperatureGraphSummaries(
     val feelsLikeNow = feelsPeriod[now]?.temperature ?: return null
 
     return tempDays.mapIndexed { idx, tempDay ->
-        val day = tempDay.first().hour.toLocalDate()
+        val day = tempDay.first().zdt.toLocalDate()
         val minTemp = tempDay.minimum
         val maxTemp = tempDay.maximum
         val conditionDay = conditionDays[idx]

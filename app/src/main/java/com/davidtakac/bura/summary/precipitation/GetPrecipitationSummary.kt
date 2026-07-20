@@ -73,7 +73,7 @@ private fun calculateFutureLater(
         FuturePrecipitation.None(inDays = afterFuture.size)
     } else {
         FuturePrecipitation.OnDay(
-            onDay = firstPrecipitation.first().hour.toLocalDate(),
+            onDay = firstPrecipitation.first().zdt.toLocalDate(),
             total = firstPrecipitation.total.reduce()
         )
     }
