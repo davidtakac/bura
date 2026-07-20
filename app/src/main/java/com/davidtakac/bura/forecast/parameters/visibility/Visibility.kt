@@ -27,12 +27,14 @@ class Visibility(
         Unit.Miles -> value / 0.00062137
     }
 
+    // Source: https://weather.metoffice.gov.uk/guides/what-does-this-forecast-mean
     val description: Description = when {
-        meters < 500 -> Description.VeryLow
-        meters < 1000 -> Description.Low
-        meters <= 6000 -> Description.Fair
-        meters <= 10_000 -> Description.Clear
-        else -> Description.Perfect
+        meters <= 1_000 -> Description.VeryPoor
+        meters <= 4_000 -> Description.Poor
+        meters <= 10_000 -> Description.Moderate
+        meters <= 20_000 -> Description.Good
+        meters <= 40_000 -> Description.VeryGood
+        else -> Description.Excellent
     }
 
     fun convertTo(unit: Unit): Visibility {
@@ -63,11 +65,12 @@ class Visibility(
     }
 
     enum class Description {
-        VeryLow,
-        Low,
-        Fair,
-        Clear,
-        Perfect
+        VeryPoor,
+        Poor,
+        Moderate,
+        Good,
+        VeryGood,
+        Excellent
     }
 
     override fun compareTo(other: Visibility): Int = meters.compareTo(other.meters)

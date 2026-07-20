@@ -178,11 +178,12 @@
     <string name="vis_value_km">%s km</string>
     <string name="vis_unit_mi">mi</string>
     <string name="vis_value_mi">%s mi</string>
-    <string name="vis_description_perfect">Perfectly clear view.</string>
-    <string name="vis_description_clear">Clear view.</string>
-    <string name="vis_description_fair">Fairly clear view.</string>
-    <string name="vis_description_low">Obstructed view.</string>
-    <string name="vis_description_very_low">Very obstructed view.</string>
+    <string name="vis_description_excellent">Exceptionally clear visibility.</string>
+    <string name="vis_description_very_good">Very clear visibility.</string>
+    <string name="vis_description_good">Fairly clear visibility for most activities.</string>
+    <string name="vis_description_moderate">Slightly reduced visibility with minor disruption.</string>
+    <string name="vis_description_poor">Reduced visibility that may affect travel.</string>
+    <string name="vis_description_very_poor">Hazardous visibility for travel.</string>
 
     <string name="wind_label">Wind</string>
     <string name="wind_bft_0">Calm</string>

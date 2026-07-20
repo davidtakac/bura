@@ -165,11 +165,11 @@
     <string name="vis_value_km">%skm</string>
     <string name="vis_unit_mi">mi</string>
     <string name="vis_value_mi">%s mi</string>
-    <string name="vis_description_perfect">Tầm nhìn hoàn toàn rõ ràng.</string>
-    <string name="vis_description_clear">Tầm nhìn rõ ràng.</string>
-    <string name="vis_description_fair">Tầm nhìn khá rõ ràng.</string>
-    <string name="vis_description_low">Tầm nhìn bị che khuất.</string>
-    <string name="vis_description_very_low">Tầm nhìn bị che rất khuất.</string>
+    <string name="vis_description_excellent">Tầm nhìn hoàn toàn rõ ràng.</string>
+    <string name="vis_description_good">Tầm nhìn rõ ràng.</string>
+    <string name="vis_description_moderate">Tầm nhìn khá rõ ràng.</string>
+    <string name="vis_description_poor">Tầm nhìn bị che khuất.</string>
+    <string name="vis_description_very_poor">Tầm nhìn bị che rất khuất.</string>
 
     <string name="wind_label">Gió</string>
     <string name="wind_bft_0">Êm đềm</string>

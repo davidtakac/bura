@@ -150,11 +150,12 @@
     <string name="vis_value_km">%s km</string>
     <string name="vis_unit_mi">mi</string>
     <string name="vis_value_mi">%s mi</string>
-    <string name="vis_description_perfect">Savršeno jasan pogled.</string>
-    <string name="vis_description_clear">Jasan pogled.</string>
-    <string name="vis_description_fair">Umjereno jasan pogled.</string>
-    <string name="vis_description_low">Ograničen pogled.</string>
-    <string name="vis_description_very_low">Vrlo ograničen pogled.</string>
+    <string name="vis_description_excellent">Savršeno jasna vidljivost.</string>
+    <string name="vis_description_very_good">Vrlo jasna vidljivost.</string>
+    <string name="vis_description_good">Umjereno jasna vidljivost za većinu aktivnosti.</string>
+    <string name="vis_description_moderate">Blago smanjena vidljivost s minimalnim utjecajem.</string>
+    <string name="vis_description_poor">Smanjena vidljivost koja može utjecati na putovanja.</string>
+    <string name="vis_description_very_poor">Opasno malena vidljivost za putovanja.</string>
     <string name="wind_label">Vjetar</string>
     <string name="wind_bft_0">Tišina</string>
     <string name="wind_bft_1">Lahor</string>

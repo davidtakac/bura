@@ -165,11 +165,11 @@
     <string name="vis_value_km">%s km</string>
     <string name="vis_unit_mi">英里</string>
     <string name="vis_value_mi">%s 英里</string>
-    <string name="vis_description_perfect">能见度极佳</string>
-    <string name="vis_description_clear">能见度好</string>
-    <string name="vis_description_fair">能见度一般</string>
-    <string name="vis_description_low">能见度差</string>
-    <string name="vis_description_very_low">能见度极差</string>
+    <string name="vis_description_excellent">能见度极佳</string>
+    <string name="vis_description_good">能见度好</string>
+    <string name="vis_description_moderate">能见度一般</string>
+    <string name="vis_description_poor">能见度差</string>
+    <string name="vis_description_very_poor">能见度极差</string>
 
     <string name="wind_label">风力</string>
     <string name="wind_bft_0">无风</string>

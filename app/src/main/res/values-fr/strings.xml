@@ -165,11 +165,11 @@
     <string name="vis_value_km">%s km</string>
     <string name="vis_unit_mi">mi</string>
     <string name="vis_value_mi">%s mi</string>
-    <string name="vis_description_perfect">Vue complètement dégagée.</string>
-    <string name="vis_description_clear">Vue dégagée.</string>
-    <string name="vis_description_fair">Vue plutôt dégagée.</string>
-    <string name="vis_description_low">Vue réduite.</string>
-    <string name="vis_description_very_low">Vue très réduite.</string>
+    <string name="vis_description_excellent">Vue complètement dégagée.</string>
+    <string name="vis_description_good">Vue dégagée.</string>
+    <string name="vis_description_moderate">Vue plutôt dégagée.</string>
+    <string name="vis_description_poor">Vue réduite.</string>
+    <string name="vis_description_very_poor">Vue très réduite.</string>
 
     <string name="wind_label">Vent</string>
     <string name="wind_bft_0">Calme</string>

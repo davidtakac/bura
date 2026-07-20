@@ -169,11 +169,11 @@
     <string name="vis_value_km">%s&nbsp;km</string>
     <string name="vis_unit_mi">mi</string>
     <string name="vis_value_mi">%s&nbsp;mi</string>
-    <string name="vis_description_perfect">Vista perfectamente clara.</string>
-    <string name="vis_description_clear">Vista clara.</string>
-    <string name="vis_description_fair">Vista bastante clara.</string>
-    <string name="vis_description_low">Vista obstruida.</string>
-    <string name="vis_description_very_low">Vista muy obstruida.</string>
+    <string name="vis_description_excellent">Vista perfectamente clara.</string>
+    <string name="vis_description_good">Vista clara.</string>
+    <string name="vis_description_moderate">Vista bastante clara.</string>
+    <string name="vis_description_poor">Vista obstruida.</string>
+    <string name="vis_description_very_poor">Vista muy obstruida.</string>
 
     <string name="wind_label">Viento</string>
     <string name="wind_bft_0">En calma</string>

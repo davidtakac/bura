@@ -47,11 +47,12 @@ fun VisibilitySummary(state: VisibilitySummary, modifier: Modifier = Modifier) {
             Text(
                 stringResource(
                     when (state.now.description) {
-                        Visibility.Description.VeryLow -> R.string.vis_description_very_low
-                        Visibility.Description.Low -> R.string.vis_description_low
-                        Visibility.Description.Fair -> R.string.vis_description_fair
-                        Visibility.Description.Clear -> R.string.vis_description_clear
-                        Visibility.Description.Perfect -> R.string.vis_description_perfect
+                        Visibility.Description.VeryPoor -> R.string.vis_description_very_poor
+                        Visibility.Description.Poor -> R.string.vis_description_poor
+                        Visibility.Description.Moderate -> R.string.vis_description_moderate
+                        Visibility.Description.Good -> R.string.vis_description_good
+                        Visibility.Description.VeryGood -> R.string.vis_description_very_good
+                        Visibility.Description.Excellent -> R.string.vis_description_excellent
                     }
                 )
             )

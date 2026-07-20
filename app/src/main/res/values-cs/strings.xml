@@ -172,11 +172,11 @@
     <string name="vis_value_km">%s km</string>
     <string name="vis_unit_mi">mi</string>
     <string name="vis_value_mi">%s mi</string>
-    <string name="vis_description_perfect">Dokonalý výhled.</string>
-    <string name="vis_description_clear">Jasný výhled.</string>
-    <string name="vis_description_fair">Poměrně dobrý výhled.</string>
-    <string name="vis_description_low">Omezený výhled.</string>
-    <string name="vis_description_very_low">Velmi omezený výhled.</string>
+    <string name="vis_description_excellent">Dokonalý výhled.</string>
+    <string name="vis_description_good">Jasný výhled.</string>
+    <string name="vis_description_moderate">Poměrně dobrý výhled.</string>
+    <string name="vis_description_poor">Omezený výhled.</string>
+    <string name="vis_description_very_poor">Velmi omezený výhled.</string>
 
     <string name="wind_label">Vítr</string>
     <string name="wind_bft_0">Bezvětří</string>

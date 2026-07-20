@@ -168,11 +168,11 @@
     <string name="vis_value_km">%s\u202Fkm</string>
     <string name="vis_unit_mi">mi</string>
     <string name="vis_value_mi">%s\u202Fmi</string>
-    <string name="vis_description_perfect">Dobra</string> <!-- 10-30 km -->
-    <string name="vis_description_clear">Umiarkowana</string> <!-- 3-10 km -->
-    <string name="vis_description_fair">Słaba</string> <!-- 1-3 km -->
-    <string name="vis_description_low">Bardzo słaba</string> <!-- 0.2-1.0 km -->
-    <string name="vis_description_very_low">Zła</string> <!-- 0.0-0.2 km -->
+    <string name="vis_description_excellent">Dobra</string> <!-- 10-30 km -->
+    <string name="vis_description_good">Umiarkowana</string> <!-- 3-10 km -->
+    <string name="vis_description_moderate">Słaba</string> <!-- 1-3 km -->
+    <string name="vis_description_poor">Bardzo słaba</string> <!-- 0.2-1.0 km -->
+    <string name="vis_description_very_poor">Zła</string> <!-- 0.0-0.2 km -->
 
     <string name="wind_label">Wiatr</string>
     <string name="wind_bft_0">Cisza</string> <!-- 0.0-0.2 m/s -->
