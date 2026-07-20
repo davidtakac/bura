@@ -21,22 +21,24 @@ import com.davidtakac.bura.forecast.parameters.sun.SunPeriod
 import com.davidtakac.bura.forecast.parameters.temperature.Temperature
 import com.davidtakac.bura.forecast.parameters.temperature.TemperaturePeriod
 import java.time.LocalDateTime
+import java.time.ZonedDateTime
 
 fun getHourlySummary(
-    now: LocalDateTime,
+    now: ZonedDateTime,
     tempPeriod: TemperaturePeriod,
     popPeriod: PopPeriod,
     condPeriod: ConditionPeriod,
     sunPeriod: SunPeriod?
 ): List<HourSummary>? {
-    val futureTemps = tempPeriod.periodFrom(now, take = 24) ?: return null
-    val futurePops = popPeriod.periodFrom(now, take = 24) ?: return null
-    val futureDesc = condPeriod.periodFrom(now, take = 24) ?: return null
+    val nowInstant = now.toInstant()
+    val futureTemps = tempPeriod.periodFrom(nowInstant, take = 24) ?: return null
+    val futurePops = popPeriod.periodFrom(nowInstant, take = 24) ?: return null
+    val futureDesc = condPeriod.periodFrom(nowInstant, take = 24) ?: return null
     val combinedWeatherData = buildList {
         for (i in futureTemps.indices) {
             add(
                 HourSummary.Weather(
-                    time = futureTemps[i].zdt,
+                    time = futureTemps[i].zdt.toLocalDateTime(),
                     isNow = i == 0,
                     temp = futureTemps[i].temperature,
                     pop = futurePops[i].pop.takeIf { it.value > 0 },
@@ -46,10 +48,10 @@ fun getHourlySummary(
         }
     }
     val combinedSunData = sunPeriod
-        ?.momentsFrom(now, takeMomentsUpToHoursInFuture = 24)
+        ?.momentsFrom(nowInstant, takeMomentsUpToHoursInFuture = 24)
         ?.map {
             HourSummary.Sun(
-                time = it.time,
+                time = it.zdt.toLocalDateTime(),
                 event = it.event
             )
         }

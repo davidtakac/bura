@@ -16,21 +16,22 @@ import com.davidtakac.bura.forecast.parameters.condition.Condition
 import com.davidtakac.bura.forecast.parameters.condition.ConditionPeriod
 import com.davidtakac.bura.forecast.parameters.temperature.Temperature
 import com.davidtakac.bura.forecast.parameters.temperature.TemperaturePeriod
-import java.time.LocalDateTime
+import java.time.ZonedDateTime
 
 fun getNowSummary(
-    now: LocalDateTime,
+    now: ZonedDateTime,
     tempPeriod: TemperaturePeriod,
     feelsPeriod: TemperaturePeriod,
     condPeriod: ConditionPeriod
 ): NowSummary? {
+    val nowInstant = now.toInstant()
     val tempToday = tempPeriod.dayPeriodOn(now.toLocalDate()) ?: return null
     return NowSummary(
-        temp = tempPeriod[now]?.temperature ?: return null,
-        feelsLike = feelsPeriod[now]?.temperature ?: return null,
+        temp = tempPeriod[nowInstant]?.temperature ?: return null,
+        feelsLike = feelsPeriod[nowInstant]?.temperature ?: return null,
         minTemp = tempToday.minimum,
         maxTemp = tempToday.maximum,
-        cond = condPeriod[now]?.condition ?: return null
+        cond = condPeriod[nowInstant]?.condition ?: return null
     )
 }
 

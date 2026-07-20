@@ -16,16 +16,17 @@ import com.davidtakac.bura.forecast.parameters.humidity.Humidity
 import com.davidtakac.bura.forecast.parameters.humidity.HumidityPeriod
 import com.davidtakac.bura.forecast.parameters.temperature.Temperature
 import com.davidtakac.bura.forecast.parameters.temperature.TemperaturePeriod
-import java.time.LocalDateTime
+import java.time.ZonedDateTime
 
 fun getHumiditySummary(
-    now: LocalDateTime,
+    now: ZonedDateTime,
     humidityPeriod: HumidityPeriod,
     dewPointPeriod: TemperaturePeriod
 ): HumiditySummary? {
+    val nowInstant = now.toInstant()
     return HumiditySummary(
-        humidityNow = humidityPeriod[now]?.humidity ?: return null,
-        dewPointNow = dewPointPeriod[now]?.temperature ?: return null
+        humidityNow = humidityPeriod[nowInstant]?.humidity ?: return null,
+        dewPointNow = dewPointPeriod[nowInstant]?.temperature ?: return null
     )
 }
 

@@ -19,18 +19,19 @@ import com.davidtakac.bura.forecast.parameters.pop.PopPeriod
 import com.davidtakac.bura.forecast.parameters.temperature.Temperature
 import com.davidtakac.bura.forecast.parameters.temperature.TemperaturePeriod
 import java.time.LocalDate
-import java.time.LocalDateTime
+import java.time.ZonedDateTime
 
 fun getDailySummary(
-    now: LocalDateTime,
+    now: ZonedDateTime,
     tempPeriod: TemperaturePeriod,
     condPeriod: ConditionPeriod,
     popPeriod: PopPeriod
 ): DailySummary? {
+    val nowInstant = now.toInstant()
     val nowDate = now.toLocalDate()
     val futureTempDays = tempPeriod.dayPeriodsFrom(nowDate) ?: return null
-    val popDays = popPeriod.periodFrom(now)?.dayPeriodsFrom(nowDate) ?: return null
-    val descDays = condPeriod.periodFrom(now)?.dayPeriodsFrom(nowDate) ?: return null
+    val popDays = popPeriod.periodFrom(nowInstant)?.dayPeriodsFrom(nowDate) ?: return null
+    val descDays = condPeriod.periodFrom(nowInstant)?.dayPeriodsFrom(nowDate) ?: return null
     return DailySummary(
         minTemp = futureTempDays.minOf { it.minimum },
         maxTemp = futureTempDays.maxOf { it.maximum },
@@ -40,7 +41,7 @@ fun getDailySummary(
                     DaySummary(
                         isToday = i == 0,
                         time = futureTempDays[i].first().zdt.toLocalDate(),
-                        tempNow = futureTempDays[i][now]?.temperature,
+                        tempNow = futureTempDays[i][nowInstant]?.temperature,
                         min = futureTempDays[i].minimum,
                         max = futureTempDays[i].maximum,
                         pop = popDays[i].maximum.takeIf { it.value > 0 },

@@ -14,15 +14,16 @@ package com.davidtakac.bura.summary.uvindex
 
 import com.davidtakac.bura.forecast.parameters.uvindex.UvIndex
 import com.davidtakac.bura.forecast.parameters.uvindex.UvIndexPeriod
-import java.time.LocalDateTime
 import java.time.LocalTime
+import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
 
 fun getUvIndexSummary(
-    now: LocalDateTime,
+    now: ZonedDateTime,
     uvIndexPeriod: UvIndexPeriod
 ): UvIndexSummary? {
-    val futureUv = uvIndexPeriod.dayPeriodOn(now.toLocalDate())?.periodFrom(now) ?: return null
+    val nowInstant = now.toInstant()
+    val futureUv = uvIndexPeriod.dayPeriodOn(now.toLocalDate())?.periodFrom(nowInstant) ?: return null
     val protection = futureUv.protectionWindows.firstOrNull()?.let {
         if (it.startInclusive == now.truncatedTo(ChronoUnit.HOURS)) {
             if (it.endExclusive == null) {
@@ -46,7 +47,7 @@ fun getUvIndexSummary(
         }
     } ?: UseProtection.None
     return UvIndexSummary(
-        now = uvIndexPeriod[now]?.uvIndex ?: return null,
+        now = uvIndexPeriod[nowInstant]?.uvIndex ?: return null,
         useProtection = protection
     )
 }

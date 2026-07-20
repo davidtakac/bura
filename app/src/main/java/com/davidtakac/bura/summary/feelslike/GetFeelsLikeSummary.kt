@@ -14,16 +14,17 @@ package com.davidtakac.bura.summary.feelslike
 
 import com.davidtakac.bura.forecast.parameters.temperature.Temperature
 import com.davidtakac.bura.forecast.parameters.temperature.TemperaturePeriod
-import java.time.LocalDateTime
+import java.time.ZonedDateTime
 import kotlin.math.absoluteValue
 
 fun getFeelsLikeSummary(
-    now: LocalDateTime,
+    now: ZonedDateTime,
     tempPeriod: TemperaturePeriod,
     feelsPeriod: TemperaturePeriod
 ): FeelsLikeSummary? {
-    val feelsNow = feelsPeriod[now]?.temperature ?: return null
-    val actualNow = tempPeriod[now]?.temperature ?: return null
+    val nowInstant = now.toInstant()
+    val feelsNow = feelsPeriod[nowInstant]?.temperature ?: return null
+    val actualNow = tempPeriod[nowInstant]?.temperature ?: return null
     return FeelsLikeSummary(
         feelsLikeNow = feelsNow,
         actualNow = actualNow,

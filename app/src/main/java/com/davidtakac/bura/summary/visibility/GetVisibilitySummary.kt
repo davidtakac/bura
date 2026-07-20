@@ -15,13 +15,14 @@ package com.davidtakac.bura.summary.visibility
 import com.davidtakac.bura.forecast.parameters.visibility.Visibility
 import com.davidtakac.bura.forecast.parameters.visibility.VisibilityPeriod
 import java.time.LocalDateTime
+import java.time.ZonedDateTime
 
 fun getVisibilitySummary(
-    now: LocalDateTime,
+    now: ZonedDateTime,
     visPeriod: VisibilityPeriod
 ): VisibilitySummary? {
     return VisibilitySummary(
-        now = visPeriod[now]?.visibility ?: return null
+        now = visPeriod[now.toInstant()]?.visibility ?: return null
     )
 }
 

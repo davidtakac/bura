@@ -16,16 +16,16 @@ import com.davidtakac.bura.forecast.parameters.gust.GustPeriod
 import com.davidtakac.bura.forecast.parameters.wind.Wind
 import com.davidtakac.bura.forecast.parameters.wind.WindPeriod
 import com.davidtakac.bura.forecast.parameters.wind.WindSpeed
-import java.time.LocalDateTime
+import java.time.ZonedDateTime
 
 fun getWindSummary(
-    now: LocalDateTime,
+    now: ZonedDateTime,
     windPeriod: WindPeriod,
     gustPeriod: GustPeriod
 ): WindSummary? {
     return WindSummary(
-        windNow = windPeriod[now]?.wind ?: return null,
-        gustNow = gustPeriod[now]?.speed ?: return null
+        windNow = windPeriod[now.toInstant()]?.wind ?: return null,
+        gustNow = gustPeriod[now.toInstant()]?.speed ?: return null
     )
 }
 

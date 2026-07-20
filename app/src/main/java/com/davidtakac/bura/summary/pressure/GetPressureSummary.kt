@@ -14,16 +14,17 @@ package com.davidtakac.bura.summary.pressure
 
 import com.davidtakac.bura.forecast.parameters.pressure.Pressure
 import com.davidtakac.bura.forecast.parameters.pressure.PressurePeriod
-import java.time.LocalDateTime
+import java.time.ZonedDateTime
 
 fun getPressureSummary(
-    now: LocalDateTime,
+    now: ZonedDateTime,
     pressurePeriod: PressurePeriod
 ): PressureSummary? {
+    val nowInstant = now.toInstant()
     val pressureToday = pressurePeriod.dayOn(now.toLocalDate()) ?: return null
-    val pressureNow = pressurePeriod[now]?.pressure ?: return null
+    val pressureNow = pressurePeriod[nowInstant]?.pressure ?: return null
 
-    val pastPressureForTrend = pressurePeriod.periodUntil(now, takeLast = 2)
+    val pastPressureForTrend = pressurePeriod.periodUntil(nowInstant, takeLast = 2)
         ?.firstOrNull()
         ?.pressure ?: return null
     val trend = getPressureTrend(pastPressureForTrend, pressureNow)

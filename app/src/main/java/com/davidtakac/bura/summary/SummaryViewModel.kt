@@ -73,7 +73,7 @@ class SummaryViewModel(
         val location = placeRepo.getSelectedPlace()?.location ?: return SummaryState.NoSelectedPlace
         val coords = location.coordinates
         val units = unitsRepo.getSelectedUnits()
-        val now = Instant.now().atZone(location.timeZone).toLocalDateTime()
+        val now = Instant.now().atZone(location.timeZone)
         val forecast = forecastRepo.get(coords, units) ?: return SummaryState.FailedToDownload
 
         val nowSummary = getNowSummary(
