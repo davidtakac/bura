@@ -59,7 +59,7 @@ private fun temperatureMomentToJson(moment: TemperatureMoment): JSONObject =
 
 private fun popMomentToJson(moment: PopMoment): JSONObject =
     convertMomentToJson(moment) {
-        put(CacheJsonSerialNames.POP_VALUE, moment.pop.value)
+        put(CacheJsonSerialNames.POP_VALUE, moment.pop.preciseValue)
     }
 
 private fun precipitationMomentToJson(moment: PrecipitationMoment): JSONObject =

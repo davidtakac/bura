@@ -22,12 +22,13 @@ class PopPeriod(moments: List<PopMoment>) : HourPeriod<PopMoment>(moments) {
         val firstPop = first().pop
         if (size == 1) return firstPop
 
-        var probNone = 1 - (firstPop.value / 100)
+        var probNone = 1 - (firstPop.value.toDouble() / 100)
         for (i in 1..lastIndex) {
-            probNone *= 1 - (get(i).pop.value / 100)
+            probNone *= 1 - (get(i).pop.value.toDouble() / 100)
         }
+
         val probOnce = 1 - probNone
-        return Pop(value = probOnce * 100)
+        return Pop(probOnce * 100)
     }
 
     override fun momentsFrom(hourInclusive: LocalDateTime, takeMoments: Int?) =

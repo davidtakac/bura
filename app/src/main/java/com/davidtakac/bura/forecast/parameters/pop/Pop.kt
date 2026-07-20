@@ -14,8 +14,11 @@ package com.davidtakac.bura.forecast.parameters.pop
 
 import java.util.Locale
 import java.util.Objects
+import kotlin.math.roundToInt
 
-class Pop(val value: Double) : Comparable<Pop> {
+class Pop(val preciseValue: Double) : Comparable<Pop> {
+    val value: Int = (preciseValue / 5).roundToInt() * 5
+
     override fun compareTo(other: Pop): Int = value.compareTo(other.value)
 
     override fun equals(other: Any?): Boolean =
@@ -23,5 +26,5 @@ class Pop(val value: Double) : Comparable<Pop> {
 
     override fun hashCode(): Int = Objects.hash(value)
 
-    override fun toString(): String = "${String.format(Locale.ROOT, "%.2f", value)}%"
+    override fun toString(): String = "${String.format(Locale.ROOT, "%d", value)}%"
 }

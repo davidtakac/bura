@@ -38,7 +38,7 @@ class GetPopGraphsTest {
             listOf(
                 PopMoment(hour = firstMoment, pop = Pop(0.0)),
                 PopMoment(hour = secondMoment, pop = Pop(0.0)),
-                PopMoment(hour = thirdMoment, pop = Pop(1.0))
+                PopMoment(hour = thirdMoment, pop = Pop(5.0))
             )
         )
         val conditionPeriod = ConditionPeriod(
@@ -82,7 +82,7 @@ class GetPopGraphsTest {
                                 meta = GraphTime.Meta.Future
                             ),
                             pop = GraphPop(
-                                Pop(1.0),
+                                Pop(5.0),
                                 meta = GraphPop.Meta.Maximum
                             ),
                             condition = Condition(2, true)
@@ -98,7 +98,7 @@ class GetPopGraphsTest {
                                 meta = GraphTime.Meta.Future
                             ),
                             pop = GraphPop(
-                                Pop(1.0),
+                                Pop(5.0),
                                 meta = GraphPop.Meta.Maximum
                             ),
                             condition = Condition(2, true)

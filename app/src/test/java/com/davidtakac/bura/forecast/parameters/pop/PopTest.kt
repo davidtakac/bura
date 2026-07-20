@@ -23,6 +23,66 @@ class PopTest {
 
     @Test
     fun compare() {
-        assertTrue(Pop(1.0) > Pop(0.0))
+        assertTrue(Pop(5.5) > Pop(0.0))
+    }
+
+    @Test
+    fun `rounds 2,49 to 0`() {
+        val pop = Pop(2.49)
+        assertEquals(0, pop.value)
+    }
+
+    @Test
+    fun `rounds 2,5 to 5`() {
+        val pop = Pop(2.5)
+        assertEquals(5, pop.value)
+    }
+
+    @Test
+    fun `rounds 2,7 to 5`() {
+        val pop = Pop(2.7)
+        assertEquals(5, pop.value)
+    }
+
+    @Test
+    fun `rounds 5,0 to 5`() {
+        val pop = Pop(5.0)
+        assertEquals(5, pop.value)
+    }
+
+    @Test
+    fun `rounds 44,49 to 45`() {
+        val pop = Pop(44.49)
+        assertEquals(45, pop.value)
+    }
+
+    @Test
+    fun `rounds 44,5 to 45`() {
+        val pop = Pop(44.5)
+        assertEquals(45, pop.value)
+    }
+
+    @Test
+    fun `rounds 44,7 to 45`() {
+        val pop = Pop(44.7)
+        assertEquals(45, pop.value)
+    }
+
+    @Test
+    fun `rounds 45,0 to 45`() {
+        val pop = Pop(45.0)
+        assertEquals(45, pop.value)
+    }
+
+    @Test
+    fun `rounds 0,0 to 0`() {
+        val pop = Pop(0.0)
+        assertEquals(0, pop.value)
+    }
+
+    @Test
+    fun `rounds 100,0 to 100`() {
+        val pop = Pop(100.0)
+        assertEquals(100, pop.value)
     }
 }
