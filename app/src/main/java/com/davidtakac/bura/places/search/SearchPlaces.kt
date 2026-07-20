@@ -13,19 +13,16 @@
 package com.davidtakac.bura.places.search
 
 import com.davidtakac.bura.places.Coordinates
-import com.davidtakac.bura.places.Location
-import com.davidtakac.bura.places.Place
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.URL
-import java.time.ZoneId
 import javax.net.ssl.HttpsURLConnection
 
 class SearchPlaces(private val userAgent: String) {
-    suspend operator fun invoke(query: String, languageCode: String): List<Place>? {
+    suspend operator fun invoke(query: String, languageCode: String): List<SearchedPlace>? {
         val jsonString = downloadPlacesJson(query, languageCode) ?: return null
         val json = JSONObject(jsonString)
         val results = try {
@@ -33,27 +30,23 @@ class SearchPlaces(private val userAgent: String) {
         } catch (_: Exception) {
             return emptyList()
         }
-        val places = mutableListOf<Place>()
+        val places = mutableListOf<SearchedPlace>()
         withContext(Dispatchers.Default) {
             for (i in 0 until results.length()) {
                 val currResult = results.getJSONObject(i)
-                val countryCode = currResult.getStringOrNull("country_code") ?: continue
-                val timeZone = currResult.getStringOrNull("timezone")?.let(ZoneId::of) ?: continue
                 places.add(
-                    Place(
+                    SearchedPlace(
                         name = currResult.getString("name"),
                         countryName = currResult.getStringOrNull("country"),
-                        countryCode = countryCode,
+                        countryCode = currResult.getStringOrNull("country_code"),
                         admin1 = currResult.getStringOrNull("admin1"),
                         admin2 = currResult.getStringOrNull("admin2"),
                         admin3 = currResult.getStringOrNull("admin3"),
                         admin4 = currResult.getStringOrNull("admin4"),
-                        location = Location(
-                            timeZone = timeZone,
-                            coordinates = Coordinates(
-                                latitude = currResult.getDouble("latitude"),
-                                longitude = currResult.getDouble("longitude")
-                            )
+                        timeZoneId = currResult.getStringOrNull("timezone") ?: continue,
+                        coordinates = Coordinates(
+                            latitude = currResult.getDouble("latitude"),
+                            longitude = currResult.getDouble("longitude")
                         )
                     )
                 )

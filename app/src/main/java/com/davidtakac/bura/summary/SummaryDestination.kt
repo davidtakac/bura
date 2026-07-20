@@ -84,6 +84,8 @@ fun SummaryDestination(
         onSearchQueryClearClick = { searchQuery = "" },
         onSearch = { placePickerVM.searchPlaces(query = searchQuery, languageCode = appLocale.language) },
         onPlaceClick = placePickerVM::selectPlace,
+        onSearchedPlaceClick = placePickerVM::selectSearchedPlace,
+        onSearchedPlaceEditCancel = placePickerVM::cancelSearchedPlaceEdit,
         onPlaceDeleteClick = placePickerVM::deletePlace,
 
         onTryAgainClick = summaryVM::getSummary,

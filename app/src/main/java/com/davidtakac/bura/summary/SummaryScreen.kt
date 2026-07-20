@@ -37,6 +37,7 @@ import com.davidtakac.bura.common.compose.animateShimmerColorAsState
 import com.davidtakac.bura.places.Place
 import com.davidtakac.bura.places.picker.PlacePickerSearchBar
 import com.davidtakac.bura.places.picker.PlacePickerState
+import com.davidtakac.bura.places.search.SearchedPlace
 import com.davidtakac.bura.summary.daily.compose.DailySummaryColumn
 import com.davidtakac.bura.summary.daily.compose.DailySummaryColumnSkeleton
 import com.davidtakac.bura.summary.feelslike.compose.FeelsLikeSummary
@@ -69,6 +70,8 @@ fun SummaryScreen(
     onSearchActiveChange: (Boolean) -> Unit,
     onSearch: (query: String) -> Unit,
     onPlaceClick: (Place) -> Unit,
+    onSearchedPlaceClick: (SearchedPlace) -> Unit,
+    onSearchedPlaceEditCancel: () -> Unit,
     onPlaceDeleteClick: (Place) -> Unit,
 
     onTryAgainClick: () -> Unit,
@@ -83,10 +86,12 @@ fun SummaryScreen(
                 onQueryClearClick = onSearchQueryClearClick,
                 onSearchClick = onSearch,
                 onPlaceClick = onPlaceClick,
+                onSearchedPlaceClick = onSearchedPlaceClick,
+                onSearchedPlaceEditCancel = onSearchedPlaceEditCancel,
                 onPlaceDeleteClick = onPlaceDeleteClick,
                 active = searchActive,
                 onActiveChange = onSearchActiveChange,
-                onSettingsClick = onSettingsButtonClick
+                onSettingsClick = onSettingsButtonClick,
             )
         }
     ) { contentPadding ->

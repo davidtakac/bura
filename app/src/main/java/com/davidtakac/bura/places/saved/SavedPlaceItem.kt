@@ -164,7 +164,7 @@ private fun TemperatureAndCondition(
 
 @Composable
 private fun DetailsAndTime(
-    country: String,
+    country: String?,
     admin1: String?,
     time: LocalTime,
     modifier: Modifier = Modifier

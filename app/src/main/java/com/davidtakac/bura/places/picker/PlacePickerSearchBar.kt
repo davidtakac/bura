@@ -40,6 +40,11 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.davidtakac.bura.R
 import com.davidtakac.bura.places.Place
+import com.davidtakac.bura.places.saved.SavedPlaces
+import com.davidtakac.bura.places.search.SearchedPlace
+import com.davidtakac.bura.places.search.SearchedPlaceEditDialog
+import com.davidtakac.bura.places.search.SearchedPlaces
+import java.time.ZoneId
 
 // region Collapsed search bar horizontal padding workaround
 
@@ -84,6 +89,8 @@ fun PlacePickerSearchBar(
     onActiveChange: (Boolean) -> Unit,
     onSearchClick: (query: String) -> Unit,
     onPlaceClick: (Place) -> Unit,
+    onSearchedPlaceClick: (SearchedPlace) -> Unit,
+    onSearchedPlaceEditCancel: () -> Unit,
     onPlaceDeleteClick: (Place) -> Unit,
     onSettingsClick: () -> Unit
 ) {
@@ -129,11 +136,30 @@ fun PlacePickerSearchBar(
             .padding(horizontal = horizontalPadding)
             .focusRequester(focusRequester)
     ) {
-        PlacePickerResults(
-            state = state,
-            onPlaceClick = onPlaceClick,
-            onPlaceDeleteClick = onPlaceDeleteClick
-        )
+        if (state.searchedPlaceBeingEdited != null) {
+            SearchedPlaceEditDialog(
+                searchedPlace = state.searchedPlaceBeingEdited,
+                onEdit = onSearchedPlaceClick,
+                onDismiss = onSearchedPlaceEditCancel
+            )
+        }
+
+        when (state.results) {
+            is PlacePickerResults.SavedPlaces ->
+                SavedPlaces(
+                    state = state.results,
+                    loading = state.loading,
+                    onPlaceClick = onPlaceClick,
+                    onPlaceDeleteClick = onPlaceDeleteClick
+                )
+            is PlacePickerResults.SearchedPlaces ->
+                SearchedPlaces(
+                    state = state.results,
+                    loading = state.loading,
+                    onPlaceClick = onSearchedPlaceClick
+                )
+            PlacePickerResults.Initial -> Unit
+        }
     }
 }
 

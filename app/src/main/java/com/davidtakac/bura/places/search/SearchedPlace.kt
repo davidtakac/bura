@@ -10,9 +10,14 @@
  * You should have received a copy of the GNU General Public License along with Bura. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.davidtakac.bura.places
+package com.davidtakac.bura.places.search
 
-data class Place(
+import com.davidtakac.bura.places.Coordinates
+import com.davidtakac.bura.places.Location
+import com.davidtakac.bura.places.Place
+import java.time.ZoneId
+
+data class SearchedPlace(
     val name: String,
     val admin1: String?,
     val admin2: String?,
@@ -20,5 +25,20 @@ data class Place(
     val admin4: String?,
     val countryCode: String?,
     val countryName: String?,
-    val location: Location
-)
+    val coordinates: Coordinates,
+    val timeZoneId: String,
+) {
+    fun toPlace() = Place(
+        name = name,
+        admin1 = admin1,
+        admin2 = admin2,
+        admin3 = admin3,
+        admin4 = admin4,
+        countryCode = countryCode,
+        countryName = countryName,
+        location = Location(
+            timeZone = ZoneId.of(timeZoneId),
+            coordinates = coordinates,
+        )
+    )
+}

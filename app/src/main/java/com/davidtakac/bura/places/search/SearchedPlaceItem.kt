@@ -21,10 +21,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import com.davidtakac.bura.places.Place
 
 @Composable
-fun SearchedPlaceItem(state: Place, onClick: () -> Unit, modifier: Modifier = Modifier) {
+fun SearchedPlaceItem(state: SearchedPlace, onClick: () -> Unit, modifier: Modifier = Modifier) {
     Column(
         Modifier
             .clickable(
@@ -34,7 +33,10 @@ fun SearchedPlaceItem(state: Place, onClick: () -> Unit, modifier: Modifier = Mo
             )
             .then(modifier)
     ) {
-        Text(text = listOf(state.name, state.countryName ?: state.countryCode).joinToString(", "))
+        val title = remember(state.name, state.countryName, state.countryCode) {
+            listOfNotNull(state.name, state.countryName ?: state.countryCode).joinToString(", ")
+        }
+        Text(title)
         val adminList = remember(state.admin1, state.admin2, state.admin3, state.admin4) {
             listOfNotNull(state.admin1, state.admin2, state.admin3, state.admin4)
         }

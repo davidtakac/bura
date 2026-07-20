@@ -237,4 +237,7 @@
     <string name="wmo_95">Thunderstorm</string>
     <string name="wmo_96">Thunderstorm with light hail</string>
     <string name="wmo_99">Thunderstorm with heavy hail</string>
+    <string name="searched_place_edit_tz_title">Set time zone</string>
+    <string name="searched_place_edit_tz_description_value">%1$s\'s time zone is %2$s which is not recognized by your device. To use this location, set its time zone manually.</string>
+    <string name="searched_place_edit_tz_hint">Time zone</string>
 </resources>
