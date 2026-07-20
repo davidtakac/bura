@@ -37,7 +37,7 @@ fun AppNavHost(theme: Theme, onThemeClick: (Theme) -> Unit) {
     val unexpectedErrorState = unexpectedErrorVM.state.collectAsStateWithLifecycle().value
     LaunchedEffect(unexpectedErrorState) {
         if (unexpectedErrorState is UnexpectedErrorUiState.Ongoing) {
-            controller.navigate("unexpected-error/${unexpectedErrorState.cause}") {
+            controller.navigate("unexpected-error") {
                 popUpTo(controller.graph.startDestinationId) {
                     inclusive = true
                 }
@@ -85,18 +85,9 @@ fun AppNavHost(theme: Theme, onThemeClick: (Theme) -> Unit) {
                 onBackClick = controller::navigateUp
             )
         }
-        composable(
-            route = "unexpected-error/{cause}",
-            arguments = listOf(
-                navArgument("cause") {
-                    nullable = false
-                    type = NavType.StringType
-                }
-            )
-        ) { backStackEntry ->
-            val cause = backStackEntry.arguments?.getString("cause")!!
+        composable("unexpected-error") {
             UnexpectedErrorScreen(
-                cause = cause,
+                cause = (unexpectedErrorState as UnexpectedErrorUiState.Ongoing).cause,
                 onGoHomeClick = {
                     unexpectedErrorVM.consumeError()
                     controller.navigate("summary") {
