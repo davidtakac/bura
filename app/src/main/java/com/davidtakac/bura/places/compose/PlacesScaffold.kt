@@ -20,7 +20,7 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.davidtakac.bura.places.picker.compose.ContentLoadingIndicator
+import com.davidtakac.bura.common.compose.ContentLoadingIndicator
 
 @Composable
 fun PlacesScaffold(

@@ -10,7 +10,7 @@
  * You should have received a copy of the GNU General Public License along with Bura. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.davidtakac.bura.places.picker.compose
+package com.davidtakac.bura.common.compose
 
 import androidx.compose.runtime.*
 import kotlinx.coroutines.*
