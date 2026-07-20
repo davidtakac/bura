@@ -19,7 +19,7 @@ import com.davidtakac.bura.forecast.parameters.pop.Pop
 import com.davidtakac.bura.forecast.parameters.pop.PopMoment
 import com.davidtakac.bura.forecast.parameters.pop.PopPeriod
 import com.davidtakac.bura.graphs.common.GraphTime
-import com.davidtakac.bura.unixEpochStart
+import com.davidtakac.bura.unixEpochStartZdt
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
 import org.junit.Test
@@ -30,22 +30,22 @@ import java.time.temporal.ChronoUnit
 class GetPopGraphsTest {
     @Test
     fun `constructs pop graphs`() = runTest {
-        val firstMoment = unixEpochStart.plus(22, ChronoUnit.HOURS)
+        val firstMoment = unixEpochStartZdt.plus(22, ChronoUnit.HOURS)
         val secondMoment = firstMoment.plus(1, ChronoUnit.HOURS)
         val thirdMoment = secondMoment.plus(1, ChronoUnit.HOURS)
         val now = secondMoment
         val popPeriod = PopPeriod(
             listOf(
-                PopMoment(hour = firstMoment, pop = Pop(0.0)),
-                PopMoment(hour = secondMoment, pop = Pop(0.0)),
-                PopMoment(hour = thirdMoment, pop = Pop(5.0))
+                PopMoment(hourZdt = firstMoment, pop = Pop(0.0)),
+                PopMoment(hourZdt = secondMoment, pop = Pop(0.0)),
+                PopMoment(hourZdt = thirdMoment, pop = Pop(5.0))
             )
         )
         val conditionPeriod = ConditionPeriod(
             listOf(
-                ConditionMoment(hour = firstMoment, condition = Condition(0, true)),
-                ConditionMoment(hour = secondMoment, condition = Condition(1, true)),
-                ConditionMoment(hour = thirdMoment, condition = Condition(2, true))
+                ConditionMoment(hourZdt = firstMoment, condition = Condition(0, true)),
+                ConditionMoment(hourZdt = secondMoment, condition = Condition(1, true)),
+                ConditionMoment(hourZdt = thirdMoment, condition = Condition(2, true))
             )
         )
         val graphs = getPopGraphs(now, popPeriod, conditionPeriod)

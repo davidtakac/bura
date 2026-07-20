@@ -34,7 +34,7 @@ class GetSavedPlacesTest {
     @Test
     fun `gets saved place with conditions`() = runTest {
         val momentInstant = Instant.ofEpochSecond(0)
-        val momentDateTime = momentInstant.atZone(ZoneOffset.UTC).toLocalDateTime()
+        val momentDateTime = momentInstant.atZone(ZoneOffset.UTC)
         val now = momentInstant.plus(10, ChronoUnit.MINUTES)
         val place = Place(
             name = "first", "", "", "", "", "", "",
@@ -43,7 +43,7 @@ class GetSavedPlacesTest {
         val tempPeriod = TemperaturePeriod(
             listOf(
                 TemperatureMoment(
-                    hour = momentDateTime,
+                    hourZdt = momentDateTime,
                     temperature = Temperature(10.0, Temperature.Unit.DegreesCelsius)
                 )
             ),
@@ -51,7 +51,7 @@ class GetSavedPlacesTest {
         val condPeriod = ConditionPeriod(
             listOf(
                 ConditionMoment(
-                    hour = momentDateTime,
+                    hourZdt = momentDateTime,
                     condition = Condition(0, true)
                 )
             ),
@@ -98,7 +98,7 @@ class GetSavedPlacesTest {
     @Test
     fun `gets saved place without conditions when data is mixed`() = runTest {
         val momentInstant = Instant.ofEpochSecond(0)
-        val momentDateTime = momentInstant.atZone(ZoneOffset.UTC).toLocalDateTime()
+        val momentDateTime = momentInstant.atZone(ZoneOffset.UTC)
         val now = momentInstant.plus(10, ChronoUnit.MINUTES)
         val place = Place(
             name = "second", "", "", "", "", "", "",
@@ -107,7 +107,7 @@ class GetSavedPlacesTest {
         val tempPeriod = TemperaturePeriod(
             listOf(
                 TemperatureMoment(
-                    hour = momentDateTime,
+                    hourZdt = momentDateTime,
                     temperature = Temperature(10.0, Temperature.Unit.DegreesCelsius)
                 )
             ),

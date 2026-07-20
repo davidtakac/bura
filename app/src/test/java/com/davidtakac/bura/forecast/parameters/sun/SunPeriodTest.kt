@@ -12,7 +12,7 @@
 
 package com.davidtakac.bura.forecast.parameters.sun
 
-import com.davidtakac.bura.unixEpochStart
+import com.davidtakac.bura.unixEpochStartZdt
 import org.junit.Assert
 import org.junit.Test
 import java.time.temporal.ChronoUnit
@@ -20,7 +20,7 @@ import java.time.temporal.ChronoUnit
 class SunPeriodTest {
     @Test
     fun `splits into future moments`() {
-        val startOfTime = unixEpochStart
+        val startOfTime = unixEpochStartZdt
         val firstSunset = startOfTime.plus(1, ChronoUnit.HOURS).plus(10, ChronoUnit.MINUTES)
         val beforeFirstSunset = firstSunset.minus(15, ChronoUnit.MINUTES)
         val firstSunrise = startOfTime.plus(3, ChronoUnit.HOURS).plus(10, ChronoUnit.MINUTES)
@@ -35,25 +35,25 @@ class SunPeriodTest {
                 SunMoment(secondSunset, SunEvent.Set)
             )
         )
-        val threeMoments = period.momentsFrom(beforeFirstSunset)
+        val threeMoments = period.momentsFrom(beforeFirstSunset.toInstant())
         Assert.assertEquals(3, threeMoments!!.size)
         Assert.assertTrue(threeMoments[0].event == SunEvent.Set)
-        Assert.assertTrue(threeMoments[0].time == firstSunset)
+        Assert.assertTrue(threeMoments[0].timeZdt == firstSunset)
         Assert.assertTrue(threeMoments[1].event == SunEvent.Rise)
-        Assert.assertTrue(threeMoments[1].time == firstSunrise)
+        Assert.assertTrue(threeMoments[1].timeZdt == firstSunrise)
 
-        val twoMoments = period.momentsFrom(beforeFirstSunrise)
+        val twoMoments = period.momentsFrom(beforeFirstSunrise.toInstant())
         Assert.assertEquals(2, twoMoments!!.size)
         Assert.assertTrue(twoMoments[0].event == SunEvent.Rise)
-        Assert.assertTrue(twoMoments[0].time == firstSunrise)
+        Assert.assertTrue(twoMoments[0].timeZdt == firstSunrise)
         Assert.assertTrue(twoMoments[1].event == SunEvent.Set)
-        Assert.assertTrue(twoMoments[1].time == secondSunset)
+        Assert.assertTrue(twoMoments[1].timeZdt == secondSunset)
 
-        val oneMoment = period.momentsFrom(beforeSecondSunset)
+        val oneMoment = period.momentsFrom(beforeSecondSunset.toInstant())
         Assert.assertEquals(1, oneMoment!!.size)
         Assert.assertTrue(oneMoment[0].event == SunEvent.Set)
-        Assert.assertTrue(oneMoment[0].time == secondSunset)
+        Assert.assertTrue(oneMoment[0].timeZdt == secondSunset)
 
-        Assert.assertNull(period.momentsFrom(afterSecondSunset))
+        Assert.assertNull(period.momentsFrom(afterSecondSunset.toInstant()))
     }
 }

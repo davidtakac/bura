@@ -12,7 +12,7 @@
 
 package com.davidtakac.bura.forecast.parameters.pressure
 
-import com.davidtakac.bura.unixEpochStart
+import com.davidtakac.bura.unixEpochStartZdt
 import org.junit.Assert.*
 import org.junit.Test
 import java.time.temporal.ChronoUnit
@@ -20,12 +20,12 @@ import java.time.temporal.ChronoUnit
 class PressurePeriodTest {
     @Test
     fun minimum() {
-        val firstMoment = unixEpochStart
+        val firstMoment = unixEpochStartZdt
         val secondMoment = firstMoment.plus(1, ChronoUnit.HOURS)
         val period = PressurePeriod(
             moments = listOf(
-                PressureMoment(hour = firstMoment, Pressure(1000.0, Pressure.Unit.Hectopascal)),
-                PressureMoment(hour = secondMoment, Pressure(1000.0, Pressure.Unit.Hectopascal))
+                PressureMoment(hourZdt = firstMoment, Pressure(1000.0, Pressure.Unit.Hectopascal)),
+                PressureMoment(hourZdt = secondMoment, Pressure(1000.0, Pressure.Unit.Hectopascal))
             )
         )
         assertEquals(Pressure(1000.0, Pressure.Unit.Hectopascal), period.minimum)
@@ -33,7 +33,7 @@ class PressurePeriodTest {
 
     @Test
     fun average() {
-        val firstMoment = unixEpochStart
+        val firstMoment = unixEpochStartZdt
         val secondMoment = firstMoment.plus(1, ChronoUnit.HOURS)
         val period = PressurePeriod(
             moments = listOf(
@@ -46,7 +46,7 @@ class PressurePeriodTest {
 
     @Test
     fun convert() {
-        val firstMoment = unixEpochStart
+        val firstMoment = unixEpochStartZdt
         val secondMoment = firstMoment.plus(1, ChronoUnit.HOURS)
         val period = PressurePeriod(
             moments = listOf(

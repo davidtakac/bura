@@ -21,7 +21,7 @@ import com.davidtakac.bura.forecast.parameters.pop.PopPeriod
 import com.davidtakac.bura.forecast.parameters.temperature.Temperature
 import com.davidtakac.bura.forecast.parameters.temperature.TemperatureMoment
 import com.davidtakac.bura.forecast.parameters.temperature.TemperaturePeriod
-import com.davidtakac.bura.unixEpochStart
+import com.davidtakac.bura.unixEpochStartZdt
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
 import org.junit.Test
@@ -31,7 +31,7 @@ import java.time.temporal.ChronoUnit
 class GetDailySummaryTest {
     @Test
     fun `groups moments into days and summarizes them`() = runTest {
-        val firstDayFirstMoment = unixEpochStart.plus(21, ChronoUnit.HOURS)
+        val firstDayFirstMoment = unixEpochStartZdt.plus(21, ChronoUnit.HOURS)
         val firstDaySecondMoment = firstDayFirstMoment.plus(1, ChronoUnit.HOURS)
         val firstDayThirdMoment = firstDaySecondMoment.plus(1, ChronoUnit.HOURS)
         val secondDayFirstMoment = firstDayThirdMoment.plus(1, ChronoUnit.HOURS)
@@ -102,7 +102,7 @@ class GetDailySummaryTest {
                 days = listOf(
                     DaySummary(
                         isToday = true,
-                        time = secondDayFirstMoment.atZone(ZoneId.of("GMT")).toLocalDate(),
+                        time = secondDayFirstMoment.toLocalDate(),
                         tempNow = Temperature(3.0, Temperature.Unit.DegreesCelsius),
                         min = Temperature(3.0, Temperature.Unit.DegreesCelsius),
                         max = Temperature(4.0, Temperature.Unit.DegreesCelsius),
@@ -117,7 +117,7 @@ class GetDailySummaryTest {
 
     @Test
     fun `summary is outdated when no data from now`() = runTest {
-        val firstMoment = unixEpochStart
+        val firstMoment = unixEpochStartZdt
         val now = firstMoment.plus(1, ChronoUnit.HOURS).plus(10, ChronoUnit.MINUTES)
         val temperaturePeriod = TemperaturePeriod(
             listOf(

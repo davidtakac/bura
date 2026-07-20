@@ -19,7 +19,7 @@ import com.davidtakac.bura.forecast.parameters.precipitation.PrecipitationPeriod
 import com.davidtakac.bura.forecast.parameters.precipitation.Rain
 import com.davidtakac.bura.forecast.parameters.precipitation.Showers
 import com.davidtakac.bura.forecast.parameters.precipitation.Snow
-import com.davidtakac.bura.unixEpochStart
+import com.davidtakac.bura.unixEpochStartZdt
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
 import org.junit.Test
@@ -29,13 +29,13 @@ import java.time.temporal.ChronoUnit
 class GetPrecipitationTotalsTest {
     @Test
     fun `generates last and future for today and future for other days`() = runTest {
-        val startOfFirstDay = unixEpochStart
+        val startOfFirstDay = unixEpochStartZdt
         val startOfSecondDay = startOfFirstDay.plus(1, ChronoUnit.DAYS)
         val period = PrecipitationPeriod(buildList {
             for (i in 0..23) {
                 add(
                     PrecipitationMoment(
-                        hour = startOfFirstDay.plus(i.toLong(), ChronoUnit.HOURS),
+                        hourZdt = startOfFirstDay.plus(i.toLong(), ChronoUnit.HOURS),
                         precipitation = MixedPrecipitation(
                             rain = Rain(1.0, Precipitation.Unit.Millimeters),
                             snow = Snow(5.0, Precipitation.Unit.Millimeters),
@@ -48,7 +48,7 @@ class GetPrecipitationTotalsTest {
             for (i in 0..23) {
                 add(
                     PrecipitationMoment(
-                        hour = startOfSecondDay.plus(i.toLong(), ChronoUnit.HOURS),
+                        hourZdt = startOfSecondDay.plus(i.toLong(), ChronoUnit.HOURS),
                         precipitation = MixedPrecipitation(
                             rain = Rain.ZeroMillimeters,
                             snow = Snow.ZeroMillimeters,

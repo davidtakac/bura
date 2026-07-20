@@ -19,7 +19,7 @@ import com.davidtakac.bura.forecast.parameters.wind.WindDirection
 import com.davidtakac.bura.forecast.parameters.wind.WindMoment
 import com.davidtakac.bura.forecast.parameters.wind.WindPeriod
 import com.davidtakac.bura.forecast.parameters.wind.WindSpeed
-import com.davidtakac.bura.unixEpochStart
+import com.davidtakac.bura.unixEpochStartZdt
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
 import org.junit.Test
@@ -28,7 +28,7 @@ import java.time.temporal.ChronoUnit
 class GetWindSummaryTest {
     @Test
     fun `gets current wind speed, direction and gust speed`() = runTest {
-        val time = unixEpochStart
+        val time = unixEpochStartZdt
         val now = time.plus(10, ChronoUnit.MINUTES)
         val windPeriod = WindPeriod(
             listOf(
@@ -61,7 +61,7 @@ class GetWindSummaryTest {
 
     @Test
     fun `outdated when no now`() = runTest {
-        val time = unixEpochStart
+        val time = unixEpochStartZdt
         val now = time.plus(1, ChronoUnit.HOURS).plus(10, ChronoUnit.MINUTES)
         val windPeriod = WindPeriod(
             listOf(

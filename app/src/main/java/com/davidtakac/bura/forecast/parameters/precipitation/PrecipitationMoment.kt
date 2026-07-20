@@ -17,9 +17,9 @@ import java.time.ZonedDateTime
 import java.util.Objects
 
 class PrecipitationMoment(
-    zdt: ZonedDateTime,
+    hourZdt: ZonedDateTime,
     val precipitation: MixedPrecipitation
-) : HourMoment(zdt) {
+) : HourMoment(hourZdt) {
     override fun toString(): String = "$hourZdt: $precipitation"
 
     override fun equals(other: Any?): Boolean =

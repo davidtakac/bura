@@ -16,20 +16,20 @@ import com.davidtakac.bura.forecast.parameters.sun.SunEvent
 import com.davidtakac.bura.forecast.parameters.sun.SunMoment
 import org.junit.Assert
 import org.junit.Test
-import java.time.LocalDateTime
+import java.time.ZonedDateTime
 
 class ConvertDownloadJsonToForecastTest {
     @Test
     fun `constructs sun period from regular data`() {
-        val sunrises = listOf(LocalDateTime.parse("2025-01-01T08:00:00"), LocalDateTime.parse("2025-01-02T08:00:00"))
-        val sunsets = listOf(LocalDateTime.parse("2025-01-01T20:00:00"), LocalDateTime.parse("2025-01-02T20:00:00"))
+        val sunrises = listOf(ZonedDateTime.parse("2025-01-01T08:00:00Z"), ZonedDateTime.parse("2025-01-02T08:00:00Z"))
+        val sunsets = listOf(ZonedDateTime.parse("2025-01-01T20:00:00Z"), ZonedDateTime.parse("2025-01-02T20:00:00Z"))
         val sunPeriod = createSunPeriod(sunrises, sunsets)
         Assert.assertEquals(
             listOf(
-                SunMoment(LocalDateTime.parse("2025-01-01T08:00:00"), SunEvent.Rise),
-                SunMoment(LocalDateTime.parse("2025-01-01T20:00:00"), SunEvent.Set),
-                SunMoment(LocalDateTime.parse("2025-01-02T08:00:00"), SunEvent.Rise),
-                SunMoment(LocalDateTime.parse("2025-01-02T20:00:00"), SunEvent.Set)
+                SunMoment(ZonedDateTime.parse("2025-01-01T08:00:00Z"), SunEvent.Rise),
+                SunMoment(ZonedDateTime.parse("2025-01-01T20:00:00Z"), SunEvent.Set),
+                SunMoment(ZonedDateTime.parse("2025-01-02T08:00:00Z"), SunEvent.Rise),
+                SunMoment(ZonedDateTime.parse("2025-01-02T20:00:00Z"), SunEvent.Set)
             ),
             sunPeriod?.moments
         )
@@ -37,31 +37,31 @@ class ConvertDownloadJsonToForecastTest {
 
     @Test
     fun `handles all polar night`() {
-        val sunrises = listOf(LocalDateTime.parse("2025-01-01T00:00:00"), LocalDateTime.parse("2025-01-02T00:00:00"))
-        val sunsets = listOf(LocalDateTime.parse("2025-01-01T00:00:00"), LocalDateTime.parse("2025-01-02T00:00:00"))
+        val sunrises = listOf(ZonedDateTime.parse("2025-01-01T00:00:00Z"), ZonedDateTime.parse("2025-01-02T00:00:00Z"))
+        val sunsets = listOf(ZonedDateTime.parse("2025-01-01T00:00:00Z"), ZonedDateTime.parse("2025-01-02T00:00:00Z"))
         val sunPeriod = createSunPeriod(sunrises, sunsets)
         Assert.assertNull(sunPeriod)
     }
 
     @Test
     fun `handles all polar day`() {
-        val sunrises = listOf(LocalDateTime.parse("2025-01-01T00:00:00"), LocalDateTime.parse("2025-01-02T00:00:00"))
-        val sunsets = listOf(LocalDateTime.parse("2025-01-02T00:00:00"), LocalDateTime.parse("2025-01-03T00:00:00"))
+        val sunrises = listOf(ZonedDateTime.parse("2025-01-01T00:00:00Z"), ZonedDateTime.parse("2025-01-02T00:00:00Z"))
+        val sunsets = listOf(ZonedDateTime.parse("2025-01-02T00:00:00Z"), ZonedDateTime.parse("2025-01-03T00:00:00Z"))
         val sunPeriod = createSunPeriod(sunrises, sunsets)
         Assert.assertNull(sunPeriod)
     }
 
     @Test
     fun `handles polar night between regular data`() {
-        val sunrises = listOf(LocalDateTime.parse("2025-01-01T08:00:00"), LocalDateTime.parse("2025-01-02T00:00:00"), LocalDateTime.parse("2025-01-03T08:00:00"))
-        val sunsets = listOf(LocalDateTime.parse("2025-01-01T20:00:00"), LocalDateTime.parse("2025-01-02T00:00:00"), LocalDateTime.parse("2025-01-03T20:00:00"))
+        val sunrises = listOf(ZonedDateTime.parse("2025-01-01T08:00:00Z"), ZonedDateTime.parse("2025-01-02T00:00:00Z"), ZonedDateTime.parse("2025-01-03T08:00:00Z"))
+        val sunsets = listOf(ZonedDateTime.parse("2025-01-01T20:00:00Z"), ZonedDateTime.parse("2025-01-02T00:00:00Z"), ZonedDateTime.parse("2025-01-03T20:00:00Z"))
         val sunPeriod = createSunPeriod(sunrises, sunsets)
         Assert.assertEquals(
             listOf(
-                SunMoment(LocalDateTime.parse("2025-01-01T08:00:00"), SunEvent.Rise),
-                SunMoment(LocalDateTime.parse("2025-01-01T20:00:00"), SunEvent.Set),
-                SunMoment(LocalDateTime.parse("2025-01-03T08:00:00"), SunEvent.Rise),
-                SunMoment(LocalDateTime.parse("2025-01-03T20:00:00"), SunEvent.Set),
+                SunMoment(ZonedDateTime.parse("2025-01-01T08:00:00Z"), SunEvent.Rise),
+                SunMoment(ZonedDateTime.parse("2025-01-01T20:00:00Z"), SunEvent.Set),
+                SunMoment(ZonedDateTime.parse("2025-01-03T08:00:00Z"), SunEvent.Rise),
+                SunMoment(ZonedDateTime.parse("2025-01-03T20:00:00Z"), SunEvent.Set),
             ),
             sunPeriod?.moments
         )
@@ -69,16 +69,16 @@ class ConvertDownloadJsonToForecastTest {
 
     @Test
     fun `handles polar day between regular data`() {
-        val sunrises = listOf(LocalDateTime.parse("2025-01-01T08:00:00"), LocalDateTime.parse("2025-01-02T00:00:00"), LocalDateTime.parse("2025-01-03T08:00:00"))
+        val sunrises = listOf(ZonedDateTime.parse("2025-01-01T08:00:00Z"), ZonedDateTime.parse("2025-01-02T00:00:00Z"), ZonedDateTime.parse("2025-01-03T08:00:00Z"))
         // I am not so sure that this is what OpenMeteo data would look if polar day is between regular data
-        val sunsets = listOf(LocalDateTime.parse("2025-01-01T20:00:00"), LocalDateTime.parse("2025-01-03T00:00:00"), LocalDateTime.parse("2025-01-03T20:00:00"))
+        val sunsets = listOf(ZonedDateTime.parse("2025-01-01T20:00:00Z"), ZonedDateTime.parse("2025-01-03T00:00:00Z"), ZonedDateTime.parse("2025-01-03T20:00:00Z"))
         val sunPeriod = createSunPeriod(sunrises, sunsets)
         Assert.assertEquals(
             listOf(
-                SunMoment(LocalDateTime.parse("2025-01-01T08:00:00"), SunEvent.Rise),
-                SunMoment(LocalDateTime.parse("2025-01-01T20:00:00"), SunEvent.Set),
-                SunMoment(LocalDateTime.parse("2025-01-03T08:00:00"), SunEvent.Rise),
-                SunMoment(LocalDateTime.parse("2025-01-03T20:00:00"), SunEvent.Set),
+                SunMoment(ZonedDateTime.parse("2025-01-01T08:00:00Z"), SunEvent.Rise),
+                SunMoment(ZonedDateTime.parse("2025-01-01T20:00:00Z"), SunEvent.Set),
+                SunMoment(ZonedDateTime.parse("2025-01-03T08:00:00Z"), SunEvent.Rise),
+                SunMoment(ZonedDateTime.parse("2025-01-03T20:00:00Z"), SunEvent.Set),
             ),
             sunPeriod?.moments
         )

@@ -24,7 +24,7 @@ import com.davidtakac.bura.forecast.parameters.sun.SunPeriod
 import com.davidtakac.bura.forecast.parameters.temperature.Temperature
 import com.davidtakac.bura.forecast.parameters.temperature.TemperatureMoment
 import com.davidtakac.bura.forecast.parameters.temperature.TemperaturePeriod
-import com.davidtakac.bura.unixEpochStart
+import com.davidtakac.bura.unixEpochStartZdt
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
 import org.junit.Test
@@ -34,7 +34,7 @@ import java.time.temporal.ChronoUnit
 class GetHourlySummaryTest {
     @Test
     fun `combines weather and sun data and arranges it chronologically`() = runTest {
-        val startOfTime = unixEpochStart.plus(5, ChronoUnit.DAYS)
+        val startOfTime = unixEpochStartZdt.plus(5, ChronoUnit.DAYS)
         val firstMoment = startOfTime.plus(1, ChronoUnit.HOURS)
         val secondMoment = startOfTime.plus(2, ChronoUnit.HOURS)
         val thirdMoment = startOfTime.plus(3, ChronoUnit.HOURS)
@@ -89,29 +89,29 @@ class GetHourlySummaryTest {
         Assert.assertEquals(
             listOf(
                 HourSummary.Weather(
-                    time = firstMoment,
+                    time = firstMoment.toLocalDateTime(),
                     isNow = true,
                     temp = Temperature(0.0, Temperature.Unit.DegreesCelsius),
                     desc = Condition(wmoCode = 1, isDay = false),
                     pop = null
                 ),
                 HourSummary.Sun(
-                    time = sunriseMoment,
+                    time = sunriseMoment.toLocalDateTime(),
                     event = SunEvent.Rise
                 ),
                 HourSummary.Weather(
-                    time = secondMoment,
+                    time = secondMoment.toLocalDateTime(),
                     isNow = false,
                     temp = Temperature(1.0, Temperature.Unit.DegreesCelsius),
                     desc = Condition(wmoCode = 1, isDay = true),
                     pop = Pop(10.0)
                 ),
                 HourSummary.Sun(
-                    time = sunsetMoment,
+                    time = sunsetMoment.toLocalDateTime(),
                     event = SunEvent.Set
                 ),
                 HourSummary.Weather(
-                    time = thirdMoment,
+                    time = thirdMoment.toLocalDateTime(),
                     isNow = false,
                     temp = Temperature(2.0, Temperature.Unit.DegreesCelsius),
                     desc = Condition(wmoCode = 1, isDay = false),
@@ -124,7 +124,7 @@ class GetHourlySummaryTest {
 
     @Test
     fun `summary is outdated when no data from now`() = runTest {
-        val firstMoment = unixEpochStart
+        val firstMoment = unixEpochStartZdt
         val now = firstMoment.plus(1, ChronoUnit.HOURS)
         val temperaturePeriod = TemperaturePeriod(
             moments = listOf(
@@ -162,7 +162,7 @@ class GetHourlySummaryTest {
 
     @Test
     fun `no sun data when no sun moments from now`() = runTest {
-        val startOfTime = unixEpochStart
+        val startOfTime = unixEpochStartZdt
         val firstMoment = startOfTime.plus(10, ChronoUnit.HOURS)
         val now = firstMoment.plus(10, ChronoUnit.MINUTES)
         val pastSunrise = firstMoment.minus(3, ChronoUnit.HOURS)
@@ -193,8 +193,8 @@ class GetHourlySummaryTest {
         )
         val sunPeriod = SunPeriod(
             moments = listOf(
-                SunMoment(time = pastSunrise, event = SunEvent.Rise),
-                SunMoment(time = pastSunset, event = SunEvent.Set)
+                SunMoment(timeZdt = pastSunrise, event = SunEvent.Rise),
+                SunMoment(timeZdt = pastSunset, event = SunEvent.Set)
             )
         )
         val summary = getHourlySummary(
@@ -207,7 +207,7 @@ class GetHourlySummaryTest {
         Assert.assertEquals(
             listOf(
                 HourSummary.Weather(
-                    time = firstMoment.atZone(ZoneId.of("GMT")).toLocalDateTime(),
+                    time = firstMoment.toLocalDateTime(),
                     isNow = true,
                     temp = Temperature(0.0, Temperature.Unit.DegreesCelsius),
                     desc = Condition(wmoCode = 1, isDay = false),

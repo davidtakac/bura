@@ -17,9 +17,9 @@ import java.time.ZonedDateTime
 import java.util.Objects
 
 class PopMoment(
-    zdt: ZonedDateTime,
+    hourZdt: ZonedDateTime,
     val pop: Pop
-) : HourMoment(zdt) {
+) : HourMoment(hourZdt) {
     override fun toString(): String = "$hourZdt: $pop"
 
     override fun equals(other: Any?): Boolean =

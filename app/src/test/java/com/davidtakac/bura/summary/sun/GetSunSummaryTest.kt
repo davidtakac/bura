@@ -18,7 +18,7 @@ import com.davidtakac.bura.forecast.parameters.condition.ConditionPeriod
 import com.davidtakac.bura.forecast.parameters.sun.SunEvent
 import com.davidtakac.bura.forecast.parameters.sun.SunMoment
 import com.davidtakac.bura.forecast.parameters.sun.SunPeriod
-import com.davidtakac.bura.unixEpochStart
+import com.davidtakac.bura.unixEpochStartZdt
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
 import org.junit.Test
@@ -28,7 +28,7 @@ import java.time.temporal.ChronoUnit
 class GetSunSummaryTest {
     @Test
     fun `sunrise and sunset soon`() = runTest {
-        val now = unixEpochStart
+        val now = unixEpochStartZdt
         val firstMoment = now
         val secondMoment = now.plus(2, ChronoUnit.HOURS)
         val sunPeriod = SunPeriod(
@@ -55,7 +55,7 @@ class GetSunSummaryTest {
 
     @Test
     fun `sunset and sunrise soon`() = runTest {
-        val now = unixEpochStart
+        val now = unixEpochStartZdt
         val firstMoment = now
         val secondMoment = now.plus(2, ChronoUnit.HOURS)
         val sunPeriod = SunPeriod(
@@ -83,7 +83,7 @@ class GetSunSummaryTest {
 
     @Test
     fun `sunrise soon but sunset in two days`() = runTest {
-        val now = unixEpochStart
+        val now = unixEpochStartZdt
         val firstMoment = now
         val secondMoment = now.plus(2, ChronoUnit.DAYS)
         val sunPeriod = SunPeriod(
@@ -102,7 +102,7 @@ class GetSunSummaryTest {
         Assert.assertEquals(
             Sunrise.WithSunsetLater(
                 time = firstMoment.toLocalTime(),
-                sunset = secondMoment
+                sunset = secondMoment.toLocalDateTime()
             ),
             getSunSummary(now, sunPeriod, condPeriod)
         )
@@ -110,7 +110,7 @@ class GetSunSummaryTest {
 
     @Test
     fun `sunset soon but sunrise in two days`() = runTest {
-        val now = unixEpochStart
+        val now = unixEpochStartZdt
         val firstMoment = now
         val secondMoment = now.plus(2, ChronoUnit.DAYS)
         val sunPeriod = SunPeriod(
@@ -127,7 +127,7 @@ class GetSunSummaryTest {
         Assert.assertEquals(
             Sunset.WithSunriseLater(
                 time = firstMoment.toLocalTime(),
-                sunrise = secondMoment
+                sunrise = secondMoment.toLocalDateTime()
             ),
             getSunSummary(now, sunPeriod, condPeriod)
         )
@@ -135,7 +135,7 @@ class GetSunSummaryTest {
 
     @Test
     fun `sunrise later`() = runTest {
-        val now = unixEpochStart
+        val now = unixEpochStartZdt
         val firstMoment = now.plus(2, ChronoUnit.DAYS)
         val sunPeriod = SunPeriod(
             listOf(
@@ -148,14 +148,14 @@ class GetSunSummaryTest {
             )
         )
         Assert.assertEquals(
-            Sunrise.Later(firstMoment),
+            Sunrise.Later(firstMoment.toLocalDateTime()),
             getSunSummary(now, sunPeriod, condPeriod)
         )
     }
 
     @Test
     fun `sunset later`() = runTest {
-        val now = unixEpochStart
+        val now = unixEpochStartZdt
         val firstMoment = now.plus(2, ChronoUnit.DAYS)
         val sunPeriod = SunPeriod(
             listOf(
@@ -168,14 +168,14 @@ class GetSunSummaryTest {
             )
         )
         Assert.assertEquals(
-            Sunset.Later(firstMoment),
+            Sunset.Later(firstMoment.toLocalDateTime()),
             getSunSummary(now, sunPeriod, condPeriod)
         )
     }
 
     @Test
     fun `night currently but no sunrise in sight`() = runTest {
-        val now = unixEpochStart
+        val now = unixEpochStartZdt
         val sunPeriod = null
         val condPeriod = ConditionPeriod(List(48) {
             ConditionMoment(
@@ -191,7 +191,7 @@ class GetSunSummaryTest {
 
     @Test
     fun `day currently but no sunset in sight`() = runTest {
-        val now = unixEpochStart
+        val now = unixEpochStartZdt
         val sunPeriod = null
         val condPeriod = ConditionPeriod(List(48) {
             ConditionMoment(
@@ -207,7 +207,7 @@ class GetSunSummaryTest {
 
     @Test
     fun `when no current desc returns outdated`() = runTest {
-        val start = unixEpochStart
+        val start = unixEpochStartZdt
         val sunPeriod = null
         val condPeriod = ConditionPeriod(List(48) {
             ConditionMoment(

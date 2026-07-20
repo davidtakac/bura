@@ -19,23 +19,23 @@ import com.davidtakac.bura.forecast.parameters.precipitation.PrecipitationPeriod
 import com.davidtakac.bura.forecast.parameters.precipitation.Rain
 import com.davidtakac.bura.forecast.parameters.precipitation.Showers
 import com.davidtakac.bura.forecast.parameters.precipitation.Snow
-import com.davidtakac.bura.unixEpochStart
+import com.davidtakac.bura.unixEpochStartZdt
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
 import org.junit.Test
 import java.time.Instant
-import java.time.LocalDateTime
 import java.time.ZoneId
+import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
 
 class GetPrecipitationSummaryTest {
     private fun dayOfPrecipitation(
-        startTime: LocalDateTime,
+        startTime: ZonedDateTime,
         millimetersPerHour: Double
     ): List<PrecipitationMoment> =
         List(24) { hour ->
             PrecipitationMoment(
-                hour = startTime.plus(hour.toLong(), ChronoUnit.HOURS),
+                hourZdt = startTime.plus(hour.toLong(), ChronoUnit.HOURS),
                 precipitation = MixedPrecipitation(
                     rain = Rain(
                         millimetersPerHour,
@@ -50,7 +50,7 @@ class GetPrecipitationSummaryTest {
 
     @Test
     fun `when past and future moments exist, past and future are correct`() = runTest {
-        val startTime = unixEpochStart
+        val startTime = unixEpochStartZdt
         val period = PrecipitationPeriod(dayOfPrecipitation(startTime, 1.0))
         val middle = startTime.plus(8, ChronoUnit.HOURS).plus(10, ChronoUnit.MINUTES)
         val summary = getPrecipitationSummary(now = middle, precipPeriod = period)
@@ -71,7 +71,7 @@ class GetPrecipitationSummaryTest {
 
     @Test
     fun `when no past moments, summary is outdated`() = runTest {
-        val startTime = unixEpochStart
+        val startTime = unixEpochStartZdt
         val period = PrecipitationPeriod(dayOfPrecipitation(startTime, 1.0))
         val start = startTime.plus(10, ChronoUnit.MINUTES)
         val summary = getPrecipitationSummary(now = start, precipPeriod = period)
@@ -80,7 +80,7 @@ class GetPrecipitationSummaryTest {
 
     @Test
     fun `when no future moments, summary is outdated`() = runTest {
-        val startTime = unixEpochStart
+        val startTime = unixEpochStartZdt
         val period = PrecipitationPeriod(dayOfPrecipitation(startTime, 1.0))
         val end = startTime.plus(24, ChronoUnit.HOURS).plus(10, ChronoUnit.MINUTES)
         val summary = getPrecipitationSummary(now = end, precipPeriod = period)
@@ -89,7 +89,7 @@ class GetPrecipitationSummaryTest {
 
     @Test
     fun `when no past or future moments, summary is outdated`() = runTest {
-        val startTime = unixEpochStart
+        val startTime = unixEpochStartZdt
         val period = PrecipitationPeriod(dayOfPrecipitation(startTime, 1.0))
         val afterEnd = startTime.plus(3, ChronoUnit.DAYS).plus(10, ChronoUnit.MINUTES)
         val summary = getPrecipitationSummary(now = afterEnd, precipPeriod = period)
@@ -99,7 +99,7 @@ class GetPrecipitationSummaryTest {
     @Test
     fun `when no precipitation in next 24 hours but on some future day, future describes that day`() =
         runTest {
-            val startTime = unixEpochStart
+            val startTime = unixEpochStartZdt
             val period = PrecipitationPeriod(
                 moments = buildList {
                     addAll(dayOfPrecipitation(startTime, 0.0))
@@ -131,7 +131,7 @@ class GetPrecipitationSummaryTest {
 
     @Test
     fun `when no precipitation in sight, future is none expected`() = runTest {
-        val startTime = unixEpochStart
+        val startTime = unixEpochStartZdt
         val period = PrecipitationPeriod(
             moments = buildList {
                 addAll(dayOfPrecipitation(startTime, 0.0))
@@ -150,7 +150,7 @@ class GetPrecipitationSummaryTest {
     @Test
     fun `when no precipitation in next 24 hours and no days after, future has 0mm total`() =
         runTest {
-            val startTime = unixEpochStart
+            val startTime = unixEpochStartZdt
             val period = PrecipitationPeriod(
                 moments = buildList {
                     addAll(dayOfPrecipitation(startTime, 0.0))
@@ -180,7 +180,7 @@ class GetPrecipitationSummaryTest {
 
     @Test
     fun `when precipitation in next 24 hours and after, future prioritizes 24 hours`() = runTest {
-        val startTime = unixEpochStart
+        val startTime = unixEpochStartZdt
         val period = PrecipitationPeriod(
             moments = buildList {
                 addAll(dayOfPrecipitation(startTime, 0.0))

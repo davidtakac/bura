@@ -12,6 +12,7 @@
 
 package com.davidtakac.bura
 
-import java.time.LocalDateTime
+import java.time.ZonedDateTime
 
-val unixEpochStart: LocalDateTime = LocalDateTime.parse("1970-01-01T00:00")
+val unixEpochStartZdt: ZonedDateTime = ZonedDateTime.parse("1970-01-01T00:00Z")
+val unixEpochStartInstant = unixEpochStartZdt.toInstant()

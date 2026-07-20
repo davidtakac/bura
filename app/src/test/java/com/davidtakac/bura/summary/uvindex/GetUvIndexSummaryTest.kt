@@ -15,7 +15,7 @@ package com.davidtakac.bura.summary.uvindex
 import com.davidtakac.bura.forecast.parameters.uvindex.UvIndex
 import com.davidtakac.bura.forecast.parameters.uvindex.UvIndexMoment
 import com.davidtakac.bura.forecast.parameters.uvindex.UvIndexPeriod
-import com.davidtakac.bura.unixEpochStart
+import com.davidtakac.bura.unixEpochStartZdt
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
@@ -28,7 +28,7 @@ private val safe = UvIndex(2.0)
 class GetUvIndexSummaryTest {
     @Test
     fun `gets now`() = runTest {
-        val firstMoment = unixEpochStart
+        val firstMoment = unixEpochStartZdt
         val now = firstMoment.plus(10, ChronoUnit.MINUTES)
         val period = UvIndexPeriod(listOf(UvIndexMoment(firstMoment, UvIndex(0.0))))
         assertEquals(
@@ -39,7 +39,7 @@ class GetUvIndexSummaryTest {
 
     @Test
     fun `no next window when no dangerous periods today`() = runTest {
-        val firstMoment = unixEpochStart
+        val firstMoment = unixEpochStartZdt
         val now = firstMoment.plus(10, ChronoUnit.MINUTES)
         val period = UvIndexPeriod(listOf(UvIndexMoment(firstMoment, safe)))
         assertEquals(
@@ -50,7 +50,7 @@ class GetUvIndexSummaryTest {
 
     @Test
     fun `window when danger starts and ends later today`() = runTest {
-        val startTime = unixEpochStart
+        val startTime = unixEpochStartZdt
         val now = startTime.plus(10, ChronoUnit.MINUTES)
         val firstSafe = startTime
         val firstDanger = startTime.plus(1, ChronoUnit.HOURS)
@@ -73,7 +73,7 @@ class GetUvIndexSummaryTest {
 
     @Test
     fun `window when danger starts now and ends later today`() = runTest {
-        val firstDanger = unixEpochStart
+        val firstDanger = unixEpochStartZdt
         val now = firstDanger.plus(10, ChronoUnit.MINUTES)
         val firstSafe = firstDanger.plus(1, ChronoUnit.HOURS)
         val period = UvIndexPeriod(
@@ -90,7 +90,7 @@ class GetUvIndexSummaryTest {
 
     @Test
     fun `window when danger started earlier and ends later today`() = runTest {
-        val startTime = unixEpochStart
+        val startTime = unixEpochStartZdt
         val firstDanger = startTime.plus(1, ChronoUnit.HOURS)
         val secondDanger = firstDanger.plus(1, ChronoUnit.HOURS)
         val now = secondDanger.plus(10, ChronoUnit.MINUTES)
@@ -110,7 +110,7 @@ class GetUvIndexSummaryTest {
 
     @Test
     fun `window when danger started earlier and does not end`() = runTest {
-        val startTime = unixEpochStart
+        val startTime = unixEpochStartZdt
         val firstDanger = startTime.plus(1, ChronoUnit.HOURS)
         val secondDanger = firstDanger.plus(1, ChronoUnit.HOURS)
         val now = secondDanger.plus(10, ChronoUnit.MINUTES)
@@ -130,7 +130,7 @@ class GetUvIndexSummaryTest {
 
     @Test
     fun `next window is resistant to multiple future windows`() = runTest {
-        val startTime = unixEpochStart
+        val startTime = unixEpochStartZdt
         val firstDanger = startTime.plus(1, ChronoUnit.HOURS)
         val secondDanger = firstDanger.plus(1, ChronoUnit.HOURS)
         val now = secondDanger.plus(10, ChronoUnit.MINUTES)
@@ -154,7 +154,7 @@ class GetUvIndexSummaryTest {
 
     @Test
     fun `outdated when no moments from now`() = runTest {
-        val firstMoment = unixEpochStart
+        val firstMoment = unixEpochStartZdt
         val afterFirstMoment = firstMoment.plus(1, ChronoUnit.HOURS)
         val now = afterFirstMoment.plus(10, ChronoUnit.MINUTES)
         val period = UvIndexPeriod(listOf(UvIndexMoment(firstMoment, safe)))

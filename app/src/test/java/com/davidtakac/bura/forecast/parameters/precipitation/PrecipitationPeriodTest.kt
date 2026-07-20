@@ -12,7 +12,7 @@
 
 package com.davidtakac.bura.forecast.parameters.precipitation
 
-import com.davidtakac.bura.unixEpochStart
+import com.davidtakac.bura.unixEpochStartZdt
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.time.temporal.ChronoUnit
@@ -23,7 +23,7 @@ class PrecipitationPeriodTest {
         val period = PrecipitationPeriod(
             moments = listOf(
                 PrecipitationMoment(
-                    unixEpochStart,
+                    unixEpochStartZdt,
                     MixedPrecipitation(
                         rain = Rain(1.0, Precipitation.Unit.Millimeters),
                         snow = Snow.ZeroMillimeters,
@@ -48,7 +48,7 @@ class PrecipitationPeriodTest {
         val period = PrecipitationPeriod(
             moments = listOf(
                 PrecipitationMoment(
-                    hour = unixEpochStart,
+                    hourZdt = unixEpochStartZdt,
                     precipitation = MixedPrecipitation(
                         rain = Rain(1.0, Precipitation.Unit.Millimeters),
                         snow = Snow.ZeroMillimeters,
@@ -57,7 +57,7 @@ class PrecipitationPeriodTest {
                     )
                 ),
                 PrecipitationMoment(
-                    hour = unixEpochStart.plus(1, ChronoUnit.HOURS),
+                    hourZdt = unixEpochStartZdt.plus(1, ChronoUnit.HOURS),
                     precipitation = MixedPrecipitation(
                         rain = Rain(1.0, Precipitation.Unit.Millimeters),
                         snow = Snow.ZeroMillimeters,

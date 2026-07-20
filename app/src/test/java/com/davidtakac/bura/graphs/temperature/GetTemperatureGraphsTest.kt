@@ -19,7 +19,7 @@ import com.davidtakac.bura.forecast.parameters.temperature.Temperature
 import com.davidtakac.bura.forecast.parameters.temperature.TemperatureMoment
 import com.davidtakac.bura.forecast.parameters.temperature.TemperaturePeriod
 import com.davidtakac.bura.graphs.common.GraphTime
-import com.davidtakac.bura.unixEpochStart
+import com.davidtakac.bura.unixEpochStartZdt
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
 import org.junit.Test
@@ -30,7 +30,7 @@ import java.time.temporal.ChronoUnit
 class GetTemperatureGraphsTest {
     @Test
     fun `combines data into graph points and extracts min max temps`() = runTest {
-        val firstMoment = unixEpochStart
+        val firstMoment = unixEpochStartZdt
         val secondMoment = firstMoment.plus(1, ChronoUnit.HOURS)
         val thirdMoment = secondMoment.plus(1, ChronoUnit.HOURS)
         val now = secondMoment.plus(10, ChronoUnit.MINUTES)
@@ -101,7 +101,7 @@ class GetTemperatureGraphsTest {
 
     @Test
     fun `when all temps the same, min max equals the first temperature`() = runTest {
-        val firstMoment = unixEpochStart
+        val firstMoment = unixEpochStartZdt
         val secondMoment = firstMoment.plus(1, ChronoUnit.HOURS)
         val thirdMoment = secondMoment.plus(1, ChronoUnit.HOURS)
         val now = secondMoment.plus(10, ChronoUnit.MINUTES)
@@ -129,7 +129,7 @@ class GetTemperatureGraphsTest {
 
     @Test
     fun `minimum takes the last min moment`() = runTest {
-        val firstMoment = unixEpochStart
+        val firstMoment = unixEpochStartZdt
         val secondMoment = firstMoment.plus(1, ChronoUnit.HOURS)
         val thirdMoment = secondMoment.plus(1, ChronoUnit.HOURS)
         val now = secondMoment.plus(10, ChronoUnit.MINUTES)
@@ -160,7 +160,7 @@ class GetTemperatureGraphsTest {
 
     @Test
     fun `first data point of next day is included in the graph`() = runTest {
-        val firstMoment = unixEpochStart.plus(23, ChronoUnit.HOURS)
+        val firstMoment = unixEpochStartZdt.plus(23, ChronoUnit.HOURS)
         val secondMoment = firstMoment.plus(1, ChronoUnit.HOURS)
         val now = firstMoment.plus(10, ChronoUnit.MINUTES)
         val condPeriod = ConditionPeriod(

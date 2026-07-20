@@ -18,7 +18,7 @@ import com.davidtakac.bura.forecast.parameters.condition.ConditionPeriod
 import com.davidtakac.bura.forecast.parameters.temperature.Temperature
 import com.davidtakac.bura.forecast.parameters.temperature.TemperatureMoment
 import com.davidtakac.bura.forecast.parameters.temperature.TemperaturePeriod
-import com.davidtakac.bura.unixEpochStart
+import com.davidtakac.bura.unixEpochStartZdt
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
 import org.junit.Test
@@ -28,7 +28,7 @@ class GetNowSummaryTest {
     @Test
     fun `summarizes current temperature, feels like and description and returns min and max temp of today`() =
         runTest {
-            val firstDayFirstMoment = unixEpochStart.plus(22, ChronoUnit.HOURS)
+            val firstDayFirstMoment = unixEpochStartZdt.plus(22, ChronoUnit.HOURS)
             val now = firstDayFirstMoment.plus(10, ChronoUnit.MINUTES)
             val firstDaySecondMoment = firstDayFirstMoment.plus(1, ChronoUnit.HOURS)
             val secondDayFirstMoment = firstDaySecondMoment.plus(1, ChronoUnit.HOURS)
@@ -86,7 +86,7 @@ class GetNowSummaryTest {
 
     @Test
     fun `summary is outdated when no data after now`() = runTest {
-        val firstMoment = unixEpochStart
+        val firstMoment = unixEpochStartZdt
         val afterFirstMoment = firstMoment.plus(1, ChronoUnit.HOURS)
         val now = afterFirstMoment.plus(10, ChronoUnit.MINUTES)
         val temperaturePeriod = TemperaturePeriod(

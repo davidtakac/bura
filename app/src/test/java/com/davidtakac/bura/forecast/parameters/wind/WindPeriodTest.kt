@@ -12,7 +12,7 @@
 
 package com.davidtakac.bura.forecast.parameters.wind
 
-import com.davidtakac.bura.unixEpochStart
+import com.davidtakac.bura.unixEpochStartZdt
 import org.junit.Assert.*
 import org.junit.Test
 import java.time.temporal.ChronoUnit
@@ -20,7 +20,7 @@ import java.time.temporal.ChronoUnit
 class WindPeriodTest {
     @Test
     fun `minimum and maximum`() {
-        val firstMoment = unixEpochStart
+        val firstMoment = unixEpochStartZdt
         val secondMoment = firstMoment.plus(1, ChronoUnit.HOURS)
         val period = WindPeriod(
             moments = listOf(
@@ -40,7 +40,7 @@ class WindPeriodTest {
 
     @Test
     fun convert() {
-        val firstMoment = unixEpochStart
+        val firstMoment = unixEpochStartZdt
         val secondMoment = firstMoment.plus(1, ChronoUnit.HOURS)
         val period = WindPeriod(
             moments = listOf(

@@ -17,9 +17,9 @@ import java.time.ZonedDateTime
 import java.util.Objects
 
 class ConditionMoment(
-    zdt: ZonedDateTime,
+    hourZdt: ZonedDateTime,
     val condition: Condition
-) : HourMoment(zdt) {
+) : HourMoment(hourZdt) {
     override fun toString(): String = "$hourZdt: $condition"
 
     override fun equals(other: Any?): Boolean =

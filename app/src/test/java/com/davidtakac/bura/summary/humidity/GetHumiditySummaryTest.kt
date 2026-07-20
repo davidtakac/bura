@@ -18,7 +18,7 @@ import com.davidtakac.bura.forecast.parameters.humidity.HumidityPeriod
 import com.davidtakac.bura.forecast.parameters.temperature.Temperature
 import com.davidtakac.bura.forecast.parameters.temperature.TemperatureMoment
 import com.davidtakac.bura.forecast.parameters.temperature.TemperaturePeriod
-import com.davidtakac.bura.unixEpochStart
+import com.davidtakac.bura.unixEpochStartZdt
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
 import org.junit.Test
@@ -27,7 +27,7 @@ import java.time.temporal.ChronoUnit
 class GetHumiditySummaryTest {
     @Test
     fun `gets humidity and dew point of now`() = runTest {
-        val firstMoment = unixEpochStart
+        val firstMoment = unixEpochStartZdt
         val now = firstMoment.plus(10, ChronoUnit.MINUTES)
         val humidityPeriod = HumidityPeriod(listOf(HumidityMoment(firstMoment, Humidity(0.0))))
         val dewPointPeriod = TemperaturePeriod(
@@ -49,7 +49,7 @@ class GetHumiditySummaryTest {
 
     @Test
     fun `summary is outdated when no data from now`() = runTest {
-        val firstMoment = unixEpochStart
+        val firstMoment = unixEpochStartZdt
         val now = firstMoment.plus(1, ChronoUnit.HOURS).plus(10, ChronoUnit.MINUTES)
         val humidityPeriod = HumidityPeriod(listOf(HumidityMoment(firstMoment, Humidity(0.0))))
         val dewPointPeriod = TemperaturePeriod(

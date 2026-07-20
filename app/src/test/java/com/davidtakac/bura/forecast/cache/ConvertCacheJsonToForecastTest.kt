@@ -58,6 +58,7 @@ import org.junit.Test
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
+import java.time.ZonedDateTime
 
 class ConvertCacheJsonToForecastTest {
     @Test
@@ -74,7 +75,7 @@ class ConvertCacheJsonToForecastTest {
 }
 
 private val timestamp = Instant.ofEpochSecond(1779224400)
-private val hour = LocalDateTime.ofInstant(timestamp, ZoneId.systemDefault())
+private val hour = ZonedDateTime.ofInstant(timestamp, ZoneId.systemDefault())
 
 private fun getJson(): String = """
     {

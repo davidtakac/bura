@@ -17,9 +17,9 @@ import java.time.ZonedDateTime
 import java.util.Objects
 
 class UvIndexMoment(
-    zdt: ZonedDateTime,
+    hourZdt: ZonedDateTime,
     val uvIndex: UvIndex
-) : HourMoment(zdt) {
+) : HourMoment(hourZdt) {
     override fun toString(): String = "$hourZdt: $uvIndex"
 
     override fun equals(other: Any?): Boolean =

@@ -13,6 +13,6 @@
 package com.davidtakac.bura.forecast.parameters
 
 import com.davidtakac.bura.forecast.HourMoment
-import java.time.LocalDateTime
+import java.time.ZonedDateTime
 
-class TestHourMoment(time: LocalDateTime) : HourMoment(time)
+class TestHourMoment(time: ZonedDateTime) : HourMoment(time)

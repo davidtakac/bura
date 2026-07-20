@@ -15,7 +15,7 @@ package com.davidtakac.bura.summary.visibility
 import com.davidtakac.bura.forecast.parameters.visibility.Visibility
 import com.davidtakac.bura.forecast.parameters.visibility.VisibilityMoment
 import com.davidtakac.bura.forecast.parameters.visibility.VisibilityPeriod
-import com.davidtakac.bura.unixEpochStart
+import com.davidtakac.bura.unixEpochStartZdt
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
 import org.junit.Test
@@ -24,13 +24,13 @@ import java.time.temporal.ChronoUnit
 class GetVisibilitySummaryTest {
     private val period = VisibilityPeriod(
         listOf(
-            VisibilityMoment(unixEpochStart, Visibility(1.0, Visibility.Unit.Meters)),
+            VisibilityMoment(unixEpochStartZdt, Visibility(1.0, Visibility.Unit.Meters)),
             VisibilityMoment(
-                unixEpochStart.plus(1, ChronoUnit.HOURS),
+                unixEpochStartZdt.plus(1, ChronoUnit.HOURS),
                 Visibility(2.0, Visibility.Unit.Meters)
             ),
             VisibilityMoment(
-                unixEpochStart.plus(2, ChronoUnit.HOURS),
+                unixEpochStartZdt.plus(2, ChronoUnit.HOURS),
                 Visibility(3.0, Visibility.Unit.Meters)
             )
         )
@@ -38,7 +38,7 @@ class GetVisibilitySummaryTest {
 
     @Test
     fun `gets distance and description of now`() = runTest {
-        val now = unixEpochStart.plus(1, ChronoUnit.HOURS).plus(10, ChronoUnit.MINUTES)
+        val now = unixEpochStartZdt.plus(1, ChronoUnit.HOURS).plus(10, ChronoUnit.MINUTES)
         Assert.assertEquals(
             Visibility(2.0, Visibility.Unit.Meters),
             getVisibilitySummary(now, period)?.now
@@ -47,7 +47,7 @@ class GetVisibilitySummaryTest {
 
     @Test
     fun `summary is outdated when no now`() = runTest {
-        val now = unixEpochStart.plus(3, ChronoUnit.HOURS).plus(10, ChronoUnit.MINUTES)
+        val now = unixEpochStartZdt.plus(3, ChronoUnit.HOURS).plus(10, ChronoUnit.MINUTES)
         Assert.assertNull(getVisibilitySummary(now, period))
     }
 }

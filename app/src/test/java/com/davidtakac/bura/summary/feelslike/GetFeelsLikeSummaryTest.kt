@@ -15,7 +15,7 @@ package com.davidtakac.bura.summary.feelslike
 import com.davidtakac.bura.forecast.parameters.temperature.Temperature
 import com.davidtakac.bura.forecast.parameters.temperature.TemperatureMoment
 import com.davidtakac.bura.forecast.parameters.temperature.TemperaturePeriod
-import com.davidtakac.bura.unixEpochStart
+import com.davidtakac.bura.unixEpochStartZdt
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
 import org.junit.Test
@@ -24,7 +24,7 @@ import java.time.temporal.ChronoUnit
 class GetFeelsLikeSummaryTest {
     @Test
     fun `gets now and describes what it feels like`() = runTest {
-        val firstMoment = unixEpochStart
+        val firstMoment = unixEpochStartZdt
         val now = firstMoment.plus(10, ChronoUnit.MINUTES)
         val feelsLikePeriod = TemperaturePeriod(
             listOf(
@@ -54,7 +54,7 @@ class GetFeelsLikeSummaryTest {
 
     @Test
     fun `when feels like and actual within 1 degree of each other feel is similar`() = runTest {
-        val firstMoment = unixEpochStart
+        val firstMoment = unixEpochStartZdt
         val now = firstMoment.plus(10, ChronoUnit.MINUTES)
         val feelsLikePeriod = TemperaturePeriod(
             listOf(
@@ -84,7 +84,7 @@ class GetFeelsLikeSummaryTest {
 
     @Test
     fun `summary is outdated when no data from now`() = runTest {
-        val firstMoment = unixEpochStart
+        val firstMoment = unixEpochStartZdt
         val now = firstMoment.plus(1, ChronoUnit.HOURS).plus(10, ChronoUnit.MINUTES)
         val temperaturePeriod = TemperaturePeriod(
             listOf(

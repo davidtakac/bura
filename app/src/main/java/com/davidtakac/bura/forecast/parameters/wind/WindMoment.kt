@@ -17,9 +17,9 @@ import java.time.ZonedDateTime
 import java.util.Objects
 
 class WindMoment(
-    zdt: ZonedDateTime,
+    hourZdt: ZonedDateTime,
     val wind: Wind
-) : HourMoment(zdt) {
+) : HourMoment(hourZdt) {
     override fun toString(): String = "$hourZdt: $wind"
 
     override fun equals(other: Any?): Boolean =

@@ -13,7 +13,7 @@
 package com.davidtakac.bura.forecast.parameters.gust
 
 import com.davidtakac.bura.forecast.parameters.wind.WindSpeed
-import com.davidtakac.bura.unixEpochStart
+import com.davidtakac.bura.unixEpochStartZdt
 import org.junit.Assert
 import org.junit.Test
 import java.time.temporal.ChronoUnit
@@ -21,7 +21,7 @@ import java.time.temporal.ChronoUnit
 class GustPeriodTest {
     @Test
     fun maximum() {
-        val firstMoment = unixEpochStart
+        val firstMoment = unixEpochStartZdt
         val secondMoment = firstMoment.plus(1, ChronoUnit.HOURS)
         val period = GustPeriod(
             moments = listOf(
@@ -34,7 +34,7 @@ class GustPeriodTest {
 
     @Test
     fun convert() {
-        val firstMoment = unixEpochStart
+        val firstMoment = unixEpochStartZdt
         val secondMoment = firstMoment.plus(1, ChronoUnit.HOURS)
         val period = GustPeriod(
             moments = listOf(

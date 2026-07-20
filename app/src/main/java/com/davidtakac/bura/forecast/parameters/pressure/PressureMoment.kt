@@ -17,9 +17,9 @@ import java.time.ZonedDateTime
 import java.util.Objects
 
 class PressureMoment(
-    zdt: ZonedDateTime,
+    hourZdt: ZonedDateTime,
     val pressure: Pressure
-) : HourMoment(zdt) {
+) : HourMoment(hourZdt) {
     override fun toString(): String = "$hourZdt: $pressure"
 
     override fun equals(other: Any?): Boolean =

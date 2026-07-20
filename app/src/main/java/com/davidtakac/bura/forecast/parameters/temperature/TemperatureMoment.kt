@@ -17,9 +17,9 @@ import java.time.ZonedDateTime
 import java.util.Objects
 
 class TemperatureMoment(
-    zdt: ZonedDateTime,
+    hourZdt: ZonedDateTime,
     val temperature: Temperature
-) : HourMoment(zdt) {
+) : HourMoment(hourZdt) {
     override fun toString(): String = "$hourZdt: $temperature"
 
     override fun equals(other: Any?): Boolean =

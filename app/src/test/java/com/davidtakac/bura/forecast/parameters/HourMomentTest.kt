@@ -12,13 +12,13 @@
 
 package com.davidtakac.bura.forecast.parameters
 
-import com.davidtakac.bura.unixEpochStart
+import com.davidtakac.bura.unixEpochStartZdt
 import org.junit.Test
 import java.time.temporal.ChronoUnit
 
 class HourMomentTest {
     @Test(expected = IllegalArgumentException::class)
     fun `hour must be truncated to hour`() {
-        TestHourMoment(unixEpochStart.plus(1, ChronoUnit.MINUTES))
+        TestHourMoment(unixEpochStartZdt.plus(1, ChronoUnit.MINUTES))
     }
 }

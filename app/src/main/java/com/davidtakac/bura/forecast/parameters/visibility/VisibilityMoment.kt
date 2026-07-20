@@ -17,9 +17,9 @@ import java.time.ZonedDateTime
 import java.util.Objects
 
 class VisibilityMoment(
-    zdt: ZonedDateTime,
+    hourZdt: ZonedDateTime,
     val visibility: Visibility,
-) : HourMoment(zdt) {
+) : HourMoment(hourZdt) {
     override fun toString(): String = "$hourZdt: $visibility"
 
     override fun equals(other: Any?): Boolean =

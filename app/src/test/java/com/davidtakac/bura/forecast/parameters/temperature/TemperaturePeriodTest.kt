@@ -12,7 +12,7 @@
 
 package com.davidtakac.bura.forecast.parameters.temperature
 
-import com.davidtakac.bura.unixEpochStart
+import com.davidtakac.bura.unixEpochStartZdt
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.time.temporal.ChronoUnit
@@ -20,7 +20,7 @@ import java.time.temporal.ChronoUnit
 class TemperaturePeriodTest {
     @Test
     fun `minimum and maximum`() {
-        val firstMoment = unixEpochStart
+        val firstMoment = unixEpochStartZdt
         val secondMoment = firstMoment.plus(1, ChronoUnit.HOURS)
         val period = TemperaturePeriod(
             moments = listOf(
@@ -34,7 +34,7 @@ class TemperaturePeriodTest {
 
     @Test
     fun convert() {
-        val firstMoment = unixEpochStart
+        val firstMoment = unixEpochStartZdt
         val secondMoment = firstMoment.plus(1, ChronoUnit.HOURS)
         val period = TemperaturePeriod(
             moments = listOf(
