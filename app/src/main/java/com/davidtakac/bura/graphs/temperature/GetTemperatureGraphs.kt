@@ -20,10 +20,10 @@ import com.davidtakac.bura.forecast.parameters.temperature.TemperatureMoment
 import com.davidtakac.bura.forecast.parameters.temperature.TemperaturePeriod
 import com.davidtakac.bura.graphs.common.GraphTime
 import java.time.LocalDate
-import java.time.LocalDateTime
+import java.time.ZonedDateTime
 
 fun getTemperatureGraphs(
-    now: LocalDateTime,
+    now: ZonedDateTime,
     tempPeriod: TemperaturePeriod,
     condPeriod: ConditionPeriod
 ): TemperatureGraphs? {
@@ -41,7 +41,7 @@ fun getTemperatureGraphs(
 }
 
 private fun getGraphs(
-    now: LocalDateTime,
+    now: ZonedDateTime,
     tempDays: List<TemperaturePeriod>,
     conditionDays: List<ConditionPeriod>
 ): List<TemperatureGraph> = buildList {
@@ -59,7 +59,7 @@ private fun getGraphs(
 }
 
 private fun getGraph(
-    now: LocalDateTime,
+    now: ZonedDateTime,
     tempDay: TemperaturePeriod,
     conditionDay: ConditionPeriod,
     nextTempDay: TemperaturePeriod?,
@@ -101,13 +101,13 @@ private fun getGraph(
 }
 
 private fun getPoint(
-    now: LocalDateTime,
+    now: ZonedDateTime,
     tempMoment: TemperatureMoment,
     minTempMoment: TemperatureMoment,
     maxTempMoment: TemperatureMoment,
     conditionMoment: ConditionMoment
 ): TemperatureGraphPoint = TemperatureGraphPoint(
-    time = GraphTime(tempMoment.zdt, now),
+    time = GraphTime(tempMoment.zdt, now.toInstant()),
     temperature = GraphTemperature(
         value = tempMoment.temperature,
         meta = getTempMeta(minTempMoment, maxTempMoment, tempMoment)

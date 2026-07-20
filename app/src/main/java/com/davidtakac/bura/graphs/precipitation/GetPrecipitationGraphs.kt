@@ -18,10 +18,10 @@ import com.davidtakac.bura.forecast.parameters.precipitation.MixedPrecipitation
 import com.davidtakac.bura.forecast.parameters.precipitation.PrecipitationPeriod
 import com.davidtakac.bura.graphs.common.GraphTime
 import java.time.LocalDate
-import java.time.LocalDateTime
+import java.time.ZonedDateTime
 
 fun getPrecipitationGraphs(
-    now: LocalDateTime,
+    now: ZonedDateTime,
     precipPeriod: PrecipitationPeriod,
     condPeriod: ConditionPeriod
 ): PrecipitationGraphs? {
@@ -38,7 +38,7 @@ fun getPrecipitationGraphs(
                             PrecipitationGraphPoint(
                                 time = GraphTime(
                                     hour = moment.zdt,
-                                    now = now
+                                    now = now.toInstant()
                                 ),
                                 precip = moment.precipitation,
                                 cond = condDays[dayIdx][momentIdx].condition

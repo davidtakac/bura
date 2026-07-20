@@ -12,8 +12,9 @@
 
 package com.davidtakac.bura.graphs.common
 
-import java.time.LocalDateTime
+import java.time.Instant
 import java.time.LocalTime
+import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
 import java.util.Objects
 
@@ -22,8 +23,8 @@ class GraphTime(
     val meta: Meta
 ) {
     constructor(
-        hour: LocalDateTime,
-        now: LocalDateTime
+        hour: ZonedDateTime,
+        now: Instant
     ) : this(value = hour.toLocalTime(), meta = getMeta(hour, now))
 
     enum class Meta {
@@ -36,11 +37,12 @@ class GraphTime(
     override fun hashCode(): Int = Objects.hash(value, meta)
 }
 
-private fun getMeta(hour: LocalDateTime, now: LocalDateTime): GraphTime.Meta {
+private fun getMeta(hour: ZonedDateTime, now: Instant): GraphTime.Meta {
     val nowTrunc = now.truncatedTo(ChronoUnit.HOURS)
+    val hourInstant = hour.toInstant()
     return when {
-        hour < nowTrunc -> GraphTime.Meta.Past
-        hour == nowTrunc -> GraphTime.Meta.Present
+        hourInstant < nowTrunc -> GraphTime.Meta.Past
+        hourInstant == nowTrunc -> GraphTime.Meta.Present
         else -> GraphTime.Meta.Future
     }
 }

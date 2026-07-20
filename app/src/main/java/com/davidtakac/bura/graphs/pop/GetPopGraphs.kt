@@ -20,10 +20,10 @@ import com.davidtakac.bura.forecast.parameters.pop.PopMoment
 import com.davidtakac.bura.forecast.parameters.pop.PopPeriod
 import com.davidtakac.bura.graphs.common.GraphTime
 import java.time.LocalDate
-import java.time.LocalDateTime
+import java.time.ZonedDateTime
 
 fun getPopGraphs(
-    now: LocalDateTime,
+    now: ZonedDateTime,
     popPeriod: PopPeriod,
     conditionPeriod: ConditionPeriod,
 ): List<PopGraph>? {
@@ -38,7 +38,7 @@ fun getPopGraphs(
 }
 
 private fun getPopGraph(
-    now: LocalDateTime,
+    now: ZonedDateTime,
     popDay: PopPeriod,
     conditionDay: ConditionPeriod,
     popTomorrow: PopPeriod?,
@@ -71,12 +71,12 @@ private fun getPopGraph(
 }
 
 private fun getPoint(
-    now: LocalDateTime,
+    now: ZonedDateTime,
     moment: PopMoment,
     maxPopMoment: PopMoment,
     conditionMoment: ConditionMoment,
 ): PopGraphPoint = PopGraphPoint(
-    time = GraphTime(moment.zdt, now),
+    time = GraphTime(moment.zdt, now.toInstant()),
     pop = GraphPop(
         value = moment.pop,
         meta = if (moment == maxPopMoment) GraphPop.Meta.Maximum else GraphPop.Meta.Regular

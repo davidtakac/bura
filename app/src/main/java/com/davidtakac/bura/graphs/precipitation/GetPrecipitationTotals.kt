@@ -15,13 +15,13 @@ package com.davidtakac.bura.graphs.precipitation
 import com.davidtakac.bura.forecast.parameters.precipitation.Precipitation
 import com.davidtakac.bura.forecast.parameters.precipitation.PrecipitationPeriod
 import java.time.LocalDate
-import java.time.LocalDateTime
+import java.time.ZonedDateTime
 
 private const val PAST_HOURS = 24
 private const val FUTURE_HOURS = 24
 
 fun getPrecipitationTotals(
-    now: LocalDateTime,
+    now: ZonedDateTime,
     precipPeriod: PrecipitationPeriod
 ): List<PrecipitationTotal>? {
     val today = getToday(precipPeriod, now) ?: return null
@@ -40,9 +40,10 @@ fun getPrecipitationTotals(
     }
 }
 
-private fun getToday(period: PrecipitationPeriod, now: LocalDateTime): PrecipitationTotal.Today? {
-    val past = period.periodUntil(now, takeLast = PAST_HOURS) ?: return null
-    val future = period.periodFrom(now, take = FUTURE_HOURS) ?: return null
+private fun getToday(period: PrecipitationPeriod, now: ZonedDateTime): PrecipitationTotal.Today? {
+    val nowInstant = now.toInstant()
+    val past = period.periodUntil(nowInstant, takeLast = PAST_HOURS) ?: return null
+    val future = period.periodFrom(nowInstant, take = FUTURE_HOURS) ?: return null
     return PrecipitationTotal.Today(
         day = now.toLocalDate(),
         past = TotalPrecipitationInHours(

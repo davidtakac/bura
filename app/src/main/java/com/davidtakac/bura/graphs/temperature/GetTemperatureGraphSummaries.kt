@@ -17,25 +17,26 @@ import com.davidtakac.bura.forecast.parameters.condition.ConditionPeriod
 import com.davidtakac.bura.forecast.parameters.temperature.Temperature
 import com.davidtakac.bura.forecast.parameters.temperature.TemperaturePeriod
 import java.time.LocalDate
-import java.time.LocalDateTime
+import java.time.ZonedDateTime
 
 fun getTemperatureGraphSummaries(
-    now: LocalDateTime,
+    now: ZonedDateTime,
     tempPeriod: TemperaturePeriod,
     feelsPeriod: TemperaturePeriod,
     condPeriod: ConditionPeriod
 ): List<TemperatureGraphSummary>? {
+    val nowInstant = now.toInstant()
     val tempDays = tempPeriod.dayPeriodsFrom(now.toLocalDate()) ?: return null
-    val conditionDays = condPeriod.periodFrom(now)?.dayPeriodsFrom(now.toLocalDate()) ?: return null
-    val feelsLikeNow = feelsPeriod[now]?.temperature ?: return null
+    val conditionDays = condPeriod.periodFrom(nowInstant)?.dayPeriodsFrom(now.toLocalDate()) ?: return null
+    val feelsLikeNow = feelsPeriod[nowInstant]?.temperature ?: return null
 
     return tempDays.mapIndexed { idx, tempDay ->
         val day = tempDay.first().zdt.toLocalDate()
         val minTemp = tempDay.minimum
         val maxTemp = tempDay.maximum
         val conditionDay = conditionDays[idx]
-        val condition = conditionDay[now]?.condition ?: conditionDay.day ?: conditionDay.night!!
-        val nowTemp = tempDay[now]?.temperature
+        val condition = conditionDay[nowInstant]?.condition ?: conditionDay.day ?: conditionDay.night!!
+        val nowTemp = tempDay[nowInstant]?.temperature
 
         TemperatureGraphSummary(
             day = day,
