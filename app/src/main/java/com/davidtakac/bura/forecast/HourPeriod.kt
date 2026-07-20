@@ -17,7 +17,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
-abstract class HourPeriod<T : HourMoment>(protected val moments: List<T>) : AbstractList<T>() {
+abstract class HourPeriod<T : HourMoment>(private val moments: List<T>) : AbstractList<T>() {
     init {
         requireNotEmpty()
         requireAscendingAndComplete()
