@@ -45,7 +45,7 @@ fun AppleUvIndexScale(uvIndexNow: UvIndex, modifier: Modifier = Modifier) {
             .then(modifier)
             .clip(RoundedCornerShape(percent = 100))
             .background(Brush.horizontalGradient(
-                colorStops = AppTheme.colors.uvIndexColorStops.toTypedArray(),
+                colors = AppTheme.colors.uvIndexColors,
                 startX = if (layoutDirection == LayoutDirection.Ltr) 0f else Float.POSITIVE_INFINITY,
                 endX = if (layoutDirection == LayoutDirection.Ltr) Float.POSITIVE_INFINITY else 0f
             ))
