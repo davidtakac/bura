@@ -14,7 +14,7 @@ package com.davidtakac.bura.places.saved
 
 import com.davidtakac.bura.forecast.parameters.condition.ConditionPeriod
 import com.davidtakac.bura.forecast.ForecastRepository
-import com.davidtakac.bura.forecast.UpdatePolicy
+import com.davidtakac.bura.forecast.UpdateFrequency
 import com.davidtakac.bura.places.Place
 import com.davidtakac.bura.places.selected.SelectedPlaceRepository
 import com.davidtakac.bura.forecast.parameters.temperature.TemperaturePeriod
@@ -35,7 +35,7 @@ class GetSavedPlaces(
             val forecast = forecastRepo.get(
                 coords = place.location.coordinates,
                 units = selectedUnits,
-                updatePolicy = UpdatePolicy.Static
+                updateFrequency = UpdateFrequency.Static
             )
             getSavedPlace(
                 now = now,

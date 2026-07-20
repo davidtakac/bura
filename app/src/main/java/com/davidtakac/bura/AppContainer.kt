@@ -19,6 +19,7 @@ import com.davidtakac.bura.common.util.getUserAgent
 import com.davidtakac.bura.forecast.ForecastRepository
 import com.davidtakac.bura.forecast.cache.ForecastCacher
 import com.davidtakac.bura.forecast.download.ForecastDownloader
+import com.davidtakac.bura.forecast.download.InternetChecker
 import com.davidtakac.bura.forecast.units.SelectedUnitsRepository
 import com.davidtakac.bura.places.saved.DeletePlace
 import com.davidtakac.bura.places.saved.GetSavedPlaces
@@ -49,7 +50,8 @@ class AppContainer(private val appContext: Context) {
     val forecastRepo by lazy {
         ForecastRepository(
             cacher = forecastCacher,
-            downloader = ForecastDownloader(userAgent)
+            downloader = ForecastDownloader(userAgent),
+            internetChecker = InternetChecker(appContext)
         )
     }
 
