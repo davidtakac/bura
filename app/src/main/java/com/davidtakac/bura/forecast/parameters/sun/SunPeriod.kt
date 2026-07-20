@@ -13,7 +13,7 @@
 package com.davidtakac.bura.forecast.parameters.sun
 
 import java.time.Duration
-import java.time.LocalDateTime
+import java.time.Instant
 
 class SunPeriod(val moments: List<SunMoment>): AbstractList<SunMoment>() {
     init {
@@ -27,9 +27,9 @@ class SunPeriod(val moments: List<SunMoment>): AbstractList<SunMoment>() {
     override fun get(index: Int): SunMoment =
         moments[index]
 
-    fun momentsFrom(time: LocalDateTime, takeMomentsUpToHoursInFuture: Int? = null): List<SunMoment>? =
+    fun momentsFrom(time: Instant, takeMomentsUpToHoursInFuture: Int? = null): List<SunMoment>? =
         moments.filter {
-            val durationBetween = Duration.between(time, it.time)
+            val durationBetween = Duration.between(time, it.instant)
             val hoursBetween = durationBetween.toHours()
             val maxHours = takeMomentsUpToHoursInFuture ?: Int.MAX_VALUE
             durationBetween >= Duration.ZERO && hoursBetween in 0..maxHours
@@ -43,8 +43,8 @@ class SunPeriod(val moments: List<SunMoment>): AbstractList<SunMoment>() {
         var previousMoment = moments[0]
         for (i in 1..moments.lastIndex) {
             val nextMoment = moments[i]
-            require(previousMoment.time < nextMoment.time) {
-                "Moments of SunPeriod must be sorted and unique, but contained ${previousMoment.time} and ${nextMoment.time}."
+            require(previousMoment.instant < nextMoment.instant) {
+                "Moments of SunPeriod must be sorted and unique, but contained ${previousMoment.zdt} and ${nextMoment.zdt}."
             }
             previousMoment = nextMoment
         }

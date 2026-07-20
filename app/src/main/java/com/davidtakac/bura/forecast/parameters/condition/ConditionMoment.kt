@@ -13,13 +13,13 @@
 package com.davidtakac.bura.forecast.parameters.condition
 
 import com.davidtakac.bura.forecast.HourMoment
-import java.time.LocalDateTime
+import java.time.ZonedDateTime
 import java.util.Objects
 
 class ConditionMoment(
-    hour: LocalDateTime,
+    zdt: ZonedDateTime,
     val condition: Condition
-) : HourMoment(hour) {
+) : HourMoment(zdt) {
     override fun toString(): String = "$zdt: $condition"
 
     override fun equals(other: Any?): Boolean =

@@ -13,13 +13,13 @@
 package com.davidtakac.bura.forecast.parameters.temperature
 
 import com.davidtakac.bura.forecast.HourMoment
-import java.time.LocalDateTime
+import java.time.ZonedDateTime
 import java.util.Objects
 
 class TemperatureMoment(
-    hour: LocalDateTime,
+    zdt: ZonedDateTime,
     val temperature: Temperature
-) : HourMoment(hour) {
+) : HourMoment(zdt) {
     override fun toString(): String = "$zdt: $temperature"
 
     override fun equals(other: Any?): Boolean =

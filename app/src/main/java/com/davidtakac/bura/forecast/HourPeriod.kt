@@ -31,18 +31,18 @@ abstract class HourPeriod<T : HourMoment>(private val moments: List<T>) : Abstra
     operator fun get(instant: Instant): T? =
         momentsFrom(instant, take = 1)?.firstOrNull()
 
-    fun momentsUntil(instantExclusive: Instant, takeLast: Int? = null): List<T>? {
+    fun momentsUntil(hourExclusive: Instant, takeLast: Int? = null): List<T>? {
         require(takeLast == null || takeLast > 0) { "Take moments must either be null or positive." }
-        val instantAtHourBefore = instantExclusive.truncatedTo(ChronoUnit.HOURS).minus(1, ChronoUnit.HOURS)
+        val instantAtHourBefore = hourExclusive.truncatedTo(ChronoUnit.HOURS).minus(1, ChronoUnit.HOURS)
         val indexOfHour = moments.indexOfFirst { it.instant == instantAtHourBefore }
         return if (indexOfHour < 0) null else moments
             .slice(0..indexOfHour)
             .let { if (takeLast != null) it.takeLast(takeLast) else it }
     }
 
-    fun momentsFrom(instantInclusive: Instant, take: Int? = null): List<T>? {
+    fun momentsFrom(hourInclusive: Instant, take: Int? = null): List<T>? {
         require(take == null || take > 0) { "Take moments must either be null or positive." }
-        val instantAtHour = instantInclusive.truncatedTo(ChronoUnit.HOURS)
+        val instantAtHour = hourInclusive.truncatedTo(ChronoUnit.HOURS)
         val indexOfHour = moments.indexOfFirst { it.instant == instantAtHour }
         return if (indexOfHour < 0) null else moments
             .subList(indexOfHour, moments.size)

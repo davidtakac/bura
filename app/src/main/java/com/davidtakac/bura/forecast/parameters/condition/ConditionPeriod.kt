@@ -13,8 +13,8 @@
 package com.davidtakac.bura.forecast.parameters.condition
 
 import com.davidtakac.bura.forecast.HourPeriod
+import java.time.Instant
 import java.time.LocalDate
-import java.time.LocalDateTime
 
 class ConditionPeriod(
     moments: List<ConditionMoment>
@@ -23,7 +23,7 @@ class ConditionPeriod(
 
     val night get() = representative(isDay = false)
 
-    fun periodFrom(hourInclusive: LocalDateTime, take: Int? = null) =
+    fun periodFrom(hourInclusive: Instant, take: Int? = null) =
         momentsFrom(hourInclusive, take)?.let { ConditionPeriod(it) }
 
     fun dayPeriodsFrom(dayInclusive: LocalDate, take: Int? = null) =

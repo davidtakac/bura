@@ -13,13 +13,13 @@
 package com.davidtakac.bura.forecast.parameters.wind
 
 import com.davidtakac.bura.forecast.HourMoment
-import java.time.LocalDateTime
+import java.time.ZonedDateTime
 import java.util.Objects
 
 class WindMoment(
-    hour: LocalDateTime,
+    zdt: ZonedDateTime,
     val wind: Wind
-) : HourMoment(hour) {
+) : HourMoment(zdt) {
     override fun toString(): String = "$zdt: $wind"
 
     override fun equals(other: Any?): Boolean =

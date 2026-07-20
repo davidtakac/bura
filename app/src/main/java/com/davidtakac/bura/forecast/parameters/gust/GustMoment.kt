@@ -14,13 +14,13 @@ package com.davidtakac.bura.forecast.parameters.gust
 
 import com.davidtakac.bura.forecast.HourMoment
 import com.davidtakac.bura.forecast.parameters.wind.WindSpeed
-import java.time.LocalDateTime
+import java.time.ZonedDateTime
 import java.util.Objects
 
 class GustMoment(
-    hour: LocalDateTime,
+    zdt: ZonedDateTime,
     val speed: WindSpeed
-) : HourMoment(hour) {
+) : HourMoment(zdt) {
     override fun toString(): String = "$zdt: $speed"
 
     override fun equals(other: Any?): Boolean =

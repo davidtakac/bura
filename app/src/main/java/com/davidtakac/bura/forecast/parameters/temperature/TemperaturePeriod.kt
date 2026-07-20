@@ -13,8 +13,8 @@
 package com.davidtakac.bura.forecast.parameters.temperature
 
 import com.davidtakac.bura.forecast.HourPeriod
+import java.time.Instant
 import java.time.LocalDate
-import java.time.LocalDateTime
 
 class TemperaturePeriod(moments: List<TemperatureMoment>) : HourPeriod<TemperatureMoment>(moments) {
     val minimum get() = minOf { it.temperature }
@@ -24,7 +24,7 @@ class TemperaturePeriod(moments: List<TemperatureMoment>) : HourPeriod<Temperatu
     fun dayPeriodOn(day: LocalDate) =
         dayMomentsOn(day)?.let { TemperaturePeriod(it) }
 
-    fun periodFrom(hourInclusive: LocalDateTime, take: Int? = null) =
+    fun periodFrom(hourInclusive: Instant, take: Int? = null) =
         momentsFrom(hourInclusive, take)?.let { TemperaturePeriod(it) }
 
     fun dayPeriodsFrom(dayInclusive: LocalDate, take: Int? = null) =

@@ -12,17 +12,20 @@
 
 package com.davidtakac.bura.forecast.parameters.sun
 
-import java.time.LocalDateTime
+import java.time.Instant
+import java.time.ZonedDateTime
 import java.util.Objects
 
 class SunMoment(
-    val time: LocalDateTime,
+    val zdt: ZonedDateTime,
     val event: SunEvent
 ) {
+    val instant: Instant = zdt.toInstant()
+
     override fun equals(other: Any?): Boolean =
-        other is SunMoment && other.time == time && other.event == event
+        other is SunMoment && other.zdt == zdt && other.event == event
 
-    override fun hashCode(): Int = Objects.hash(time, event)
+    override fun hashCode(): Int = Objects.hash(zdt, event)
 
-    override fun toString(): String = "$time: $event"
+    override fun toString(): String = "$zdt: $event"
 }

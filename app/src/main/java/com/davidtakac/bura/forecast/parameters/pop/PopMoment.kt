@@ -13,13 +13,13 @@
 package com.davidtakac.bura.forecast.parameters.pop
 
 import com.davidtakac.bura.forecast.HourMoment
-import java.time.LocalDateTime
+import java.time.ZonedDateTime
 import java.util.Objects
 
 class PopMoment(
-    hour: LocalDateTime,
+    zdt: ZonedDateTime,
     val pop: Pop
-) : HourMoment(hour) {
+) : HourMoment(zdt) {
     override fun toString(): String = "$zdt: $pop"
 
     override fun equals(other: Any?): Boolean =

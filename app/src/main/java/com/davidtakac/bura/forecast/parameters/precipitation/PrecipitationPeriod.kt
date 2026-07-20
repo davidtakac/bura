@@ -13,17 +13,17 @@
 package com.davidtakac.bura.forecast.parameters.precipitation
 
 import com.davidtakac.bura.forecast.HourPeriod
+import java.time.Instant
 import java.time.LocalDate
-import java.time.LocalDateTime
 
 class PrecipitationPeriod(moments: List<PrecipitationMoment>) : HourPeriod<PrecipitationMoment>(moments) {
     val total: MixedPrecipitation get() = map { it.precipitation }.reduce { acc, precipitation -> acc + precipitation }
     val max: MixedPrecipitation get() = maxOf { it.precipitation }
 
-    fun periodUntil(hourExclusive: LocalDateTime, takeLast: Int? = null) =
+    fun periodUntil(hourExclusive: Instant, takeLast: Int? = null) =
         momentsUntil(hourExclusive, takeLast)?.let { PrecipitationPeriod(it) }
 
-    fun periodFrom(hourInclusive: LocalDateTime, take: Int? = null) =
+    fun periodFrom(hourInclusive: Instant, take: Int? = null) =
         momentsFrom(hourInclusive, take)?.let { PrecipitationPeriod(it) }
 
     fun dayPeriodsFrom(dayInclusive: LocalDate, take: Int? = null) =

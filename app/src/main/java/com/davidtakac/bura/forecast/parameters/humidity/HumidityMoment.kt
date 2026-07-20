@@ -13,13 +13,13 @@
 package com.davidtakac.bura.forecast.parameters.humidity
 
 import com.davidtakac.bura.forecast.HourMoment
-import java.time.LocalDateTime
+import java.time.ZonedDateTime
 import java.util.Objects
 
 class HumidityMoment(
-    hour: LocalDateTime,
+    zdt: ZonedDateTime,
     val humidity: Humidity,
-) : HourMoment(hour) {
+) : HourMoment(zdt) {
     override fun toString(): String = "$zdt: $humidity"
 
     override fun equals(other: Any?): Boolean =

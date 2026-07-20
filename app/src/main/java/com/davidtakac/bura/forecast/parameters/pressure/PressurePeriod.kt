@@ -13,15 +13,15 @@
 package com.davidtakac.bura.forecast.parameters.pressure
 
 import com.davidtakac.bura.forecast.HourPeriod
+import java.time.Instant
 import java.time.LocalDate
-import java.time.LocalDateTime
 
 class PressurePeriod(moments: List<PressureMoment>) : HourPeriod<PressureMoment>(moments) {
     val minimum get() = minOf { it.pressure }
 
     val average get() = map { it.pressure }.reduce { acc, pressure -> acc + pressure } / size
 
-    fun periodUntil(hourExclusive: LocalDateTime, takeLast: Int? = null): PressurePeriod? =
+    fun periodUntil(hourExclusive: Instant, takeLast: Int? = null): PressurePeriod? =
         momentsUntil(hourExclusive, takeLast)?.let { PressurePeriod(it) }
 
     fun dayOn(day: LocalDate): PressurePeriod? =

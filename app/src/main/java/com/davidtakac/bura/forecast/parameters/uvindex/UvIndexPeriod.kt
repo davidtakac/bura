@@ -13,8 +13,9 @@
 package com.davidtakac.bura.forecast.parameters.uvindex
 
 import com.davidtakac.bura.forecast.HourPeriod
+import java.time.Instant
 import java.time.LocalDate
-import java.time.LocalDateTime
+import java.time.ZonedDateTime
 
 class UvIndexPeriod(moments: List<UvIndexMoment>) : HourPeriod<UvIndexMoment>(moments) {
     val minimum get() = minOf { it.uvIndex }
@@ -23,7 +24,7 @@ class UvIndexPeriod(moments: List<UvIndexMoment>) : HourPeriod<UvIndexMoment>(mo
 
     val protectionWindows get() = protectionWindows(dangerousUvIndex = UvIndex(3.0))
 
-    fun periodFrom(hourInclusive: LocalDateTime, take: Int? = null) =
+    fun periodFrom(hourInclusive: Instant, take: Int? = null) =
         momentsFrom(hourInclusive, take)?.let { UvIndexPeriod(it) }
 
     fun dayPeriodOn(day: LocalDate) =
@@ -43,7 +44,7 @@ class UvIndexPeriod(moments: List<UvIndexMoment>) : HourPeriod<UvIndexMoment>(mo
         moments: Iterator<UvIndexMoment>,
         dangerousUvIndex: UvIndex
     ): SunProtectionWindow? {
-        var windowStart: LocalDateTime? = null
+        var windowStart: ZonedDateTime? = null
         while (moments.hasNext()) {
             val curr = moments.next()
             if (curr.uvIndex >= dangerousUvIndex) {
@@ -53,7 +54,7 @@ class UvIndexPeriod(moments: List<UvIndexMoment>) : HourPeriod<UvIndexMoment>(mo
         }
         if (windowStart == null) return null
 
-        var windowEnd: LocalDateTime? = null
+        var windowEnd: ZonedDateTime? = null
         while (moments.hasNext()) {
             val curr = moments.next()
             if (curr.uvIndex < dangerousUvIndex) {
@@ -69,6 +70,6 @@ class UvIndexPeriod(moments: List<UvIndexMoment>) : HourPeriod<UvIndexMoment>(mo
     }
 }
 
-data class SunProtectionWindow(val startInclusive: LocalDateTime, val endExclusive: LocalDateTime?) {
+data class SunProtectionWindow(val startInclusive: ZonedDateTime, val endExclusive: ZonedDateTime?) {
     override fun toString(): String = "$startInclusive until $endExclusive"
 }

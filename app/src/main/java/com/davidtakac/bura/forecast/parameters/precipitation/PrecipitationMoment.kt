@@ -13,13 +13,13 @@
 package com.davidtakac.bura.forecast.parameters.precipitation
 
 import com.davidtakac.bura.forecast.HourMoment
-import java.time.LocalDateTime
+import java.time.ZonedDateTime
 import java.util.Objects
 
 class PrecipitationMoment(
-    hour: LocalDateTime,
+    zdt: ZonedDateTime,
     val precipitation: MixedPrecipitation
-) : HourMoment(hour) {
+) : HourMoment(zdt) {
     override fun toString(): String = "$zdt: $precipitation"
 
     override fun equals(other: Any?): Boolean =

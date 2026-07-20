@@ -13,13 +13,13 @@
 package com.davidtakac.bura.forecast.parameters.visibility
 
 import com.davidtakac.bura.forecast.HourMoment
-import java.time.LocalDateTime
+import java.time.ZonedDateTime
 import java.util.Objects
 
 class VisibilityMoment(
-    hour: LocalDateTime,
+    zdt: ZonedDateTime,
     val visibility: Visibility,
-) : HourMoment(hour) {
+) : HourMoment(zdt) {
     override fun toString(): String = "$zdt: $visibility"
 
     override fun equals(other: Any?): Boolean =
