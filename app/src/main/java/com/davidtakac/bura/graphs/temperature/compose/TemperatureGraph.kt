@@ -44,6 +44,8 @@ import androidx.compose.ui.unit.dp
 import androidx.core.graphics.drawable.toBitmap
 import com.davidtakac.bura.theme.AppTheme
 import com.davidtakac.bura.forecast.parameters.condition.Condition
+import com.davidtakac.bura.forecast.parameters.condition.ConditionMoment
+import com.davidtakac.bura.forecast.parameters.condition.ConditionPeriod
 import com.davidtakac.bura.forecast.parameters.condition.image
 import com.davidtakac.bura.graphs.common.GraphArgs
 import com.davidtakac.bura.graphs.common.GraphTime
@@ -55,13 +57,15 @@ import com.davidtakac.bura.graphs.common.drawing.drawPlotLinePath
 import com.davidtakac.bura.graphs.common.drawing.drawTimeAxis
 import com.davidtakac.bura.graphs.common.drawing.drawVerticalAxis
 import com.davidtakac.bura.forecast.parameters.temperature.Temperature
+import com.davidtakac.bura.forecast.parameters.temperature.TemperatureMoment
+import com.davidtakac.bura.forecast.parameters.temperature.TemperaturePeriod
 import com.davidtakac.bura.forecast.parameters.temperature.string
 import com.davidtakac.bura.graphs.temperature.GraphTemperature
 import com.davidtakac.bura.graphs.temperature.TemperatureGraph
-import com.davidtakac.bura.graphs.temperature.TemperatureGraphPoint
-import java.time.LocalDate
+import com.davidtakac.bura.graphs.temperature.getTemperatureGraphs
 import java.time.ZonedDateTime
 import kotlin.math.roundToInt
+import kotlin.random.Random
 
 @Composable
 fun TemperatureGraph(
@@ -243,11 +247,12 @@ private fun DrawScope.drawTempAxis(
 @Preview
 @Composable
 private fun ConditionGraphNowMiddlePreview() {
+    val state = generateRegularDayState()
     AppTheme {
         TemperatureGraph(
-            state = previewState,
-            absMinTemp = previewState.points.minOf { it.temperature.value },
-            absMaxTemp = previewState.points.maxOf { it.temperature.value },
+            state = state,
+            absMinTemp = state.points.minOf { it.temperature.value },
+            absMaxTemp = state.points.maxOf { it.temperature.value },
             args = GraphArgs.rememberTemperatureArgs(),
             modifier = Modifier
                 .width(400.dp)
@@ -260,12 +265,13 @@ private fun ConditionGraphNowMiddlePreview() {
 @Preview
 @Composable
 private fun ConditionGraphNowMiddleRtlPreview() {
+    val state = generateRegularDayState()
     AppTheme {
         CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
             TemperatureGraph(
-                state = previewState,
-                absMinTemp = previewState.points.minOf { it.temperature.value },
-                absMaxTemp = previewState.points.maxOf { it.temperature.value },
+                state = state,
+                absMinTemp = state.points.minOf { it.temperature.value },
+                absMaxTemp = state.points.maxOf { it.temperature.value },
                 args = GraphArgs.rememberTemperatureArgs(),
                 modifier = Modifier
                     .width(400.dp)
@@ -279,18 +285,12 @@ private fun ConditionGraphNowMiddleRtlPreview() {
 @Preview
 @Composable
 private fun ConditionGraphNowStartPreview() {
+    val state = generateRegularDayState(nowOffset = 0L)
     AppTheme {
         TemperatureGraph(
-            state = previewState.copy(points = previewState.points.mapIndexed { idx, pt ->
-                pt.copy(
-                    time = GraphTime(
-                        pt.time.value,
-                        meta = if (idx == 0) GraphTime.Meta.Present else GraphTime.Meta.Future
-                    )
-                )
-            }),
-            absMinTemp = previewState.points.minOf { it.temperature.value },
-            absMaxTemp = previewState.points.maxOf { it.temperature.value },
+            state = state,
+            absMinTemp = state.points.minOf { it.temperature.value },
+            absMaxTemp = state.points.maxOf { it.temperature.value },
             args = GraphArgs.rememberTemperatureArgs(),
             modifier = Modifier
                 .width(400.dp)
@@ -303,18 +303,12 @@ private fun ConditionGraphNowStartPreview() {
 @Preview
 @Composable
 private fun ConditionGraphNowEndPreview() {
+    val state = generateRegularDayState(nowOffset = 23L)
     AppTheme {
         TemperatureGraph(
-            state = previewState.copy(points = previewState.points.mapIndexed { idx, pt ->
-                pt.copy(
-                    time = GraphTime(
-                        pt.time.value,
-                        meta = if (idx == previewState.points.lastIndex) GraphTime.Meta.Present else GraphTime.Meta.Past
-                    )
-                )
-            }),
-            absMinTemp = previewState.points.minOf { it.temperature.value },
-            absMaxTemp = previewState.points.maxOf { it.temperature.value },
+            state = state,
+            absMinTemp = state.points.minOf { it.temperature.value },
+            absMaxTemp = state.points.maxOf { it.temperature.value },
             args = GraphArgs.rememberTemperatureArgs(),
             modifier = Modifier
                 .width(400.dp)
@@ -327,15 +321,12 @@ private fun ConditionGraphNowEndPreview() {
 @Preview
 @Composable
 private fun ConditionGraphFlatPreview() {
+    val state = generateRegularDayState()
+    val flatState = state.points.map { it.copy(temperature = state.points.first().temperature) }
     AppTheme {
-        val flatState = previewState.points.map {
-            it.copy(
-                temperature = previewState.points.first().temperature
-            )
-        }
         TemperatureGraph(
             state = TemperatureGraph(
-                day = previewState.day,
+                day = state.day,
                 points = flatState
             ),
             absMinTemp = flatState.minOf { it.temperature.value },
@@ -349,308 +340,41 @@ private fun ConditionGraphFlatPreview() {
     }
 }
 
-private val previewState =
-    TemperatureGraph(
-        day = LocalDate.parse("2023-01-01"),
-        points = listOf(
-            TemperatureGraphPoint(
-                time = GraphTime(
-                    value = ZonedDateTime.parse("2023-01-01T00:00Z"),
-                    meta = GraphTime.Meta.Past
-                ),
-                temperature = GraphTemperature(
-                    value = Temperature(-5.0, Temperature.Unit.DegreesCelsius),
-                    meta = GraphTemperature.Meta.Regular
-                ),
-                condition = Condition(wmoCode = 0, isDay = false),
-
-                ),
-            TemperatureGraphPoint(
-                time = GraphTime(
-                    value = ZonedDateTime.parse("2023-01-01T01:00Z"),
-                    meta = GraphTime.Meta.Past
-                ),
-                temperature = GraphTemperature(
-                    value = Temperature(-6.0, Temperature.Unit.DegreesCelsius),
-                    meta = GraphTemperature.Meta.Regular
-                ),
-                condition = Condition(wmoCode = 0, isDay = false),
-
-                ),
-            TemperatureGraphPoint(
-                time = GraphTime(
-                    value = ZonedDateTime.parse("2023-01-01T02:00Z"),
-                    meta = GraphTime.Meta.Past
-                ),
-                temperature = GraphTemperature(
-                    value = Temperature(-6.5, Temperature.Unit.DegreesCelsius),
-                    meta = GraphTemperature.Meta.Regular
-                ),
-                condition = Condition(wmoCode = 0, isDay = false),
-
-                ),
-            TemperatureGraphPoint(
-                time = GraphTime(
-                    value = ZonedDateTime.parse("2023-01-01T03:00Z"),
-                    meta = GraphTime.Meta.Past
-                ),
-                temperature = GraphTemperature(
-                    value = Temperature(-7.0, Temperature.Unit.DegreesCelsius),
-                    meta = GraphTemperature.Meta.Regular
-                ),
-                condition = Condition(wmoCode = 0, isDay = false),
-
-                ),
-            TemperatureGraphPoint(
-                time = GraphTime(
-                    value = ZonedDateTime.parse("2023-01-01T04:00Z"),
-                    meta = GraphTime.Meta.Past
-                ),
-                temperature = GraphTemperature(
-                    value = Temperature(-9.0, Temperature.Unit.DegreesCelsius),
-                    meta = GraphTemperature.Meta.Regular
-                ),
-                condition = Condition(wmoCode = 0, isDay = false),
-
-                ),
-            TemperatureGraphPoint(
-                time = GraphTime(
-                    value = ZonedDateTime.parse("2023-01-01T05:00Z"),
-                    meta = GraphTime.Meta.Past
-                ),
-                temperature = GraphTemperature(
-                    value = Temperature(-10.0, Temperature.Unit.DegreesCelsius),
-                    meta = GraphTemperature.Meta.Regular
-                ),
-                condition = Condition(wmoCode = 0, isDay = false),
-
-                ),
-            TemperatureGraphPoint(
-                time = GraphTime(
-                    value = ZonedDateTime.parse("2023-01-01T06:00Z"),
-                    meta = GraphTime.Meta.Past
-                ),
-                temperature = GraphTemperature(
-                    value = Temperature(-10.0, Temperature.Unit.DegreesCelsius),
-                    meta = GraphTemperature.Meta.Minimum
-                ),
-                condition = Condition(wmoCode = 0, isDay = false),
-
-                ),
-            TemperatureGraphPoint(
-                time = GraphTime(
-                    value = ZonedDateTime.parse("2023-01-01T07:00Z"),
-                    meta = GraphTime.Meta.Past
-                ),
-                temperature = GraphTemperature(
-                    value = Temperature(-8.0, Temperature.Unit.DegreesCelsius),
-                    meta = GraphTemperature.Meta.Regular
-                ),
-                condition = Condition(wmoCode = 0, isDay = false),
-
-                ),
-            TemperatureGraphPoint(
-                time = GraphTime(
-                    value = ZonedDateTime.parse("2023-01-01T08:00Z"),
-                    meta = GraphTime.Meta.Present
-                ),
-                temperature = GraphTemperature(
-                    value = Temperature(-5.0, Temperature.Unit.DegreesCelsius),
-                    meta = GraphTemperature.Meta.Regular
-                ),
-                condition = Condition(wmoCode = 3, isDay = true),
-
-                ),
-            TemperatureGraphPoint(
-                time = GraphTime(
-                    value = ZonedDateTime.parse("2023-01-01T09:00Z"),
-                    meta = GraphTime.Meta.Future
-                ),
-                temperature = GraphTemperature(
-                    value = Temperature(-3.0, Temperature.Unit.DegreesCelsius),
-                    meta = GraphTemperature.Meta.Regular
-                ),
-                condition = Condition(wmoCode = 3, isDay = true),
-
-                ),
-            TemperatureGraphPoint(
-                time = GraphTime(
-                    value = ZonedDateTime.parse("2023-01-01T10:00Z"),
-                    meta = GraphTime.Meta.Future
-                ),
-                temperature = GraphTemperature(
-                    value = Temperature(0.0, Temperature.Unit.DegreesCelsius),
-                    meta = GraphTemperature.Meta.Regular
-                ),
-                condition = Condition(wmoCode = 3, isDay = true),
-
-                ),
-            TemperatureGraphPoint(
-                time = GraphTime(
-                    value = ZonedDateTime.parse("2023-01-01T11:00Z"),
-                    meta = GraphTime.Meta.Future
-                ),
-                temperature = GraphTemperature(
-                    value = Temperature(0.0, Temperature.Unit.DegreesCelsius),
-                    meta = GraphTemperature.Meta.Regular
-                ),
-                condition = Condition(wmoCode = 3, isDay = true),
-
-                ),
-            TemperatureGraphPoint(
-                time = GraphTime(
-                    value = ZonedDateTime.parse("2023-01-01T12:00Z"),
-                    meta = GraphTime.Meta.Future
-                ),
-                temperature = GraphTemperature(
-                    value = Temperature(1.0, Temperature.Unit.DegreesCelsius),
-                    meta = GraphTemperature.Meta.Regular
-                ),
-                condition = Condition(wmoCode = 3, isDay = true),
-
-                ),
-            TemperatureGraphPoint(
-                time = GraphTime(
-                    value = ZonedDateTime.parse("2023-01-01T13:00Z"),
-                    meta = GraphTime.Meta.Future
-                ),
-                temperature = GraphTemperature(
-                    value = Temperature(1.0, Temperature.Unit.DegreesCelsius),
-                    meta = GraphTemperature.Meta.Regular
-                ),
-                condition = Condition(wmoCode = 3, isDay = true),
-
-                ),
-            TemperatureGraphPoint(
-                time = GraphTime(
-                    value = ZonedDateTime.parse("2023-01-01T14:00Z"),
-                    meta = GraphTime.Meta.Future
-                ),
-                temperature = GraphTemperature(
-                    value = Temperature(2.0, Temperature.Unit.DegreesCelsius),
-                    meta = GraphTemperature.Meta.Maximum
-                ),
-                condition = Condition(wmoCode = 3, isDay = true),
-
-                ),
-            TemperatureGraphPoint(
-                time = GraphTime(
-                    value = ZonedDateTime.parse("2023-01-01T15:00Z"),
-                    meta = GraphTime.Meta.Future
-                ),
-                temperature = GraphTemperature(
-                    value = Temperature(0.0, Temperature.Unit.DegreesCelsius),
-                    meta = GraphTemperature.Meta.Regular
-                ),
-                condition = Condition(wmoCode = 3, isDay = true),
-
-                ),
-            TemperatureGraphPoint(
-                time = GraphTime(
-                    value = ZonedDateTime.parse("2023-01-01T16:00Z"),
-                    meta = GraphTime.Meta.Future
-                ),
-                temperature = GraphTemperature(
-                    value = Temperature(-1.0, Temperature.Unit.DegreesCelsius),
-                    meta = GraphTemperature.Meta.Regular
-                ),
-                condition = Condition(wmoCode = 3, isDay = true),
-
-                ),
-            TemperatureGraphPoint(
-                time = GraphTime(
-                    value = ZonedDateTime.parse("2023-01-01T17:00Z"),
-                    meta = GraphTime.Meta.Future
-                ),
-                temperature = GraphTemperature(
-                    value = Temperature(-3.0, Temperature.Unit.DegreesCelsius),
-                    meta = GraphTemperature.Meta.Regular
-                ),
-                condition = Condition(wmoCode = 3, isDay = false),
-
-                ),
-            TemperatureGraphPoint(
-                time = GraphTime(
-                    value = ZonedDateTime.parse("2023-01-01T18:00Z"),
-                    meta = GraphTime.Meta.Future
-                ),
-                temperature = GraphTemperature(
-                    value = Temperature(-2.0, Temperature.Unit.DegreesCelsius),
-                    meta = GraphTemperature.Meta.Regular
-                ),
-                condition = Condition(wmoCode = 3, isDay = false),
-
-                ),
-            TemperatureGraphPoint(
-                time = GraphTime(
-                    value = ZonedDateTime.parse("2023-01-01T19:00Z"),
-                    meta = GraphTime.Meta.Future
-                ),
-                temperature = GraphTemperature(
-                    value = Temperature(-5.0, Temperature.Unit.DegreesCelsius),
-                    meta = GraphTemperature.Meta.Regular
-                ),
-                condition = Condition(wmoCode = 3, isDay = false),
-
-                ),
-            TemperatureGraphPoint(
-                time = GraphTime(
-                    value = ZonedDateTime.parse("2023-01-01T20:00Z"),
-                    meta = GraphTime.Meta.Future
-                ),
-                temperature = GraphTemperature(
-                    value = Temperature(-6.0, Temperature.Unit.DegreesCelsius),
-                    meta = GraphTemperature.Meta.Regular
-                ),
-                condition = Condition(wmoCode = 3, isDay = false),
-
-                ),
-            TemperatureGraphPoint(
-                time = GraphTime(
-                    value = ZonedDateTime.parse("2023-01-01T21:00Z"),
-                    meta = GraphTime.Meta.Future
-                ),
-                temperature = GraphTemperature(
-                    value = Temperature(-7.0, Temperature.Unit.DegreesCelsius),
-                    meta = GraphTemperature.Meta.Regular
-                ),
-                condition = Condition(wmoCode = 3, isDay = false),
-
-                ),
-            TemperatureGraphPoint(
-                time = GraphTime(
-                    value = ZonedDateTime.parse("2023-01-01T22:00Z"),
-                    meta = GraphTime.Meta.Future
-                ),
-                temperature = GraphTemperature(
-                    value = Temperature(-7.0, Temperature.Unit.DegreesCelsius),
-                    meta = GraphTemperature.Meta.Regular
-                ),
-                condition = Condition(wmoCode = 3, isDay = false),
-
-                ),
-            TemperatureGraphPoint(
-                time = GraphTime(
-                    value = ZonedDateTime.parse("2023-01-01T23:00Z"),
-                    meta = GraphTime.Meta.Future
-                ),
-                temperature = GraphTemperature(
-                    value = Temperature(-7.0, Temperature.Unit.DegreesCelsius),
-                    meta = GraphTemperature.Meta.Regular
-                ),
-                condition = Condition(wmoCode = 3, isDay = false),
-
-                ),
-            TemperatureGraphPoint(
-                time = GraphTime(
-                    value = ZonedDateTime.parse("2023-01-02T00:00Z"),
-                    meta = GraphTime.Meta.Future
-                ),
-                temperature = GraphTemperature(
-                    value = Temperature(-8.0, Temperature.Unit.DegreesCelsius),
-                    meta = GraphTemperature.Meta.Regular
-                ),
-                condition = Condition(wmoCode = 3, isDay = false),
+private fun generateRegularDayState(
+    nowOffset: Long = 12L
+): TemperatureGraph {
+    val startingTime: ZonedDateTime = ZonedDateTime.parse("2023-01-01T00:00Z")
+    val times = buildList<ZonedDateTime> {
+        repeat(25) {
+            add(startingTime.plusHours(it.toLong()))
+        }
+    }
+    val temperatures = TemperaturePeriod(
+        times.map {
+            TemperatureMoment(
+                timeZdt = it,
+                temperature = Temperature(
+                    value = Random.nextDouble(-5.0, 5.0),
+                    unit = Temperature.Unit.DegreesCelsius
+                )
             )
-        )
+        }
     )
+    val condition = ConditionPeriod(
+        times.map {
+            ConditionMoment(
+                timeZdt = it,
+                condition = Condition(
+                    wmoCode = 0,
+                    isDay = it.toLocalTime().hour >= 7
+                )
+            )
+        }
+    )
+    val graphs = getTemperatureGraphs(
+        now = startingTime.plusHours(nowOffset),
+        tempPeriod = temperatures,
+        condPeriod = condition
+    )
+    return graphs!!.graphs.first()
+}
