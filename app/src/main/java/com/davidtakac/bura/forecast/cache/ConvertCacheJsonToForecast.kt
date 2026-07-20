@@ -181,7 +181,7 @@ private fun jsonToUvIndexMoment(jsonObject: JSONObject): UvIndexMoment =
     convertJsonToMoment(jsonObject) {
         UvIndexMoment(
             hour = it,
-            uvIndex = UvIndex(value = jsonObject.getDouble(CacheJsonSerialNames.UV_INDEX_VALUE))
+            uvIndex = UvIndex(jsonObject.getDouble(CacheJsonSerialNames.UV_INDEX_VALUE))
         )
     }
 

@@ -17,12 +17,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import com.davidtakac.bura.R
 import com.davidtakac.bura.common.compose.rememberNumberFormat
-import java.math.BigDecimal
-import java.math.RoundingMode
 import java.text.NumberFormat
 
 private fun UvIndex.valueString(numberFormat: NumberFormat): String =
-    numberFormat.format(BigDecimal.valueOf(value).setScale(0, RoundingMode.HALF_UP))
+    numberFormat.format(value)
 
 private fun UvIndex.riskString(context: Context): String = context.getString(
     when (risk) {

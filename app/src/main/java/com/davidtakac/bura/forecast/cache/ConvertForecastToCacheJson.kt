@@ -85,7 +85,7 @@ private fun sunMomentToJson(moment: SunMoment): JSONObject {
 
 private fun uvIndexMomentToJson(moment: UvIndexMoment): JSONObject =
     convertMomentToJson(moment) {
-        put(CacheJsonSerialNames.UV_INDEX_VALUE, moment.uvIndex.value)
+        put(CacheJsonSerialNames.UV_INDEX_VALUE, moment.uvIndex.preciseValue)
     }
 
 private fun windMomentToJson(moment: WindMoment): JSONObject =

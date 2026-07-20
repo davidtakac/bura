@@ -18,11 +18,11 @@ import org.junit.Test
 class UvIndexTest {
     @Test
     fun risk() {
-        assertEquals(UvIndex.Risk.Low, UvIndex(value = 0.0).risk)
-        assertEquals(UvIndex.Risk.Moderate, UvIndex(value = 3.0).risk)
-        assertEquals(UvIndex.Risk.High, UvIndex(value = 6.0).risk)
-        assertEquals(UvIndex.Risk.VeryHigh, UvIndex(value = 8.0).risk)
-        assertEquals(UvIndex.Risk.Extreme, UvIndex(value = 19.0).risk)
+        assertEquals(UvIndex.Risk.Low, UvIndex(0.0).risk)
+        assertEquals(UvIndex.Risk.Moderate, UvIndex(3.0).risk)
+        assertEquals(UvIndex.Risk.High, UvIndex(6.0).risk)
+        assertEquals(UvIndex.Risk.VeryHigh, UvIndex(8.0).risk)
+        assertEquals(UvIndex.Risk.Extreme, UvIndex(19.0).risk)
     }
 
     @Test

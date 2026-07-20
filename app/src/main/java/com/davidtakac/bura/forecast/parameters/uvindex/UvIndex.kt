@@ -14,8 +14,11 @@ package com.davidtakac.bura.forecast.parameters.uvindex
 
 import java.util.Locale
 import java.util.Objects
+import kotlin.math.roundToInt
 
-class UvIndex(val value: Double) : Comparable<UvIndex> {
+class UvIndex(val preciseValue: Double) : Comparable<UvIndex> {
+    val value: Int = preciseValue.roundToInt()
+
     val risk: Risk = when {
         value < 3 -> Risk.Low
         value < 6 -> Risk.Moderate
@@ -39,5 +42,5 @@ class UvIndex(val value: Double) : Comparable<UvIndex> {
 
     override fun hashCode(): Int = Objects.hash(value)
 
-    override fun toString(): String = "${String.format(Locale.ROOT, "%.2f", value)} ($risk)"
+    override fun toString(): String = "${String.format(Locale.ROOT, "%d", value)} ($risk)"
 }
