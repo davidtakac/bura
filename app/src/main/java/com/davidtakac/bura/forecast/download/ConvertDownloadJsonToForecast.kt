@@ -14,7 +14,7 @@ package com.davidtakac.bura.forecast.download
 
 import com.davidtakac.bura.common.util.mapDoubles
 import com.davidtakac.bura.common.util.mapInts
-import com.davidtakac.bura.common.util.mapStrings
+import com.davidtakac.bura.common.util.mapLongs
 import com.davidtakac.bura.forecast.parameters.condition.Condition
 import com.davidtakac.bura.forecast.parameters.condition.ConditionMoment
 import com.davidtakac.bura.forecast.parameters.condition.ConditionPeriod
@@ -58,18 +58,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import java.time.Instant
-import java.time.LocalDateTime
-import java.time.LocalTime
+import java.time.ZoneId
+import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
 
-suspend fun convertDownloadJsonToForecast(json: JSONObject): Forecast =
+suspend fun convertDownloadJsonToForecast(json: JSONObject, timeZone: ZoneId): Forecast =
     withContext(Dispatchers.Default) {
         val hourly = json.getJSONObject("hourly")
-        // Open-Meteo sometimes returns only the first hour of the last day. The app expects
-        // full 0-23h days, so this slicing is a way to drop such incomplete days.
-        val timesRaw = hourly.getJSONArray("time").mapStrings(LocalDateTime::parse)
-        val indexOfLast23HourInstant = timesRaw.indexOfLast { it.toLocalTime() == LocalTime.parse("23:00") }
-        val times = timesRaw.slice(0..indexOfLast23HourInstant)
+        val times = hourly.getJSONArray("time").mapLongs { Instant.ofEpochSecond(it).atZone(timeZone) }
 
         val temperature = hourly.getJSONArray("temperature_2m").mapDoubles { Temperature(it, Temperature.Unit.DegreesCelsius) }
         val feelsLikeTemperature = hourly.getJSONArray("apparent_temperature").mapDoubles { Temperature(it, Temperature.Unit.DegreesCelsius) }
@@ -121,10 +117,8 @@ suspend fun convertDownloadJsonToForecast(json: JSONObject): Forecast =
         }
 
         val daily = json.getJSONObject("daily")
-        // When a day has no sunrise or sunset, Open-Meteo returns epoch second 0, but the app
-        // expects an omitted timestamp. These filters drop such placeholders.
-        val sunrises = daily.getJSONArray("sunrise").mapStrings(LocalDateTime::parse)
-        val sunsets = daily.getJSONArray("sunset").mapStrings(LocalDateTime::parse)
+        val sunrises = daily.getJSONArray("sunrise").mapLongs { Instant.ofEpochSecond(it).atZone(timeZone) }
+        val sunsets = daily.getJSONArray("sunset").mapLongs { Instant.ofEpochSecond(it).atZone(timeZone) }
 
         Forecast(
             timestamp = Instant.now(),
@@ -145,19 +139,19 @@ suspend fun convertDownloadJsonToForecast(json: JSONObject): Forecast =
     }
 
 fun createSunPeriod(
-    sunrises: List<LocalDateTime>,
-    sunsets: List<LocalDateTime>,
+    sunrises: List<ZonedDateTime>,
+    sunsets: List<ZonedDateTime>,
 ): SunPeriod? {
     val sortedSunMoments = mutableListOf<SunMoment>()
     for (i in sunrises.indices) {
         val sunrise = SunMoment(sunrises[i], SunEvent.Rise)
         val sunset = SunMoment(sunsets[i], SunEvent.Set)
         // https://github.com/davidtakac/bura/issues/97#issuecomment-3001628460
-        val isPolarNight = sunrise.time == sunset.time
-        val isPolarDay = ChronoUnit.HOURS.between(sunrise.time, sunset.time) == 24L
+        val isPolarNight = sunrise.timeInstant == sunset.timeInstant
+        val isPolarDay = ChronoUnit.HOURS.between(sunrise.timeInstant, sunset.timeInstant) == 24L
         if (isPolarNight || isPolarDay) {
             continue
-        } else if (sunset.time < sunrise.time) {
+        } else if (sunset.timeInstant < sunrise.timeInstant) {
             sortedSunMoments.add(sunset)
             sortedSunMoments.add(sunrise)
         } else {

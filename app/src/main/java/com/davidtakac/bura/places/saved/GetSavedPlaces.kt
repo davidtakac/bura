@@ -20,7 +20,7 @@ import com.davidtakac.bura.places.selected.SelectedPlaceRepository
 import com.davidtakac.bura.forecast.parameters.temperature.TemperaturePeriod
 import com.davidtakac.bura.forecast.units.SelectedUnitsRepository
 import java.time.Instant
-import java.time.LocalDateTime
+import java.time.ZonedDateTime
 
 class GetSavedPlaces(
     private val selectedUnitsRepo: SelectedUnitsRepository,
@@ -33,7 +33,7 @@ class GetSavedPlaces(
         val selectedPlace = selectedPlaceRepo.getSelectedPlace()
         return savedPlacesRepo.getSavedPlaces().map { place ->
             val forecast = forecastRepo.get(
-                coords = place.location.coordinates,
+                location = place.location,
                 units = selectedUnits,
                 updateFrequency = UpdateFrequency.Never
             )
@@ -56,7 +56,7 @@ fun getSavedPlace(
     condPeriod: ConditionPeriod?
 ): SavedPlace {
     val location = place.location
-    val dateTimeAtPlace = now.atZone(place.location.timeZone).toLocalDateTime()
+    val dateTimeAtPlace = now.atZone(place.location.timeZone)
     val dateAtPlace = dateTimeAtPlace.toLocalDate()
     val tempDayAtPlace = tempPeriod?.dayPeriodOn(dateAtPlace)
     val condDayAtPlace = condPeriod?.dayPeriodOn(dateAtPlace)
@@ -74,13 +74,15 @@ fun getSavedPlace(
 }
 
 private fun getConditions(
-    now: LocalDateTime,
+    now: ZonedDateTime,
     tempDay: TemperaturePeriod,
     conditionDay: ConditionPeriod
-): SavedPlace.Conditions = SavedPlace.Conditions(
-    temp = tempDay[now]!!.temperature,
-    minTemp = tempDay.minimum,
-    maxTemp = tempDay.maximum,
-    condition = conditionDay[now]?.condition
-        ?: conditionDay.day ?: conditionDay.night!!
-)
+): SavedPlace.Conditions {
+    val nowInstant = now.toInstant()
+    return SavedPlace.Conditions(
+        temp = tempDay[nowInstant]!!.temperature,
+        minTemp = tempDay.minimum,
+        maxTemp = tempDay.maximum,
+        condition = conditionDay[nowInstant]?.condition ?: conditionDay.day ?: conditionDay.night!!
+    )
+}

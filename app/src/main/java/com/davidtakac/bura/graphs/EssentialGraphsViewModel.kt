@@ -59,10 +59,9 @@ class EssentialGraphsViewModel(
 
     private suspend fun getState(): EssentialGraphsState {
         val location = placeRepo.getSelectedPlace()?.location ?: return EssentialGraphsState.NoSelectedPlace
-        val coords = location.coordinates
         val units = unitsRepo.getSelectedUnits()
         val now = Instant.now().atZone(location.timeZone)
-        val forecast = forecastRepo.get(coords, units) ?: return EssentialGraphsState.FailedToDownload
+        val forecast = forecastRepo.get(location, units) ?: return EssentialGraphsState.FailedToDownload
 
         val tempGraphSummaries = getTemperatureGraphSummaries(
             now = now,

@@ -30,6 +30,9 @@ fun <T> JSONArray.mapDoubles(transform: (Double) -> T): List<T> =
 fun <T> JSONArray.mapInts(transform: (Int) -> T): List<T> =
     mapInternal(transform, argProducer = ::getInt)
 
+fun <T> JSONArray.mapLongs(transform: (Long) -> T): List<T> =
+    mapInternal(transform, argProducer = ::getLong)
+
 private fun <T, U> JSONArray.mapInternal(
     transform: (U) -> T,
     argProducer: (Int) -> U,

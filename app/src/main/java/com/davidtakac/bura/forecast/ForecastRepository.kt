@@ -17,6 +17,7 @@ import com.davidtakac.bura.forecast.download.ForecastDownloader
 import com.davidtakac.bura.forecast.download.InternetChecker
 import com.davidtakac.bura.places.Coordinates
 import com.davidtakac.bura.forecast.units.Units
+import com.davidtakac.bura.places.Location
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import java.time.Duration
@@ -30,16 +31,16 @@ class ForecastRepository(
     private val coordsToMutex = mutableMapOf<Coordinates, Mutex>()
 
     suspend fun get(
-        coords: Coordinates,
+        location: Location,
         units: Units,
         updateFrequency: UpdateFrequency = UpdateFrequency.App
     ): Forecast? =
-        coordsToMutex.getOrPut(coords, defaultValue = { Mutex() }).withLock {
-            val cached = cacher.get(coords)
+        coordsToMutex.getOrPut(location.coordinates, defaultValue = { Mutex() }).withLock {
+            val cached = cacher.get(location.coordinates)
             if (shouldUpdate(cached, updateFrequency)) {
-                val downloaded = downloader.get(coords)
+                val downloaded = downloader.get(location)
                 if (downloaded != null) {
-                    cacher.save(coords, downloaded)
+                    cacher.save(location.coordinates, downloaded)
                     downloaded
                 } else {
                     cached

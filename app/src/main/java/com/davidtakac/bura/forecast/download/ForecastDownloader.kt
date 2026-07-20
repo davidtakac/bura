@@ -13,7 +13,7 @@
 package com.davidtakac.bura.forecast.download
 
 import com.davidtakac.bura.forecast.Forecast
-import com.davidtakac.bura.places.Coordinates
+import com.davidtakac.bura.places.Location
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
@@ -24,14 +24,14 @@ import java.util.Locale
 import javax.net.ssl.HttpsURLConnection
 
 class ForecastDownloader(private val userAgent: String) {
-    suspend fun get(coords: Coordinates): Forecast? =
-        downloadForecastJson(coords)?.let {
-            convertDownloadJsonToForecast(it)
+    suspend fun get(location: Location): Forecast? =
+        downloadForecastJson(location)?.let {
+            convertDownloadJsonToForecast(it, location.timeZone)
         }
 
-    private suspend fun downloadForecastJson(coords: Coordinates): JSONObject? =
+    private suspend fun downloadForecastJson(location: Location): JSONObject? =
         withContext(Dispatchers.IO) {
-            val url = URL(openMeteoUrl(coords))
+            val url = URL(openMeteoUrl(location))
             val conn = try {
                 url.openConnection() as HttpsURLConnection
             } catch (_: Exception) {
@@ -54,15 +54,15 @@ class ForecastDownloader(private val userAgent: String) {
             }
         }
 
-    private fun openMeteoUrl(coords: Coordinates): String =
+    private fun openMeteoUrl(location: Location): String =
         "https://api.open-meteo.com/v1/forecast" +
-                "?latitude=${formatCoordinate(coords.latitude)}" +
-                "&longitude=${formatCoordinate(coords.longitude)}" +
+                "?latitude=${formatCoordinate(location.coordinates.latitude)}" +
+                "&longitude=${formatCoordinate(location.coordinates.longitude)}" +
                 "&hourly=temperature_2m,relative_humidity_2m,dew_point_2m,apparent_temperature,precipitation_probability,rain,showers,snowfall,weather_code,pressure_msl,visibility,wind_speed_10m,wind_direction_10m,wind_gusts_10m,uv_index,is_day" +
                 "&daily=sunrise,sunset" +
                 "&wind_speed_unit=ms" +
-                // timezone=auto returns whole days for the desired location
-                "&timezone=auto" +
+                "&timezone=${location.timeZone.id}" +
+                "&timeformat=unixtime" +
                 "&past_days=1"
 
     private fun formatCoordinate(value: Double): String =

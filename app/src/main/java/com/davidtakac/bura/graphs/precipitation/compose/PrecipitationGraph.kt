@@ -58,6 +58,7 @@ import com.davidtakac.bura.graphs.precipitation.PrecipitationGraph
 import com.davidtakac.bura.graphs.precipitation.PrecipitationGraphPoint
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
 import kotlin.math.roundToInt
 import kotlin.random.Random
@@ -314,9 +315,9 @@ private val previewState = PrecipitationGraph(
     points = List(24) {
         PrecipitationGraphPoint(
             time = GraphTime(
-                hour = LocalDateTime.parse("1970-01-01T00:00")
+                hour = ZonedDateTime.parse("1970-01-01T00:00Z")
                     .plus(it.toLong(), ChronoUnit.HOURS),
-                now = LocalDateTime.parse("1970-01-01T08:00")
+                now = ZonedDateTime.parse("1970-01-01T08:00Z").toInstant()
             ),
             precip = MixedPrecipitation(
                 rain = Rain(Random.nextDouble(until = 5.0), Precipitation.Unit.Millimeters),
@@ -337,9 +338,9 @@ private val smallPreviewState = PrecipitationGraph(
     points = List(24) {
         PrecipitationGraphPoint(
             time = GraphTime(
-                hour = LocalDateTime.parse("1970-01-01T00:00")
+                hour = ZonedDateTime.parse("1970-01-01T00:00Z")
                     .plus(it.toLong(), ChronoUnit.HOURS),
-                now = LocalDateTime.parse("1970-01-01T08:00")
+                now = ZonedDateTime.parse("1970-01-01T08:00Z").toInstant()
             ),
             precip = MixedPrecipitation(
                 rain = Rain(Random.nextDouble(until = 5.0), Precipitation.Unit.Millimeters),
@@ -360,9 +361,9 @@ private val smallPreviewStateInches = PrecipitationGraph(
     points = List(24) {
         PrecipitationGraphPoint(
             time = GraphTime(
-                hour = LocalDateTime.parse("1970-01-01T00:00")
+                hour = ZonedDateTime.parse("1970-01-01T00:00Z")
                     .plus(it.toLong(), ChronoUnit.HOURS),
-                now = LocalDateTime.parse("1970-01-01T08:00")
+                now = ZonedDateTime.parse("1970-01-01T08:00").toInstant()
             ),
             precip = MixedPrecipitation(
                 rain = Rain(1.0, Precipitation.Unit.Millimeters),
