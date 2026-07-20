@@ -22,7 +22,7 @@ class TemperaturePeriod(moments: List<TemperatureMoment>) : HourPeriod<Temperatu
     val maximum get() = maxOf { it.temperature }
 
     fun dayPeriodOn(day: LocalDate) =
-        momentsOn(day)?.let { TemperaturePeriod(it) }
+        dayMomentsOn(day)?.let { TemperaturePeriod(it) }
 
     fun periodFrom(hourInclusive: LocalDateTime, take: Int? = null) =
         momentsFrom(hourInclusive, take)?.let { TemperaturePeriod(it) }

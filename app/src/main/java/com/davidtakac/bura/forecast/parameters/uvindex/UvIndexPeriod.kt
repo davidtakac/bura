@@ -27,7 +27,7 @@ class UvIndexPeriod(moments: List<UvIndexMoment>) : HourPeriod<UvIndexMoment>(mo
         momentsFrom(hourInclusive, take)?.let { UvIndexPeriod(it) }
 
     fun dayPeriodOn(day: LocalDate) =
-        momentsOn(day)?.let { UvIndexPeriod(it) }
+        dayMomentsOn(day)?.let { UvIndexPeriod(it) }
 
     private fun protectionWindows(dangerousUvIndex: UvIndex): List<SunProtectionWindow> =
         buildList {

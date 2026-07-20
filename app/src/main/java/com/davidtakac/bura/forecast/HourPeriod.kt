@@ -49,7 +49,7 @@ abstract class HourPeriod<T : HourMoment>(private val moments: List<T>) : Abstra
             .let { if (take != null) it.take(take) else it }
     }
 
-    fun momentsOn(day: LocalDate): List<T>? =
+    fun dayMomentsOn(day: LocalDate): List<T>? =
         dayMomentsFrom(day, take = 1)?.firstOrNull()
 
     fun dayMomentsFrom(

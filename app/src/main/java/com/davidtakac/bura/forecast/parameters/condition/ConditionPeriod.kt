@@ -30,7 +30,7 @@ class ConditionPeriod(
         dayMomentsFrom(dayInclusive, take)?.map { ConditionPeriod(it) }
 
     fun dayPeriodOn(day: LocalDate) =
-        momentsOn(day)?.let { ConditionPeriod(it) }
+        dayMomentsOn(day)?.let { ConditionPeriod(it) }
 
     private fun representative(isDay: Boolean): Condition? {
         val groupedByCode = filter { it.condition.isDay == isDay }

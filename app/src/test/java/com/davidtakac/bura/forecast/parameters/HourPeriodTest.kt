@@ -161,13 +161,13 @@ class HourPeriodTest {
     @Test
     fun `gets day at time`() {
         val period = TestHourPeriod(listOf(TestHourMoment(unixEpochStart)))
-        Assert.assertNotNull(period.momentsOn(unixEpochStart.toLocalDate()))
+        Assert.assertNotNull(period.dayMomentsOn(unixEpochStart.toLocalDate()))
     }
 
     @Test
     fun `get day returns null when no day at time`() {
         val period = TestHourPeriod(listOf(TestHourMoment(unixEpochStart)))
-        Assert.assertNull(period.momentsOn(LocalDate.MIN.plus(2, ChronoUnit.DAYS)))
+        Assert.assertNull(period.dayMomentsOn(LocalDate.MIN.plus(2, ChronoUnit.DAYS)))
     }
 
     @Test
