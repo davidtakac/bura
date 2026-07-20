@@ -151,10 +151,10 @@
     <string name="feels_like">Feels like</string>
     <string name="feels_like_value">Feels like %s</string>
     <string name="feels_like_value_actual">Actual %s</string>
-    <string name="feels_like_cooler_than_actual">The wind is making it feel cooler.</string>
-    <string name="feels_like_colder_than_actual">The wind is making it feel colder.</string>
-    <string name="feels_like_warmer_than_actual">The humidity is making it feel warmer.</string>
-    <string name="feels_like_hotter_than_actual">The humidity is making it feel hotter.</string>
+    <string name="feels_like_cooler_than_actual">It feels cooler than the actual temperature.</string>
+    <string name="feels_like_colder_than_actual">It feels colder than the actual temperature.</string>
+    <string name="feels_like_warmer_than_actual">It feels warmer than the actual temperature.</string>
+    <string name="feels_like_hotter_than_actual">It feels hotter than the actual temperature.</string>
     <string name="feels_like_similar_to_actual">Similar to the actual temperature.</string>
 
     <string name="uv_index">UV Index</string>

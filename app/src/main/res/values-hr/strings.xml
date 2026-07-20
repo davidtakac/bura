@@ -125,11 +125,11 @@
     <string name="feels_like">Osjet</string>
     <string name="feels_like_value">Osjet %s</string>
     <string name="feels_like_value_actual">Stvarna %s</string>
-    <string name="feels_like_cooler_than_actual">Zbog vjetra se čini kao da je svježije.</string>
-    <string name="feels_like_colder_than_actual">Zbog vjetra se čini kao da je hladnije.</string>
-    <string name="feels_like_warmer_than_actual">Zbog vlage se čini kao da je toplije.</string>
-    <string name="feels_like_hotter_than_actual">Zbog vlage se čini kao da je vruće.</string>
-    <string name="feels_like_similar_to_actual">Osjet sličan stvarnoj temperaturi.</string>
+    <string name="feels_like_cooler_than_actual">Osjet je svježiji od stvarne temperature.</string>
+    <string name="feels_like_colder_than_actual">Osjet je hladniji od stvarne temperature.</string>
+    <string name="feels_like_warmer_than_actual">Osjet je topliji od stvarne temperature.</string>
+    <string name="feels_like_hotter_than_actual">Osjet je vrući od stvarne temperature.</string>
+    <string name="feels_like_similar_to_actual">Osjet je sličan stvarnoj temperaturi.</string>
     <string name="uv_index">UV Indeks</string>
     <string name="uv_index_risk_low">Nizak</string>
     <string name="uv_index_risk_moderate">Umjeren</string>
