@@ -29,11 +29,11 @@ class GetPressureSummaryTest {
         val period = PressurePeriod(
             moments = listOf(
                 PressureMoment(
-                    hourZdt = firstMoment,
+                    timeZdt = firstMoment,
                     pressure = Pressure(0.0, Pressure.Unit.Hectopascal)
                 ),
                 PressureMoment(
-                    hourZdt = secondMoment,
+                    timeZdt = secondMoment,
                     pressure = Pressure(1.0, Pressure.Unit.Hectopascal)
                 )
             )
@@ -98,7 +98,7 @@ class GetPressureSummaryTest {
         val period = PressurePeriod(
             moments = listOf(
                 PressureMoment(
-                    hourZdt = firstMoment,
+                    timeZdt = firstMoment,
                     pressure = Pressure(1.0, Pressure.Unit.Hectopascal)
                 )
             )
@@ -113,7 +113,7 @@ class GetPressureSummaryTest {
         val period = PressurePeriod(
             moments = listOf(
                 PressureMoment(
-                    hourZdt = firstMoment,
+                    timeZdt = firstMoment,
                     pressure = Pressure(1.0, Pressure.Unit.Hectopascal)
                 )
             )

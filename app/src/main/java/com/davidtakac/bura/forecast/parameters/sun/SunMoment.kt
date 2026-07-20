@@ -12,16 +12,14 @@
 
 package com.davidtakac.bura.forecast.parameters.sun
 
-import java.time.Instant
+import com.davidtakac.bura.forecast.Moment
 import java.time.ZonedDateTime
 import java.util.Objects
 
 class SunMoment(
-    val timeZdt: ZonedDateTime,
+    timeZdt: ZonedDateTime,
     val event: SunEvent
-) {
-    val timeInstant: Instant = timeZdt.toInstant()
-
+) : Moment(timeZdt) {
     override fun equals(other: Any?): Boolean =
         other is SunMoment && other.timeZdt == timeZdt && other.event == event
 

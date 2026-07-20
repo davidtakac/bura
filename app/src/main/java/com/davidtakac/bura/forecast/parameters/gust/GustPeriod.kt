@@ -20,7 +20,7 @@ class GustPeriod(moments: List<GustMoment>) : HourPeriod<GustMoment>(moments) {
 
     fun convertTo(unit: WindSpeed.Unit): GustPeriod {
         if (first().speed.unit == unit) return this
-        val convertedMoments = map { GustMoment(it.hourZdt, it.speed.convertTo(unit)) }
+        val convertedMoments = map { GustMoment(it.timeZdt, it.speed.convertTo(unit)) }
         return GustPeriod(convertedMoments)
     }
 }

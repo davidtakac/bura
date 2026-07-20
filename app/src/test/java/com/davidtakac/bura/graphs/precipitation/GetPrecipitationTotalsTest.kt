@@ -35,7 +35,7 @@ class GetPrecipitationTotalsTest {
             for (i in 0..23) {
                 add(
                     PrecipitationMoment(
-                        hourZdt = startOfFirstDay.plus(i.toLong(), ChronoUnit.HOURS),
+                        timeZdt = startOfFirstDay.plus(i.toLong(), ChronoUnit.HOURS),
                         precipitation = MixedPrecipitation(
                             rain = Rain(1.0, Precipitation.Unit.Millimeters),
                             snow = Snow(5.0, Precipitation.Unit.Millimeters),
@@ -48,7 +48,7 @@ class GetPrecipitationTotalsTest {
             for (i in 0..23) {
                 add(
                     PrecipitationMoment(
-                        hourZdt = startOfSecondDay.plus(i.toLong(), ChronoUnit.HOURS),
+                        timeZdt = startOfSecondDay.plus(i.toLong(), ChronoUnit.HOURS),
                         precipitation = MixedPrecipitation(
                             rain = Rain.ZeroMillimeters,
                             snow = Snow.ZeroMillimeters,

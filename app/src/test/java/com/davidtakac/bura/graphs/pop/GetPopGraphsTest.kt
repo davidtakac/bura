@@ -36,16 +36,16 @@ class GetPopGraphsTest {
         val now = secondMoment
         val popPeriod = PopPeriod(
             listOf(
-                PopMoment(hourZdt = firstMoment, pop = Pop(0.0)),
-                PopMoment(hourZdt = secondMoment, pop = Pop(0.0)),
-                PopMoment(hourZdt = thirdMoment, pop = Pop(5.0))
+                PopMoment(timeZdt = firstMoment, pop = Pop(0.0)),
+                PopMoment(timeZdt = secondMoment, pop = Pop(0.0)),
+                PopMoment(timeZdt = thirdMoment, pop = Pop(5.0))
             )
         )
         val conditionPeriod = ConditionPeriod(
             listOf(
-                ConditionMoment(hourZdt = firstMoment, condition = Condition(0, true)),
-                ConditionMoment(hourZdt = secondMoment, condition = Condition(1, true)),
-                ConditionMoment(hourZdt = thirdMoment, condition = Condition(2, true))
+                ConditionMoment(timeZdt = firstMoment, condition = Condition(0, true)),
+                ConditionMoment(timeZdt = secondMoment, condition = Condition(1, true)),
+                ConditionMoment(timeZdt = thirdMoment, condition = Condition(2, true))
             )
         )
         val graphs = getPopGraphs(now, popPeriod, conditionPeriod)

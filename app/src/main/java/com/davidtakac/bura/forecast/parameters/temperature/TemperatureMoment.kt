@@ -12,21 +12,21 @@
 
 package com.davidtakac.bura.forecast.parameters.temperature
 
-import com.davidtakac.bura.forecast.HourMoment
+import com.davidtakac.bura.forecast.Moment
 import java.time.ZonedDateTime
 import java.util.Objects
 
 class TemperatureMoment(
-    hourZdt: ZonedDateTime,
+    timeZdt: ZonedDateTime,
     val temperature: Temperature
-) : HourMoment(hourZdt) {
-    override fun toString(): String = "$hourZdt: $temperature"
+) : Moment(timeZdt) {
+    override fun toString(): String = "$timeZdt: $temperature"
 
     override fun equals(other: Any?): Boolean =
         other is TemperatureMoment
-                && other.hourZdt == hourZdt
+                && other.timeZdt == timeZdt
                 && other.temperature == temperature
 
     override fun hashCode(): Int =
-        Objects.hash(hourZdt, temperature)
+        Objects.hash(timeZdt, temperature)
 }

@@ -45,7 +45,7 @@ private fun outOfSight(
     val nowInstant = now.toInstant()
     val futureDesc = condPeriod.periodFrom(nowInstant) ?: return null
     val isDayNow = futureDesc[nowInstant]!!.condition.isDay
-    val lastMoment = futureDesc.last().hourZdt
+    val lastMoment = futureDesc.last().timeZdt
     val duration = Duration.between(now, lastMoment).plusHours(1)
     return if (isDayNow) {
         Sunset.OutOfSight(duration)

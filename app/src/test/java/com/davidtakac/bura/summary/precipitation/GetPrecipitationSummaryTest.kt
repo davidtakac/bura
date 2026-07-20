@@ -35,7 +35,7 @@ class GetPrecipitationSummaryTest {
     ): List<PrecipitationMoment> =
         List(24) { hour ->
             PrecipitationMoment(
-                hourZdt = startTime.plus(hour.toLong(), ChronoUnit.HOURS),
+                timeZdt = startTime.plus(hour.toLong(), ChronoUnit.HOURS),
                 precipitation = MixedPrecipitation(
                     rain = Rain(
                         millimetersPerHour,

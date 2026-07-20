@@ -12,21 +12,21 @@
 
 package com.davidtakac.bura.forecast.parameters.humidity
 
-import com.davidtakac.bura.forecast.HourMoment
+import com.davidtakac.bura.forecast.Moment
 import java.time.ZonedDateTime
 import java.util.Objects
 
 class HumidityMoment(
-    hourZdt: ZonedDateTime,
+    timeZdt: ZonedDateTime,
     val humidity: Humidity,
-) : HourMoment(hourZdt) {
-    override fun toString(): String = "$hourZdt: $humidity"
+) : Moment(timeZdt) {
+    override fun toString(): String = "$timeZdt: $humidity"
 
     override fun equals(other: Any?): Boolean =
         other is HumidityMoment
-                && other.hourZdt == hourZdt
+                && other.timeZdt == timeZdt
                 && other.humidity == humidity
 
     override fun hashCode(): Int =
-        Objects.hash(hourZdt, humidity)
+        Objects.hash(timeZdt, humidity)
 }

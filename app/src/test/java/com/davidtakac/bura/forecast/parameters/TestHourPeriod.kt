@@ -14,4 +14,4 @@ package com.davidtakac.bura.forecast.parameters
 
 import com.davidtakac.bura.forecast.HourPeriod
 
-class TestHourPeriod(moments: List<TestHourMoment>) : HourPeriod<TestHourMoment>(moments)
+class TestHourPeriod(moments: List<TestMoment>) : HourPeriod<TestMoment>(moments)

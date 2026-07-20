@@ -43,7 +43,7 @@ class GetSavedPlacesTest {
         val tempPeriod = TemperaturePeriod(
             listOf(
                 TemperatureMoment(
-                    hourZdt = momentDateTime,
+                    timeZdt = momentDateTime,
                     temperature = Temperature(10.0, Temperature.Unit.DegreesCelsius)
                 )
             ),
@@ -51,7 +51,7 @@ class GetSavedPlacesTest {
         val condPeriod = ConditionPeriod(
             listOf(
                 ConditionMoment(
-                    hourZdt = momentDateTime,
+                    timeZdt = momentDateTime,
                     condition = Condition(0, true)
                 )
             ),
@@ -107,7 +107,7 @@ class GetSavedPlacesTest {
         val tempPeriod = TemperaturePeriod(
             listOf(
                 TemperatureMoment(
-                    hourZdt = momentDateTime,
+                    timeZdt = momentDateTime,
                     temperature = Temperature(10.0, Temperature.Unit.DegreesCelsius)
                 )
             ),

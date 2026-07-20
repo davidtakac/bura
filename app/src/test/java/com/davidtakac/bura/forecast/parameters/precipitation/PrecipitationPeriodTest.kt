@@ -48,7 +48,7 @@ class PrecipitationPeriodTest {
         val period = PrecipitationPeriod(
             moments = listOf(
                 PrecipitationMoment(
-                    hourZdt = unixEpochStartZdt,
+                    timeZdt = unixEpochStartZdt,
                     precipitation = MixedPrecipitation(
                         rain = Rain(1.0, Precipitation.Unit.Millimeters),
                         snow = Snow.ZeroMillimeters,
@@ -57,7 +57,7 @@ class PrecipitationPeriodTest {
                     )
                 ),
                 PrecipitationMoment(
-                    hourZdt = unixEpochStartZdt.plus(1, ChronoUnit.HOURS),
+                    timeZdt = unixEpochStartZdt.plus(1, ChronoUnit.HOURS),
                     precipitation = MixedPrecipitation(
                         rain = Rain(1.0, Precipitation.Unit.Millimeters),
                         snow = Snow.ZeroMillimeters,

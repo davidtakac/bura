@@ -48,7 +48,7 @@ class UvIndexPeriod(moments: List<UvIndexMoment>) : HourPeriod<UvIndexMoment>(mo
         while (moments.hasNext()) {
             val curr = moments.next()
             if (curr.uvIndex >= dangerousUvIndex) {
-                windowStart = curr.hourZdt
+                windowStart = curr.timeZdt
                 break
             }
         }
@@ -58,7 +58,7 @@ class UvIndexPeriod(moments: List<UvIndexMoment>) : HourPeriod<UvIndexMoment>(mo
         while (moments.hasNext()) {
             val curr = moments.next()
             if (curr.uvIndex < dangerousUvIndex) {
-                windowEnd = curr.hourZdt
+                windowEnd = curr.timeZdt
                 break
             }
         }

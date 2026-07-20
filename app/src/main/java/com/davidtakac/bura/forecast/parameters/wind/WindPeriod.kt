@@ -21,7 +21,7 @@ class WindPeriod(moments: List<WindMoment>) : HourPeriod<WindMoment>(moments) {
 
     fun convertTo(unit: WindSpeed.Unit): WindPeriod {
         if (first().wind.speed.unit == unit) return this
-        val convertedMoments = map { WindMoment(it.hourZdt, Wind(it.wind.speed.convertTo(unit), it.wind.from)) }
+        val convertedMoments = map { WindMoment(it.timeZdt, Wind(it.wind.speed.convertTo(unit), it.wind.from)) }
         return WindPeriod(convertedMoments)
     }
 }

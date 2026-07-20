@@ -15,7 +15,7 @@ package com.davidtakac.bura.forecast.cache
 import com.davidtakac.bura.common.util.mapToJSONArray
 import com.davidtakac.bura.forecast.parameters.condition.ConditionMoment
 import com.davidtakac.bura.forecast.Forecast
-import com.davidtakac.bura.forecast.HourMoment
+import com.davidtakac.bura.forecast.Moment
 import com.davidtakac.bura.forecast.parameters.gust.GustMoment
 import com.davidtakac.bura.forecast.parameters.humidity.HumidityMoment
 import com.davidtakac.bura.forecast.parameters.pop.PopMoment
@@ -124,8 +124,8 @@ private fun conditionMomentToJson(moment: ConditionMoment): JSONObject =
         put(CacheJsonSerialNames.CONDITION_IS_DAY_VALUE, moment.condition.isDay)
     }
 
-private fun <T : HourMoment> convertMomentToJson(moment: T, block: JSONObject.() -> Unit) =
+private fun <T : Moment> convertMomentToJson(moment: T, block: JSONObject.() -> Unit) =
     JSONObject().apply {
-        put(CacheJsonSerialNames.MOMENT_TIME, moment.hourZdt.toString())
+        put(CacheJsonSerialNames.MOMENT_TIME, moment.timeZdt.toString())
         block()
     }

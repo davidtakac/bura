@@ -12,21 +12,21 @@
 
 package com.davidtakac.bura.forecast.parameters.precipitation
 
-import com.davidtakac.bura.forecast.HourMoment
+import com.davidtakac.bura.forecast.Moment
 import java.time.ZonedDateTime
 import java.util.Objects
 
 class PrecipitationMoment(
-    hourZdt: ZonedDateTime,
+    timeZdt: ZonedDateTime,
     val precipitation: MixedPrecipitation
-) : HourMoment(hourZdt) {
-    override fun toString(): String = "$hourZdt: $precipitation"
+) : Moment(timeZdt) {
+    override fun toString(): String = "$timeZdt: $precipitation"
 
     override fun equals(other: Any?): Boolean =
         other is PrecipitationMoment
-                && other.hourZdt == hourZdt
+                && other.timeZdt == timeZdt
                 && other.precipitation == precipitation
 
     override fun hashCode(): Int =
-        Objects.hash(hourZdt, precipitation)
+        Objects.hash(timeZdt, precipitation)
 }

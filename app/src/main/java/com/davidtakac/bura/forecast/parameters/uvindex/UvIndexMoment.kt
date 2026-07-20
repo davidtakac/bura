@@ -12,21 +12,21 @@
 
 package com.davidtakac.bura.forecast.parameters.uvindex
 
-import com.davidtakac.bura.forecast.HourMoment
+import com.davidtakac.bura.forecast.Moment
 import java.time.ZonedDateTime
 import java.util.Objects
 
 class UvIndexMoment(
-    hourZdt: ZonedDateTime,
+    timeZdt: ZonedDateTime,
     val uvIndex: UvIndex
-) : HourMoment(hourZdt) {
-    override fun toString(): String = "$hourZdt: $uvIndex"
+) : Moment(timeZdt) {
+    override fun toString(): String = "$timeZdt: $uvIndex"
 
     override fun equals(other: Any?): Boolean =
         other is UvIndexMoment
-                && other.hourZdt == hourZdt
+                && other.timeZdt == timeZdt
                 && other.uvIndex == uvIndex
 
     override fun hashCode(): Int =
-        Objects.hash(hourZdt, uvIndex)
+        Objects.hash(timeZdt, uvIndex)
 }
