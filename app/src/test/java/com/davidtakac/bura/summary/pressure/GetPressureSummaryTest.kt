@@ -51,6 +51,48 @@ class GetPressureSummaryTest {
     }
 
     @Test
+    fun `trend falling`() = runTest {
+        val now = Pressure(1000.0, Pressure.Unit.Hectopascal)
+        val past = Pressure(1002.0, Pressure.Unit.Hectopascal)
+        Assert.assertEquals(PressureTrend.Falling, getPressureTrend(past, now))
+    }
+
+    @Test
+    fun `trend rising`() = runTest {
+        val now = Pressure(1002.0, Pressure.Unit.Hectopascal)
+        val past = Pressure(1000.0, Pressure.Unit.Hectopascal)
+        Assert.assertEquals(PressureTrend.Rising, getPressureTrend(past, now))
+    }
+
+    @Test
+    fun `trend stable`() = runTest {
+        val now = Pressure(1000.5, Pressure.Unit.Hectopascal)
+        val past = Pressure(1000.0, Pressure.Unit.Hectopascal)
+        Assert.assertEquals(PressureTrend.Stable, getPressureTrend(past, now))
+    }
+
+    @Test
+    fun `trend rising on border`() = runTest {
+        val now = Pressure(1001.0, Pressure.Unit.Hectopascal)
+        val past = Pressure(1000.0, Pressure.Unit.Hectopascal)
+        Assert.assertEquals(PressureTrend.Rising, getPressureTrend(past, now))
+    }
+
+    @Test
+    fun `trend falling on border`() = runTest {
+        val now = Pressure(1000.0, Pressure.Unit.Hectopascal)
+        val past = Pressure(1001.0, Pressure.Unit.Hectopascal)
+        Assert.assertEquals(PressureTrend.Falling, getPressureTrend(past, now))
+    }
+
+    @Test
+    fun `trend stable when same`() = runTest {
+        val now = Pressure(1000.0, Pressure.Unit.Hectopascal)
+        val past = Pressure(1000.0, Pressure.Unit.Hectopascal)
+        Assert.assertEquals(PressureTrend.Stable, getPressureTrend(past, now))
+    }
+
+    @Test
     fun `when no moments at now, summary is outdated`() = runTest {
         val firstMoment = unixEpochStart
         val period = PressurePeriod(
