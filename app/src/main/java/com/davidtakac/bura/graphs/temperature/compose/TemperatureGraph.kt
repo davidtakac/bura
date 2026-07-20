@@ -15,12 +15,12 @@ package com.davidtakac.bura.graphs.temperature.compose
 import android.content.Context
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -33,22 +33,16 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.drawable.toBitmap
-import com.davidtakac.bura.forecast.parameters.condition.Condition
-import com.davidtakac.bura.forecast.parameters.condition.ConditionMoment
-import com.davidtakac.bura.forecast.parameters.condition.ConditionPeriod
 import com.davidtakac.bura.forecast.parameters.condition.image
 import com.davidtakac.bura.forecast.parameters.temperature.Temperature
-import com.davidtakac.bura.forecast.parameters.temperature.TemperatureMoment
-import com.davidtakac.bura.forecast.parameters.temperature.TemperaturePeriod
 import com.davidtakac.bura.forecast.parameters.temperature.string
 import com.davidtakac.bura.graphs.common.GraphArgs
 import com.davidtakac.bura.graphs.common.GraphTime
@@ -62,15 +56,8 @@ import com.davidtakac.bura.graphs.common.drawing.drawVerticalAxis
 import com.davidtakac.bura.graphs.temperature.GraphTemperature
 import com.davidtakac.bura.graphs.temperature.TemperatureGraph
 import com.davidtakac.bura.graphs.temperature.TemperatureGraphs
-import com.davidtakac.bura.graphs.temperature.getTemperatureGraphs
 import com.davidtakac.bura.theme.AppTheme
-import java.time.Instant
-import java.time.ZoneId
-import java.time.ZoneOffset
-import java.time.ZonedDateTime
-import java.time.temporal.ChronoUnit
 import kotlin.math.roundToInt
-import kotlin.random.Random
 
 @Composable
 fun TemperatureGraph(
@@ -251,339 +238,22 @@ private fun DrawScope.drawTempAxis(
 
 @Preview
 @Composable
-private fun ConditionGraphNowMiddlePreview() {
+private fun TemperatureGraphPreview(
+    @PreviewParameter(TemperatureGraphsPreviewParameterProvider::class) providedState: Pair<String, TemperatureGraphs>
+) {
+    val state = providedState.second
     AppTheme {
-        val state = generateRegularDayState()
-        TemperatureGraph(
-            state = state.graphs.first(),
-            absMinTemp = state.minTemp,
-            absMaxTemp = state.maxTemp,
-            args = GraphArgs.rememberTemperatureArgs(),
-            modifier = Modifier
-                .width(400.dp)
-                .height(300.dp)
-                .background(MaterialTheme.colorScheme.background)
-        )
-    }
-}
-
-@Preview
-@Composable
-private fun ConditionGraphNowMiddleSpringForwardPreview() {
-    AppTheme {
-        val springForwardState = generateSpringForwardDayState()
-        TemperatureGraph(
-            state = springForwardState.graphs.first(),
-            absMinTemp = springForwardState.minTemp,
-            absMaxTemp = springForwardState.maxTemp,
-            args = GraphArgs.rememberTemperatureArgs(),
-            modifier = Modifier
-                .width(400.dp)
-                .height(300.dp)
-                .background(MaterialTheme.colorScheme.background)
-        )
-    }
-}
-
-@Preview
-@Composable
-private fun ConditionGraphNowStartSpringForwardPreview() {
-    AppTheme {
-        val springForwardState = generateSpringForwardDayState(nowOffset = 0L)
-        TemperatureGraph(
-            state = springForwardState.graphs.first(),
-            absMinTemp = springForwardState.minTemp,
-            absMaxTemp = springForwardState.maxTemp,
-            args = GraphArgs.rememberTemperatureArgs(),
-            modifier = Modifier
-                .width(400.dp)
-                .height(300.dp)
-                .background(MaterialTheme.colorScheme.background)
-        )
-    }
-}
-
-@Preview
-@Composable
-private fun ConditionGraphNowEndSpringForwardPreview() {
-    AppTheme {
-        val springForwardState = generateSpringForwardDayState(nowOffset = 22L)
-        TemperatureGraph(
-            state = springForwardState.graphs.first(),
-            absMinTemp = springForwardState.minTemp,
-            absMaxTemp = springForwardState.maxTemp,
-            args = GraphArgs.rememberTemperatureArgs(),
-            modifier = Modifier
-                .width(400.dp)
-                .height(300.dp)
-                .background(MaterialTheme.colorScheme.background)
-        )
-    }
-}
-
-@Preview
-@Composable
-private fun ConditionGraphNowMiddleFallBackPreview() {
-    AppTheme {
-        val fallBackState = generateFallBackDayState()
-        TemperatureGraph(
-            state = fallBackState.graphs.first(),
-            absMinTemp = fallBackState.minTemp,
-            absMaxTemp = fallBackState.maxTemp,
-            args = GraphArgs.rememberTemperatureArgs(),
-            modifier = Modifier
-                .width(400.dp)
-                .height(300.dp)
-                .background(MaterialTheme.colorScheme.background)
-        )
-    }
-}
-
-@Preview
-@Composable
-private fun ConditionGraphNowStartFallBackPreview() {
-    AppTheme {
-        val fallBackState = generateFallBackDayState(NowPosition.Start)
-        TemperatureGraph(
-            state = fallBackState.graphs.first(),
-            absMinTemp = fallBackState.minTemp,
-            absMaxTemp = fallBackState.maxTemp,
-            args = GraphArgs.rememberTemperatureArgs(),
-            modifier = Modifier
-                .width(400.dp)
-                .height(300.dp)
-                .background(MaterialTheme.colorScheme.background)
-        )
-    }
-}
-
-@Preview
-@Composable
-private fun ConditionGraphNowEndFallBackPreview() {
-    AppTheme {
-        val fallBackState = generateFallBackDayState(NowPosition.End)
-        TemperatureGraph(
-            state = fallBackState.graphs.first(),
-            absMinTemp = fallBackState.minTemp,
-            absMaxTemp = fallBackState.maxTemp,
-            args = GraphArgs.rememberTemperatureArgs(),
-            modifier = Modifier
-                .width(400.dp)
-                .height(300.dp)
-                .background(MaterialTheme.colorScheme.background)
-        )
-    }
-}
-
-@Preview
-@Composable
-private fun ConditionGraphNowMiddleRtlPreview() {
-    val state = generateRegularDayState()
-    AppTheme {
-        CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
-            TemperatureGraph(
-                state = state.graphs.first(),
-                absMinTemp = state.minTemp,
-                absMaxTemp = state.maxTemp,
-                args = GraphArgs.rememberTemperatureArgs(),
-                modifier = Modifier
-                    .width(400.dp)
-                    .height(300.dp)
-                    .background(MaterialTheme.colorScheme.background)
-            )
-        }
-    }
-}
-
-@Preview
-@Composable
-private fun ConditionGraphNowStartPreview() {
-    val state = generateRegularDayState(nowOffset = 0L)
-    AppTheme {
-        TemperatureGraph(
-            state = state.graphs.first(),
-            absMinTemp = state.minTemp,
-            absMaxTemp = state.maxTemp,
-            args = GraphArgs.rememberTemperatureArgs(),
-            modifier = Modifier
-                .width(400.dp)
-                .height(300.dp)
-                .background(MaterialTheme.colorScheme.background)
-        )
-    }
-}
-
-@Preview
-@Composable
-private fun ConditionGraphNowEndPreview() {
-    val state = generateRegularDayState(nowOffset = 23L)
-    AppTheme {
-        TemperatureGraph(
-            state = state.graphs.first(),
-            absMinTemp = state.minTemp,
-            absMaxTemp = state.maxTemp,
-            args = GraphArgs.rememberTemperatureArgs(),
-            modifier = Modifier
-                .width(400.dp)
-                .height(300.dp)
-                .background(MaterialTheme.colorScheme.background)
-        )
-    }
-}
-
-@Preview
-@Composable
-private fun ConditionGraphFlatPreview() {
-    val state = generateRegularDayState(flat = true)
-    AppTheme {
-        TemperatureGraph(
-            state = state.graphs.first(),
-            absMinTemp = state.minTemp,
-            absMaxTemp = state.maxTemp,
-            args = GraphArgs.rememberTemperatureArgs(),
-            modifier = Modifier
-                .width(400.dp)
-                .height(300.dp)
-                .background(MaterialTheme.colorScheme.background)
-        )
-    }
-}
-
-private const val momentCount = 30
-private val temps = buildList(momentCount) {
-    repeat(momentCount) {
-        add(
-            Temperature(
-                value = Random.nextDouble(-2.0, 1.0),
-                unit = Temperature.Unit.DegreesCelsius
-            )
-        )
-    }
-}
-
-private fun generateRegularDayState(
-    nowOffset: Long = 12L,
-    flat: Boolean = false,
-): TemperatureGraphs {
-    val startingTime: ZonedDateTime = ZonedDateTime.parse("2023-01-01T00:00Z")
-    val times = buildList<ZonedDateTime> {
-        repeat(momentCount) {
-            add(startingTime.plusHours(it.toLong()))
-        }
-    }
-    val temperatures = TemperaturePeriod(
-        times.mapIndexed { index, time ->
-            TemperatureMoment(
-                timeZdt = time,
-                temperature = if (flat) temps.first() else temps[index]
-            )
-        }
-    )
-    val condition = ConditionPeriod(
-        times.map {
-            ConditionMoment(
-                timeZdt = it,
-                condition = Condition(
-                    wmoCode = 0,
-                    isDay = it.toLocalTime().hour >= 7
+        Surface {
+            Column {
+                Text(providedState.first)
+                TemperatureGraph(
+                    state = state.graphs.first(),
+                    args = GraphArgs.rememberTemperatureArgs(),
+                    absMinTemp = state.minTemp,
+                    absMaxTemp = state.maxTemp,
+                    modifier = Modifier.width(400.dp).height(300.dp)
                 )
-            )
-        }
-    )
-    val graphs = getTemperatureGraphs(
-        now = startingTime.plusHours(nowOffset),
-        tempPeriod = temperatures,
-        condPeriod = condition
-    )
-    return graphs!!
-}
-
-private fun generateSpringForwardDayState(nowOffset: Long = 12L): TemperatureGraphs {
-    val summerTimeZone = ZoneId.ofOffset("GMT", ZoneOffset.ofHours(2))
-    val standardTimeZone = ZoneId.ofOffset("GMT", ZoneOffset.ofHours(1))
-    val startingTime = Instant.ofEpochSecond(1774825200) // 2026-03-29T23:00Z so that applying the offset starts us at 2026-03-30T00:00
-    val times = buildList {
-        repeat(momentCount) {
-            add(
-                startingTime
-                    .plus(it.toLong(), ChronoUnit.HOURS)
-                    .atZone(if (it <= 2) standardTimeZone else summerTimeZone)
-            )
-        }
-    }
-    val temperatures = TemperaturePeriod(
-        times.mapIndexed { index, time ->
-            TemperatureMoment(
-                timeZdt = time,
-                temperature = temps[index]
-            )
-        }
-    )
-    val condition = ConditionPeriod(
-        times.map {
-            ConditionMoment(
-                timeZdt = it,
-                condition = Condition(
-                    wmoCode = 0,
-                    isDay = it.toLocalTime().hour >= 7
-                )
-            )
-        }
-    )
-    val graphs = getTemperatureGraphs(
-        now = startingTime.plus(nowOffset, ChronoUnit.HOURS).atZone(times.first().zone),
-        tempPeriod = temperatures,
-        condPeriod = condition
-    )
-    return graphs!!
-}
-
-private fun generateFallBackDayState(nowPosition: NowPosition = NowPosition.Middle): TemperatureGraphs {
-    val summerTimeZone = ZoneId.ofOffset("GMT", ZoneOffset.ofHours(2))
-    val standardTimeZone = ZoneId.ofOffset("GMT", ZoneOffset.ofHours(1))
-    val startingTime = Instant.ofEpochSecond(1792965600) // 2026-10-25T22:00Z so that applying the offset starts us at 2026-10-26T00:00
-    val times = buildList {
-        repeat(momentCount) {
-            add(
-                startingTime
-                    .plus(it.toLong(), ChronoUnit.HOURS)
-                    .atZone(if (it <= 3) summerTimeZone else standardTimeZone)
-            )
-        }
-    }
-    val temperatures = TemperaturePeriod(
-        times.mapIndexed { index, time ->
-            TemperatureMoment(
-                timeZdt = time,
-                temperature = temps[index]
-            )
-        }
-    )
-    val condition = ConditionPeriod(
-        times.map {
-            ConditionMoment(
-                timeZdt = it,
-                condition = Condition(
-                    wmoCode = 0,
-                    isDay = it.toLocalTime().hour >= 7
-                )
-            )
-        }
-    )
-    val graphs = getTemperatureGraphs(
-        now = times.get(
-            when (nowPosition) {
-                NowPosition.Start -> 0
-                NowPosition.Middle -> times.lastIndex / 2
-                NowPosition.End -> times.indexOfLast { it.toLocalDate() == times.first().toLocalDate() }
             }
-        ),
-        tempPeriod = temperatures,
-        condPeriod = condition
-    )
-    return graphs!!
-}
-
-private enum class NowPosition {
-    Start, Middle, End
+        }
+    }
 }
