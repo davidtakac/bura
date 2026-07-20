@@ -362,17 +362,12 @@ private fun ConditionGraphNowEndPreview() {
 @Preview
 @Composable
 private fun ConditionGraphFlatPreview() {
-    // TODO: How do I flatten this more elegantly?
-    val state = generateRegularDayState()
-    val flatState = state.graphs.first().points.map { it.copy(temperature = state.graphs.first().points.first().temperature) }
+    val state = generateRegularDayState(flat = true)
     AppTheme {
         TemperatureGraph(
-            state = TemperatureGraph(
-                day = state.graphs.first().day,
-                points = flatState
-            ),
-            absMinTemp = flatState.minOf { it.temperature.value },
-            absMaxTemp = flatState.maxOf { it.temperature.value },
+            state = state.graphs.first(),
+            absMinTemp = state.minTemp,
+            absMaxTemp = state.maxTemp,
             args = GraphArgs.rememberTemperatureArgs(),
             modifier = Modifier
                 .width(400.dp)
@@ -395,7 +390,8 @@ private val temps = buildList(momentCount) {
 }
 
 private fun generateRegularDayState(
-    nowOffset: Long = 12L
+    nowOffset: Long = 12L,
+    flat: Boolean = false,
 ): TemperatureGraphs {
     val startingTime: ZonedDateTime = ZonedDateTime.parse("2023-01-01T00:00Z")
     val times = buildList<ZonedDateTime> {
@@ -407,7 +403,7 @@ private fun generateRegularDayState(
         times.mapIndexed { index, time ->
             TemperatureMoment(
                 timeZdt = time,
-                temperature = temps[index]
+                temperature = if (flat) temps.first() else temps[index]
             )
         }
     )
