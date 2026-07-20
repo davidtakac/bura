@@ -153,7 +153,7 @@ private fun DrawScope.drawTimeHelperLine(
 ) {
     drawLine(
         color = args.axisColor,
-        start = Offset(x, y = if (drawSolidLine) 0f else args.topGutter),
+        start = Offset(x, y = args.topGutter),
         end = Offset(x, y = size.height),
         strokeWidth = args.axisWidth,
         pathEffect = if (!drawSolidLine) PathEffect.dashPathEffect(args.axisDashIntervals.toFloatArray()) else null
