@@ -29,9 +29,9 @@ fun getHourlySummary(
     condPeriod: ConditionPeriod,
     sunPeriod: SunPeriod?
 ): List<HourSummary>? {
-    val futureTemps = tempPeriod.momentsFrom(now, takeMoments = 24) ?: return null
-    val futurePops = popPeriod.momentsFrom(now, takeMoments = 24) ?: return null
-    val futureDesc = condPeriod.momentsFrom(now, takeMoments = 24) ?: return null
+    val futureTemps = tempPeriod.periodFrom(now, take = 24) ?: return null
+    val futurePops = popPeriod.periodFrom(now, take = 24) ?: return null
+    val futureDesc = condPeriod.periodFrom(now, take = 24) ?: return null
     val combinedWeatherData = buildList {
         for (i in futureTemps.indices) {
             add(

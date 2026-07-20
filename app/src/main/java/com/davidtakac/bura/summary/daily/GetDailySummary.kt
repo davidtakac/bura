@@ -28,9 +28,9 @@ fun getDailySummary(
     popPeriod: PopPeriod
 ): DailySummary? {
     val nowDate = now.toLocalDate()
-    val futureTempDays = tempPeriod.daysFrom(nowDate) ?: return null
-    val popDays = popPeriod.momentsFrom(now)?.daysFrom(nowDate) ?: return null
-    val descDays = condPeriod.momentsFrom(now)?.daysFrom(nowDate) ?: return null
+    val futureTempDays = tempPeriod.dayPeriodsFrom(nowDate) ?: return null
+    val popDays = popPeriod.periodFrom(now)?.dayPeriodsFrom(nowDate) ?: return null
+    val descDays = condPeriod.periodFrom(now)?.dayPeriodsFrom(nowDate) ?: return null
     return DailySummary(
         minTemp = futureTempDays.minOf { it.minimum },
         maxTemp = futureTempDays.maxOf { it.maximum },

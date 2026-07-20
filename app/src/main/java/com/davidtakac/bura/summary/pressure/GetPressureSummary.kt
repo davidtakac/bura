@@ -20,10 +20,10 @@ fun getPressureSummary(
     now: LocalDateTime,
     pressurePeriod: PressurePeriod
 ): PressureSummary? {
-    val pressureToday = pressurePeriod.getDay(now.toLocalDate()) ?: return null
+    val pressureToday = pressurePeriod.dayOn(now.toLocalDate()) ?: return null
     val pressureNow = pressurePeriod[now]?.pressure ?: return null
 
-    val pastPressureForTrend = pressurePeriod.momentsUntil(now, takeMoments = 2)
+    val pastPressureForTrend = pressurePeriod.periodUntil(now, takeLast = 2)
         ?.firstOrNull()
         ?.pressure ?: return null
     val trend = getPressureTrend(pastPressureForTrend, pressureNow)

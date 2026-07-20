@@ -19,9 +19,9 @@ import java.time.LocalDateTime
 class PopPeriod(moments: List<PopMoment>) : HourPeriod<PopMoment>(moments) {
     val maximum get() = maxOf { it.pop }
 
-    override fun momentsFrom(hourInclusive: LocalDateTime, takeMoments: Int?) =
-        super.momentsFrom(hourInclusive, takeMoments)?.let { PopPeriod(it) }
+    fun periodFrom(hourInclusive: LocalDateTime, take: Int? = null) =
+        momentsFrom(hourInclusive, take)?.let { PopPeriod(it) }
 
-    override fun daysFrom(dayInclusive: LocalDate, takeDays: Int?) =
-        super.daysFrom(dayInclusive, takeDays)?.map { PopPeriod(it) }
+    fun dayPeriodsFrom(dayInclusive: LocalDate, take: Int? = null) =
+        dayMomentsFrom(dayInclusive, take)?.map { PopPeriod(it) }
 }

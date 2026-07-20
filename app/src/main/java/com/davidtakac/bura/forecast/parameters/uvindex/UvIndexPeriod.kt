@@ -23,11 +23,11 @@ class UvIndexPeriod(moments: List<UvIndexMoment>) : HourPeriod<UvIndexMoment>(mo
 
     val protectionWindows get() = protectionWindows(dangerousUvIndex = UvIndex(3.0))
 
-    override fun momentsFrom(hourInclusive: LocalDateTime, takeMoments: Int?) =
-        super.momentsFrom(hourInclusive, takeMoments)?.let { UvIndexPeriod(it) }
+    fun periodFrom(hourInclusive: LocalDateTime, take: Int? = null) =
+        momentsFrom(hourInclusive, take)?.let { UvIndexPeriod(it) }
 
-    override fun getDay(day: LocalDate) =
-        super.getDay(day)?.let { UvIndexPeriod(it) }
+    fun dayPeriodOn(day: LocalDate) =
+        momentsOn(day)?.let { UvIndexPeriod(it) }
 
     private fun protectionWindows(dangerousUvIndex: UvIndex): List<SunProtectionWindow> =
         buildList {

@@ -34,7 +34,7 @@ private fun calculatePast(
     now: LocalDateTime,
     period: PrecipitationPeriod
 ): PastPrecipitation? {
-    val past = period.momentsUntil(now, takeMoments = PAST_HOURS) ?: return null
+    val past = period.periodUntil(now, takeLast = PAST_HOURS) ?: return null
     val hours = past.size
     return PastPrecipitation(
         inHours = hours,
@@ -55,7 +55,7 @@ private fun calculateFutureSoon(
     now: LocalDateTime,
     period: PrecipitationPeriod
 ): FuturePrecipitation.InHours? {
-    val future = period.momentsFrom(now, takeMoments = FUTURE_HOURS) ?: return null
+    val future = period.periodFrom(now, take = FUTURE_HOURS) ?: return null
     return FuturePrecipitation.InHours(
         inHours = future.size,
         total = future.total.reduce()
@@ -67,7 +67,7 @@ private fun calculateFutureLater(
     period: PrecipitationPeriod
 ): FuturePrecipitation? {
     val nowAfterFutureHours = now.plus(FUTURE_HOURS + 1L, ChronoUnit.HOURS)
-    val afterFuture = period.momentsFrom(nowAfterFutureHours)?.daysFrom(nowAfterFutureHours.toLocalDate()) ?: return null
+    val afterFuture = period.periodFrom(nowAfterFutureHours)?.dayPeriodsFrom(nowAfterFutureHours.toLocalDate()) ?: return null
     val firstPrecipitation = afterFuture.firstOrNull { it.total.value > 0 }
     return if (firstPrecipitation == null) {
         FuturePrecipitation.None(inDays = afterFuture.size)

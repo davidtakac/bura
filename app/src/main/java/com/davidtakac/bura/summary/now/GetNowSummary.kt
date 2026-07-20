@@ -24,7 +24,7 @@ fun getNowSummary(
     feelsPeriod: TemperaturePeriod,
     condPeriod: ConditionPeriod
 ): NowSummary? {
-    val tempToday = tempPeriod.getDay(now.toLocalDate()) ?: return null
+    val tempToday = tempPeriod.dayPeriodOn(now.toLocalDate()) ?: return null
     return NowSummary(
         temp = tempPeriod[now]?.temperature ?: return null,
         feelsLike = feelsPeriod[now]?.temperature ?: return null,

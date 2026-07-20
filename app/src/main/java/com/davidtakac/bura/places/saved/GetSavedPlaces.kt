@@ -58,8 +58,8 @@ fun getSavedPlace(
     val location = place.location
     val dateTimeAtPlace = now.atZone(place.location.timeZone).toLocalDateTime()
     val dateAtPlace = dateTimeAtPlace.toLocalDate()
-    val tempDayAtPlace = tempPeriod?.getDay(dateAtPlace)
-    val condDayAtPlace = condPeriod?.getDay(dateAtPlace)
+    val tempDayAtPlace = tempPeriod?.dayPeriodOn(dateAtPlace)
+    val condDayAtPlace = condPeriod?.dayPeriodOn(dateAtPlace)
     val conditions = if (tempDayAtPlace != null && condDayAtPlace != null) getConditions(
         dateTimeAtPlace,
         tempDayAtPlace,

@@ -23,14 +23,14 @@ class ConditionPeriod(
 
     val night get() = representative(isDay = false)
 
-    override fun momentsFrom(hourInclusive: LocalDateTime, takeMoments: Int?) =
-        super.momentsFrom(hourInclusive, takeMoments)?.let { ConditionPeriod(it) }
+    fun periodFrom(hourInclusive: LocalDateTime, take: Int? = null) =
+        momentsFrom(hourInclusive, take)?.let { ConditionPeriod(it) }
 
-    override fun daysFrom(dayInclusive: LocalDate, takeDays: Int?) =
-        super.daysFrom(dayInclusive, takeDays)?.map { ConditionPeriod(it) }
+    fun dayPeriodsFrom(dayInclusive: LocalDate, take: Int? = null) =
+        dayMomentsFrom(dayInclusive, take)?.map { ConditionPeriod(it) }
 
-    override fun getDay(day: LocalDate) =
-        super.getDay(day)?.let { ConditionPeriod(it) }
+    fun dayPeriodOn(day: LocalDate) =
+        momentsOn(day)?.let { ConditionPeriod(it) }
 
     private fun representative(isDay: Boolean): Condition? {
         val groupedByCode = filter { it.condition.isDay == isDay }

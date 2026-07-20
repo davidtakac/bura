@@ -25,7 +25,7 @@ fun getPrecipitationTotals(
     precipPeriod: PrecipitationPeriod
 ): List<PrecipitationTotal>? {
     val today = getToday(precipPeriod, now) ?: return null
-    val days = precipPeriod.daysFrom(now.toLocalDate()) ?: return null
+    val days = precipPeriod.dayPeriodsFrom(now.toLocalDate()) ?: return null
     val daysAfterToday = days.subList(1, days.size)
     return buildList {
         add(today)
@@ -41,8 +41,8 @@ fun getPrecipitationTotals(
 }
 
 private fun getToday(period: PrecipitationPeriod, now: LocalDateTime): PrecipitationTotal.Today? {
-    val past = period.momentsUntil(now, takeMoments = PAST_HOURS) ?: return null
-    val future = period.momentsFrom(now, takeMoments = FUTURE_HOURS) ?: return null
+    val past = period.periodUntil(now, takeLast = PAST_HOURS) ?: return null
+    val future = period.periodFrom(now, take = FUTURE_HOURS) ?: return null
     return PrecipitationTotal.Today(
         day = now.toLocalDate(),
         past = TotalPrecipitationInHours(

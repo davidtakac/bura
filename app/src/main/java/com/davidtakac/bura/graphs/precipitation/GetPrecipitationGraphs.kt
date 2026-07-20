@@ -25,8 +25,8 @@ fun getPrecipitationGraphs(
     precipPeriod: PrecipitationPeriod,
     condPeriod: ConditionPeriod
 ): PrecipitationGraphs? {
-    val precipDays = precipPeriod.daysFrom(now.toLocalDate()) ?: return null
-    val condDays = condPeriod.daysFrom(now.toLocalDate()) ?: return null
+    val precipDays = precipPeriod.dayPeriodsFrom(now.toLocalDate()) ?: return null
+    val condDays = condPeriod.dayPeriodsFrom(now.toLocalDate()) ?: return null
     return PrecipitationGraphs(
         max = precipDays.maxOf { it.max },
         graphs = precipDays.mapIndexed { dayIdx, day ->

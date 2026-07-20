@@ -27,8 +27,8 @@ fun getPopGraphs(
     popPeriod: PopPeriod,
     conditionPeriod: ConditionPeriod,
 ): List<PopGraph>? {
-    val popDays = popPeriod.daysFrom(now.toLocalDate()) ?: return null
-    val conditionDays = conditionPeriod.daysFrom(now.toLocalDate()) ?: return null
+    val popDays = popPeriod.dayPeriodsFrom(now.toLocalDate()) ?: return null
+    val conditionDays = conditionPeriod.dayPeriodsFrom(now.toLocalDate()) ?: return null
     return popDays.mapIndexed { idx, popDay ->
         val conditionDay = conditionDays[idx]
         val popTomorrow = popDays.getOrNull(idx + 1)

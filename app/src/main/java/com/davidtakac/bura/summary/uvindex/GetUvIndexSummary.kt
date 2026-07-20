@@ -22,7 +22,7 @@ fun getUvIndexSummary(
     now: LocalDateTime,
     uvIndexPeriod: UvIndexPeriod
 ): UvIndexSummary? {
-    val futureUv = uvIndexPeriod.getDay(now.toLocalDate())?.momentsFrom(now) ?: return null
+    val futureUv = uvIndexPeriod.dayPeriodOn(now.toLocalDate())?.periodFrom(now) ?: return null
     val protection = futureUv.protectionWindows.firstOrNull()?.let {
         if (it.startInclusive == now.truncatedTo(ChronoUnit.HOURS)) {
             if (it.endExclusive == null) {

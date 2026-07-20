@@ -25,8 +25,8 @@ fun getTemperatureGraphSummaries(
     feelsPeriod: TemperaturePeriod,
     condPeriod: ConditionPeriod
 ): List<TemperatureGraphSummary>? {
-    val tempDays = tempPeriod.daysFrom(now.toLocalDate()) ?: return null
-    val conditionDays = condPeriod.momentsFrom(now)?.daysFrom(now.toLocalDate()) ?: return null
+    val tempDays = tempPeriod.dayPeriodsFrom(now.toLocalDate()) ?: return null
+    val conditionDays = condPeriod.periodFrom(now)?.dayPeriodsFrom(now.toLocalDate()) ?: return null
     val feelsLikeNow = feelsPeriod[now]?.temperature ?: return null
 
     return tempDays.mapIndexed { idx, tempDay ->

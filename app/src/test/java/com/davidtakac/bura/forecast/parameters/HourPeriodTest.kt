@@ -78,7 +78,7 @@ class HourPeriodTest {
             hourExclusive = unixEpochStart
                 .plus(2, ChronoUnit.HOURS)
                 .plus(10, ChronoUnit.MINUTES),
-            takeMoments = 1
+            takeLast = 1
         )
         Assert.assertEquals(1, until?.size)
         Assert.assertEquals(unixEpochStart.plus(1, ChronoUnit.HOURS), until?.get(0)?.hour)
@@ -132,7 +132,7 @@ class HourPeriodTest {
         )
         val from = period.momentsFrom(
             hourInclusive = unixEpochStart.plus(10, ChronoUnit.MINUTES),
-            takeMoments = 2
+            take = 2
         )
         Assert.assertEquals(2, from?.size)
         Assert.assertEquals(unixEpochStart.plus(1, ChronoUnit.HOURS), from?.get(1)?.hour)
@@ -154,26 +154,26 @@ class HourPeriodTest {
                 TestHourMoment(unixEpochStart.plus(1, ChronoUnit.DAYS))
             )
         )
-        val days = period.daysFrom(dayInclusive = unixEpochStart.toLocalDate(), takeDays = 1)
+        val days = period.dayMomentsFrom(dayInclusive = unixEpochStart.toLocalDate(), take = 1)
         Assert.assertEquals(1, days?.size)
     }
 
     @Test
     fun `days from returns null when no moment with day inclusive`() {
         val period = TestHourPeriod(listOf(TestHourMoment(unixEpochStart.plus(1, ChronoUnit.DAYS))))
-        Assert.assertNull(period.daysFrom(LocalDate.MIN))
+        Assert.assertNull(period.dayMomentsFrom(LocalDate.MIN))
     }
 
     @Test
     fun `gets day at time`() {
         val period = TestHourPeriod(listOf(TestHourMoment(unixEpochStart)))
-        Assert.assertNotNull(period.getDay(unixEpochStart.toLocalDate()))
+        Assert.assertNotNull(period.momentsOn(unixEpochStart.toLocalDate()))
     }
 
     @Test
     fun `get day returns null when no day at time`() {
         val period = TestHourPeriod(listOf(TestHourMoment(unixEpochStart)))
-        Assert.assertNull(period.getDay(LocalDate.MIN.plus(2, ChronoUnit.DAYS)))
+        Assert.assertNull(period.momentsOn(LocalDate.MIN.plus(2, ChronoUnit.DAYS)))
     }
 
     @Test

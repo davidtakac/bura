@@ -27,8 +27,8 @@ fun getTemperatureGraphs(
     tempPeriod: TemperaturePeriod,
     condPeriod: ConditionPeriod
 ): TemperatureGraphs? {
-    val tempDays = tempPeriod.daysFrom(now.toLocalDate()) ?: return null
-    val conditionDays = condPeriod.daysFrom(now.toLocalDate()) ?: return null
+    val tempDays = tempPeriod.dayPeriodsFrom(now.toLocalDate()) ?: return null
+    val conditionDays = condPeriod.dayPeriodsFrom(now.toLocalDate()) ?: return null
     return TemperatureGraphs(
         minTemp = tempPeriod.minimum,
         maxTemp = tempPeriod.maximum,

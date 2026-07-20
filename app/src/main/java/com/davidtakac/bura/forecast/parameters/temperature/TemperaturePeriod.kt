@@ -21,14 +21,14 @@ class TemperaturePeriod(moments: List<TemperatureMoment>) : HourPeriod<Temperatu
 
     val maximum get() = maxOf { it.temperature }
 
-    override fun getDay(day: LocalDate) =
-        super.getDay(day)?.let { TemperaturePeriod(it) }
+    fun dayPeriodOn(day: LocalDate) =
+        momentsOn(day)?.let { TemperaturePeriod(it) }
 
-    override fun momentsFrom(hourInclusive: LocalDateTime, takeMoments: Int?) =
-        super.momentsFrom(hourInclusive, takeMoments)?.let { TemperaturePeriod(it) }
+    fun periodFrom(hourInclusive: LocalDateTime, take: Int? = null) =
+        momentsFrom(hourInclusive, take)?.let { TemperaturePeriod(it) }
 
-    override fun daysFrom(dayInclusive: LocalDate, takeDays: Int?) =
-        super.daysFrom(dayInclusive, takeDays)?.map { TemperaturePeriod(it) }
+    fun dayPeriodsFrom(dayInclusive: LocalDate, take: Int? = null) =
+        dayMomentsFrom(dayInclusive, take)?.map { TemperaturePeriod(it) }
 
     fun convertTo(unit: Temperature.Unit): TemperaturePeriod {
         if (first().temperature.unit == unit) return this
