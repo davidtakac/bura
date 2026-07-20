@@ -75,7 +75,7 @@ class HourPeriodTest {
             takeLast = 1
         )
         Assert.assertEquals(1, until?.size)
-        Assert.assertEquals(unixEpochStart.plus(1, ChronoUnit.HOURS), until?.get(0)?.zdt)
+        Assert.assertEquals(unixEpochStart.plus(1, ChronoUnit.HOURS), until?.get(0)?.hourZdt)
     }
 
     @Test
@@ -86,7 +86,7 @@ class HourPeriodTest {
                 .plus(1, ChronoUnit.HOURS)
                 .plus(10, ChronoUnit.MINUTES)
         )
-        Assert.assertEquals(unixEpochStart, until?.get(0)?.zdt)
+        Assert.assertEquals(unixEpochStart, until?.get(0)?.hourZdt)
     }
 
     @Test
@@ -129,7 +129,7 @@ class HourPeriodTest {
             take = 2
         )
         Assert.assertEquals(2, from?.size)
-        Assert.assertEquals(unixEpochStart.plus(1, ChronoUnit.HOURS), from?.get(1)?.zdt)
+        Assert.assertEquals(unixEpochStart.plus(1, ChronoUnit.HOURS), from?.get(1)?.hourZdt)
     }
 
     @Test

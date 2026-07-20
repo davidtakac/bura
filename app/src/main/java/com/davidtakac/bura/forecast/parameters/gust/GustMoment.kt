@@ -21,13 +21,13 @@ class GustMoment(
     zdt: ZonedDateTime,
     val speed: WindSpeed
 ) : HourMoment(zdt) {
-    override fun toString(): String = "$zdt: $speed"
+    override fun toString(): String = "$hourZdt: $speed"
 
     override fun equals(other: Any?): Boolean =
         other is GustMoment
-                && other.zdt == zdt
+                && other.hourZdt == hourZdt
                 && other.speed == speed
 
     override fun hashCode(): Int =
-        Objects.hash(zdt, speed)
+        Objects.hash(hourZdt, speed)
 }

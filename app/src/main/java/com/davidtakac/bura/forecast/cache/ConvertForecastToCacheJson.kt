@@ -78,7 +78,7 @@ private fun precipitationMomentToJson(moment: PrecipitationMoment): JSONObject =
 
 private fun sunMomentToJson(moment: SunMoment): JSONObject {
     val json = JSONObject()
-    json.put(CacheJsonSerialNames.SUN_MOMENT_TIME, moment.time.toString())
+    json.put(CacheJsonSerialNames.SUN_MOMENT_TIME, moment.timeZdt.toString())
     json.put(CacheJsonSerialNames.SUN_EVENT, moment.event.name)
     return json
 }
@@ -126,6 +126,6 @@ private fun conditionMomentToJson(moment: ConditionMoment): JSONObject =
 
 private fun <T : HourMoment> convertMomentToJson(moment: T, block: JSONObject.() -> Unit) =
     JSONObject().apply {
-        put(CacheJsonSerialNames.MOMENT_TIME, moment.zdt.toString())
+        put(CacheJsonSerialNames.MOMENT_TIME, moment.hourZdt.toString())
         block()
     }

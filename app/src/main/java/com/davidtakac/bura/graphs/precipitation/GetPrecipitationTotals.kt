@@ -32,7 +32,7 @@ fun getPrecipitationTotals(
         addAll(
             daysAfterToday.map { day ->
                 PrecipitationTotal.OtherDay(
-                    day = day.first().zdt.toLocalDate(),
+                    day = day.first().hourZdt.toLocalDate(),
                     total = day.total.reduce()
                 )
             }

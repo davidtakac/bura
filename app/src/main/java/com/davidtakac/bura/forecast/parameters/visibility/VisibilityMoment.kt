@@ -20,13 +20,13 @@ class VisibilityMoment(
     zdt: ZonedDateTime,
     val visibility: Visibility,
 ) : HourMoment(zdt) {
-    override fun toString(): String = "$zdt: $visibility"
+    override fun toString(): String = "$hourZdt: $visibility"
 
     override fun equals(other: Any?): Boolean =
         other is VisibilityMoment
-                && other.zdt == zdt
+                && other.hourZdt == hourZdt
                 && other.visibility == visibility
 
     override fun hashCode(): Int =
-        Objects.hash(zdt, visibility)
+        Objects.hash(hourZdt, visibility)
 }

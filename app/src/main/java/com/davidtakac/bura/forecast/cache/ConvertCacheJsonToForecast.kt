@@ -58,7 +58,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import java.time.Instant
-import java.time.LocalDateTime
+import java.time.ZonedDateTime
 
 suspend fun convertCacheJsonToForecast(json: JSONObject): Forecast =
     withContext(Dispatchers.Default) {
@@ -134,7 +134,7 @@ suspend fun convertCacheJsonToForecast(json: JSONObject): Forecast =
 private fun jsonToTemperatureMoment(jsonObject: JSONObject): TemperatureMoment =
     convertJsonToMoment(jsonObject) {
         TemperatureMoment(
-            hour = it,
+            zdt = it,
             temperature = Temperature(
                 jsonObject.getDouble(CacheJsonSerialNames.TEMPERATURE_VALUE),
                 Temperature.Unit.valueOf(jsonObject.getString(CacheJsonSerialNames.TEMPERATURE_UNIT))
@@ -145,7 +145,7 @@ private fun jsonToTemperatureMoment(jsonObject: JSONObject): TemperatureMoment =
 private fun jsonToPopMoment(jsonObject: JSONObject): PopMoment =
     convertJsonToMoment(jsonObject) {
         PopMoment(
-            hour = it,
+            zdt = it,
             pop = Pop(jsonObject.getDouble(CacheJsonSerialNames.POP_VALUE))
         )
     }
@@ -153,7 +153,7 @@ private fun jsonToPopMoment(jsonObject: JSONObject): PopMoment =
 private fun jsonToPrecipitationMoment(jsonObject: JSONObject): PrecipitationMoment =
     convertJsonToMoment(jsonObject) {
         PrecipitationMoment(
-            hour = it,
+            zdt = it,
             precipitation = MixedPrecipitation(
                 rain = Rain(
                     value = jsonObject.getDouble(CacheJsonSerialNames.RAIN_VALUE),
@@ -173,14 +173,14 @@ private fun jsonToPrecipitationMoment(jsonObject: JSONObject): PrecipitationMome
     }
 
 private fun jsonToSunMoment(jsonObject: JSONObject): SunMoment = SunMoment(
-    time = LocalDateTime.parse(jsonObject.getString(CacheJsonSerialNames.SUN_MOMENT_TIME)),
+    timeZdt = ZonedDateTime.parse(jsonObject.getString(CacheJsonSerialNames.SUN_MOMENT_TIME)),
     event = SunEvent.valueOf(jsonObject.getString(CacheJsonSerialNames.SUN_EVENT))
 )
 
 private fun jsonToUvIndexMoment(jsonObject: JSONObject): UvIndexMoment =
     convertJsonToMoment(jsonObject) {
         UvIndexMoment(
-            hour = it,
+            zdt = it,
             uvIndex = UvIndex(jsonObject.getDouble(CacheJsonSerialNames.UV_INDEX_VALUE))
         )
     }
@@ -188,7 +188,7 @@ private fun jsonToUvIndexMoment(jsonObject: JSONObject): UvIndexMoment =
 private fun jsonToWindMoment(jsonObject: JSONObject): WindMoment =
     convertJsonToMoment(jsonObject) {
         WindMoment(
-            hour = it,
+            zdt = it,
             wind = Wind(
                 speed = jsonToWindSpeed(jsonObject),
                 from = WindDirection(degrees = jsonObject.getDouble(CacheJsonSerialNames.WIND_DIRECTION_FROM_VALUE)),
@@ -199,7 +199,7 @@ private fun jsonToWindMoment(jsonObject: JSONObject): WindMoment =
 private fun jsonToGustMoment(jsonObject: JSONObject): GustMoment =
     convertJsonToMoment(jsonObject) {
         GustMoment(
-            hour = it,
+            zdt = it,
             speed = jsonToWindSpeed(jsonObject)
         )
     }
@@ -213,7 +213,7 @@ private fun jsonToWindSpeed(jsonObject: JSONObject): WindSpeed =
 private fun jsonToPressureMoment(jsonObject: JSONObject): PressureMoment =
     convertJsonToMoment(jsonObject) {
         PressureMoment(
-            hour = it,
+            zdt = it,
             pressure = Pressure(
                 value = jsonObject.getDouble(CacheJsonSerialNames.PRESSURE_VALUE),
                 unit = Pressure.Unit.valueOf(jsonObject.getString(CacheJsonSerialNames.PRESSURE_UNIT))
@@ -224,7 +224,7 @@ private fun jsonToPressureMoment(jsonObject: JSONObject): PressureMoment =
 private fun jsonToVisibilityMoment(jsonObject: JSONObject): VisibilityMoment =
     convertJsonToMoment(jsonObject) {
         VisibilityMoment(
-            hour = it,
+            zdt = it,
             visibility = Visibility(
                 value = jsonObject.getDouble(CacheJsonSerialNames.VISIBILITY_VALUE),
                 unit = Visibility.Unit.valueOf(jsonObject.getString(CacheJsonSerialNames.VISIBILITY_UNIT)),
@@ -235,7 +235,7 @@ private fun jsonToVisibilityMoment(jsonObject: JSONObject): VisibilityMoment =
 private fun jsonToHumidityMoment(jsonObject: JSONObject): HumidityMoment =
     convertJsonToMoment(jsonObject) {
         HumidityMoment(
-            hour = it,
+            zdt = it,
             humidity = Humidity(
                 value = jsonObject.getDouble(CacheJsonSerialNames.HUMIDITY_VALUE),
             )
@@ -245,7 +245,7 @@ private fun jsonToHumidityMoment(jsonObject: JSONObject): HumidityMoment =
 private fun jsonToConditionMoment(jsonObject: JSONObject): ConditionMoment =
     convertJsonToMoment(jsonObject) {
         ConditionMoment(
-            hour = it,
+            zdt = it,
             condition = Condition(
                 wmoCode = jsonObject.getInt(CacheJsonSerialNames.CONDITION_WMO_CODE_VALUE),
                 isDay = jsonObject.getBoolean(CacheJsonSerialNames.CONDITION_IS_DAY_VALUE)
@@ -253,5 +253,5 @@ private fun jsonToConditionMoment(jsonObject: JSONObject): ConditionMoment =
         )
     }
 
-private fun <T: HourMoment> convertJsonToMoment(jsonObject: JSONObject, block: (LocalDateTime) -> T): T =
-    block(LocalDateTime.parse(jsonObject.getString(CacheJsonSerialNames.MOMENT_TIME)))
+private fun <T: HourMoment> convertJsonToMoment(jsonObject: JSONObject, block: (ZonedDateTime) -> T): T =
+    block(ZonedDateTime.parse(jsonObject.getString(CacheJsonSerialNames.MOMENT_TIME)))

@@ -17,15 +17,15 @@ import java.time.ZonedDateTime
 import java.util.Objects
 
 class SunMoment(
-    val zdt: ZonedDateTime,
+    val timeZdt: ZonedDateTime,
     val event: SunEvent
 ) {
-    val instant: Instant = zdt.toInstant()
+    val timeInstant: Instant = timeZdt.toInstant()
 
     override fun equals(other: Any?): Boolean =
-        other is SunMoment && other.zdt == zdt && other.event == event
+        other is SunMoment && other.timeZdt == timeZdt && other.event == event
 
-    override fun hashCode(): Int = Objects.hash(zdt, event)
+    override fun hashCode(): Int = Objects.hash(timeZdt, event)
 
-    override fun toString(): String = "$zdt: $event"
+    override fun toString(): String = "$timeZdt: $event"
 }

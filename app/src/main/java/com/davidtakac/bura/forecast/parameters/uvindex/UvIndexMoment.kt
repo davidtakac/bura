@@ -20,13 +20,13 @@ class UvIndexMoment(
     zdt: ZonedDateTime,
     val uvIndex: UvIndex
 ) : HourMoment(zdt) {
-    override fun toString(): String = "$zdt: $uvIndex"
+    override fun toString(): String = "$hourZdt: $uvIndex"
 
     override fun equals(other: Any?): Boolean =
         other is UvIndexMoment
-                && other.zdt == zdt
+                && other.hourZdt == hourZdt
                 && other.uvIndex == uvIndex
 
     override fun hashCode(): Int =
-        Objects.hash(zdt, uvIndex)
+        Objects.hash(hourZdt, uvIndex)
 }

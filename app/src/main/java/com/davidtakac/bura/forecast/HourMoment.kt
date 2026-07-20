@@ -15,12 +15,12 @@ import java.time.Instant
 import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
 
-abstract class HourMoment(val zdt: ZonedDateTime) {
-    val instant: Instant = zdt.toInstant()
+abstract class HourMoment(val hourZdt: ZonedDateTime) {
+    val hourInstant: Instant = hourZdt.toInstant()
 
     init {
-        require(instant == instant.truncatedTo(ChronoUnit.HOURS)) {
-            "Time of HourMoment must be whole hour, but was $zdt."
+        require(hourInstant == hourInstant.truncatedTo(ChronoUnit.HOURS)) {
+            "Time of HourMoment must be whole hour, but was $hourZdt."
         }
     }
 }

@@ -29,7 +29,7 @@ class SunPeriod(val moments: List<SunMoment>): AbstractList<SunMoment>() {
 
     fun momentsFrom(time: Instant, takeMomentsUpToHoursInFuture: Int? = null): List<SunMoment>? =
         moments.filter {
-            val durationBetween = Duration.between(time, it.instant)
+            val durationBetween = Duration.between(time, it.timeInstant)
             val hoursBetween = durationBetween.toHours()
             val maxHours = takeMomentsUpToHoursInFuture ?: Int.MAX_VALUE
             durationBetween >= Duration.ZERO && hoursBetween in 0..maxHours
@@ -43,8 +43,8 @@ class SunPeriod(val moments: List<SunMoment>): AbstractList<SunMoment>() {
         var previousMoment = moments[0]
         for (i in 1..moments.lastIndex) {
             val nextMoment = moments[i]
-            require(previousMoment.instant < nextMoment.instant) {
-                "Moments of SunPeriod must be sorted and unique, but contained ${previousMoment.zdt} and ${nextMoment.zdt}."
+            require(previousMoment.timeInstant < nextMoment.timeInstant) {
+                "Moments of SunPeriod must be sorted and unique, but contained ${previousMoment.timeZdt} and ${nextMoment.timeZdt}."
             }
             previousMoment = nextMoment
         }

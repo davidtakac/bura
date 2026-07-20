@@ -29,7 +29,7 @@ class PressurePeriod(moments: List<PressureMoment>) : HourPeriod<PressureMoment>
 
     fun convertTo(unit: Pressure.Unit): PressurePeriod {
         if (first().pressure.unit == unit) return this
-        val convertedMoments = map { PressureMoment(it.zdt, it.pressure.convertTo(unit)) }
+        val convertedMoments = map { PressureMoment(it.hourZdt, it.pressure.convertTo(unit)) }
         return PressurePeriod(convertedMoments)
     }
 }

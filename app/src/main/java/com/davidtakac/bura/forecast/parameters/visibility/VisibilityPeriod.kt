@@ -21,7 +21,7 @@ class VisibilityPeriod(moments: List<VisibilityMoment>) : HourPeriod<VisibilityM
 
     fun convertTo(unit: Visibility.Unit): VisibilityPeriod {
         if (first().visibility.unit == unit) return this
-        val convertedMoments = map { VisibilityMoment(it.zdt, it.visibility.convertTo(unit)) }
+        val convertedMoments = map { VisibilityMoment(it.hourZdt, it.visibility.convertTo(unit)) }
         return VisibilityPeriod(convertedMoments)
     }
 }

@@ -68,7 +68,7 @@ private fun getGraph(
     val minTempMoment = tempDay.reversed().minBy { it.temperature }
     val maxTempMoment = tempDay.reversed().maxBy { it.temperature }
     return TemperatureGraph(
-        day = tempDay.first().zdt.toLocalDate(),
+        day = tempDay.first().hourZdt.toLocalDate(),
         points = buildList {
             for (i in tempDay.indices) {
                 add(
@@ -107,7 +107,7 @@ private fun getPoint(
     maxTempMoment: TemperatureMoment,
     conditionMoment: ConditionMoment
 ): TemperatureGraphPoint = TemperatureGraphPoint(
-    time = GraphTime(tempMoment.zdt, now.toInstant()),
+    time = GraphTime(tempMoment.hourZdt, now.toInstant()),
     temperature = GraphTemperature(
         value = tempMoment.temperature,
         meta = getTempMeta(minTempMoment, maxTempMoment, tempMoment)

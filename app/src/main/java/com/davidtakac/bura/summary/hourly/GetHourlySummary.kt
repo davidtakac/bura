@@ -38,7 +38,7 @@ fun getHourlySummary(
         for (i in futureTemps.indices) {
             add(
                 HourSummary.Weather(
-                    time = futureTemps[i].zdt.toLocalDateTime(),
+                    time = futureTemps[i].hourZdt.toLocalDateTime(),
                     isNow = i == 0,
                     temp = futureTemps[i].temperature,
                     pop = futurePops[i].pop.takeIf { it.value > 0 },
@@ -51,7 +51,7 @@ fun getHourlySummary(
         ?.momentsFrom(nowInstant, takeMomentsUpToHoursInFuture = 24)
         ?.map {
             HourSummary.Sun(
-                time = it.zdt.toLocalDateTime(),
+                time = it.timeZdt.toLocalDateTime(),
                 event = it.event
             )
         }
