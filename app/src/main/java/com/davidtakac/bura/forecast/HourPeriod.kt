@@ -17,7 +17,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
-open class HourPeriod<T : HourMoment>(protected val moments: List<T>) : AbstractList<T>() {
+abstract class HourPeriod<T : HourMoment>(protected val moments: List<T>) : AbstractList<T>() {
     init {
         requireNotEmpty()
         requireAscendingAndComplete()
@@ -32,38 +32,34 @@ open class HourPeriod<T : HourMoment>(protected val moments: List<T>) : Abstract
     operator fun get(time: LocalDateTime): T? = momentsFrom(time, takeMoments = 1)?.firstOrNull()
 
     @CallSuper
-    open fun momentsUntil(hourExclusive: LocalDateTime, takeMoments: Int? = null): HourPeriod<T>? {
+    open fun momentsUntil(hourExclusive: LocalDateTime, takeMoments: Int? = null): List<T>? {
         require(takeMoments == null || takeMoments > 0) { "Take moments must either be null or positive." }
         val hour = hourExclusive.truncatedTo(ChronoUnit.HOURS).minus(1, ChronoUnit.HOURS)
         val indexOfHour = moments.indexOfFirst { it.hour == hour }
-        return if (indexOfHour < 0) null else HourPeriod(
-            moments
-                .slice(0..indexOfHour)
-                .let { if (takeMoments != null) it.takeLast(takeMoments) else it }
-        )
+        return if (indexOfHour < 0) null else moments
+            .slice(0..indexOfHour)
+            .let { if (takeMoments != null) it.takeLast(takeMoments) else it }
     }
 
     @CallSuper
-    open fun momentsFrom(hourInclusive: LocalDateTime, takeMoments: Int? = null): HourPeriod<T>? {
+    open fun momentsFrom(hourInclusive: LocalDateTime, takeMoments: Int? = null): List<T>? {
         require(takeMoments == null || takeMoments > 0) { "Take moments must either be null or positive." }
         val hour = hourInclusive.truncatedTo(ChronoUnit.HOURS)
         val indexOfHour = moments.indexOfFirst { it.hour == hour }
-        return if (indexOfHour < 0) null else HourPeriod(
-            moments
-                .subList(indexOfHour, moments.size)
-                .let { if (takeMoments != null) it.take(takeMoments) else it }
-        )
+        return if (indexOfHour < 0) null else moments
+            .subList(indexOfHour, moments.size)
+            .let { if (takeMoments != null) it.take(takeMoments) else it }
     }
 
     @CallSuper
-    open fun getDay(day: LocalDate): HourPeriod<T>? =
+    open fun getDay(day: LocalDate): List<T>? =
         daysFrom(day, takeDays = 1)?.firstOrNull()
 
     @CallSuper
     open fun daysFrom(
         dayInclusive: LocalDate,
         takeDays: Int? = null
-    ): List<HourPeriod<T>>? {
+    ): List<List<T>>? {
         require(takeDays == null || takeDays > 0) { "Take days must either be null or positive." }
         val momentsGroupedIntoDays = moments
             .groupBy { it.hour.toLocalDate() }
@@ -74,7 +70,6 @@ open class HourPeriod<T : HourMoment>(protected val moments: List<T>) : Abstract
                 .subList(indexOfDay, momentsGroupedIntoDays.size)
                 .map { it.second }
                 .let { if (takeDays != null) it.take(takeDays) else it }
-                .map { HourPeriod(it) }
     }
 
     fun matches(other: HourPeriod<*>): Boolean =
