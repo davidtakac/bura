@@ -70,7 +70,7 @@ fun SearchedPlaceEditDialog(
             }
         },
         onDismissRequest = onDismiss,
-        content = { horizontalPadding ->
+        text = { horizontalPadding ->
             TimeZonePicker(
                 horizontalPadding = horizontalPadding,
                 onPick = { onEdit(searchedPlace.copy(timeZoneId = it)) }

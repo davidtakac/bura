@@ -45,7 +45,7 @@ fun AlertDialogWithoutHorizontalPadding(
     confirmButton: @Composable () -> Unit,
     onDismissRequest: () -> Unit,
     modifier: Modifier = Modifier,
-    content: (@Composable (Dp) -> Unit)? = null,
+    text: (@Composable (Dp) -> Unit)? = null,
     subtitle: (@Composable () -> Unit)? = null,
     dismissButton: (@Composable () -> Unit)? = null,
 ) {
@@ -84,7 +84,7 @@ fun AlertDialogWithoutHorizontalPadding(
                     }
                 }
 
-                content?.let {
+                text?.let {
                     Box(Modifier.padding(bottom = ContentBottomPadding)) {
                         it(ContentHorizontalPadding)
                     }
