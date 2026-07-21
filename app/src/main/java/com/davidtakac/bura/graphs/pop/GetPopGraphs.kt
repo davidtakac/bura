@@ -33,38 +33,21 @@ fun getPopGraphs(
         now = now.toInstant(),
         graphs = popDays.mapIndexed { idx, popDay ->
             val conditionDay = conditionDays[idx]
-            val popTomorrow = popDays.getOrNull(idx + 1)
-            val conditionTomorrow = conditionDays.getOrNull(idx + 1)
-            getPopGraph(popDay, conditionDay, popTomorrow, conditionTomorrow)
+            getPopGraph(popDay, conditionDay)
         }
     )
 }
 
 private fun getPopGraph(
     popDay: PopPeriod,
-    conditionDay: ConditionPeriod,
-    popTomorrow: PopPeriod?,
-    conditionTomorrow: ConditionPeriod?
+    conditionDay: ConditionPeriod
 ): PopGraph {
     return PopGraph(
         day = popDay.first().timeZdt.toLocalDate(),
         points = buildList {
-            val firstPopTomorrow = popTomorrow?.first()
-            val popDayAdjusted: PopPeriod
-            val conditionDayAdjusted: ConditionPeriod
-            if (firstPopTomorrow != null) {
-                // To avoid an empty space at the end of every day, we add the first pop
-                // of tomorrow for completeness
-                val firstConditionTomorrow = conditionTomorrow!!.first()
-                popDayAdjusted = PopPeriod(popDay + firstPopTomorrow)
-                conditionDayAdjusted = ConditionPeriod(conditionDay + firstConditionTomorrow)
-            } else {
-                popDayAdjusted = popDay
-                conditionDayAdjusted = conditionDay
-            }
-            for (i in popDayAdjusted.indices) {
-                val popMoment = popDayAdjusted[i]
-                val conditionMoment = conditionDayAdjusted[i]
+            for (i in popDay.indices) {
+                val popMoment = popDay[i]
+                val conditionMoment = conditionDay[i]
                 add(getPoint(popMoment, conditionMoment))
             }
         }
