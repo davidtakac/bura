@@ -53,7 +53,14 @@ fun <T> DrawScope.drawVerticalAxis(
             color = args.axisColor,
             topLeft = Offset(
                 x = textTopLeftX,
-                y = stepY - (measuredText.size.height / 2)
+                y = (stepY - measuredText.size.height / 2).let {
+                    // This step adjusts the terminal icons so they're above or below their guides
+                    when (i) {
+                        0 -> it - measuredText.size.height / 4
+                        steps.lastIndex -> it + measuredText.size.height / 4
+                        else -> it
+                    }
+                }
             )
         )
     }

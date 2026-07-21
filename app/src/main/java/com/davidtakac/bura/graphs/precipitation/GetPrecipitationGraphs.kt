@@ -16,7 +16,7 @@ import com.davidtakac.bura.forecast.parameters.condition.Condition
 import com.davidtakac.bura.forecast.parameters.condition.ConditionPeriod
 import com.davidtakac.bura.forecast.parameters.precipitation.MixedPrecipitation
 import com.davidtakac.bura.forecast.parameters.precipitation.PrecipitationPeriod
-import com.davidtakac.bura.graphs.common.GraphTime
+import java.time.Instant
 import java.time.LocalDate
 import java.time.ZonedDateTime
 
@@ -28,6 +28,7 @@ fun getPrecipitationGraphs(
     val precipDays = precipPeriod.dayPeriodsFrom(now.toLocalDate()) ?: return null
     val condDays = condPeriod.dayPeriodsFrom(now.toLocalDate()) ?: return null
     return PrecipitationGraphs(
+        now = now.toInstant(),
         max = precipDays.maxOf { it.max },
         graphs = precipDays.mapIndexed { dayIdx, day ->
             PrecipitationGraph(
@@ -36,10 +37,7 @@ fun getPrecipitationGraphs(
                     addAll(
                         day.mapIndexed { momentIdx, moment ->
                             PrecipitationGraphPoint(
-                                time = GraphTime(
-                                    hour = moment.timeZdt,
-                                    now = now.toInstant()
-                                ),
+                                time = moment.timeZdt,
                                 precip = moment.precipitation,
                                 cond = condDays[dayIdx][momentIdx].condition
                             )
@@ -52,6 +50,7 @@ fun getPrecipitationGraphs(
 }
 
 data class PrecipitationGraphs(
+    val now: Instant,
     val max: MixedPrecipitation,
     val graphs: List<PrecipitationGraph>
 )
@@ -62,7 +61,7 @@ data class PrecipitationGraph(
 )
 
 data class PrecipitationGraphPoint(
-    val time: GraphTime,
+    val time: ZonedDateTime,
     val precip: MixedPrecipitation,
     val cond: Condition
 )

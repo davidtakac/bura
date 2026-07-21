@@ -127,7 +127,8 @@ fun EssentialGraphPage(
             Column(verticalArrangement = Arrangement.spacedBy(graphLabelSpacing)) {
                 GraphScreenSectionLabel(stringResource(R.string.cond_screen_precip))
                 PrecipitationGraph(
-                    state = precipGraph,
+                    now = now,
+                    points = precipGraph.points,
                     max = precipMax,
                     args = precipArgs,
                     modifier = Modifier

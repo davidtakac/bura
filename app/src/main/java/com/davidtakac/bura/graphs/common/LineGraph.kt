@@ -80,10 +80,10 @@ private fun DrawScope.drawHorizontalAxisAndPlot(
     now: Instant,
     args: GraphArgs
 ) {
-    val iconSize = 24.dp.toPx()
+    val iconSize = args.gutterIconSize
     val iconSizeRound = iconSize.roundToInt()
     val hasSpaceFor12Icons = (size.width - args.startGutter - args.endGutter) - (iconSizeRound * 12) >= (12 * 2.dp.toPx())
-    val iconY = ((args.topGutter / 2) - (iconSize / 2)).roundToInt()
+    val iconY = ((args.topGutter / 2) - (args.gutterIconSize / 2)).roundToInt()
     val range = max - min
 
     val plotPath = Path()

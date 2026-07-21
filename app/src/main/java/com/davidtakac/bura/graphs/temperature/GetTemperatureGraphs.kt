@@ -53,8 +53,6 @@ private fun getGraphs(
                 now = now,
                 tempDay = tempDays[i],
                 conditionDay = conditionDays[i],
-                nextTempDay = tempDays.getOrNull(i + 1),
-                nextConditionDay = conditionDays.getOrNull(i + 1)
             )
         )
     }
@@ -63,9 +61,7 @@ private fun getGraphs(
 private fun getGraph(
     now: ZonedDateTime,
     tempDay: TemperaturePeriod,
-    conditionDay: ConditionPeriod,
-    nextTempDay: TemperaturePeriod?,
-    nextConditionDay: ConditionPeriod?
+    conditionDay: ConditionPeriod
 ): TemperatureGraph = TemperatureGraph(
     day = tempDay.first().timeZdt.toLocalDate(),
     points = buildList {
@@ -75,19 +71,6 @@ private fun getGraph(
                     now = now,
                     tempMoment = tempDay[i],
                     conditionMoment = conditionDay[i]
-                )
-            )
-        }
-        val firstTempTomorrow = nextTempDay?.firstOrNull()
-        if (firstTempTomorrow != null) {
-            // The periods must match, so if there is a first temp tomorrow, there
-            // must be a matching condition tomorrow too
-            val firstConditionTomorrow = nextConditionDay!!.first()
-            add(
-                getPoint(
-                    now = now,
-                    tempMoment = firstTempTomorrow,
-                    conditionMoment = firstConditionTomorrow
                 )
             )
         }

@@ -10,50 +10,58 @@
  * You should have received a copy of the GNU General Public License along with Bura. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.davidtakac.bura.graphs.temperature.compose
+package com.davidtakac.bura.graphs.precipitation.compose
 
 import com.davidtakac.bura.forecast.parameters.condition.Condition
 import com.davidtakac.bura.forecast.parameters.condition.ConditionMoment
 import com.davidtakac.bura.forecast.parameters.condition.ConditionPeriod
-import com.davidtakac.bura.forecast.parameters.temperature.Temperature
-import com.davidtakac.bura.forecast.parameters.temperature.TemperatureMoment
-import com.davidtakac.bura.forecast.parameters.temperature.TemperaturePeriod
+import com.davidtakac.bura.forecast.parameters.precipitation.MixedPrecipitation
+import com.davidtakac.bura.forecast.parameters.precipitation.Precipitation
+import com.davidtakac.bura.forecast.parameters.precipitation.PrecipitationMoment
+import com.davidtakac.bura.forecast.parameters.precipitation.PrecipitationPeriod
+import com.davidtakac.bura.forecast.parameters.precipitation.Rain
+import com.davidtakac.bura.forecast.parameters.precipitation.Showers
+import com.davidtakac.bura.forecast.parameters.precipitation.Snow
 import com.davidtakac.bura.graphs.common.previews.GraphPreviewDstSwitch
 import com.davidtakac.bura.graphs.common.previews.GraphPreviewNowPosition
 import com.davidtakac.bura.graphs.common.previews.GraphPreviewValues
 import com.davidtakac.bura.graphs.common.previews.GraphsPreviewParameterProvider
-import com.davidtakac.bura.graphs.temperature.TemperatureGraphs
-import com.davidtakac.bura.graphs.temperature.getTemperatureGraphs
+import com.davidtakac.bura.graphs.precipitation.PrecipitationGraphs
+import com.davidtakac.bura.graphs.precipitation.getPrecipitationGraphs
 import java.time.ZonedDateTime
 import kotlin.random.Random
 
-class TemperatureGraphsPreviewParameterProvider : GraphsPreviewParameterProvider<TemperatureGraphs>(
+class PrecipitationGraphsPreviewParameterProvider : GraphsPreviewParameterProvider<PrecipitationGraphs>(
     graphPreviewValues = listOf(
-        GraphPreviewValues.Flat(value = 25.0),
-        GraphPreviewValues.Random(from = 12.0, until = 27.0)
+        GraphPreviewValues.Flat(value = 2.5),
+        GraphPreviewValues.Random(from = 0.0, until = 1.2),
     )
 ) {
     override fun generateGraphs(
         times: List<ZonedDateTime>,
         nowPosition: GraphPreviewNowPosition,
         dstSwitch: GraphPreviewDstSwitch,
-        values: GraphPreviewValues,
-    ): TemperatureGraphs {
-        val tempPeriod = TemperaturePeriod(
-            times.map {
-                TemperatureMoment(
+        values: GraphPreviewValues
+    ): PrecipitationGraphs {
+        val precipitation = PrecipitationPeriod(
+            moments = times.map {
+                val amount = when (values) {
+                    is GraphPreviewValues.Flat -> values.value
+                    is GraphPreviewValues.Random -> Random.nextDouble(values.from, values.until)
+                }
+                PrecipitationMoment(
                     timeZdt = it,
-                    temperature = Temperature(
-                        value = when (values) {
-                            is GraphPreviewValues.Flat -> values.value
-                            is GraphPreviewValues.Random -> Random.nextDouble(values.from, values.until)
-                        },
-                        unit = Temperature.Unit.DegreesCelsius
+                    precipitation = MixedPrecipitation(
+                        unit = Precipitation.Unit.Millimeters,
+                        rain = Rain(amount, Precipitation.Unit.Millimeters),
+                        showers = Showers(amount, Precipitation.Unit.Millimeters),
+                        snow = Snow(amount, Precipitation.Unit.Millimeters),
                     )
                 )
+
             }
         )
-        val condPeriod = ConditionPeriod(
+        val condition = ConditionPeriod(
             times.map {
                 ConditionMoment(
                     timeZdt = it,
@@ -64,10 +72,10 @@ class TemperatureGraphsPreviewParameterProvider : GraphsPreviewParameterProvider
                 )
             }
         )
-        return getTemperatureGraphs(
+        return getPrecipitationGraphs(
             now = getNow(times, nowPosition),
-            tempPeriod = tempPeriod,
-            condPeriod = condPeriod
+            precipPeriod = precipitation,
+            condPeriod = condition
         )!!
     }
 }
