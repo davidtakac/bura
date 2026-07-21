@@ -14,7 +14,6 @@ package com.davidtakac.bura.graphs.common.drawing
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.drawscope.DrawScope
-import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.unit.LayoutDirection
 import com.davidtakac.bura.graphs.common.GraphArgs
@@ -22,7 +21,6 @@ import com.davidtakac.bura.graphs.common.GraphArgs
 fun <T> DrawScope.drawVerticalAxis(
     steps: List<T>,
     args: GraphArgs,
-    measurer: TextMeasurer,
     stepFormatter: (step: T) -> String?,
 ) {
     val lineX =
@@ -43,7 +41,7 @@ fun <T> DrawScope.drawVerticalAxis(
             end = Offset(lineX, stepY)
         )
 
-        val measuredText = measurer.measure(
+        val measuredText = args.textMeasurer.measure(
             text = stepFormatter(steps[i]) ?: continue,
             style = args.axisTextStyle
         )

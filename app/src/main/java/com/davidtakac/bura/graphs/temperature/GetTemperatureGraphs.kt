@@ -19,6 +19,7 @@ import com.davidtakac.bura.forecast.parameters.temperature.Temperature
 import com.davidtakac.bura.forecast.parameters.temperature.TemperatureMoment
 import com.davidtakac.bura.forecast.parameters.temperature.TemperaturePeriod
 import com.davidtakac.bura.graphs.common.GraphTime
+import java.time.Instant
 import java.time.LocalDate
 import java.time.ZonedDateTime
 
@@ -30,8 +31,9 @@ fun getTemperatureGraphs(
     val tempDays = tempPeriod.dayPeriodsFrom(now.toLocalDate()) ?: return null
     val conditionDays = condPeriod.dayPeriodsFrom(now.toLocalDate()) ?: return null
     return TemperatureGraphs(
-        minTemp = tempPeriod.minimum,
-        maxTemp = tempPeriod.maximum,
+        now = now.toInstant(),
+        min = tempPeriod.minimum,
+        max = tempPeriod.maximum,
         graphs = getGraphs(
             now = now,
             tempDays = tempDays,
@@ -64,72 +66,48 @@ private fun getGraph(
     conditionDay: ConditionPeriod,
     nextTempDay: TemperaturePeriod?,
     nextConditionDay: ConditionPeriod?
-): TemperatureGraph {
-    val minTempMoment = tempDay.reversed().minBy { it.temperature }
-    val maxTempMoment = tempDay.reversed().maxBy { it.temperature }
-    return TemperatureGraph(
-        day = tempDay.first().timeZdt.toLocalDate(),
-        points = buildList {
-            for (i in tempDay.indices) {
-                add(
-                    getPoint(
-                        now = now,
-                        tempMoment = tempDay[i],
-                        minTempMoment = minTempMoment,
-                        maxTempMoment = maxTempMoment,
-                        conditionMoment = conditionDay[i]
-                    )
+): TemperatureGraph = TemperatureGraph(
+    day = tempDay.first().timeZdt.toLocalDate(),
+    points = buildList {
+        for (i in tempDay.indices) {
+            add(
+                getPoint(
+                    now = now,
+                    tempMoment = tempDay[i],
+                    conditionMoment = conditionDay[i]
                 )
-            }
-            val firstTempTomorrow = nextTempDay?.firstOrNull()
-            if (firstTempTomorrow != null) {
-                // The periods must match, so if there is a first temp tomorrow, there
-                // must be a matching condition tomorrow too
-                val firstConditionTomorrow = nextConditionDay!!.first()
-                add(
-                    getPoint(
-                        now = now,
-                        tempMoment = firstTempTomorrow,
-                        minTempMoment = minTempMoment,
-                        maxTempMoment = maxTempMoment,
-                        conditionMoment = firstConditionTomorrow
-                    )
-                )
-            }
+            )
         }
-    )
-}
+        val firstTempTomorrow = nextTempDay?.firstOrNull()
+        if (firstTempTomorrow != null) {
+            // The periods must match, so if there is a first temp tomorrow, there
+            // must be a matching condition tomorrow too
+            val firstConditionTomorrow = nextConditionDay!!.first()
+            add(
+                getPoint(
+                    now = now,
+                    tempMoment = firstTempTomorrow,
+                    conditionMoment = firstConditionTomorrow
+                )
+            )
+        }
+    }
+)
 
 private fun getPoint(
     now: ZonedDateTime,
     tempMoment: TemperatureMoment,
-    minTempMoment: TemperatureMoment,
-    maxTempMoment: TemperatureMoment,
     conditionMoment: ConditionMoment
 ): TemperatureGraphPoint = TemperatureGraphPoint(
     time = GraphTime(tempMoment.timeZdt, now.toInstant()),
-    temperature = GraphTemperature(
-        value = tempMoment.temperature,
-        meta = getTempMeta(minTempMoment, maxTempMoment, tempMoment)
-    ),
+    temperature = tempMoment.temperature,
     condition = conditionMoment.condition,
 )
 
-private fun getTempMeta(
-    minTempMoment: TemperatureMoment,
-    maxTempMoment: TemperatureMoment,
-    tempMoment: TemperatureMoment
-): GraphTemperature.Meta =
-    when {
-        minTempMoment == maxTempMoment -> GraphTemperature.Meta.Regular
-        tempMoment == minTempMoment -> GraphTemperature.Meta.Minimum
-        tempMoment == maxTempMoment -> GraphTemperature.Meta.Maximum
-        else -> GraphTemperature.Meta.Regular
-    }
-
 data class TemperatureGraphs(
-    val minTemp: Temperature,
-    val maxTemp: Temperature,
+    val now: Instant,
+    val min: Temperature,
+    val max: Temperature,
     val graphs: List<TemperatureGraph>
 )
 
@@ -140,15 +118,6 @@ data class TemperatureGraph(
 
 data class TemperatureGraphPoint(
     val time: GraphTime,
-    val temperature: GraphTemperature,
+    val temperature: Temperature,
     val condition: Condition
 )
-
-data class GraphTemperature(
-    val value: Temperature,
-    val meta: Meta
-) {
-    enum class Meta {
-        Minimum, Maximum, Regular
-    }
-}

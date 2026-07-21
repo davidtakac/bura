@@ -92,7 +92,6 @@ fun DrawScope.drawTimeAxis(
 }
 
 fun DrawScope.drawTimeAxis(
-    measurer: TextMeasurer,
     times: List<ZonedDateTime>,
     args: GraphArgs,
     drawData: (
@@ -116,13 +115,13 @@ fun DrawScope.drawTimeAxis(
         val time = Instant.ofEpochSecond(secondsAbsolute).atZone(times.first().zone)
         if (seconds == 0L) {
             drawTimeHelperLine(args, x, drawSolidLine = true)
-            drawTimeLabel(args, x, time, measurer)
+            drawTimeLabel(args, x, time)
         } else if (seconds == totalSeconds) {
             drawTimeHelperLine(args, x, drawSolidLine = true)
             // We do not draw the end label to avoid clashing with first Y axis label
         } else if (time.toLocalTime().run { minute == 0 && hour in listOf(6, 12, 18) }) {
             drawTimeHelperLine(args, x, drawSolidLine = false)
-            drawTimeLabel(args, x, time, measurer)
+            drawTimeLabel(args, x, time)
         }
 
         // If the current time is one of the passed in times, the caller of this method wants to
@@ -163,10 +162,9 @@ private fun DrawScope.drawTimeHelperLine(
 private fun DrawScope.drawTimeLabel(
     args: GraphArgs,
     x: Float,
-    time: ZonedDateTime,
-    measurer: TextMeasurer
+    time: ZonedDateTime
 ) {
-    val label = measurer.measure(args.axisTimeFormatter.format(time), style = args.axisTextStyle)
+    val label = args.textMeasurer.measure(args.axisTimeFormatter.format(time), style = args.axisTextStyle)
     val textTopLeftX =
         if (layoutDirection == LayoutDirection.Ltr) x + args.bottomAxisTextPaddingHorizontal
         else x - label.size.width - args.bottomAxisTextPaddingHorizontal

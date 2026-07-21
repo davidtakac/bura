@@ -14,13 +14,17 @@ package com.davidtakac.bura.forecast.parameters.condition
 
 import android.content.Context
 import androidx.annotation.DrawableRes
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.core.graphics.drawable.toBitmap
 import com.davidtakac.bura.R
-import com.davidtakac.bura.theme.AppTheme
 import com.davidtakac.bura.theme.AppIcons
-import java.lang.IllegalStateException
+import com.davidtakac.bura.theme.AppTheme
+import kotlin.math.roundToInt
 
 @DrawableRes
 fun Condition.image(context: Context, appIcons: AppIcons): Int =
@@ -102,6 +106,14 @@ private fun Condition.string(context: Context): String = context.getString(
         else -> throw IllegalStateException("Unknown WMO Code: $wmoCode.")
     }
 )
+
+fun Condition.imageBitmap(context: Context, icons: AppIcons, sizePx: Float): ImageBitmap {
+    val sizePxRound = sizePx.roundToInt()
+    return AppCompatResources
+        .getDrawable(context, image(context, icons))!!
+        .toBitmap(width = sizePxRound, height = sizePxRound)
+        .asImageBitmap()
+}
 
 @Composable
 fun Condition.image() = painterResource(id = image(LocalContext.current, AppTheme.icons))

@@ -16,7 +16,6 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.unit.LayoutDirection
 import com.davidtakac.bura.graphs.common.GraphArgs
@@ -44,10 +43,9 @@ fun DrawScope.drawLabeledPoint(
     label: String,
     center: Offset,
     args: GraphArgs,
-    measurer: TextMeasurer
 ) {
     drawPointLabel(
-        label, measurer,
+        label,
         pointCenter = center,
         args = args
     )
@@ -59,11 +57,10 @@ fun DrawScope.drawLabeledPoint(
 
 private fun DrawScope.drawPointLabel(
     text: String,
-    measurer: TextMeasurer,
     pointCenter: Offset,
     args: GraphArgs,
 ) {
-    val labelMeasured = measurer.measure(text, args.axisTextStyle.copy(color = args.pointLabelColor))
+    val labelMeasured = args.textMeasurer.measure(text, args.axisTextStyle.copy(color = args.pointLabelColor))
     val textTopLeftX = pointCenter.x - labelMeasured.size.width / 2
     val textTopLeftXMin =
         if (layoutDirection == LayoutDirection.Ltr) args.startGutter + args.textPaddingMinHorizontal

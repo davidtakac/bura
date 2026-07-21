@@ -163,12 +163,13 @@ private fun Pager(
             }
             EssentialGraphPage(
                 listState = listState,
+                now = tempGraphs.now,
                 summary = summaries[page],
                 temperatureGraph = tempGraphs.graphs[page],
-                minTemp = tempGraphs.minTemp,
-                maxTemp = tempGraphs.maxTemp,
+                minTemp = tempGraphs.min,
+                maxTemp = tempGraphs.max,
                 temperatureArgs = GraphArgs.rememberTemperatureArgs(),
-                popGraph = state.popGraphs[page],
+                popGraph = state.popGraphs.graphs[page],
                 popArgs = GraphArgs.rememberPopArgs(),
                 precipGraph = state.precipGraphs.graphs[page],
                 precipMax = state.precipGraphs.max,

@@ -38,15 +38,8 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.drawable.toBitmap
-import com.davidtakac.bura.theme.AppTheme
 import com.davidtakac.bura.forecast.parameters.condition.Condition
 import com.davidtakac.bura.forecast.parameters.condition.image
-import com.davidtakac.bura.graphs.common.GraphArgs
-import com.davidtakac.bura.graphs.common.GraphTime
-import com.davidtakac.bura.graphs.common.NiceScale
-import com.davidtakac.bura.graphs.common.drawing.drawPastOverlay
-import com.davidtakac.bura.graphs.common.drawing.drawTimeAxis
-import com.davidtakac.bura.graphs.common.drawing.drawVerticalAxis
 import com.davidtakac.bura.forecast.parameters.precipitation.MixedPrecipitation
 import com.davidtakac.bura.forecast.parameters.precipitation.Precipitation
 import com.davidtakac.bura.forecast.parameters.precipitation.Rain
@@ -54,8 +47,15 @@ import com.davidtakac.bura.forecast.parameters.precipitation.Showers
 import com.davidtakac.bura.forecast.parameters.precipitation.Snow
 import com.davidtakac.bura.forecast.parameters.precipitation.string
 import com.davidtakac.bura.forecast.parameters.precipitation.valueString
+import com.davidtakac.bura.graphs.common.GraphArgs
+import com.davidtakac.bura.graphs.common.GraphTime
+import com.davidtakac.bura.graphs.common.NiceScale
+import com.davidtakac.bura.graphs.common.drawing.drawPastOverlay
+import com.davidtakac.bura.graphs.common.drawing.drawTimeAxis
+import com.davidtakac.bura.graphs.common.drawing.drawVerticalAxis
 import com.davidtakac.bura.graphs.precipitation.PrecipitationGraph
 import com.davidtakac.bura.graphs.precipitation.PrecipitationGraphPoint
+import com.davidtakac.bura.theme.AppTheme
 import java.time.LocalDate
 import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
@@ -220,7 +220,6 @@ private fun DrawScope.drawPrecipAxis(
     drawVerticalAxis(
         steps = steps,
         args = args,
-        measurer = measurer,
     ) { step ->
         val valueString = step.valueString(args.numberFormat)
         if (step == steps[0]) step.string(context, args.numberFormat) else valueString

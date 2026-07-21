@@ -143,7 +143,7 @@ private sealed interface GraphValues {
 
     companion object {
         fun testValues(): List<GraphValues> = listOf(
-            Random(from = -2.0, until = 5.0),
+            Random(from = -2.0, until = 30.0),
             Flat(value = 1.0)
         )
     }

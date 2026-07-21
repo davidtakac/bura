@@ -36,21 +36,22 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.davidtakac.bura.R
 import com.davidtakac.bura.common.compose.TextSkeleton
+import com.davidtakac.bura.forecast.parameters.precipitation.MixedPrecipitation
+import com.davidtakac.bura.forecast.parameters.temperature.Temperature
 import com.davidtakac.bura.graphs.common.GraphArgs
 import com.davidtakac.bura.graphs.common.compose.GraphScreenSectionLabel
+import com.davidtakac.bura.graphs.pop.PopGraph
 import com.davidtakac.bura.graphs.pop.compose.PopGraph
+import com.davidtakac.bura.graphs.precipitation.PrecipitationGraph
+import com.davidtakac.bura.graphs.precipitation.PrecipitationTotal
 import com.davidtakac.bura.graphs.precipitation.compose.PrecipitationBullets
 import com.davidtakac.bura.graphs.precipitation.compose.PrecipitationGraph
 import com.davidtakac.bura.graphs.precipitation.compose.TodayPrecipitationBullets
-import com.davidtakac.bura.graphs.precipitation.PrecipitationTotal
-import com.davidtakac.bura.graphs.temperature.compose.TemperatureGraph
-import com.davidtakac.bura.graphs.temperature.TemperatureGraphSummary
-import com.davidtakac.bura.forecast.parameters.precipitation.MixedPrecipitation
-import com.davidtakac.bura.summary.now.compose.NowSummarySkeleton
-import com.davidtakac.bura.forecast.parameters.temperature.Temperature
-import com.davidtakac.bura.graphs.pop.PopGraph
-import com.davidtakac.bura.graphs.precipitation.PrecipitationGraph
 import com.davidtakac.bura.graphs.temperature.TemperatureGraph
+import com.davidtakac.bura.graphs.temperature.TemperatureGraphSummary
+import com.davidtakac.bura.graphs.temperature.compose.TemperatureGraph
+import com.davidtakac.bura.summary.now.compose.NowSummarySkeleton
+import java.time.Instant
 
 private const val graphAspectRatio = 4f / 3f
 private val contentPadding = PaddingValues(horizontal = 16.dp, vertical = 24.dp)
@@ -60,6 +61,7 @@ private val graphLabelSpacing = 8.dp
 @Composable
 fun EssentialGraphPage(
     listState: LazyListState,
+    now: Instant,
     summary: TemperatureGraphSummary,
     temperatureGraph: TemperatureGraph,
     minTemp: Temperature,
@@ -86,9 +88,10 @@ fun EssentialGraphPage(
         }
         item {
             TemperatureGraph(
-                state = temperatureGraph,
-                absMinTemp = minTemp,
-                absMaxTemp = maxTemp,
+                now = now,
+                points = temperatureGraph.points,
+                min = minTemp,
+                max = maxTemp,
                 args = temperatureArgs,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -105,7 +108,8 @@ fun EssentialGraphPage(
             Column(verticalArrangement = Arrangement.spacedBy(graphLabelSpacing)) {
                 GraphScreenSectionLabel(stringResource(R.string.cond_screen_pop))
                 PopGraph(
-                    state = popGraph,
+                    now = now,
+                    points = popGraph.points,
                     args = popArgs,
                     modifier = Modifier
                         .fillMaxWidth()

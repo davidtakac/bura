@@ -12,6 +12,7 @@
 
 package com.davidtakac.bura.graphs.common
 
+import android.content.Context
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Typography
@@ -19,8 +20,11 @@ import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -59,7 +63,10 @@ data class GraphArgs(
     val pointLabelColor: Color,
 
     val pastOverlayColor: Color,
-    val icons: AppIcons
+    val icons: AppIcons,
+    val gutterIconSize: Float,
+    val textMeasurer: TextMeasurer,
+    val context: Context
 ) {
     companion object {
         private fun default(
@@ -69,6 +76,8 @@ data class GraphArgs(
             typography: Typography,
             colorScheme: ColorScheme,
             icons: AppIcons,
+            textMeasurer: TextMeasurer,
+            context: Context,
         ) = with(density) {
             val pointCenterRadius = 2.dp.toPx()
             val pointOutlineWidth = 2.dp.toPx()
@@ -98,18 +107,23 @@ data class GraphArgs(
                 pointCenterColor = colorScheme.onSurface,
                 pointLabelColor = colorScheme.onSurface,
                 pastOverlayColor = colorScheme.scrim.copy(alpha = 0.1f),
-                icons = icons
+                icons = icons,
+                gutterIconSize = 24.dp.toPx(),
+                textMeasurer = textMeasurer,
+                context = context,
             )
         }
 
         @Composable
-        private fun rememberDefault(): GraphArgs {
+        fun rememberDefault(): GraphArgs {
+            val context = LocalContext.current
             val density = LocalDensity.current
             val colorScheme = MaterialTheme.colorScheme
             val typography = MaterialTheme.typography
             val dateTimeFormatter = rememberDateTimeHourFormatter()
             val numberFormat = rememberNumberFormat()
             val icons = AppTheme.icons
+            val textMeasurer = rememberTextMeasurer()
             return remember(
                 density,
                 colorScheme,
@@ -118,7 +132,16 @@ data class GraphArgs(
                 numberFormat,
                 icons
             ) {
-                default(density, dateTimeFormatter, numberFormat, typography, colorScheme, icons)
+                default(
+                    density,
+                    dateTimeFormatter,
+                    numberFormat,
+                    typography,
+                    colorScheme,
+                    icons,
+                    textMeasurer,
+                    context,
+                )
             }
         }
 

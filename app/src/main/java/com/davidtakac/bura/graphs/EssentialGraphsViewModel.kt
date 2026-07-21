@@ -20,7 +20,7 @@ import com.davidtakac.bura.App
 import com.davidtakac.bura.common.util.launchCatching
 import com.davidtakac.bura.forecast.ForecastRepository
 import com.davidtakac.bura.forecast.units.SelectedUnitsRepository
-import com.davidtakac.bura.graphs.pop.PopGraph
+import com.davidtakac.bura.graphs.pop.PopGraphs
 import com.davidtakac.bura.graphs.pop.getPopGraphs
 import com.davidtakac.bura.graphs.precipitation.PrecipitationGraphs
 import com.davidtakac.bura.graphs.precipitation.PrecipitationTotal
@@ -122,7 +122,7 @@ sealed interface EssentialGraphsState {
     data class Success(
         val tempGraphSummaries: List<TemperatureGraphSummary>,
         val tempGraphs: TemperatureGraphs,
-        val popGraphs: List<PopGraph>,
+        val popGraphs: PopGraphs,
         val precipGraphs: PrecipitationGraphs,
         val precipTotals: List<PrecipitationTotal>
     ) : EssentialGraphsState
