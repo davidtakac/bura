@@ -200,9 +200,10 @@ private fun DrawScope.drawPrecipAxis(
     args: GraphArgs
 ) {
     drawVerticalAxis(
-        steps = steps,
+        steps = steps.map { it.value },
         args = args,
-    ) { step ->
+    ) { stepValue ->
+        val step = Rain(stepValue, steps.first().unit)
         val valueString = step.valueString(args.numberFormat)
         if (step == steps[0]) step.string(args.context, args.numberFormat) else valueString
     }
