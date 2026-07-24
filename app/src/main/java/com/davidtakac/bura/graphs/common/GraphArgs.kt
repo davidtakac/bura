@@ -65,6 +65,7 @@ data class GraphArgs(
     val pastOverlayColor: Color,
     val icons: AppIcons,
     val gutterIconSize: Float,
+    val gutterIconSpacingMin: Float,
     val textMeasurer: TextMeasurer,
     val context: Context
 ) {
@@ -109,6 +110,7 @@ data class GraphArgs(
                 pastOverlayColor = colorScheme.scrim.copy(alpha = 0.1f),
                 icons = icons,
                 gutterIconSize = 24.dp.toPx(),
+                gutterIconSpacingMin = 2.dp.toPx(),
                 textMeasurer = textMeasurer,
                 context = context,
             )

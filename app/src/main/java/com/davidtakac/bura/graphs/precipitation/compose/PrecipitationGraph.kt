@@ -24,13 +24,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
-import androidx.compose.ui.unit.IntOffset
-import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.davidtakac.bura.forecast.parameters.condition.imageBitmap
@@ -43,6 +42,7 @@ import com.davidtakac.bura.forecast.parameters.precipitation.string
 import com.davidtakac.bura.forecast.parameters.precipitation.valueString
 import com.davidtakac.bura.graphs.common.GraphArgs
 import com.davidtakac.bura.graphs.common.NiceScale
+import com.davidtakac.bura.graphs.common.drawing.drawGutterIcon
 import com.davidtakac.bura.graphs.common.drawing.drawPastOverlay
 import com.davidtakac.bura.graphs.common.drawing.drawTimeAxis
 import com.davidtakac.bura.graphs.common.drawing.drawVerticalAxis
@@ -51,7 +51,6 @@ import com.davidtakac.bura.graphs.precipitation.PrecipitationGraphs
 import com.davidtakac.bura.theme.AppTheme
 import java.time.Instant
 import java.time.temporal.ChronoUnit
-import kotlin.math.roundToInt
 
 @Composable
 fun PrecipitationGraph(
@@ -101,6 +100,9 @@ fun PrecipitationGraph(
         drawHorizontalAxisAndBars(
             now = now,
             points = points,
+            gutterIcons = points.map {
+                it.cond.imageBitmap(args.context, args.icons, args.gutterIconSize)
+            },
             max = newMax,
             rainColor = rainColor,
             showersColor = showersColor,
@@ -113,18 +115,14 @@ fun PrecipitationGraph(
 private fun DrawScope.drawHorizontalAxisAndBars(
     now: Instant,
     points: List<PrecipitationGraphPoint>,
+    gutterIcons: List<ImageBitmap>,
     max: Precipitation,
     rainColor: Color,
     showersColor: Color,
     snowColor: Color,
     args: GraphArgs
 ) {
-    val iconSize = args.gutterIconSize
-    val iconSizeRound = iconSize.roundToInt()
-    val hasSpaceFor12Icons = (size.width - args.startGutter - args.endGutter) - (iconSizeRound * 12) >= (12 * 2.dp.toPx())
-    val iconY = ((args.topGutter / 2) - (iconSize / 2)).roundToInt()
     val range = max.value
-
     var nowX: Float? = null
     drawTimeAxis(
         times = points.map { it.time },
@@ -180,14 +178,7 @@ private fun DrawScope.drawHorizontalAxisAndBars(
         )
 
         // Condition icons
-        if (i % (if (hasSpaceFor12Icons) 2 else 3) == 1) {
-            val iconX = x - (iconSize / 2)
-            drawImage(
-                image = point.cond.imageBitmap(args.context, args.icons, args.gutterIconSize),
-                dstOffset = IntOffset(iconX.roundToInt(), y = iconY),
-                dstSize = IntSize(width = iconSizeRound, height = iconSizeRound),
-            )
-        }
+        drawGutterIcon(i, x, gutterIcons[i], args)
     }
 
     nowX?.let {

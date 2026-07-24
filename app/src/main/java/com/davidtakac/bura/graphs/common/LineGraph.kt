@@ -23,10 +23,8 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.unit.IntOffset
-import androidx.compose.ui.unit.IntSize
-import androidx.compose.ui.unit.dp
 import com.davidtakac.bura.graphs.common.drawing.closePlotFillPath
+import com.davidtakac.bura.graphs.common.drawing.drawGutterIcon
 import com.davidtakac.bura.graphs.common.drawing.drawLabeledPoint
 import com.davidtakac.bura.graphs.common.drawing.drawPastOverlayWithPoint
 import com.davidtakac.bura.graphs.common.drawing.drawPlotLinePath
@@ -35,13 +33,12 @@ import com.davidtakac.bura.graphs.common.drawing.drawVerticalAxis
 import java.time.Instant
 import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
-import kotlin.math.roundToInt
 
 @Composable
 fun LineGraph(
     plotPoints: List<PlotPoint>,
     plotBrush: Brush,
-    gutterIcons: List<GutterIcon>,
+    gutterIcons: List<ImageBitmap>,
     valueTicks: List<Double>,
     valueFormatter: (Double) -> String,
     now: Instant,
@@ -73,19 +70,14 @@ private fun DrawScope.drawHorizontalAxisAndPlot(
     plotPoints: List<PlotPoint>,
     plotBrush: Brush,
     plotUnderfillBrush: Brush?,
-    gutterIcons: List<GutterIcon>,
+    gutterIcons: List<ImageBitmap>,
     valueFormatter: (Double) -> String,
     min: Double,
     max: Double,
     now: Instant,
     args: GraphArgs
 ) {
-    val iconSize = args.gutterIconSize
-    val iconSizeRound = iconSize.roundToInt()
-    val hasSpaceFor12Icons = (size.width - args.startGutter - args.endGutter) - (iconSizeRound * 12) >= (12 * 2.dp.toPx())
-    val iconY = ((args.topGutter / 2) - (args.gutterIconSize / 2)).roundToInt()
     val range = max - min
-
     val plotPath = Path()
     val plotFillPath = Path()
     fun movePlot(x: Float, y: Float) {
@@ -114,14 +106,7 @@ private fun DrawScope.drawHorizontalAxisAndPlot(
         if (point.time.toInstant() == now.truncatedTo(ChronoUnit.HOURS)) nowCenter = Offset(x, y)
 
         // Condition icons
-        if (i % (if (hasSpaceFor12Icons) 2 else 3) == 1) {
-            val iconX = x - (iconSize / 2)
-            drawImage(
-                image = gutterIcons[i].icon,
-                dstOffset = IntOffset(iconX.roundToInt(), y = iconY),
-                dstSize = IntSize(width = iconSizeRound, height = iconSizeRound),
-            )
-        }
+        drawGutterIcon(i, x, gutterIcons[i], args)
     }
 
     drawPlotLinePath(lastX, args) {
@@ -165,10 +150,5 @@ private fun DrawScope.drawHorizontalAxisAndPlot(
 
 data class PlotPoint(
     val value: Double,
-    val time: ZonedDateTime,
-)
-
-data class GutterIcon(
-    val icon: ImageBitmap,
     val time: ZonedDateTime,
 )

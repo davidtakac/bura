@@ -35,7 +35,6 @@ import com.davidtakac.bura.forecast.parameters.condition.imageBitmap
 import com.davidtakac.bura.forecast.parameters.temperature.Temperature
 import com.davidtakac.bura.forecast.parameters.temperature.string
 import com.davidtakac.bura.graphs.common.GraphArgs
-import com.davidtakac.bura.graphs.common.GutterIcon
 import com.davidtakac.bura.graphs.common.LineGraph
 import com.davidtakac.bura.graphs.common.NiceScale
 import com.davidtakac.bura.graphs.common.PlotPoint
@@ -86,10 +85,7 @@ fun TemperatureGraph(
                 endY = gradientEnd
             ),
             gutterIcons = points.map {
-                GutterIcon(
-                    icon = it.condition.imageBitmap(context, args.icons, args.gutterIconSize),
-                    time = it.time.value
-                )
+                it.condition.imageBitmap(context, args.icons, args.gutterIconSize)
             },
             valueTicks = ticks,
             valueFormatter = {

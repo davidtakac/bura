@@ -25,7 +25,6 @@ import com.davidtakac.bura.forecast.parameters.condition.imageBitmap
 import com.davidtakac.bura.forecast.parameters.pop.Pop
 import com.davidtakac.bura.forecast.parameters.pop.string
 import com.davidtakac.bura.graphs.common.GraphArgs
-import com.davidtakac.bura.graphs.common.GutterIcon
 import com.davidtakac.bura.graphs.common.LineGraph
 import com.davidtakac.bura.graphs.common.PlotPoint
 import com.davidtakac.bura.graphs.pop.PopGraphPoint
@@ -63,10 +62,7 @@ fun PopGraph(
         },
         valueTicks = ticks,
         gutterIcons = points.map {
-            GutterIcon(
-                icon = it.condition.imageBitmap(context, args.icons, args.gutterIconSize),
-                time = it.time
-            )
+            it.condition.imageBitmap(context, args.icons, args.gutterIconSize)
         },
         now = now,
         args = args,
