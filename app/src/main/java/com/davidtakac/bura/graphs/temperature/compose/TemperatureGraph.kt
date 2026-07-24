@@ -134,7 +134,7 @@ private fun TemperatureGraphPreview(
                 TemperatureGraph(
                     now = state.now,
                     points = state.graphs.first().points,
-                    args = GraphArgs.rememberTemperatureArgs(),
+                    args = GraphArgs.rememberDefaultArgs(),
                     min = state.min,
                     max = state.max,
                     modifier = Modifier.width(400.dp).height(300.dp)
@@ -158,7 +158,7 @@ private fun TemperatureGraphPreviewRtl(
                     TemperatureGraph(
                         now = state.now,
                         points = state.graphs.first().points,
-                        args = GraphArgs.rememberTemperatureArgs(),
+                        args = GraphArgs.rememberDefaultArgs(),
                         min = state.min,
                         max = state.max,
                         modifier = Modifier.width(400.dp).height(300.dp)

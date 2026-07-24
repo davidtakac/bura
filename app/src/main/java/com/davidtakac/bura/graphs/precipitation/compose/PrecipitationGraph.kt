@@ -213,7 +213,7 @@ private fun PrecipitationGraphPreview(
                 PrecipitationGraph(
                     now = state.now,
                     points = state.graphs.first().points,
-                    args = GraphArgs.rememberTemperatureArgs(),
+                    args = GraphArgs.rememberDefaultArgs(),
                     max = state.max,
                     modifier = Modifier.width(400.dp).height(300.dp)
                 )
@@ -236,7 +236,7 @@ private fun PrecipitationGraphPreviewRtl(
                     PrecipitationGraph(
                         now = state.now,
                         points = state.graphs.first().points,
-                        args = GraphArgs.rememberDefault(),
+                        args = GraphArgs.rememberDefaultArgs(),
                         max = state.max,
                         modifier = Modifier.width(400.dp).height(300.dp)
                     )

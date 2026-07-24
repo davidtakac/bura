@@ -117,7 +117,7 @@ data class GraphArgs(
         }
 
         @Composable
-        fun rememberDefault(): GraphArgs {
+        fun rememberDefaultArgs(): GraphArgs {
             val context = LocalContext.current
             val density = LocalDensity.current
             val colorScheme = MaterialTheme.colorScheme
@@ -146,14 +146,5 @@ data class GraphArgs(
                 )
             }
         }
-
-        @Composable
-        fun rememberTemperatureArgs() = rememberDefault()
-
-        @Composable
-        fun rememberPopArgs() = rememberDefault()
-
-        @Composable
-        fun rememberPrecipitationArgs() = rememberDefault()
     }
 }

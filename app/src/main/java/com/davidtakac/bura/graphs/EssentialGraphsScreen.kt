@@ -168,12 +168,12 @@ private fun Pager(
                 temperatureGraph = tempGraphs.graphs[page],
                 minTemp = tempGraphs.min,
                 maxTemp = tempGraphs.max,
-                temperatureArgs = GraphArgs.rememberTemperatureArgs(),
+                temperatureArgs = GraphArgs.rememberDefaultArgs(),
                 popGraph = state.popGraphs.graphs[page],
-                popArgs = GraphArgs.rememberPopArgs(),
+                popArgs = GraphArgs.rememberDefaultArgs(),
                 precipGraph = state.precipGraphs.graphs[page],
                 precipMax = state.precipGraphs.max,
-                precipArgs = GraphArgs.rememberPrecipitationArgs(),
+                precipArgs = GraphArgs.rememberDefaultArgs(),
                 precipitationTotal = state.precipTotals[page]
             )
         }

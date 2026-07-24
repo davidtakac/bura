@@ -84,7 +84,7 @@ private fun PopGraphPreview() {
                     condition = Condition(1, isDay = it >= 7)
                 )
             },
-            args = GraphArgs.rememberDefault(),
+            args = GraphArgs.rememberDefaultArgs(),
             modifier = Modifier.width(400.dp).height(300.dp)
         )
     }
