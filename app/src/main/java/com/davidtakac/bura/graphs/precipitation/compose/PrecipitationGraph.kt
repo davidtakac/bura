@@ -41,7 +41,7 @@ import com.davidtakac.bura.forecast.parameters.precipitation.Snow
 import com.davidtakac.bura.forecast.parameters.precipitation.string
 import com.davidtakac.bura.forecast.parameters.precipitation.valueString
 import com.davidtakac.bura.graphs.common.GraphArgs
-import com.davidtakac.bura.graphs.common.NiceScale
+import com.davidtakac.bura.graphs.common.ValueTick
 import com.davidtakac.bura.graphs.common.drawing.drawGutterIcon
 import com.davidtakac.bura.graphs.common.drawing.drawPastOverlay
 import com.davidtakac.bura.graphs.common.drawing.drawTimeAxis
@@ -51,6 +51,7 @@ import com.davidtakac.bura.graphs.precipitation.PrecipitationGraphs
 import com.davidtakac.bura.theme.AppTheme
 import java.time.Instant
 import java.time.temporal.ChronoUnit
+import kotlin.math.ceil
 
 @Composable
 fun PrecipitationGraph(
@@ -65,37 +66,20 @@ fun PrecipitationGraph(
     val showersColor = AppTheme.colors.showersColor
     val snowColor = AppTheme.colors.snowColor
     val (steps, newMax) = remember(max) {
-        val leastMax = MixedPrecipitation(
-            rain = Rain(4.0, Precipitation.Unit.Millimeters),
-            showers = Showers.ZeroMillimeters,
-            snow = Snow.ZeroMillimeters,
-            unit = Precipitation.Unit.Millimeters
-        )
-        val niceScale = NiceScale(
-            min = 0.0,
-            max = (if (max < leastMax) leastMax.convertTo(unit) else max).value,
-            maxTicks = 5
-        )
-        val niceMax = niceScale.niceMax + niceScale.niceSpacing
-        val niceSteps = niceScale.niceSteps.toMutableList().apply { add(niceMax) }
-        niceSteps.map {
-            MixedPrecipitation(
-                rain = Rain(it, max.unit),
-                showers = Showers.ZeroMillimeters,
-                snow = Snow.ZeroMillimeters,
-                unit = unit
-            )
-        } to MixedPrecipitation(
-            rain = Rain(niceMax, max.unit),
+        val valueTicks = getValueTicks(unit, max.value)
+        val newMax = MixedPrecipitation(
+            rain = Rain(valueTicks.last().value, max.unit),
             snow = Snow.ZeroMillimeters,
             showers = Showers.ZeroMillimeters,
             unit = unit
         )
+        valueTicks to newMax
     }
     Canvas(modifier) {
         drawPrecipAxis(
             steps = steps,
-            args = args
+            args = args,
+            unit = unit,
         )
         drawHorizontalAxisAndBars(
             now = now,
@@ -187,16 +171,39 @@ private fun DrawScope.drawHorizontalAxisAndBars(
 }
 
 private fun DrawScope.drawPrecipAxis(
-    steps: List<Precipitation>,
+    unit: Precipitation.Unit,
+    steps: List<ValueTick>,
     args: GraphArgs
 ) {
     drawVerticalAxis(
-        steps = steps.map { it.value },
+        valueTicks = steps,
         args = args,
     ) { stepValue ->
-        val step = Rain(stepValue, steps.first().unit)
+        val step = Rain(stepValue, unit)
         val valueString = step.valueString(args.numberFormat)
         if (step == steps[0]) step.string(args.context, args.numberFormat) else valueString
+    }
+}
+
+private fun getValueTicks(unit: Precipitation.Unit, max: Double): List<ValueTick> {
+    val step = when (unit) {
+        Precipitation.Unit.Millimeters -> 3.0
+        Precipitation.Unit.Centimeters -> 0.3
+        Precipitation.Unit.Inches -> 0.1
+    }
+    return buildList {
+        add(ValueTick(0.0))
+        // todo replace with strings.xml
+        add(ValueTick(step, "Light"))
+        add(ValueTick(step * 2, "Moderate"))
+        add(ValueTick(step * 3, "Heavy"))
+
+        val untilMax = max - (step * 3)
+        if (untilMax <= 0) return@buildList
+        val stepsUntilMax = ceil(untilMax / step).toInt()
+        repeat(stepsUntilMax) {
+            add(ValueTick(step * (3 + it + 1)))
+        }
     }
 }
 

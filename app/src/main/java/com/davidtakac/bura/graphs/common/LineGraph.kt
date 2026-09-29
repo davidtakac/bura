@@ -39,7 +39,7 @@ fun LineGraph(
     plotPoints: List<PlotPoint>,
     plotBrush: Brush,
     gutterIcons: List<ImageBitmap>,
-    valueTicks: List<Double>,
+    valueTicks: List<ValueTick>,
     valueFormatter: (Double) -> String,
     now: Instant,
     args: GraphArgs,
@@ -53,15 +53,15 @@ fun LineGraph(
             plotUnderfillBrush = plotUnderfillBrush,
             gutterIcons = gutterIcons,
             valueFormatter = valueFormatter,
-            min = valueTicks.min(),
-            max = valueTicks.max(),
+            min = valueTicks.minOf { it.value },
+            max = valueTicks.maxOf { it.value },
             now = now,
             args = args
         )
         drawVerticalAxis(
-            steps = valueTicks,
+            valueTicks = valueTicks,
             args = args,
-            stepFormatter = valueFormatter
+            valueFormatter = valueFormatter
         )
     }
 }
@@ -151,4 +151,9 @@ private fun DrawScope.drawHorizontalAxisAndPlot(
 data class PlotPoint(
     val value: Double,
     val time: ZonedDateTime,
+)
+
+data class ValueTick(
+    val value: Double,
+    val label: String? = null,
 )

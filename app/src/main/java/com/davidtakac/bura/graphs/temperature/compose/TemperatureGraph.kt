@@ -38,6 +38,7 @@ import com.davidtakac.bura.graphs.common.GraphArgs
 import com.davidtakac.bura.graphs.common.LineGraph
 import com.davidtakac.bura.graphs.common.NiceScale
 import com.davidtakac.bura.graphs.common.PlotPoint
+import com.davidtakac.bura.graphs.common.ValueTick
 import com.davidtakac.bura.graphs.temperature.TemperatureGraphPoint
 import com.davidtakac.bura.graphs.temperature.TemperatureGraphs
 import com.davidtakac.bura.theme.AppTheme
@@ -101,7 +102,7 @@ fun TemperatureGraph(
 private fun getNiceMinMaxAndTicks(
     min: Double,
     max: Double
-): Triple<Double, Double, List<Double>> {
+): Triple<Double, Double, List<ValueTick>> {
     val maxTicks = 5
     // Avoids case where min == max, or where the scale is too small to display nice numbers
     var min = min
@@ -114,10 +115,12 @@ private fun getNiceMinMaxAndTicks(
     // Avoids case where scale min max are equal to extremes (looks bad)
     val niceMin = niceScale.niceMin - niceScale.niceSpacing
     val niceMax = niceScale.niceMax + niceScale.niceSpacing
-    val niceSteps = niceScale.niceSteps.toMutableList().apply {
-        add(0, niceMin)
-        add(niceMax)
-    }
+    val niceSteps = niceScale.niceSteps.toMutableList()
+        .apply {
+            add(0, niceMin)
+            add(niceMax)
+        }
+        .map(::ValueTick)
     return Triple(niceMin, niceMax, niceSteps)
 }
 

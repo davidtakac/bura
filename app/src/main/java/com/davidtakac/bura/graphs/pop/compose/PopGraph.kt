@@ -27,6 +27,7 @@ import com.davidtakac.bura.forecast.parameters.pop.string
 import com.davidtakac.bura.graphs.common.GraphArgs
 import com.davidtakac.bura.graphs.common.LineGraph
 import com.davidtakac.bura.graphs.common.PlotPoint
+import com.davidtakac.bura.graphs.common.ValueTick
 import com.davidtakac.bura.graphs.pop.PopGraphPoint
 import com.davidtakac.bura.theme.AppTheme
 import java.time.Instant
@@ -43,7 +44,7 @@ fun PopGraph(
 ) {
     val context = LocalContext.current
     val plotColor = AppTheme.colors.popColor
-    val ticks = (0..120 step 20).map { it.toDouble() }
+    val ticks = (0..120 step 20).map { ValueTick(it.toDouble()) }
     LineGraph(
         plotPoints = points.map {
             PlotPoint(
