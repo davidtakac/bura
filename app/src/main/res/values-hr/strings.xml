@@ -217,4 +217,8 @@
     <string name="unexpected_error_screen_label_clip_entry">Izvješće o pogrešci</string>
     <string name="unexpected_error_screen_btn_copy_logs">Kopiraj sve</string>
     <string name="unexpected_error_screen_btn_go_home">Početna stranica</string>
+    <string name="searched_place_edit_tz_title">Postavi vremensku zonu</string>
+    <string name="searched_place_edit_tz_description_value">Vremenska zona mjesta %1$s je %2$s koju tvoj uređaj ne podržava. Za korištenje ovog mjesta, postavi vremensku zonu ručno.</string>
+    <string name="searched_place_edit_tz_hint">Vremenska zona</string>
+    <string name="searched_place_edit_tz_no_search_results_value">Nije pronađena vremenska zona za pretragu \"%1$s\"</string>
 </resources>

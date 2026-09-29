@@ -133,7 +133,10 @@ private fun TimeZonePicker(
         Box(Modifier.fillMaxHeight(0.5f)) {
             if (searchedZoneIds.isEmpty()) {
                 TimeZoneItem(
-                    text = "No matching time zones for \"$trimmedSearchValue\"",
+                    text = stringResource(
+                        R.string.searched_place_edit_tz_no_search_results_value,
+                        trimmedSearchValue,
+                    ),
                     horizontalPadding = horizontalPadding,
                     onClick = null
                 )
