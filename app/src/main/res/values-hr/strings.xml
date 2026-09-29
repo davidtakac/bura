@@ -94,6 +94,9 @@
     <string name="precip_value_cm">%s cm</string>
     <string name="precip_unit_in">″</string>
     <string name="precip_value_in">%s″</string>
+    <string name="precip_label_light">Slabo</string>
+    <string name="precip_label_moderate">Umjereno</string>
+    <string name="precip_label_heavy">Jako</string>
     <string name="pop_value_percent">%s%%</string>
     <string name="pressure">Pritisak</string>
     <string name="pressure_trend_falling">Pada</string>

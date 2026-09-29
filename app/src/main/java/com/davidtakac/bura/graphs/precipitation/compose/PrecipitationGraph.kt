@@ -12,6 +12,7 @@
 
 package com.davidtakac.bura.graphs.precipitation.compose
 
+import android.content.res.Resources
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
@@ -28,10 +29,12 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import com.davidtakac.bura.R
 import com.davidtakac.bura.forecast.parameters.condition.imageBitmap
 import com.davidtakac.bura.forecast.parameters.precipitation.MixedPrecipitation
 import com.davidtakac.bura.forecast.parameters.precipitation.Precipitation
@@ -61,14 +64,16 @@ fun PrecipitationGraph(
     max: MixedPrecipitation,
     modifier: Modifier = Modifier
 ) {
+    val maxValue = max.value
     val unit = max.unit
     val rainColor = AppTheme.colors.rainColor
     val showersColor = AppTheme.colors.showersColor
     val snowColor = AppTheme.colors.snowColor
-    val (steps, newMax) = remember(max) {
-        val valueTicks = getValueTicks(unit, max.value)
+    val resources = LocalResources.current
+    val (steps, newMax) = remember(maxValue, unit, resources) {
+        val valueTicks = getValueTicks(unit, maxValue, resources)
         val newMax = MixedPrecipitation(
-            rain = Rain(valueTicks.last().value, max.unit),
+            rain = Rain(valueTicks.last().value, unit),
             snow = Snow.ZeroMillimeters,
             showers = Showers.ZeroMillimeters,
             unit = unit
@@ -185,7 +190,11 @@ private fun DrawScope.drawPrecipAxis(
     }
 }
 
-private fun getValueTicks(unit: Precipitation.Unit, max: Double): List<ValueTick> {
+private fun getValueTicks(
+    unit: Precipitation.Unit,
+    max: Double,
+    resources: Resources,
+): List<ValueTick> {
     val step = when (unit) {
         Precipitation.Unit.Millimeters -> 3.0
         Precipitation.Unit.Centimeters -> 0.3
@@ -193,10 +202,9 @@ private fun getValueTicks(unit: Precipitation.Unit, max: Double): List<ValueTick
     }
     return buildList {
         add(ValueTick(0.0))
-        // todo replace with strings.xml
-        add(ValueTick(step, "Light"))
-        add(ValueTick(step * 2, "Moderate"))
-        add(ValueTick(step * 3, "Heavy"))
+        add(ValueTick(step, resources.getString(R.string.precip_label_light)))
+        add(ValueTick(step * 2, resources.getString(R.string.precip_label_moderate)))
+        add(ValueTick(step * 3, resources.getString(R.string.precip_label_heavy)))
 
         val untilMax = max - (step * 3)
         if (untilMax <= 0) return@buildList

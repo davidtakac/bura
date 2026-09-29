@@ -108,6 +108,9 @@
     <string name="precip_value_cm">%s cm</string>
     <string name="precip_unit_in">″</string>
     <string name="precip_value_in">%s″</string>
+    <string name="precip_label_light">Light</string>
+    <string name="precip_label_moderate">Moderate</string>
+    <string name="precip_label_heavy">Heavy</string>
 
     <string name="pop_value_percent">%s%%</string>
 
