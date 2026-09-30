@@ -34,7 +34,12 @@ import kotlin.random.Random
 class PrecipitationGraphsPreviewParameterProvider : GraphsPreviewParameterProvider<PrecipitationGraphs>(
     graphPreviewValues = listOf(
         GraphPreviewValues.Flat(value = 2.5),
-        GraphPreviewValues.Random(from = 0.0, until = 1.2),
+        // Everyday cases
+        GraphPreviewValues.Random(from = 0.0, until = 5.0),
+        // Everyday cases with a couple steps after heavy
+        GraphPreviewValues.Random(from = 0.0, until = 8.0),
+        // Unusually heavy cases
+        GraphPreviewValues.Random(from = 0.0, until = 16.0)
     )
 ) {
     override fun generateGraphs(

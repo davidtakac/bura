@@ -44,6 +44,7 @@ import com.davidtakac.bura.forecast.parameters.precipitation.Snow
 import com.davidtakac.bura.forecast.parameters.precipitation.string
 import com.davidtakac.bura.forecast.parameters.precipitation.valueString
 import com.davidtakac.bura.graphs.common.GraphArgs
+import com.davidtakac.bura.graphs.common.NiceScale
 import com.davidtakac.bura.graphs.common.ValueTick
 import com.davidtakac.bura.graphs.common.drawing.drawGutterIcon
 import com.davidtakac.bura.graphs.common.drawing.drawPastOverlay
@@ -195,23 +196,50 @@ private fun getValueTicks(
     max: Double,
     resources: Resources,
 ): List<ValueTick> {
-    val step = when (unit) {
+    val usualStepDelta = when (unit) {
         Precipitation.Unit.Millimeters -> 3.0
         Precipitation.Unit.Centimeters -> 0.3
         Precipitation.Unit.Inches -> 0.1
     }
-    return buildList {
-        add(ValueTick(0.0))
-        add(ValueTick(step, resources.getString(R.string.precip_label_light)))
-        add(ValueTick(step * 2, resources.getString(R.string.precip_label_moderate)))
-        add(ValueTick(step * 3, resources.getString(R.string.precip_label_heavy)))
-
-        val untilMax = max - (step * 3)
-        if (untilMax <= 0) return@buildList
-        val stepsUntilMax = ceil(untilMax / step).toInt()
-        repeat(stepsUntilMax) {
-            add(ValueTick(step * (3 + it + 1)))
+    val usualLightStep = usualStepDelta * 1
+    val usualModerateStep = usualStepDelta * 2
+    val usualHeavyStep = usualStepDelta * 3
+    val max = max.coerceAtLeast(usualHeavyStep)
+    val stepsFromHeavyUntilMax = ceil((max - usualHeavyStep) / usualStepDelta).toInt()
+    return if (stepsFromHeavyUntilMax <= 3) {
+        // Everyday cases where light-moderate-heavy labels can be displayed, and
+        // heavier cases where three or fewer steps happen above heavy
+        buildList {
+            add(ValueTick(0.0))
+            add(ValueTick(usualLightStep, resources.getString(R.string.precip_label_light)))
+            add(ValueTick(usualModerateStep, resources.getString(R.string.precip_label_moderate)))
+            add(ValueTick(usualHeavyStep, resources.getString(R.string.precip_label_heavy)))
+            repeat(stepsFromHeavyUntilMax) {
+                add(ValueTick(usualHeavyStep + (usualStepDelta * (it + 1))))
+            }
         }
+    } else {
+        // Unusual cases where there are more than three steps above heavy, which would crowd
+        // the graph if the everyday case was used
+        var usedLight = false
+        var usedModerate = false
+        var usedHeavy = false
+        NiceScale(min = 0.0, max = max, maxTicks = 5)
+            .niceSteps
+            .map { niceStep ->
+                ValueTick(
+                    value = niceStep,
+                    label = when {
+                        usedHeavy -> null
+                        niceStep >= usualHeavyStep -> resources.getString(R.string.precip_label_heavy).also { usedHeavy = true }
+                        usedModerate -> null
+                        niceStep >= usualModerateStep -> resources.getString(R.string.precip_label_moderate).also { usedModerate = true }
+                        usedLight -> null
+                        niceStep >= usualLightStep -> resources.getString(R.string.precip_label_light).also { usedLight = true }
+                        else -> null
+                    }
+                )
+            }
     }
 }
 
