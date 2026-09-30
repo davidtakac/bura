@@ -204,7 +204,14 @@ private fun getValueTicks(
     val usualLightStep = usualStepDelta * 1
     val usualModerateStep = usualStepDelta * 2
     val usualHeavyStep = usualStepDelta * 3
-    val max = max.coerceAtLeast(usualHeavyStep)
+    val max = if (max < usualHeavyStep) {
+        usualHeavyStep
+    } else if (max == usualHeavyStep) {
+        // Avoids the case where pillar goes to the very top of the graph
+        max + 0.01
+    } else {
+        max
+    }
     val stepsFromHeavyUntilMax = ceil((max - usualHeavyStep) / usualStepDelta).toInt()
     return if (stepsFromHeavyUntilMax <= 3) {
         // Everyday cases where light-moderate-heavy labels can be displayed, and
