@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ Copyright 2024 David Takač
   ~
   ~ This file is part of Bura.
@@ -8,9 +9,7 @@
   ~ Bura is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
   ~
   ~ You should have received a copy of the GNU General Public License along with Bura. If not, see <https://www.gnu.org/licenses/>.
-  -->
-
-<resources>
+  --><resources>
     <string name="app_name">Bura</string>
     <string name="general_error_failed_to_download">Neuspješno preuzimanje prognoze. Spoji se na Internet i pokušaj ponovno.</string>
     <string name="general_error_outdated">Spremljena prognoza je istekla. Spoji se na Internet i pokušaj ponovno.</string>
@@ -94,7 +93,7 @@
     <string name="precip_value_cm">%s cm</string>
     <string name="precip_unit_in">″</string>
     <string name="precip_value_in">%s″</string>
-    <string name="precip_label_light">Slabo</string>
+    <string name="precip_label_light">Lagano</string>
     <string name="precip_label_moderate">Umjereno</string>
     <string name="precip_label_heavy">Jako</string>
     <string name="pop_value_percent">%s%%</string>
