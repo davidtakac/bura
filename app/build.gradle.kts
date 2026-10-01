@@ -44,6 +44,7 @@ android {
                 "ar",
                 "zh-rTW",
                 "cs",
+                "el",
             )
         )
     }
