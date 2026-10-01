@@ -77,7 +77,7 @@ describe the problem and your proposed solution. After we agree, you may open a 
 won't waste time working on something that may not be merged if it conflicts with the project.
 
 ## Donations
-I do not accept donations at the moment. I tried to accept them on Prognoza, but as soon as I received the first donation, PayPal shut down my account.
+I do not accept donations at the moment.
 
 ## FAQ
 
