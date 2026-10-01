@@ -39,6 +39,12 @@
     <string name="cond_screen_temp_unit_fahrenheit">Fahrenheit (°F)</string>
     <string name="cond_screen_precip_value_in_last_hours">Letzte %s Stunden</string>
     <string name="cond_screen_precip_value_in_next_hours">Nächste %s Stunden</string>
+	
+	<string name="unexpected_error_screen_title">Unerwarteter Fehler</string>
+    <string name="unexpected_error_screen_description">Es ist ein unerwarteter Fehler aufgetreten. Um fortzufahren, gehen Sie zum Startbildschirm und versuchen Sie es erneut. Wenn Sie helfen möchten, erstellen Sie ein Problem auf GitHub und fügen Sie den folgenden Fehlerbericht ein.</string>
+    <string name="unexpected_error_screen_label_clip_entry">Fehlerbericht</string>
+    <string name="unexpected_error_screen_btn_copy_logs">Alle kopieren</string>
+    <string name="unexpected_error_screen_btn_go_home">Startbildschirm</string>
 
     <string name="settings_screen_title">Einstellungen</string>
     <string name="settings_screen_title_units">Einheiten</string>
@@ -122,8 +128,15 @@
 
     <string name="sunrise">Sonnenaufgang</string>
     <string name="sunset">Sonnenuntergang</string>
+    <!--
+    sunrise_short and sunset_short are used in the hourly forecast on the Summary (Home) screen.
+    To make these strings visually consistent with the hour strings, you can override them with
+    shorter strings when it makes sense and sounds natural for the language in question. Otherwise
+    reference the full strings @string/sunrise and @string/sunset. For more info, see issue #62.
+    -->
     <string name="sunrise_short">@string/sunrise</string>
     <string name="sunset_short">@string/sunset</string>
+	
     <string name="sunrise_value">Sonnenaufgang: %s</string>
     <string name="sunset_value">Sonnenuntergang: %s</string>
     <string name="sunrise_not_today">Heute kein Sonnenaufgang.</string>
