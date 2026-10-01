@@ -14,30 +14,44 @@ package com.davidtakac.bura
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.davidtakac.bura.common.UserAgentProvider
-import com.davidtakac.bura.forecast.ForecastConverter
-import com.davidtakac.bura.forecast.ForecastDataCacher
-import com.davidtakac.bura.forecast.ForecastDataDownloader
+import com.davidtakac.bura.common.util.getAppVersionName
+import com.davidtakac.bura.common.util.getUserAgent
 import com.davidtakac.bura.forecast.ForecastRepository
-import com.davidtakac.bura.place.saved.DeletePlace
-import com.davidtakac.bura.place.saved.GetSavedPlaces
-import com.davidtakac.bura.place.saved.SavedPlacesRepository
-import com.davidtakac.bura.place.search.SearchPlaces
-import com.davidtakac.bura.place.selected.SelectedPlaceRepository
-import com.davidtakac.bura.place.selected.SelectPlace
-import com.davidtakac.bura.units.SelectedUnitsRepository
+import com.davidtakac.bura.forecast.cache.ForecastCacher
+import com.davidtakac.bura.forecast.download.ForecastDownloader
+import com.davidtakac.bura.forecast.download.InternetChecker
+import com.davidtakac.bura.forecast.units.SelectedUnitsRepository
+import com.davidtakac.bura.places.saved.DeletePlace
+import com.davidtakac.bura.places.saved.GetSavedPlaces
+import com.davidtakac.bura.places.saved.SavedPlacesRepository
+import com.davidtakac.bura.places.search.SearchPlaces
+import com.davidtakac.bura.places.selected.SelectPlace
+import com.davidtakac.bura.places.selected.SelectedPlaceRepository
+import com.davidtakac.bura.unexpectederror.UnexpectedErrorConsumer
+import com.davidtakac.bura.unexpectederror.UnexpectedErrorRepository
+import com.davidtakac.bura.unexpectederror.UnexpectedErrorSetter
 
 class AppContainer(private val appContext: Context) {
     val prefs: SharedPreferences get() = appContext.getSharedPreferences("prefs", Context.MODE_PRIVATE)
     private val root get() = appContext.filesDir
-    private val userAgentProvider get() = UserAgentProvider(appContext)
+    private val userAgent: String get() = getUserAgent(appContext)
 
-    private val forecastCacher by lazy { ForecastDataCacher(root) }
+    private val forecastCacher by lazy {
+        ForecastCacher(
+            root = root,
+            appVersionName = getAppVersionName(appContext),
+        )
+    }
+
+    private val unexpectedErrorRepository by lazy { UnexpectedErrorRepository() }
+    val unexpectedErrorSetter: UnexpectedErrorSetter = unexpectedErrorRepository
+    val unexpectedErrorConsumer: UnexpectedErrorConsumer = unexpectedErrorRepository
+
     val forecastRepo by lazy {
         ForecastRepository(
             cacher = forecastCacher,
-            downloader = ForecastDataDownloader(userAgentProvider),
-            converter = ForecastConverter()
+            downloader = ForecastDownloader(userAgent),
+            internetChecker = InternetChecker(appContext)
         )
     }
 
@@ -46,7 +60,7 @@ class AppContainer(private val appContext: Context) {
 
     private val savedPlacesRepo by lazy { SavedPlacesRepository(root) }
     val getSavedPlaces get() = GetSavedPlaces(selectedUnitsRepo, selectedPlaceRepo, savedPlacesRepo, forecastRepo)
-    val searchPlaces get() = SearchPlaces(userAgentProvider)
+    val searchPlaces get() = SearchPlaces(userAgent)
     val selectPlace get() = SelectPlace(selectedPlaceRepo, savedPlacesRepo)
     val deletePlace get() = DeletePlace(savedPlacesRepo, forecastCacher)
 }

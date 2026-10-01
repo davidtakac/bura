@@ -165,11 +165,11 @@
     <string name="vis_value_km">%s km</string>
     <string name="vis_unit_mi">mi</string>
     <string name="vis_value_mi">%s mi</string>
-    <string name="vis_description_perfect">Volledig zicht</string>
-    <string name="vis_description_clear">Helder zicht</string>
-    <string name="vis_description_fair">Redelijk duidelijk zicht</string>
-    <string name="vis_description_low">Beperkt zicht</string>
-    <string name="vis_description_very_low">Zeer beperkt zicht</string>
+    <string name="vis_description_excellent">Volledig zicht</string>
+    <string name="vis_description_good">Helder zicht</string>
+    <string name="vis_description_moderate">Redelijk duidelijk zicht</string>
+    <string name="vis_description_poor">Beperkt zicht</string>
+    <string name="vis_description_very_poor">Zeer beperkt zicht</string>
 
     <string name="wind_label">Wind</string>
     <string name="wind_bft_0">Kalm</string>

@@ -17,9 +17,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
 import com.davidtakac.bura.App
+import com.davidtakac.bura.common.util.launchCatching
 import com.davidtakac.bura.forecast.ForecastRepository
-import com.davidtakac.bura.forecast.ForecastResult
-import com.davidtakac.bura.place.selected.SelectedPlaceRepository
+import com.davidtakac.bura.forecast.units.SelectedUnitsRepository
+import com.davidtakac.bura.places.selected.SelectedPlaceRepository
 import com.davidtakac.bura.summary.daily.DailySummary
 import com.davidtakac.bura.summary.daily.getDailySummary
 import com.davidtakac.bura.summary.feelslike.FeelsLikeSummary
@@ -42,22 +43,25 @@ import com.davidtakac.bura.summary.visibility.VisibilitySummary
 import com.davidtakac.bura.summary.visibility.getVisibilitySummary
 import com.davidtakac.bura.summary.wind.WindSummary
 import com.davidtakac.bura.summary.wind.getWindSummary
-import com.davidtakac.bura.units.SelectedUnitsRepository
+import com.davidtakac.bura.unexpectederror.UnexpectedErrorSetter
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
 import java.time.Instant
 
 class SummaryViewModel(
     private val placeRepo: SelectedPlaceRepository,
     private val unitsRepo: SelectedUnitsRepository,
-    private val forecastRepo: ForecastRepository
+    private val forecastRepo: ForecastRepository,
+    private val unexpectedErrorSetter: UnexpectedErrorSetter
 ) : ViewModel() {
-    private val _state = MutableStateFlow<SummaryState>(SummaryState.Loading)
+    private val _state = MutableStateFlow<SummaryState>(SummaryState.Initial)
     val state = _state.asStateFlow()
 
     fun getSummary() {
-        viewModelScope.launch {
+        viewModelScope.launchCatching(unexpectedErrorSetter) {
+            if (_state.value == SummaryState.Loading) {
+                return@launchCatching
+            }
             if (_state.value !is SummaryState.Success) {
                 _state.value = SummaryState.Loading
             }
@@ -69,98 +73,87 @@ class SummaryViewModel(
         val location = placeRepo.getSelectedPlace()?.location ?: return SummaryState.NoSelectedPlace
         val coords = location.coordinates
         val units = unitsRepo.getSelectedUnits()
-        val now = Instant.now().atZone(location.timeZone).toLocalDateTime()
-        val forecast = forecastRepo.forecast(coords, units) ?: return SummaryState.FailedToDownload
+        val now = Instant.now().atZone(location.timeZone)
+        val forecast = forecastRepo.get(location, units) ?: return SummaryState.FailedToDownload
 
-        val nowSummary = getNowSummary(now, tempPeriod = forecast.temperature, feelsPeriod = forecast.feelsLike, forecast.condition)
-        when (nowSummary) {
-            ForecastResult.FailedToDownload -> return SummaryState.FailedToDownload
-            ForecastResult.Outdated -> return SummaryState.Outdated
-            is ForecastResult.Success -> Unit
-        }
+        val nowSummary = getNowSummary(
+            now = now,
+            tempPeriod = forecast.temperature,
+            feelsPeriod = forecast.feelsLike,
+            condPeriod = forecast.condition
+        ) ?: return SummaryState.Outdated
 
-        val hourlySummary = getHourlySummary(now, forecast.temperature, forecast.pop, forecast.condition, forecast.sun)
-        when (hourlySummary) {
-            ForecastResult.FailedToDownload -> return SummaryState.FailedToDownload
-            ForecastResult.Outdated -> return SummaryState.Outdated
-            is ForecastResult.Success -> Unit
-        }
+        val hourlySummary = getHourlySummary(
+            now = now,
+            tempPeriod = forecast.temperature,
+            popPeriod = forecast.pop,
+            condPeriod = forecast.condition,
+            sunPeriod = forecast.sun
+        ) ?: return SummaryState.Outdated
 
-        val dailySummary = getDailySummary(now, forecast.temperature, forecast.condition, forecast.pop)
-        when (dailySummary) {
-            ForecastResult.FailedToDownload -> return SummaryState.FailedToDownload
-            ForecastResult.Outdated -> return SummaryState.Outdated
-            is ForecastResult.Success -> Unit
-        }
+        val dailySummary = getDailySummary(
+            now = now,
+            tempPeriod = forecast.temperature,
+            condPeriod = forecast.condition,
+            popPeriod = forecast.pop
+        ) ?: return SummaryState.Outdated
 
-        val precipSummary = getPrecipitationSummary(now, forecast.precipitation)
-        when (precipSummary) {
-            ForecastResult.FailedToDownload -> return SummaryState.FailedToDownload
-            ForecastResult.Outdated -> return SummaryState.Outdated
-            is ForecastResult.Success -> Unit
-        }
+        val precipSummary = getPrecipitationSummary(
+            now = now,
+            precipPeriod = forecast.precipitation
+        ) ?: return SummaryState.Outdated
 
-        val uvIndexSummary = getUvIndexSummary(now, forecast.uvIndex)
-        when (uvIndexSummary) {
-            ForecastResult.FailedToDownload -> return SummaryState.FailedToDownload
-            ForecastResult.Outdated -> return SummaryState.Outdated
-            is ForecastResult.Success -> Unit
-        }
+        val uvIndexSummary = getUvIndexSummary(
+            now = now,
+            uvIndexPeriod = forecast.uvIndex
+        ) ?: return SummaryState.Outdated
 
-        val windSummary = getWindSummary(now, forecast.wind, forecast.gust)
-        when (windSummary) {
-            ForecastResult.FailedToDownload -> return SummaryState.FailedToDownload
-            ForecastResult.Outdated -> return SummaryState.Outdated
-            is ForecastResult.Success -> Unit
-        }
+        val windSummary = getWindSummary(
+            now = now,
+            windPeriod = forecast.wind,
+            gustPeriod = forecast.gust
+        ) ?: return SummaryState.Outdated
 
-        val pressureSummary = getPressureSummary(now, forecast.pressure)
-        when (pressureSummary) {
-            ForecastResult.FailedToDownload -> return SummaryState.FailedToDownload
-            ForecastResult.Outdated -> return SummaryState.Outdated
-            is ForecastResult.Success -> Unit
-        }
+        val pressureSummary = getPressureSummary(
+            now = now,
+            pressurePeriod = forecast.pressure
+        ) ?: return SummaryState.Outdated
 
-        val humiditySummary = getHumiditySummary(now, forecast.humidity, forecast.dewPoint)
-        when (humiditySummary) {
-            ForecastResult.FailedToDownload -> return SummaryState.FailedToDownload
-            ForecastResult.Outdated -> return SummaryState.Outdated
-            is ForecastResult.Success -> Unit
-        }
+        val humiditySummary = getHumiditySummary(
+            now = now,
+            humidityPeriod = forecast.humidity,
+            dewPointPeriod = forecast.dewPoint
+        ) ?: return SummaryState.Outdated
 
-        val visSummary = getVisibilitySummary(now, forecast.visibility)
-        when (visSummary) {
-            ForecastResult.FailedToDownload -> return SummaryState.FailedToDownload
-            ForecastResult.Outdated -> return SummaryState.Outdated
-            is ForecastResult.Success -> Unit
-        }
+        val visSummary = getVisibilitySummary(
+            now = now,
+            visPeriod = forecast.visibility
+        ) ?: return SummaryState.Outdated
 
-        val sunSummary = getSunSummary(now, forecast.sun, forecast.condition)
-        when (sunSummary) {
-            ForecastResult.FailedToDownload -> return SummaryState.FailedToDownload
-            ForecastResult.Outdated -> return SummaryState.Outdated
-            is ForecastResult.Success -> Unit
-        }
+        val sunSummary = getSunSummary(
+            now = now,
+            sunPeriod = forecast.sun,
+            condPeriod = forecast.condition
+        ) ?: return SummaryState.Outdated
 
-        val feelsLikeSummary = getFeelsLikeSummary(now, tempPeriod = forecast.temperature, feelsPeriod = forecast.feelsLike)
-        when (feelsLikeSummary) {
-            ForecastResult.FailedToDownload -> return SummaryState.FailedToDownload
-            ForecastResult.Outdated -> return SummaryState.Outdated
-            is ForecastResult.Success -> Unit
-        }
+        val feelsLikeSummary = getFeelsLikeSummary(
+            now = now,
+            tempPeriod = forecast.temperature,
+            feelsPeriod = forecast.feelsLike
+        ) ?: return SummaryState.Outdated
 
         return SummaryState.Success(
-            now = nowSummary.data,
-            hourly = hourlySummary.data,
-            daily = dailySummary.data,
-            precip = precipSummary.data,
-            uvIndex = uvIndexSummary.data,
-            wind = windSummary.data,
-            pressure = pressureSummary.data,
-            humidity = humiditySummary.data,
-            vis = visSummary.data,
-            sun = sunSummary.data,
-            feelsLike = feelsLikeSummary.data
+            now = nowSummary,
+            hourly = hourlySummary,
+            daily = dailySummary,
+            precip = precipSummary,
+            uvIndex = uvIndexSummary,
+            wind = windSummary,
+            pressure = pressureSummary,
+            humidity = humiditySummary,
+            vis = visSummary,
+            sun = sunSummary,
+            feelsLike = feelsLikeSummary,
         )
     }
 
@@ -172,7 +165,8 @@ class SummaryViewModel(
                 return SummaryViewModel(
                     container.selectedPlaceRepo,
                     container.selectedUnitsRepo,
-                    container.forecastRepo
+                    container.forecastRepo,
+                    container.unexpectedErrorSetter
                 ) as T
             }
         }
@@ -198,4 +192,5 @@ sealed interface SummaryState {
     data object FailedToDownload : SummaryState
     data object Outdated : SummaryState
     data object NoSelectedPlace : SummaryState
+    data object Initial : SummaryState
 }

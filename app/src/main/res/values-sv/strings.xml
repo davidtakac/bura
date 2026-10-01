@@ -165,11 +165,11 @@
     <string name="vis_value_km">%s km</string>
     <string name="vis_unit_mi">mi</string>
     <string name="vis_value_mi">%s mi</string>
-    <string name="vis_description_perfect">Mycket god sikt.</string>
-    <string name="vis_description_clear">God sikt.</string>
-    <string name="vis_description_fair">Måttlig sikt.</string>
-    <string name="vis_description_low">Disigt.</string>
-    <string name="vis_description_very_low">Mycket disigt.</string>
+    <string name="vis_description_excellent">Mycket god sikt.</string>
+    <string name="vis_description_good">God sikt.</string>
+    <string name="vis_description_moderate">Måttlig sikt.</string>
+    <string name="vis_description_poor">Disigt.</string>
+    <string name="vis_description_very_poor">Mycket disigt.</string>
 
     <string name="wind_label">Vind</string>
     <string name="wind_bft_0">Lugnt</string>

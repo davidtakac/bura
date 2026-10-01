@@ -12,79 +12,60 @@
 
 package com.davidtakac.bura.graphs.pop
 
-import com.davidtakac.bura.condition.Condition
-import com.davidtakac.bura.condition.ConditionMoment
-import com.davidtakac.bura.condition.ConditionPeriod
-import com.davidtakac.bura.forecast.ForecastResult
-import com.davidtakac.bura.graphs.common.GraphTime
-import com.davidtakac.bura.pop.Pop
-import com.davidtakac.bura.pop.PopMoment
-import com.davidtakac.bura.pop.PopPeriod
+import com.davidtakac.bura.forecast.parameters.condition.Condition
+import com.davidtakac.bura.forecast.parameters.condition.ConditionMoment
+import com.davidtakac.bura.forecast.parameters.condition.ConditionPeriod
+import com.davidtakac.bura.forecast.parameters.pop.Pop
+import com.davidtakac.bura.forecast.parameters.pop.PopMoment
+import com.davidtakac.bura.forecast.parameters.pop.PopPeriod
+import java.time.Instant
 import java.time.LocalDate
-import java.time.LocalDateTime
+import java.time.ZonedDateTime
 
 fun getPopGraphs(
-    now: LocalDateTime,
+    now: ZonedDateTime,
     popPeriod: PopPeriod,
     conditionPeriod: ConditionPeriod,
-): ForecastResult<List<PopGraph>> {
-    val popDays = popPeriod.daysFrom(now.toLocalDate()) ?: return ForecastResult.Outdated
-    val conditionDays = conditionPeriod.daysFrom(now.toLocalDate()) ?: return ForecastResult.Outdated
-    return ForecastResult.Success(
-        data = popDays.mapIndexed { idx, popDay ->
+): PopGraphs? {
+    val popDays = popPeriod.dayPeriodsFrom(now.toLocalDate()) ?: return null
+    val conditionDays = conditionPeriod.dayPeriodsFrom(now.toLocalDate()) ?: return null
+    return PopGraphs(
+        now = now.toInstant(),
+        graphs = popDays.mapIndexed { idx, popDay ->
             val conditionDay = conditionDays[idx]
-            val popTomorrow = popDays.getOrNull(idx + 1)
-            val conditionTomorrow = conditionDays.getOrNull(idx + 1)
-            getPopGraph(now, popDay, conditionDay, popTomorrow, conditionTomorrow)
+            getPopGraph(popDay, conditionDay)
         }
     )
 }
 
 private fun getPopGraph(
-    now: LocalDateTime,
     popDay: PopPeriod,
-    conditionDay: ConditionPeriod,
-    popTomorrow: PopPeriod?,
-    conditionTomorrow: ConditionPeriod?
+    conditionDay: ConditionPeriod
 ): PopGraph {
     return PopGraph(
-        day = popDay.first().hour.toLocalDate(),
+        day = popDay.first().timeZdt.toLocalDate(),
         points = buildList {
-            val firstPopTomorrow = popTomorrow?.first()
-            val popDayAdjusted: PopPeriod
-            val conditionDayAdjusted: ConditionPeriod
-            if (firstPopTomorrow != null) {
-                // To avoid an empty space at the end of every day, we add the first pop
-                // of tomorrow for completeness
-                val firstConditionTomorrow = conditionTomorrow!!.first()
-                popDayAdjusted = PopPeriod(popDay + firstPopTomorrow)
-                conditionDayAdjusted = ConditionPeriod(conditionDay + firstConditionTomorrow)
-            } else {
-                popDayAdjusted = popDay
-                conditionDayAdjusted = conditionDay
-            }
-            val maxPop = popDayAdjusted.maxBy { it.pop }
-            for (i in popDayAdjusted.indices) {
-                val popMoment = popDayAdjusted[i]
-                val conditionMoment = conditionDayAdjusted[i]
-                add(getPoint(now, popMoment, maxPop, conditionMoment))
+            for (i in popDay.indices) {
+                val popMoment = popDay[i]
+                val conditionMoment = conditionDay[i]
+                add(getPoint(popMoment, conditionMoment))
             }
         }
     )
 }
 
 private fun getPoint(
-    now: LocalDateTime,
     moment: PopMoment,
-    maxPopMoment: PopMoment,
     conditionMoment: ConditionMoment,
 ): PopGraphPoint = PopGraphPoint(
-    time = GraphTime(moment.hour, now),
-    pop = GraphPop(
-        value = moment.pop,
-        meta = if (moment == maxPopMoment) GraphPop.Meta.Maximum else GraphPop.Meta.Regular
-    ),
+    time = moment.timeZdt,
+    pop = moment.pop,
     condition = conditionMoment.condition
+)
+
+data class PopGraphs(
+    val now: Instant,
+    val graphs: List<PopGraph>,
 )
 
 data class PopGraph(
@@ -93,16 +74,7 @@ data class PopGraph(
 )
 
 data class PopGraphPoint(
-    val time: GraphTime,
-    val pop: GraphPop,
+    val time: ZonedDateTime,
+    val pop: Pop,
     val condition: Condition
 )
-
-data class GraphPop(
-    val value: Pop,
-    val meta: Meta
-) {
-    enum class Meta {
-        Regular, Maximum
-    }
-}

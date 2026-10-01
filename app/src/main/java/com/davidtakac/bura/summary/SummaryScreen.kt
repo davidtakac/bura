@@ -30,27 +30,28 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.davidtakac.bura.R
-import com.davidtakac.bura.common.FailedToDownloadErrorScreen
-import com.davidtakac.bura.common.NoSelectedPlaceErrorScreen
-import com.davidtakac.bura.common.OutdatedErrorScreen
-import com.davidtakac.bura.common.animateShimmerColorAsState
-import com.davidtakac.bura.place.Place
-import com.davidtakac.bura.place.picker.PlacePickerSearchBar
-import com.davidtakac.bura.place.picker.PlacePickerState
-import com.davidtakac.bura.summary.daily.DailySummaryColumn
-import com.davidtakac.bura.summary.daily.DailySummaryColumnSkeleton
-import com.davidtakac.bura.summary.feelslike.FeelsLikeSummary
-import com.davidtakac.bura.summary.hourly.HourSummaryLazyRow
-import com.davidtakac.bura.summary.hourly.HourSummaryLazyRowSkeleton
-import com.davidtakac.bura.summary.humidity.HumiditySummary
-import com.davidtakac.bura.summary.now.NowSummary
-import com.davidtakac.bura.summary.now.NowSummarySkeleton
-import com.davidtakac.bura.summary.precipitation.PrecipitationSummary
-import com.davidtakac.bura.summary.pressure.PressureSummary
-import com.davidtakac.bura.summary.sun.SunSummary
-import com.davidtakac.bura.summary.uvindex.UvIndexSummary
-import com.davidtakac.bura.summary.visibility.VisibilitySummary
-import com.davidtakac.bura.summary.wind.WindSummary
+import com.davidtakac.bura.common.compose.FailedToDownloadErrorScreen
+import com.davidtakac.bura.common.compose.NoSelectedPlaceErrorScreen
+import com.davidtakac.bura.common.compose.OutdatedErrorScreen
+import com.davidtakac.bura.common.compose.animateShimmerColorAsState
+import com.davidtakac.bura.places.Place
+import com.davidtakac.bura.places.picker.compose.PlacePickerSearchBar
+import com.davidtakac.bura.places.picker.PlacePickerState
+import com.davidtakac.bura.places.search.SearchedPlace
+import com.davidtakac.bura.summary.daily.compose.DailySummaryColumn
+import com.davidtakac.bura.summary.daily.compose.DailySummaryColumnSkeleton
+import com.davidtakac.bura.summary.feelslike.compose.FeelsLikeSummary
+import com.davidtakac.bura.summary.hourly.compose.HourSummaryLazyRow
+import com.davidtakac.bura.summary.hourly.compose.HourSummaryLazyRowSkeleton
+import com.davidtakac.bura.summary.humidity.compose.HumiditySummary
+import com.davidtakac.bura.summary.now.compose.NowSummary
+import com.davidtakac.bura.summary.now.compose.NowSummarySkeleton
+import com.davidtakac.bura.summary.precipitation.compose.PrecipitationSummary
+import com.davidtakac.bura.summary.pressure.compose.PressureSummary
+import com.davidtakac.bura.summary.sun.compose.SunSummary
+import com.davidtakac.bura.summary.uvindex.compose.UvIndexSummary
+import com.davidtakac.bura.summary.visibility.compose.VisibilitySummary
+import com.davidtakac.bura.summary.wind.compose.WindSummary
 import java.time.LocalDate
 
 @Composable
@@ -69,6 +70,8 @@ fun SummaryScreen(
     onSearchActiveChange: (Boolean) -> Unit,
     onSearch: (query: String) -> Unit,
     onPlaceClick: (Place) -> Unit,
+    onSearchedPlaceClick: (SearchedPlace) -> Unit,
+    onSearchedPlaceEditCancel: () -> Unit,
     onPlaceDeleteClick: (Place) -> Unit,
 
     onTryAgainClick: () -> Unit,
@@ -83,10 +86,12 @@ fun SummaryScreen(
                 onQueryClearClick = onSearchQueryClearClick,
                 onSearchClick = onSearch,
                 onPlaceClick = onPlaceClick,
+                onSearchedPlaceClick = onSearchedPlaceClick,
+                onSearchedPlaceEditCancel = onSearchedPlaceEditCancel,
                 onPlaceDeleteClick = onPlaceDeleteClick,
                 active = searchActive,
                 onActiveChange = onSearchActiveChange,
-                onSettingsClick = onSettingsButtonClick
+                onSettingsClick = onSettingsButtonClick,
             )
         }
     ) { contentPadding ->
@@ -107,7 +112,7 @@ fun SummaryScreen(
                     modifier = Modifier.fillMaxSize()
                 )
 
-                SummaryState.Loading -> SummaryScreenSkeleton(
+                SummaryState.Loading, SummaryState.Initial -> SummaryScreenSkeleton(
                     modifier = Modifier.fillMaxSize()
                 )
 
@@ -147,21 +152,21 @@ private fun SummaryGrid(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         columns = StaggeredGridCells.Fixed(2)
     ) {
-        item(span = StaggeredGridItemSpan.Companion.FullLine) {}
-        item(span = StaggeredGridItemSpan.Companion.FullLine) {
+        item(span = StaggeredGridItemSpan.FullLine) {}
+        item(span = StaggeredGridItemSpan.FullLine) {
             NowSummary(
                 state = state.now,
                 modifier = Modifier.fillMaxWidth()
             )
         }
-        item(span = StaggeredGridItemSpan.Companion.FullLine) {
+        item(span = StaggeredGridItemSpan.FullLine) {
             HourSummaryLazyRow(
                 state = state.hourly,
                 onClick = onHourlyClick,
                 modifier = Modifier.fillMaxWidth()
             )
         }
-        item(span = StaggeredGridItemSpan.Companion.FullLine) {
+        item(span = StaggeredGridItemSpan.FullLine) {
             DailySummaryColumn(
                 state = state.daily,
                 onDayClick = onDayClick,
@@ -217,14 +222,14 @@ private fun SummaryGrid(
                 modifier = Modifier.fillMaxWidth()
             )
         }
-        item(span = StaggeredGridItemSpan.Companion.FullLine) {
+        item(span = StaggeredGridItemSpan.FullLine) {
             Text(
                 text = stringResource(id = R.string.credit_weather),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
-        item(span = StaggeredGridItemSpan.Companion.FullLine) {}
+        item(span = StaggeredGridItemSpan.FullLine) {}
     }
 }
 

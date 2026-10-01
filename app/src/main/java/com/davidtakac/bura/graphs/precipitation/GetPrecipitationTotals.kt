@@ -12,40 +12,38 @@
 
 package com.davidtakac.bura.graphs.precipitation
 
-import com.davidtakac.bura.forecast.ForecastResult
-import com.davidtakac.bura.precipitation.Precipitation
-import com.davidtakac.bura.precipitation.PrecipitationPeriod
+import com.davidtakac.bura.forecast.parameters.precipitation.Precipitation
+import com.davidtakac.bura.forecast.parameters.precipitation.PrecipitationPeriod
 import java.time.LocalDate
-import java.time.LocalDateTime
+import java.time.ZonedDateTime
 
 private const val PAST_HOURS = 24
 private const val FUTURE_HOURS = 24
 
 fun getPrecipitationTotals(
-    now: LocalDateTime,
+    now: ZonedDateTime,
     precipPeriod: PrecipitationPeriod
-): ForecastResult<List<PrecipitationTotal>> {
-    val today = getToday(precipPeriod, now) ?: return ForecastResult.Outdated
-    val days = precipPeriod.daysFrom(now.toLocalDate()) ?: return ForecastResult.Outdated
+): List<PrecipitationTotal>? {
+    val today = getToday(precipPeriod, now) ?: return null
+    val days = precipPeriod.dayPeriodsFrom(now.toLocalDate()) ?: return null
     val daysAfterToday = days.subList(1, days.size)
-    return ForecastResult.Success(
-        data = buildList {
-            add(today)
-            addAll(
-                daysAfterToday.map { day ->
-                    PrecipitationTotal.OtherDay(
-                        day = day.first().hour.toLocalDate(),
-                        total = day.total.reduce()
-                    )
-                }
-            )
-        }
-    )
+    return buildList {
+        add(today)
+        addAll(
+            daysAfterToday.map { day ->
+                PrecipitationTotal.OtherDay(
+                    day = day.first().timeZdt.toLocalDate(),
+                    total = day.total.reduce()
+                )
+            }
+        )
+    }
 }
 
-private fun getToday(period: PrecipitationPeriod, now: LocalDateTime): PrecipitationTotal.Today? {
-    val past = period.momentsUntil(now, takeMoments = PAST_HOURS) ?: return null
-    val future = period.momentsFrom(now, takeMoments = FUTURE_HOURS) ?: return null
+private fun getToday(period: PrecipitationPeriod, now: ZonedDateTime): PrecipitationTotal.Today? {
+    val nowInstant = now.toInstant()
+    val past = period.periodUntil(nowInstant, takeLast = PAST_HOURS) ?: return null
+    val future = period.periodFrom(nowInstant, take = FUTURE_HOURS) ?: return null
     return PrecipitationTotal.Today(
         day = now.toLocalDate(),
         past = TotalPrecipitationInHours(

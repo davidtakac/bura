@@ -12,28 +12,26 @@
 
 package com.davidtakac.bura.summary.feelslike
 
-import com.davidtakac.bura.forecast.ForecastResult
-import com.davidtakac.bura.temperature.Temperature
-import com.davidtakac.bura.temperature.TemperaturePeriod
-import java.time.LocalDateTime
+import com.davidtakac.bura.forecast.parameters.temperature.Temperature
+import com.davidtakac.bura.forecast.parameters.temperature.TemperaturePeriod
+import java.time.ZonedDateTime
 import kotlin.math.absoluteValue
 
 fun getFeelsLikeSummary(
-    now: LocalDateTime,
+    now: ZonedDateTime,
     tempPeriod: TemperaturePeriod,
     feelsPeriod: TemperaturePeriod
-): ForecastResult<FeelsLikeSummary> {
-    val feelsNow = feelsPeriod[now]?.temperature ?: return ForecastResult.Outdated
-    val actualNow = tempPeriod[now]?.temperature ?: return ForecastResult.Outdated
-    return ForecastResult.Success(
-        FeelsLikeSummary(
-            feelsLikeNow = feelsNow,
-            actualNow = actualNow,
-            vsActual = calculateComparedToActual(
-                actualTemp = actualNow,
-                feelsLikeTemp = feelsNow
-            )
-        ),
+): FeelsLikeSummary? {
+    val nowInstant = now.toInstant()
+    val feelsNow = feelsPeriod[nowInstant]?.temperature ?: return null
+    val actualNow = tempPeriod[nowInstant]?.temperature ?: return null
+    return FeelsLikeSummary(
+        feelsLikeNow = feelsNow,
+        actualNow = actualNow,
+        vsActual = calculateComparedToActual(
+            actualTemp = actualNow,
+            feelsLikeTemp = feelsNow
+        )
     )
 }
 

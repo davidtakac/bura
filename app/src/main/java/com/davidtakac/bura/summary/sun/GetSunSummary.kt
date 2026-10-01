@@ -12,89 +12,91 @@
 
 package com.davidtakac.bura.summary.sun
 
-import com.davidtakac.bura.condition.ConditionPeriod
-import com.davidtakac.bura.forecast.ForecastResult
-import com.davidtakac.bura.sun.SunEvent
-import com.davidtakac.bura.sun.SunMoment
-import com.davidtakac.bura.sun.SunPeriod
+import com.davidtakac.bura.forecast.parameters.condition.ConditionPeriod
+import com.davidtakac.bura.forecast.parameters.sun.SunEvent
+import com.davidtakac.bura.forecast.parameters.sun.SunMoment
+import com.davidtakac.bura.forecast.parameters.sun.SunPeriod
 import java.time.Duration
 import java.time.LocalDateTime
 import java.time.LocalTime
+import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
 
 private const val LATER_HOUR_THRESH = 25
 
 fun getSunSummary(
-    now: LocalDateTime,
+    now: ZonedDateTime,
     sunPeriod: SunPeriod?,
     condPeriod: ConditionPeriod
-): ForecastResult<SunSummary> {
-    val futureSun = sunPeriod?.momentsFrom(now)
+): SunSummary? {
+    val futureSun = sunPeriod?.momentsFrom(now.toInstant())
     val firstSun = futureSun?.firstOrNull()
     return when {
         firstSun == null -> outOfSight(now, condPeriod)
-        firstSun.event == SunEvent.Sunrise -> ForecastResult.Success(sunrise(now, futureSun, firstSun))
-        else -> ForecastResult.Success(sunset(now, futureSun, firstSun))
+        firstSun.event == SunEvent.Rise -> sunrise(now, futureSun, firstSun)
+        else -> sunset(now, futureSun, firstSun)
     }
 }
 
 private fun outOfSight(
-    now: LocalDateTime,
+    now: ZonedDateTime,
     condPeriod: ConditionPeriod
-): ForecastResult<SunSummary> {
-    val futureDesc = condPeriod.momentsFrom(now) ?: return ForecastResult.Outdated
-    val isDayNow = futureDesc[now]!!.condition.isDay
-    val lastMoment = futureDesc.last().hour
+): SunSummary? {
+    val nowInstant = now.toInstant()
+    val futureDesc = condPeriod.periodFrom(nowInstant) ?: return null
+    val isDayNow = futureDesc[nowInstant]!!.condition.isDay
+    val lastMoment = futureDesc.last().timeZdt
     val duration = Duration.between(now, lastMoment).plusHours(1)
-    return ForecastResult.Success(
-        if (isDayNow) Sunset.OutOfSight(duration)
-        else Sunrise.OutOfSight(duration)
-    )
+    return if (isDayNow) {
+        Sunset.OutOfSight(duration)
+    } else {
+        Sunrise.OutOfSight(duration)
+    }
 }
 
 private fun sunrise(
-    now: LocalDateTime,
+    now: ZonedDateTime,
     futureSun: List<SunMoment>,
     firstSun: SunMoment
 ): Sunrise {
-    val sunrise = firstSun.time
+    val sunrise = firstSun.timeZdt
     return if (ChronoUnit.HOURS.between(now, sunrise) >= LATER_HOUR_THRESH) {
-        Sunrise.Later(sunrise)
+        Sunrise.Later(sunrise.toLocalDateTime())
     } else {
-        val sunset = futureSun[1].time
+        val sunset = futureSun[1].timeZdt
         if (ChronoUnit.HOURS.between(now, sunset) < LATER_HOUR_THRESH) {
             Sunrise.WithSunsetSoon(
                 time = sunrise.toLocalTime(),
-                sunset = futureSun[1].time.toLocalTime()
+                sunset = futureSun[1].timeZdt.toLocalTime()
             )
         } else {
             Sunrise.WithSunsetLater(
                 time = sunrise.toLocalTime(),
-                sunset = futureSun[1].time
+                sunset = futureSun[1].timeZdt.toLocalDateTime()
             )
         }
     }
 }
 
 private fun sunset(
-    now: LocalDateTime,
+    now: ZonedDateTime,
     futureSun: List<SunMoment>,
     firstSun: SunMoment
 ): Sunset {
-    val sunset = firstSun.time
+    val sunset = firstSun.timeZdt
     return if (ChronoUnit.HOURS.between(now, sunset) >= LATER_HOUR_THRESH) {
-        Sunset.Later(sunset)
+        Sunset.Later(sunset.toLocalDateTime())
     } else {
-        val sunrise = futureSun[1].time
+        val sunrise = futureSun[1].timeZdt
         if (ChronoUnit.HOURS.between(now, sunrise) < LATER_HOUR_THRESH) {
             Sunset.WithSunriseSoon(
-                time = firstSun.time.toLocalTime(),
-                sunrise = futureSun[1].time.toLocalTime()
+                time = firstSun.timeZdt.toLocalTime(),
+                sunrise = futureSun[1].timeZdt.toLocalTime()
             )
         } else {
             Sunset.WithSunriseLater(
-                time = firstSun.time.toLocalTime(),
-                sunrise = futureSun[1].time
+                time = firstSun.timeZdt.toLocalTime(),
+                sunrise = futureSun[1].timeZdt.toLocalDateTime()
             )
         }
     }

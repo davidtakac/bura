@@ -12,19 +12,19 @@
 
 package com.davidtakac.bura.graphs.common
 
-import java.time.LocalDateTime
-import java.time.LocalTime
+import java.time.Instant
+import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
 import java.util.Objects
 
 class GraphTime(
-    val value: LocalTime,
+    val value: ZonedDateTime,
     val meta: Meta
 ) {
     constructor(
-        hour: LocalDateTime,
-        now: LocalDateTime
-    ) : this(value = hour.toLocalTime(), meta = getMeta(hour, now))
+        hour: ZonedDateTime,
+        now: Instant
+    ) : this(value = hour, meta = getMeta(hour, now))
 
     enum class Meta {
         Past, Present, Future
@@ -34,13 +34,16 @@ class GraphTime(
         other is GraphTime && other.value == value && other.meta == meta
 
     override fun hashCode(): Int = Objects.hash(value, meta)
+
+    override fun toString(): String = "$value ($meta)"
 }
 
-private fun getMeta(hour: LocalDateTime, now: LocalDateTime): GraphTime.Meta {
+private fun getMeta(hour: ZonedDateTime, now: Instant): GraphTime.Meta {
     val nowTrunc = now.truncatedTo(ChronoUnit.HOURS)
+    val hourInstant = hour.toInstant()
     return when {
-        hour < nowTrunc -> GraphTime.Meta.Past
-        hour == nowTrunc -> GraphTime.Meta.Present
+        hourInstant < nowTrunc -> GraphTime.Meta.Past
+        hourInstant == nowTrunc -> GraphTime.Meta.Present
         else -> GraphTime.Meta.Future
     }
 }

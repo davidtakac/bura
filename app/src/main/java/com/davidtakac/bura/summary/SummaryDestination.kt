@@ -24,8 +24,8 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.davidtakac.bura.common.rememberAppLocale
-import com.davidtakac.bura.place.picker.PlacePickerViewModel
+import com.davidtakac.bura.common.compose.rememberAppLocale
+import com.davidtakac.bura.places.picker.PlacePickerViewModel
 import java.time.LocalDate
 
 @Composable
@@ -84,6 +84,8 @@ fun SummaryDestination(
         onSearchQueryClearClick = { searchQuery = "" },
         onSearch = { placePickerVM.searchPlaces(query = searchQuery, languageCode = appLocale.language) },
         onPlaceClick = placePickerVM::selectPlace,
+        onSearchedPlaceClick = placePickerVM::selectSearchedPlace,
+        onSearchedPlaceEditCancel = placePickerVM::cancelSearchedPlaceEdit,
         onPlaceDeleteClick = placePickerVM::deletePlace,
 
         onTryAgainClick = summaryVM::getSummary,

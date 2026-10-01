@@ -12,28 +12,26 @@
 
 package com.davidtakac.bura.summary.now
 
-import com.davidtakac.bura.forecast.ForecastResult
-import com.davidtakac.bura.temperature.Temperature
-import com.davidtakac.bura.condition.Condition
-import com.davidtakac.bura.condition.ConditionPeriod
-import com.davidtakac.bura.temperature.TemperaturePeriod
-import java.time.LocalDateTime
+import com.davidtakac.bura.forecast.parameters.condition.Condition
+import com.davidtakac.bura.forecast.parameters.condition.ConditionPeriod
+import com.davidtakac.bura.forecast.parameters.temperature.Temperature
+import com.davidtakac.bura.forecast.parameters.temperature.TemperaturePeriod
+import java.time.ZonedDateTime
 
 fun getNowSummary(
-    now: LocalDateTime,
+    now: ZonedDateTime,
     tempPeriod: TemperaturePeriod,
     feelsPeriod: TemperaturePeriod,
     condPeriod: ConditionPeriod
-): ForecastResult<NowSummary> {
-    val tempToday = tempPeriod.getDay(now.toLocalDate()) ?: return ForecastResult.Outdated
-    return ForecastResult.Success(
-        NowSummary(
-            temp = tempPeriod[now]?.temperature ?: return ForecastResult.Outdated,
-            feelsLike = feelsPeriod[now]?.temperature ?: return ForecastResult.Outdated,
-            minTemp = tempToday.minimum,
-            maxTemp = tempToday.maximum,
-            cond = condPeriod[now]?.condition ?: return ForecastResult.Outdated
-        ),
+): NowSummary? {
+    val nowInstant = now.toInstant()
+    val tempToday = tempPeriod.dayPeriodOn(now.toLocalDate()) ?: return null
+    return NowSummary(
+        temp = tempPeriod[nowInstant]?.temperature ?: return null,
+        feelsLike = feelsPeriod[nowInstant]?.temperature ?: return null,
+        minTemp = tempToday.minimum,
+        maxTemp = tempToday.maximum,
+        cond = condPeriod[nowInstant]?.condition ?: return null
     )
 }
 

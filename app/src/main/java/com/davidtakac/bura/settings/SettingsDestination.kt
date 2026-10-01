@@ -16,7 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.davidtakac.bura.common.Theme
+import com.davidtakac.bura.theme.Theme
 
 @Composable
 fun SettingsDestination(theme: Theme, onThemeClick: (Theme) -> Unit, onBackClick: () -> Unit) {

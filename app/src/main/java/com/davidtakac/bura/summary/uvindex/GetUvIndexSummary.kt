@@ -12,18 +12,18 @@
 
 package com.davidtakac.bura.summary.uvindex
 
-import com.davidtakac.bura.forecast.ForecastResult
-import com.davidtakac.bura.uvindex.UvIndex
-import com.davidtakac.bura.uvindex.UvIndexPeriod
-import java.time.LocalDateTime
+import com.davidtakac.bura.forecast.parameters.uvindex.UvIndex
+import com.davidtakac.bura.forecast.parameters.uvindex.UvIndexPeriod
 import java.time.LocalTime
+import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
 
 fun getUvIndexSummary(
-    now: LocalDateTime,
+    now: ZonedDateTime,
     uvIndexPeriod: UvIndexPeriod
-): ForecastResult<UvIndexSummary> {
-    val futureUv = uvIndexPeriod.getDay(now.toLocalDate())?.momentsFrom(now) ?: return ForecastResult.Outdated
+): UvIndexSummary? {
+    val nowInstant = now.toInstant()
+    val futureUv = uvIndexPeriod.dayPeriodOn(now.toLocalDate())?.periodFrom(nowInstant) ?: return null
     val protection = futureUv.protectionWindows.firstOrNull()?.let {
         if (it.startInclusive == now.truncatedTo(ChronoUnit.HOURS)) {
             if (it.endExclusive == null) {
@@ -46,11 +46,9 @@ fun getUvIndexSummary(
             }
         }
     } ?: UseProtection.None
-    return ForecastResult.Success(
-        UvIndexSummary(
-            now = uvIndexPeriod[now]?.uvIndex ?: return ForecastResult.Outdated,
-            useProtection = protection
-        )
+    return UvIndexSummary(
+        now = uvIndexPeriod[nowInstant]?.uvIndex ?: return null,
+        useProtection = protection
     )
 }
 

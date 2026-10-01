@@ -165,11 +165,11 @@
     <string name="vis_value_km">%s km</string>
     <string name="vis_unit_mi">mi</string>
     <string name="vis_value_mi">%s mi</string>
-    <string name="vis_description_perfect">Völlig klare Sicht.</string>
-    <string name="vis_description_clear">Freie Sicht.</string>
-    <string name="vis_description_fair">Ziemlich klare Sicht.</string>
-    <string name="vis_description_low">Eingeschränkte Sicht.</string>
-    <string name="vis_description_very_low">Stark eingeschränkte Sicht.</string>
+    <string name="vis_description_excellent">Völlig klare Sicht.</string>
+    <string name="vis_description_good">Freie Sicht.</string>
+    <string name="vis_description_moderate">Ziemlich klare Sicht.</string>
+    <string name="vis_description_poor">Eingeschränkte Sicht.</string>
+    <string name="vis_description_very_poor">Stark eingeschränkte Sicht.</string>
 
     <string name="wind_label">Wind</string>
     <string name="wind_bft_0">Windstille</string>

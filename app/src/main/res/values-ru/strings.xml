@@ -165,11 +165,11 @@
     <string name="vis_value_km">%s км</string>
     <string name="vis_unit_mi">мили</string>
     <string name="vis_value_mi">%s мили</string>
-    <string name="vis_description_perfect">Отлично видно.</string>
-    <string name="vis_description_clear">Хорошо видно.</string>
-    <string name="vis_description_fair">Достаточно хорошо видно.</string>
-    <string name="vis_description_low">Плохо видно.</string>
-    <string name="vis_description_very_low">Очень плохо видно.</string>
+    <string name="vis_description_excellent">Отлично видно.</string>
+    <string name="vis_description_good">Хорошо видно.</string>
+    <string name="vis_description_moderate">Достаточно хорошо видно.</string>
+    <string name="vis_description_poor">Плохо видно.</string>
+    <string name="vis_description_very_poor">Очень плохо видно.</string>
 
     <string name="wind_label">Ветер</string>
     <string name="wind_bft_0">Спокойный</string>

@@ -21,9 +21,9 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.davidtakac.bura.common.AppTheme
-import com.davidtakac.bura.common.Theme
-import com.davidtakac.bura.common.ThemeViewModel
+import com.davidtakac.bura.theme.AppTheme
+import com.davidtakac.bura.theme.Theme
+import com.davidtakac.bura.theme.ThemeViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

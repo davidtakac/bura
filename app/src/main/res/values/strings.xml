@@ -40,6 +40,12 @@
     <string name="cond_screen_precip_value_in_last_hours">Last %s hours</string>
     <string name="cond_screen_precip_value_in_next_hours">Next %s hours</string>
 
+    <string name="unexpected_error_screen_title">Unexpected error</string>
+    <string name="unexpected_error_screen_description">An unexpected error has occurred. To continue, go to the home screen and try again. If you want to help, create an issue on GitHub and paste the following error report.</string>
+    <string name="unexpected_error_screen_label_clip_entry">Error report</string>
+    <string name="unexpected_error_screen_btn_copy_logs">Copy all</string>
+    <string name="unexpected_error_screen_btn_go_home">Home screen</string>
+
     <string name="settings_screen_title">Settings</string>
     <string name="settings_screen_title_units">Units</string>
     <string name="settings_screen_title_temp_unit">Temperature</string>
@@ -102,6 +108,9 @@
     <string name="precip_value_cm">%s cm</string>
     <string name="precip_unit_in">″</string>
     <string name="precip_value_in">%s″</string>
+    <string name="precip_label_light">Light</string>
+    <string name="precip_label_moderate">Moderate</string>
+    <string name="precip_label_heavy">Heavy</string>
 
     <string name="pop_value_percent">%s%%</string>
 
@@ -145,10 +154,10 @@
     <string name="feels_like">Feels like</string>
     <string name="feels_like_value">Feels like %s</string>
     <string name="feels_like_value_actual">Actual %s</string>
-    <string name="feels_like_cooler_than_actual">The wind is making it feel cooler.</string>
-    <string name="feels_like_colder_than_actual">The wind is making it feel colder.</string>
-    <string name="feels_like_warmer_than_actual">The humidity is making it feel warmer.</string>
-    <string name="feels_like_hotter_than_actual">The humidity is making it feel hotter.</string>
+    <string name="feels_like_cooler_than_actual">It feels cooler than the actual temperature.</string>
+    <string name="feels_like_colder_than_actual">It feels colder than the actual temperature.</string>
+    <string name="feels_like_warmer_than_actual">It feels warmer than the actual temperature.</string>
+    <string name="feels_like_hotter_than_actual">It feels hotter than the actual temperature.</string>
     <string name="feels_like_similar_to_actual">Similar to the actual temperature.</string>
 
     <string name="uv_index">UV Index</string>
@@ -172,11 +181,12 @@
     <string name="vis_value_km">%s km</string>
     <string name="vis_unit_mi">mi</string>
     <string name="vis_value_mi">%s mi</string>
-    <string name="vis_description_perfect">Perfectly clear view.</string>
-    <string name="vis_description_clear">Clear view.</string>
-    <string name="vis_description_fair">Fairly clear view.</string>
-    <string name="vis_description_low">Obstructed view.</string>
-    <string name="vis_description_very_low">Very obstructed view.</string>
+    <string name="vis_description_excellent">Exceptionally clear visibility.</string>
+    <string name="vis_description_very_good">Very clear visibility.</string>
+    <string name="vis_description_good">Fairly clear visibility for most activities.</string>
+    <string name="vis_description_moderate">Slightly reduced visibility with minor disruption.</string>
+    <string name="vis_description_poor">Reduced visibility that may affect travel.</string>
+    <string name="vis_description_very_poor">Hazardous visibility for travel.</string>
 
     <string name="wind_label">Wind</string>
     <string name="wind_bft_0">Calm</string>
@@ -230,4 +240,8 @@
     <string name="wmo_95">Thunderstorm</string>
     <string name="wmo_96">Thunderstorm with light hail</string>
     <string name="wmo_99">Thunderstorm with heavy hail</string>
+    <string name="searched_place_edit_tz_title">Set time zone</string>
+    <string name="searched_place_edit_tz_description_value">%1$s\'s time zone is \"%2$s\" which is not recognized by your device. To use this location, set its time zone manually.</string>
+    <string name="searched_place_edit_tz_hint">Search time zones…</string>
+    <string name="searched_place_edit_tz_no_search_results_value">No matching time zones for \"%1$s\"</string>
 </resources>

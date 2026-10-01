@@ -12,23 +12,20 @@
 
 package com.davidtakac.bura.summary.wind
 
-import com.davidtakac.bura.forecast.ForecastResult
-import com.davidtakac.bura.gust.GustPeriod
-import com.davidtakac.bura.wind.Wind
-import com.davidtakac.bura.wind.WindPeriod
-import com.davidtakac.bura.wind.WindSpeed
-import java.time.LocalDateTime
+import com.davidtakac.bura.forecast.parameters.gust.GustPeriod
+import com.davidtakac.bura.forecast.parameters.wind.Wind
+import com.davidtakac.bura.forecast.parameters.wind.WindPeriod
+import com.davidtakac.bura.forecast.parameters.wind.WindSpeed
+import java.time.ZonedDateTime
 
 fun getWindSummary(
-    now: LocalDateTime,
+    now: ZonedDateTime,
     windPeriod: WindPeriod,
     gustPeriod: GustPeriod
-): ForecastResult<WindSummary> {
-    return ForecastResult.Success(
-        WindSummary(
-            windNow = windPeriod[now]?.wind ?: return ForecastResult.Outdated,
-            gustNow = gustPeriod[now]?.speed ?: return ForecastResult.Outdated
-        )
+): WindSummary? {
+    return WindSummary(
+        windNow = windPeriod[now.toInstant()]?.wind ?: return null,
+        gustNow = gustPeriod[now.toInstant()]?.speed ?: return null
     )
 }
 

@@ -33,13 +33,17 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.davidtakac.bura.R
-import com.davidtakac.bura.common.Theme
-import com.davidtakac.bura.precipitation.Precipitation
-import com.davidtakac.bura.pressure.Pressure
-import com.davidtakac.bura.temperature.Temperature
-import com.davidtakac.bura.units.Units
-import com.davidtakac.bura.visibility.Visibility
-import com.davidtakac.bura.wind.WindSpeed
+import com.davidtakac.bura.theme.Theme
+import com.davidtakac.bura.forecast.parameters.precipitation.Precipitation
+import com.davidtakac.bura.forecast.parameters.pressure.Pressure
+import com.davidtakac.bura.forecast.parameters.temperature.Temperature
+import com.davidtakac.bura.forecast.units.Units
+import com.davidtakac.bura.forecast.parameters.visibility.Visibility
+import com.davidtakac.bura.forecast.parameters.wind.WindSpeed
+import com.davidtakac.bura.settings.common.compose.MultipleChoiceDialog
+import com.davidtakac.bura.settings.common.compose.PreferenceButton
+import com.davidtakac.bura.settings.common.compose.SectionLabel
+import com.davidtakac.bura.settings.common.compose.SettingsLoadingIndicator
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

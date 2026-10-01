@@ -1,13 +1,13 @@
 [versions]
-agp = "8.11.0"
+agp = "9.1.1"
 appCompat = "1.7.1"
-composeBom = "2025.06.01"
-coreKtx = "1.16.0"
+composeBom = "2026.05.01"
+coreKtx = "1.18.0"
+json = "20251224"
 junit = "4.13.2"
-kotlin = "2.2.0"
-kotlinxCoroutinesTest = "1.10.2"
-kotlinxSerializationJson = "1.9.0"
-navigationCompose = "2.9.1"
+kotlin = "2.3.21"
+kotlinxCoroutinesTest = "1.11.0"
+navigationCompose = "2.9.8"
 
 [libraries]
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appCompat" }
@@ -17,12 +17,10 @@ androidx-material3 = { module = "androidx.compose.material3:material3" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 androidx-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
 androidx-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
+json = { module = "org.json:json", version.ref = "json" }
 junit = { module = "junit:junit", version.ref = "junit" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
-kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }

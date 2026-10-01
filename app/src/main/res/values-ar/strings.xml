@@ -166,11 +166,11 @@
     <string name="vis_value_km">%s كم</string>
     <string name="vis_unit_mi">ميل</string>
     <string name="vis_value_mi">%s ميل</string>
-    <string name="vis_description_perfect">الرؤية واضحة تماماً</string>
-    <string name="vis_description_clear">الرؤية واضحة</string>
-    <string name="vis_description_fair">الرؤية واضحة إلى حد ما</string>
-    <string name="vis_description_low">الرؤية محجوبة</string>
-    <string name="vis_description_very_low">الرؤية محجوبة جدا</string>
+    <string name="vis_description_excellent">الرؤية واضحة تماماً</string>
+    <string name="vis_description_good">الرؤية واضحة</string>
+    <string name="vis_description_moderate">الرؤية واضحة إلى حد ما</string>
+    <string name="vis_description_poor">الرؤية محجوبة</string>
+    <string name="vis_description_very_poor">الرؤية محجوبة جدا</string>
 
     <string name="wind_label">الرياح</string>
     <string name="wind_bft_0">هادئة</string>

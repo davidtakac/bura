@@ -40,13 +40,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.davidtakac.bura.R
-import com.davidtakac.bura.common.FailedToDownloadErrorScreen
-import com.davidtakac.bura.common.NoSelectedPlaceErrorScreen
-import com.davidtakac.bura.common.OutdatedErrorScreen
-import com.davidtakac.bura.common.animateShimmerColorAsState
+import com.davidtakac.bura.common.compose.FailedToDownloadErrorScreen
+import com.davidtakac.bura.common.compose.NoSelectedPlaceErrorScreen
+import com.davidtakac.bura.common.compose.OutdatedErrorScreen
+import com.davidtakac.bura.common.compose.animateShimmerColorAsState
 import com.davidtakac.bura.graphs.common.GraphArgs
-import com.davidtakac.bura.graphs.common.GraphsPagerIndicator
-import com.davidtakac.bura.graphs.common.GraphsPagerIndicatorSkeleton
+import com.davidtakac.bura.graphs.common.compose.GraphsPagerIndicator
+import com.davidtakac.bura.graphs.common.compose.GraphsPagerIndicatorSkeleton
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -87,7 +87,7 @@ fun EssentialGraphsScreen(
                     modifier = Modifier.fillMaxSize()
                 )
 
-                EssentialGraphsState.Loading -> EssentialGraphsLoadingIndicator(
+                EssentialGraphsState.Loading, EssentialGraphsState.Initial -> EssentialGraphsLoadingIndicator(
                     modifier = Modifier.fillMaxSize()
                 )
 
@@ -163,16 +163,17 @@ private fun Pager(
             }
             EssentialGraphPage(
                 listState = listState,
+                now = tempGraphs.now,
                 summary = summaries[page],
                 temperatureGraph = tempGraphs.graphs[page],
-                minTemp = tempGraphs.minTemp,
-                maxTemp = tempGraphs.maxTemp,
-                temperatureArgs = GraphArgs.rememberTemperatureArgs(),
-                popGraph = state.popGraphs[page],
-                popArgs = GraphArgs.rememberPopArgs(),
+                minTemp = tempGraphs.min,
+                maxTemp = tempGraphs.max,
+                temperatureArgs = GraphArgs.rememberDefaultArgs(),
+                popGraph = state.popGraphs.graphs[page],
+                popArgs = GraphArgs.rememberDefaultArgs(),
                 precipGraph = state.precipGraphs.graphs[page],
                 precipMax = state.precipGraphs.max,
-                precipArgs = GraphArgs.rememberPrecipitationArgs(),
+                precipArgs = GraphArgs.rememberDefaultArgs(),
                 precipitationTotal = state.precipTotals[page]
             )
         }

@@ -12,30 +12,29 @@
 
 package com.davidtakac.bura.summary.precipitation
 
-import com.davidtakac.bura.forecast.ForecastResult
-import com.davidtakac.bura.precipitation.Precipitation
-import com.davidtakac.bura.precipitation.PrecipitationPeriod
+import com.davidtakac.bura.forecast.parameters.precipitation.Precipitation
+import com.davidtakac.bura.forecast.parameters.precipitation.PrecipitationPeriod
 import java.time.LocalDate
-import java.time.LocalDateTime
+import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
 
 private const val PAST_HOURS = 24
 private const val FUTURE_HOURS = 24
 
 fun getPrecipitationSummary(
-    now: LocalDateTime,
+    now: ZonedDateTime,
     precipPeriod: PrecipitationPeriod
-): ForecastResult<PrecipitationSummary> {
-    val past = calculatePast(now, precipPeriod) ?: return ForecastResult.Outdated
-    val future = calculateFuture(now, precipPeriod) ?: return ForecastResult.Outdated
-    return ForecastResult.Success(PrecipitationSummary(past, future))
+): PrecipitationSummary? {
+    val past = calculatePast(now, precipPeriod) ?: return null
+    val future = calculateFuture(now, precipPeriod) ?: return null
+    return PrecipitationSummary(past, future)
 }
 
 private fun calculatePast(
-    now: LocalDateTime,
+    now: ZonedDateTime,
     period: PrecipitationPeriod
 ): PastPrecipitation? {
-    val past = period.momentsUntil(now, takeMoments = PAST_HOURS) ?: return null
+    val past = period.periodUntil(now.toInstant(), takeLast = PAST_HOURS) ?: return null
     val hours = past.size
     return PastPrecipitation(
         inHours = hours,
@@ -44,7 +43,7 @@ private fun calculatePast(
 }
 
 private fun calculateFuture(
-    now: LocalDateTime,
+    now: ZonedDateTime,
     precipitation: PrecipitationPeriod
 ): FuturePrecipitation? {
     val soon = calculateFutureSoon(now, precipitation) ?: return null
@@ -53,10 +52,10 @@ private fun calculateFuture(
 }
 
 private fun calculateFutureSoon(
-    now: LocalDateTime,
+    now: ZonedDateTime,
     period: PrecipitationPeriod
 ): FuturePrecipitation.InHours? {
-    val future = period.momentsFrom(now, takeMoments = FUTURE_HOURS) ?: return null
+    val future = period.periodFrom(now.toInstant(), take = FUTURE_HOURS) ?: return null
     return FuturePrecipitation.InHours(
         inHours = future.size,
         total = future.total.reduce()
@@ -64,17 +63,17 @@ private fun calculateFutureSoon(
 }
 
 private fun calculateFutureLater(
-    now: LocalDateTime,
+    now: ZonedDateTime,
     period: PrecipitationPeriod
 ): FuturePrecipitation? {
     val nowAfterFutureHours = now.plus(FUTURE_HOURS + 1L, ChronoUnit.HOURS)
-    val afterFuture = period.momentsFrom(nowAfterFutureHours)?.daysFrom(nowAfterFutureHours.toLocalDate()) ?: return null
+    val afterFuture = period.periodFrom(nowAfterFutureHours.toInstant())?.dayPeriodsFrom(nowAfterFutureHours.toLocalDate()) ?: return null
     val firstPrecipitation = afterFuture.firstOrNull { it.total.value > 0 }
     return if (firstPrecipitation == null) {
         FuturePrecipitation.None(inDays = afterFuture.size)
     } else {
         FuturePrecipitation.OnDay(
-            onDay = firstPrecipitation.first().hour.toLocalDate(),
+            onDay = firstPrecipitation.first().timeZdt.toLocalDate(),
             total = firstPrecipitation.total.reduce()
         )
     }

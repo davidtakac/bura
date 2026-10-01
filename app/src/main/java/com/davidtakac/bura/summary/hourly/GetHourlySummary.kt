@@ -12,32 +12,33 @@
 
 package com.davidtakac.bura.summary.hourly
 
-import com.davidtakac.bura.condition.Condition
-import com.davidtakac.bura.condition.ConditionPeriod
-import com.davidtakac.bura.forecast.ForecastResult
-import com.davidtakac.bura.pop.Pop
-import com.davidtakac.bura.pop.PopPeriod
-import com.davidtakac.bura.sun.SunEvent
-import com.davidtakac.bura.sun.SunPeriod
-import com.davidtakac.bura.temperature.Temperature
-import com.davidtakac.bura.temperature.TemperaturePeriod
+import com.davidtakac.bura.forecast.parameters.condition.Condition
+import com.davidtakac.bura.forecast.parameters.condition.ConditionPeriod
+import com.davidtakac.bura.forecast.parameters.pop.Pop
+import com.davidtakac.bura.forecast.parameters.pop.PopPeriod
+import com.davidtakac.bura.forecast.parameters.sun.SunEvent
+import com.davidtakac.bura.forecast.parameters.sun.SunPeriod
+import com.davidtakac.bura.forecast.parameters.temperature.Temperature
+import com.davidtakac.bura.forecast.parameters.temperature.TemperaturePeriod
 import java.time.LocalDateTime
+import java.time.ZonedDateTime
 
 fun getHourlySummary(
-    now: LocalDateTime,
+    now: ZonedDateTime,
     tempPeriod: TemperaturePeriod,
     popPeriod: PopPeriod,
     condPeriod: ConditionPeriod,
     sunPeriod: SunPeriod?
-): ForecastResult<List<HourSummary>> {
-    val futureTemps = tempPeriod.momentsFrom(now, takeMoments = 24) ?: return ForecastResult.Outdated
-    val futurePops = popPeriod.momentsFrom(now, takeMoments = 24) ?: return ForecastResult.Outdated
-    val futureDesc = condPeriod.momentsFrom(now, takeMoments = 24) ?: return ForecastResult.Outdated
+): List<HourSummary>? {
+    val nowInstant = now.toInstant()
+    val futureTemps = tempPeriod.periodFrom(nowInstant, take = 24) ?: return null
+    val futurePops = popPeriod.periodFrom(nowInstant, take = 24) ?: return null
+    val futureDesc = condPeriod.periodFrom(nowInstant, take = 24) ?: return null
     val combinedWeatherData = buildList {
         for (i in futureTemps.indices) {
             add(
                 HourSummary.Weather(
-                    time = futureTemps[i].hour,
+                    time = futureTemps[i].timeZdt.toLocalDateTime(),
                     isNow = i == 0,
                     temp = futureTemps[i].temperature,
                     pop = futurePops[i].pop.takeIf { it.value > 0 },
@@ -47,16 +48,16 @@ fun getHourlySummary(
         }
     }
     val combinedSunData = sunPeriod
-        ?.momentsFrom(now, takeMomentsUpToHoursInFuture = 24)
+        ?.momentsFrom(nowInstant, takeMomentsUpToHoursInFuture = 24)
         ?.map {
             HourSummary.Sun(
-                time = it.time,
+                time = it.timeZdt.toLocalDateTime(),
                 event = it.event
             )
         }
         ?: listOf()
 
-    return ForecastResult.Success((combinedWeatherData + combinedSunData).sortedBy { it.time })
+    return (combinedWeatherData + combinedSunData).sortedBy { it.time }
 }
 
 sealed interface HourSummary {

@@ -32,11 +32,11 @@ jobs:
             cat fastlane/metadata/android/en-US/changelogs/${{ env.VERSION_CODE }}.txt
             echo EOF
           } >> $GITHUB_ENV
-      - name: Set up Java 17
+      - name: Set up Java
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '17'
+          java-version: '21'
       - name: Assemble release
         run: ./gradlew assembleRelease
       # See https://github.com/r0adkll/sign-android-release/issues/84
