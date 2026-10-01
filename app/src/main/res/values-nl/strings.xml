@@ -40,6 +40,12 @@
     <string name="cond_screen_precip_value_in_last_hours">Afgelopen %s uren</string>
     <string name="cond_screen_precip_value_in_next_hours">Komende %s uren</string>
 
+    <string name="unexpected_error_screen_title">Onverwachte fout</string>
+    <string name="unexpected_error_screen_description">Er is een onverwachte fout opgetreden. Als je wilt helpen, maak dan een issue aan op GitHub en plak daarin het volgende foutrapport. Ga anders terug naar het startscherm en probeer het opnieuw. </string>
+    <string name="unexpected_error_screen_label_clip_entry">Foutrapport</string>
+    <string name="unexpected_error_screen_btn_copy_logs">Alles kopiëren</string>
+    <string name="unexpected_error_screen_btn_go_home">Startscherm</string>
+
     <string name="settings_screen_title">Instellingen</string>
     <string name="settings_screen_title_units">Eenheden</string>
     <string name="settings_screen_title_temp_unit">Temperatuur</string>
@@ -102,6 +108,9 @@
     <string name="precip_value_cm">%s cm</string>
     <string name="precip_unit_in">″</string>
     <string name="precip_value_in">%s″</string>
+    <string name="precip_label_light">Licht</string>
+    <string name="precip_label_moderate">Gematigd</string>
+    <string name="precip_label_heavy">Zwaar</string>
 
     <string name="pop_value_percent">%s%%</string>
 
@@ -165,11 +174,12 @@
     <string name="vis_value_km">%s km</string>
     <string name="vis_unit_mi">mi</string>
     <string name="vis_value_mi">%s mi</string>
-    <string name="vis_description_excellent">Volledig zicht</string>
-    <string name="vis_description_good">Helder zicht</string>
-    <string name="vis_description_moderate">Redelijk duidelijk zicht</string>
-    <string name="vis_description_poor">Beperkt zicht</string>
-    <string name="vis_description_very_poor">Zeer beperkt zicht</string>
+    <string name="vis_description_excellent">Extreem helder zicht</string>
+    <string name="vis_description_very_good">Zeer helder zicht</string>
+    <string name="vis_description_good">Helder zicht voor de meeste activiteiten</string>
+    <string name="vis_description_moderate">Enigszins beperkt zicht met lichte hinder</string>
+    <string name="vis_description_poor">Beperkt zicht, kan verkeer beïnvloeden</string>
+    <string name="vis_description_very_poor">Zeer beperkt zicht, gevaarlijk voor verkeer</string>
 
     <string name="wind_label">Wind</string>
     <string name="wind_bft_0">Kalm</string>
@@ -223,4 +233,8 @@
     <string name="wmo_95">Onweer</string>
     <string name="wmo_96">Onweer met lichte hagel</string>
     <string name="wmo_99">Onweer met zware hagel</string>
+    <string name="searched_place_edit_tz_title">Tijdzone instellen</string>
+    <string name="searched_place_edit_tz_description_value">De tijdzone \"%2$s\" voor %1$s wordt niet herkend door het apparaat. Stel zelf de tijdzone in om deze locatie te gebruiken.</string>
+    <string name="searched_place_edit_tz_hint">Tijdzones zoeken…</string>
+    <string name="searched_place_edit_tz_no_search_results_value">Geen tijdzone gevonden voor \"%1$s\"</string>
 </resources>
