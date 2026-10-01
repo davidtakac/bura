@@ -128,8 +128,8 @@
     shorter strings when it makes sense and sounds natural for the language in question. Otherwise
     reference the full strings @string/sunrise and @string/sunset. For more info, see issue #62.
     -->
-    <string name="sunrise_short">@string/Ανατολή ηλίου</string>
-    <string name="sunset_short">@string/Ηλιοβασίλεμα</string>
+    <string name="sunrise_short">@string/sunrise</string>
+    <string name="sunset_short">@string/sunset</string>
 
     <string name="sunrise_value">Ανατολή ηλίου: %s</string>
     <string name="sunset_value">Ηλιοβασίλεμα: %s</string>
@@ -172,11 +172,11 @@
     <string name="vis_value_km">%s χλμ</string>
     <string name="vis_unit_mi">μιλ</string>
     <string name="vis_value_mi">%s μιλ</string>
-    <string name="vis_description_perfect">Απόλυτα καθαρή ορατότητα.</string>
-    <string name="vis_description_clear">Καθαρή ορατότητα.</string>
-    <string name="vis_description_fair">Σχετικά καθαρή ορατότητα.</string>
-    <string name="vis_description_low">Μειωμένη ορατότητα.</string>
-    <string name="vis_description_very_low">Πολύ χαμηλή ορατότητα.</string>
+    <string name="vis_description_excellent">Απόλυτα καθαρή ορατότητα.</string>
+    <string name="vis_description_good">Καθαρή ορατότητα.</string>
+    <string name="vis_description_moderate">Σχετικά καθαρή ορατότητα.</string>
+    <string name="vis_description_poor">Μειωμένη ορατότητα.</string>
+    <string name="vis_description_very_poor">Πολύ χαμηλή ορατότητα.</string>
 
     <string name="wind_label">Άνεμος</string>
     <string name="wind_bft_0">Ήρεμος</string>
