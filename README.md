@@ -68,8 +68,13 @@ Issues requesting these features will be closed as not planned:
 - Other weather sources
 - OLED dark theme
 
-## Translate/contribute
-Open issues and/or pull requests targeting the `dev` branch.
+## Translations
+To contribute translations, use [Weblate](https://hosted.weblate.org/projects/bura/).
+
+## Contributions
+Before you start working on a contribution, please open an issue (if one is not already opened) and
+describe the problem and your proposed solution. After we agree, you may open a PR. That way you 
+won't waste time working on something that may not be merged if it conflicts with the project.
 
 ## Donations
 I do not accept donations at the moment. I tried to accept them on Prognoza, but as soon as I received the first donation, PayPal shut down my account.
@@ -77,15 +82,12 @@ I do not accept donations at the moment. I tried to accept them on Prognoza, but
 ## FAQ
 
 ### Meaning of the colored temperature bar?
-Nicely explained by @LeftyDextrous in #28: 
-
-> The extreme ends of the spectrum are the full temperature range of the week. The colored bar is the temperature range for that day, and the dot is the current temperature.
+The extreme ends of the spectrum are the full temperature range of the week. The colored bar is the temperature range for that day, and the dot is the current temperature.
 
 ### I can't find my location!
 The Open-Meteo geocoding API is a bit particular. I've found it is often better to enter a simple, 
 single-word, generic search term like "Berlin" and then choose from the list of results. Entering
-more complicated queries with multiple words, commas, etc. confuses the API. This helped @Zzetth
-in #94.
+more complicated queries with multiple words, commas, etc. confuses the API.
 
 ## Credit
 - Forecast data by [Open-Meteo](https://open-meteo.com/) licensed under [Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/)  
