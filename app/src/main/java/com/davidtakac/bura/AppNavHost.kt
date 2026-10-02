@@ -12,7 +12,6 @@
 
 package com.davidtakac.bura
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -25,7 +24,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.davidtakac.bura.graphs.EssentialGraphsDestination
 import com.davidtakac.bura.places.picker.PlacePickerViewModel
-import com.davidtakac.bura.places.search.compose.SearchedPlaceEditScreen
+import com.davidtakac.bura.places.search.compose.SearchedPlaceEditDestination
 import com.davidtakac.bura.settings.SettingsDestination
 import com.davidtakac.bura.summary.SummaryDestination
 import com.davidtakac.bura.theme.Theme
@@ -76,22 +75,10 @@ fun AppNavHost(theme: Theme, onThemeClick: (Theme) -> Unit) {
                 },
                 factory = PlacePickerViewModel.Factory,
             )
-            val place = viewModel.state.collectAsStateWithLifecycle().value.searchedPlaceToEdit
-            LaunchedEffect(place) {
-                if (place == null) {
-                    controller.popBackStack()
-                }
-            }
-            BackHandler {
-                viewModel.cancelSearchedPlaceEdit()
-            }
-            if (place != null) {
-                SearchedPlaceEditScreen(
-                    searchedPlace = place,
-                    onEdit = viewModel::selectSearchedPlace,
-                    onCloseClick = viewModel::cancelSearchedPlaceEdit,
-                )
-            }
+            SearchedPlaceEditDestination(
+                viewModel = viewModel,
+                onSearchedPlaceToEditNull = controller::popBackStack
+            )
         }
         composable(
             route = "essential-graphs?initialDay={initialDay}",
