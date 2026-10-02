@@ -44,7 +44,6 @@ import com.davidtakac.bura.places.picker.PlacePickerResults
 import com.davidtakac.bura.places.picker.PlacePickerState
 import com.davidtakac.bura.places.saved.compose.SavedPlaces
 import com.davidtakac.bura.places.search.SearchedPlace
-import com.davidtakac.bura.places.search.compose.SearchedPlaceEditDialog
 import com.davidtakac.bura.places.search.compose.SearchedPlaces
 
 // region Collapsed search bar horizontal padding workaround
@@ -91,7 +90,6 @@ fun PlacePickerSearchBar(
     onSearchClick: (query: String) -> Unit,
     onPlaceClick: (Place) -> Unit,
     onSearchedPlaceClick: (SearchedPlace) -> Unit,
-    onSearchedPlaceEditCancel: () -> Unit,
     onPlaceDeleteClick: (Place) -> Unit,
     onSettingsClick: () -> Unit
 ) {
@@ -137,14 +135,6 @@ fun PlacePickerSearchBar(
             .padding(horizontal = horizontalPadding)
             .focusRequester(focusRequester)
     ) {
-        if (state.searchedPlaceBeingEdited != null) {
-            SearchedPlaceEditDialog(
-                searchedPlace = state.searchedPlaceBeingEdited,
-                onEdit = onSearchedPlaceClick,
-                onDismiss = onSearchedPlaceEditCancel
-            )
-        }
-
         when (state.results) {
             is PlacePickerResults.SavedPlaces ->
                 SavedPlaces(

@@ -33,7 +33,8 @@ fun SummaryDestination(
     onHourlySectionClick: () -> Unit,
     onDayClick: (LocalDate) -> Unit,
     onSettingsButtonClick: () -> Unit,
-    onPrecipitationClick: () -> Unit
+    onPrecipitationClick: () -> Unit,
+    onSearchedPlaceEditRequest: () -> Unit,
 ) {
     val placePickerVM = viewModel<PlacePickerViewModel>(factory = PlacePickerViewModel.Factory)
     val summaryVM = viewModel<SummaryViewModel>(factory = SummaryViewModel.Factory)
@@ -67,6 +68,13 @@ fun SummaryDestination(
         }
     }
 
+    val searchedPlaceBeingEdited = pickerState.searchedPlaceBeingEdited
+    LaunchedEffect(searchedPlaceBeingEdited) {
+        if (searchedPlaceBeingEdited != null) {
+            onSearchedPlaceEditRequest()
+        }
+    }
+
     val appLocale = rememberAppLocale()
 
     SummaryScreen(
@@ -85,7 +93,6 @@ fun SummaryDestination(
         onSearch = { placePickerVM.searchPlaces(query = searchQuery, languageCode = appLocale.language) },
         onPlaceClick = placePickerVM::selectPlace,
         onSearchedPlaceClick = placePickerVM::selectSearchedPlace,
-        onSearchedPlaceEditCancel = placePickerVM::cancelSearchedPlaceEdit,
         onPlaceDeleteClick = placePickerVM::deletePlace,
 
         onTryAgainClick = summaryVM::getSummary,

@@ -14,6 +14,7 @@ package com.davidtakac.bura
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
@@ -22,6 +23,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.davidtakac.bura.graphs.EssentialGraphsDestination
+import com.davidtakac.bura.places.picker.PlacePickerViewModel
+import com.davidtakac.bura.places.search.compose.SearchedPlaceEditScreen
 import com.davidtakac.bura.settings.SettingsDestination
 import com.davidtakac.bura.summary.SummaryDestination
 import com.davidtakac.bura.theme.Theme
@@ -59,8 +62,29 @@ fun AppNavHost(theme: Theme, onThemeClick: (Theme) -> Unit) {
                 },
                 onPrecipitationClick = {
                     controller.navigate("essential-graphs")
-                }
+                },
+                onSearchedPlaceEditRequest = {
+                    controller.navigate("searched-place-edit")
+                },
             )
+        }
+        composable("searched-place-edit") { backStackEntry ->
+            val viewModel = viewModel<PlacePickerViewModel>(
+                viewModelStoreOwner = remember(backStackEntry) {
+                    controller.getBackStackEntry("summary")
+                },
+                factory = PlacePickerViewModel.Factory,
+            )
+            val place = viewModel.state.collectAsStateWithLifecycle().value.searchedPlaceBeingEdited
+            if (place != null) {
+                SearchedPlaceEditScreen(
+                    searchedPlace = place,
+                    onEdit = viewModel::selectSearchedPlace,
+                    onDismiss = viewModel::cancelSearchedPlaceEdit,
+                )
+            } else {
+                controller.popBackStack()
+            }
         }
         composable(
             route = "essential-graphs?initialDay={initialDay}",

@@ -35,8 +35,8 @@ import com.davidtakac.bura.common.compose.NoSelectedPlaceErrorScreen
 import com.davidtakac.bura.common.compose.OutdatedErrorScreen
 import com.davidtakac.bura.common.compose.animateShimmerColorAsState
 import com.davidtakac.bura.places.Place
-import com.davidtakac.bura.places.picker.compose.PlacePickerSearchBar
 import com.davidtakac.bura.places.picker.PlacePickerState
+import com.davidtakac.bura.places.picker.compose.PlacePickerSearchBar
 import com.davidtakac.bura.places.search.SearchedPlace
 import com.davidtakac.bura.summary.daily.compose.DailySummaryColumn
 import com.davidtakac.bura.summary.daily.compose.DailySummaryColumnSkeleton
@@ -71,7 +71,6 @@ fun SummaryScreen(
     onSearch: (query: String) -> Unit,
     onPlaceClick: (Place) -> Unit,
     onSearchedPlaceClick: (SearchedPlace) -> Unit,
-    onSearchedPlaceEditCancel: () -> Unit,
     onPlaceDeleteClick: (Place) -> Unit,
 
     onTryAgainClick: () -> Unit,
@@ -87,7 +86,6 @@ fun SummaryScreen(
                 onSearchClick = onSearch,
                 onPlaceClick = onPlaceClick,
                 onSearchedPlaceClick = onSearchedPlaceClick,
-                onSearchedPlaceEditCancel = onSearchedPlaceEditCancel,
                 onPlaceDeleteClick = onPlaceDeleteClick,
                 active = searchActive,
                 onActiveChange = onSearchActiveChange,

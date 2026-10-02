@@ -18,17 +18,21 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -43,41 +47,56 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.davidtakac.bura.R
-import com.davidtakac.bura.common.compose.AlertDialogWithoutHorizontalPadding
 import com.davidtakac.bura.places.search.SearchedPlace
 import java.time.ZoneId
 
+private val horizontalPadding = 16.dp
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchedPlaceEditDialog(
+fun SearchedPlaceEditScreen(
     searchedPlace: SearchedPlace,
     onEdit: (SearchedPlace) -> Unit,
     onDismiss: () -> Unit,
 ) {
-    AlertDialogWithoutHorizontalPadding(
-        title = {
-            Text(stringResource(id = R.string.searched_place_edit_tz_title))
-        },
-        subtitle = {
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(stringResource(id = R.string.searched_place_edit_tz_title))
+                },
+                navigationIcon = {
+                    IconButton(
+                        onClick = onDismiss
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.close),
+                            contentDescription = null,
+                        )
+                    }
+                }
+            )
+        }
+    ) { contentPadding ->
+        Column(
+            modifier = Modifier
+                .padding(contentPadding)
+                .fillMaxSize()
+        ) {
             Text(
                 stringResource(
                     id = R.string.searched_place_edit_tz_description_value,
                     searchedPlace.name, searchedPlace.timeZoneId
-                )
+                ),
+                modifier = Modifier.padding(horizontal = horizontalPadding)
             )
-        },
-        confirmButton = {
-            TextButton(onClick = onDismiss) {
-                Text(stringResource(R.string.general_btn_dialog_cancel))
-            }
-        },
-        onDismissRequest = onDismiss,
-        text = { horizontalPadding ->
+            Spacer(modifier = Modifier.size(16.dp))
             TimeZonePicker(
                 horizontalPadding = horizontalPadding,
                 onPick = { onEdit(searchedPlace.copy(timeZoneId = it)) }
             )
         }
-    )
+    }
 }
 
 @Composable
@@ -130,7 +149,7 @@ private fun TimeZonePicker(
                 .padding(horizontal = horizontalPadding)
         )
 
-        Box(Modifier.fillMaxHeight(0.5f)) {
+        Box(Modifier.fillMaxSize()) {
             if (searchedZoneIds.isEmpty()) {
                 TimeZoneItem(
                     text = stringResource(
