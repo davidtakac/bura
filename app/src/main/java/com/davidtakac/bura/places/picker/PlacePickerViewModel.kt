@@ -22,8 +22,8 @@ import com.davidtakac.bura.places.Place
 import com.davidtakac.bura.places.saved.DeletePlace
 import com.davidtakac.bura.places.saved.GetSavedPlaces
 import com.davidtakac.bura.places.saved.SavedPlace
-import com.davidtakac.bura.places.search.SearchedPlace
 import com.davidtakac.bura.places.search.SearchPlaces
+import com.davidtakac.bura.places.search.SearchedPlace
 import com.davidtakac.bura.places.selected.SelectPlace
 import com.davidtakac.bura.places.selected.SelectedPlaceRepository
 import com.davidtakac.bura.unexpectederror.UnexpectedErrorSetter
@@ -43,57 +43,53 @@ class PlacePickerViewModel(
     private val _state = MutableStateFlow(PlacePickerState())
     val state get() = _state.asStateFlow()
 
-    fun getSelectedPlace() {
+    init {
         viewModelScope.launchCatching(unexpectedErrorSetter) {
-            _state.value = _state.value.copy(loading = true)
-            val place = selectedPlaceRepo.getSelectedPlace()
-            _state.value = _state.value.copy(
-                loading = false,
-                selectedPlace = place
-            )
+            _state.value = _state.value.copy(query = getSelectedPlaceNameOrBlank())
         }
     }
 
     fun selectPlace(place: Place) {
         viewModelScope.launchCatching(unexpectedErrorSetter) {
-            selectPlaceActual(place)
+            _selectPlace(place)
         }
     }
 
     fun selectSearchedPlace(searchedPlace: SearchedPlace) {
         viewModelScope.launchCatching(unexpectedErrorSetter) {
             try {
-                selectPlaceActual(place = searchedPlace.toPlace())
+                _selectPlace(searchedPlace.toPlace())
             } catch (_: ZoneRulesException) {
-                _state.value = _state.value.copy(searchedPlaceBeingEdited = searchedPlace)
+                _state.value = _state.value.copy(searchedPlaceToEdit = searchedPlace)
             }
         }
     }
 
     fun cancelSearchedPlaceEdit() {
         viewModelScope.launchCatching(unexpectedErrorSetter) {
-            _state.value = _state.value.copy(searchedPlaceBeingEdited = null)
+            _state.value = _state.value.copy(searchedPlaceToEdit = null)
         }
     }
 
-    fun getSavedPlaces() {
+    fun setActive(active: Boolean) {
+        if (active == _state.value.active) return
         viewModelScope.launchCatching(unexpectedErrorSetter) {
-            _state.value = _state.value.copy(loading = true)
-            _state.value = _state.value.copy(
-                results = PlacePickerResults.SavedPlaces(getSavedPlaces.invoke(Instant.now())),
-                loading = false,
-            )
+            _setActive(active)
         }
     }
 
-    fun searchPlaces(query: String, languageCode: String) {
-        val trimmedQuery = query.trim()
+    fun setQuery(query: String) {
+        _state.value = _state.value.copy(query = query)
+    }
+
+    fun searchPlaces(languageCode: String) {
+        val trimmedQuery = _state.value.query.trim()
         viewModelScope.launchCatching(unexpectedErrorSetter) {
             _state.value = _state.value.copy(loading = true)
             val results = searchPlaces.invoke(trimmedQuery, languageCode)
             _state.value = _state.value.copy(
                 loading = false,
-                results = PlacePickerResults.SearchedPlaces(trimmedQuery, results)
+                results = PlacePickerResults.SearchedPlaces(trimmedQuery, results),
             )
         }
     }
@@ -102,21 +98,50 @@ class PlacePickerViewModel(
         viewModelScope.launchCatching(unexpectedErrorSetter) {
             _state.value = _state.value.copy(loading = true)
             deletePlace.invoke(place)
+            if (selectedPlaceRepo.getSelectedPlace() == null) {
+                _setActive(false)
+            } else {
+                _state.value = _state.value.copy(
+                    results = PlacePickerResults.SavedPlaces(getSavedPlaces.invoke(Instant.now())),
+                    loading = false,
+                )
+            }
+        }
+    }
+
+    private suspend fun _selectPlace(place: Place) {
+        selectPlace.invoke(place)
+        _state.value = _state.value.copy(
+            query = place.name,
+            active = false,
+            searchedPlaceToEdit = null,
+            results = null,
+        )
+    }
+
+    private suspend fun _setActive(active: Boolean) {
+        if (active) {
+            _state.value = _state.value.copy(
+                loading = true,
+                active = true,
+                query = "",
+            )
+            _state.value = _state.value.copy(
+                results = PlacePickerResults.SavedPlaces(getSavedPlaces.invoke(Instant.now())),
+                loading = false,
+            )
+        } else {
             _state.value = _state.value.copy(
                 loading = false,
-                results = PlacePickerResults.SavedPlaces(getSavedPlaces.invoke(Instant.now())),
-                selectedPlace = selectedPlaceRepo.getSelectedPlace()
+                active = false,
+                query = getSelectedPlaceNameOrBlank(),
+                results = null,
             )
         }
     }
 
-    private suspend fun selectPlaceActual(place: Place) {
-        selectPlace.invoke(place)
-        _state.value = _state.value.copy(
-            selectedPlace = place,
-            searchedPlaceBeingEdited = null
-        )
-    }
+    private suspend fun getSelectedPlaceNameOrBlank() =
+        selectedPlaceRepo.getSelectedPlace()?.name ?: ""
 
     companion object {
         val Factory: ViewModelProvider.Factory = object : ViewModelProvider.Factory {
@@ -138,13 +163,13 @@ class PlacePickerViewModel(
 
 data class PlacePickerState(
     val loading: Boolean = false,
-    val selectedPlace: Place? = null,
-    val searchedPlaceBeingEdited: SearchedPlace? = null,
-    val results: PlacePickerResults = PlacePickerResults.Initial
+    val query: String = "",
+    val active: Boolean = false,
+    val searchedPlaceToEdit: SearchedPlace? = null,
+    val results: PlacePickerResults? = null
 )
 
 sealed interface PlacePickerResults {
-    data object Initial : PlacePickerResults
     data class SavedPlaces(val places: List<SavedPlace>) : PlacePickerResults
     data class SearchedPlaces(val query: String, val places: List<SearchedPlace>?) : PlacePickerResults
 }

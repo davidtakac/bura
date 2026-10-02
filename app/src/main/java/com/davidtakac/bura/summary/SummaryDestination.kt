@@ -16,10 +16,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -43,7 +39,6 @@ fun SummaryDestination(
     DisposableEffect(lifecycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
             if (event != Lifecycle.Event.ON_RESUME) return@LifecycleEventObserver
-            placePickerVM.getSelectedPlace()
             summaryVM.getSummary()
         }
         lifecycleOwner.lifecycle.addObserver(observer)
@@ -51,26 +46,13 @@ fun SummaryDestination(
     }
 
     val pickerState = placePickerVM.state.collectAsState().value
-    val selectedPlace = pickerState.selectedPlace
-    var searchActive by remember(selectedPlace) { mutableStateOf(false) }
-    var searchQuery by remember(searchActive, selectedPlace) {
-        mutableStateOf(
-            if (searchActive) ""
-            else selectedPlace?.name ?: ""
-        )
-    }
-    LaunchedEffect(searchActive) {
-        if (!searchActive) {
-            searchQuery = selectedPlace?.name ?: ""
+    LaunchedEffect(pickerState.active) {
+        if (!pickerState.active) {
             summaryVM.getSummary()
-        } else {
-            placePickerVM.getSavedPlaces()
         }
     }
-
-    val searchedPlaceBeingEdited = pickerState.searchedPlaceBeingEdited
-    LaunchedEffect(searchedPlaceBeingEdited) {
-        if (searchedPlaceBeingEdited != null) {
+    LaunchedEffect(pickerState.searchedPlaceToEdit) {
+        if (pickerState.searchedPlaceToEdit != null) {
             onSearchedPlaceEditRequest()
         }
     }
@@ -85,17 +67,17 @@ fun SummaryDestination(
         onPrecipitationClick = onPrecipitationClick,
 
         pickerState = pickerState,
-        searchQuery = searchQuery,
-        onSearchQueryChange = { searchQuery = it },
-        searchActive = searchActive,
-        onSearchActiveChange = { searchActive = it },
-        onSearchQueryClearClick = { searchQuery = "" },
-        onSearch = { placePickerVM.searchPlaces(query = searchQuery, languageCode = appLocale.language) },
+        searchQuery = pickerState.query,
+        onSearchQueryChange = placePickerVM::setQuery,
+        searchActive = pickerState.active,
+        onSearchActiveChange = placePickerVM::setActive,
+        onSearchQueryClearClick = { placePickerVM.setQuery("") },
+        onSearch = { placePickerVM.searchPlaces(languageCode = appLocale.language) },
         onPlaceClick = placePickerVM::selectPlace,
         onSearchedPlaceClick = placePickerVM::selectSearchedPlace,
         onPlaceDeleteClick = placePickerVM::deletePlace,
 
         onTryAgainClick = summaryVM::getSummary,
-        onSelectPlaceClick = { searchActive = true }
+        onSelectPlaceClick = { placePickerVM.setActive(true) }
     )
 }

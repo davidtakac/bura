@@ -75,7 +75,7 @@ fun AppNavHost(theme: Theme, onThemeClick: (Theme) -> Unit) {
                 },
                 factory = PlacePickerViewModel.Factory,
             )
-            val place = viewModel.state.collectAsStateWithLifecycle().value.searchedPlaceBeingEdited
+            val place = viewModel.state.collectAsStateWithLifecycle().value.searchedPlaceToEdit
             if (place != null) {
                 SearchedPlaceEditScreen(
                     searchedPlace = place,

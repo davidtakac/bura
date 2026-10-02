@@ -149,7 +149,7 @@ fun PlacePickerSearchBar(
                     loading = state.loading,
                     onPlaceClick = onSearchedPlaceClick
                 )
-            PlacePickerResults.Initial -> Unit
+            else -> Unit
         }
     }
 }
