@@ -19,7 +19,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.LargeTopAppBar
+import androidx.compose.material3.MediumTopAppBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -33,17 +33,17 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.davidtakac.bura.R
-import com.davidtakac.bura.theme.Theme
 import com.davidtakac.bura.forecast.parameters.precipitation.Precipitation
 import com.davidtakac.bura.forecast.parameters.pressure.Pressure
 import com.davidtakac.bura.forecast.parameters.temperature.Temperature
-import com.davidtakac.bura.forecast.units.Units
 import com.davidtakac.bura.forecast.parameters.visibility.Visibility
 import com.davidtakac.bura.forecast.parameters.wind.WindSpeed
+import com.davidtakac.bura.forecast.units.Units
 import com.davidtakac.bura.settings.common.compose.MultipleChoiceDialog
 import com.davidtakac.bura.settings.common.compose.PreferenceButton
 import com.davidtakac.bura.settings.common.compose.SectionLabel
 import com.davidtakac.bura.settings.common.compose.SettingsLoadingIndicator
+import com.davidtakac.bura.theme.Theme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -64,7 +64,7 @@ fun SettingsScreen(
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     Scaffold(
         topBar = {
-            LargeTopAppBar(
+            MediumTopAppBar(
                 navigationIcon = {
                     IconButton(onClick = onBackClick) {
                         Icon(
