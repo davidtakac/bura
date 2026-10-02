@@ -57,7 +57,7 @@ private val horizontalPadding = 16.dp
 fun SearchedPlaceEditScreen(
     searchedPlace: SearchedPlace,
     onEdit: (SearchedPlace) -> Unit,
-    onDismiss: () -> Unit,
+    onCloseClick: () -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -67,7 +67,7 @@ fun SearchedPlaceEditScreen(
                 },
                 navigationIcon = {
                     IconButton(
-                        onClick = onDismiss
+                        onClick = onCloseClick
                     ) {
                         Icon(
                             painter = painterResource(R.drawable.close),

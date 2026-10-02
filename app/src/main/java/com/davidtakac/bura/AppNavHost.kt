@@ -12,6 +12,7 @@
 
 package com.davidtakac.bura
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -76,14 +77,20 @@ fun AppNavHost(theme: Theme, onThemeClick: (Theme) -> Unit) {
                 factory = PlacePickerViewModel.Factory,
             )
             val place = viewModel.state.collectAsStateWithLifecycle().value.searchedPlaceToEdit
+            LaunchedEffect(place) {
+                if (place == null) {
+                    controller.popBackStack()
+                }
+            }
+            BackHandler {
+                viewModel.cancelSearchedPlaceEdit()
+            }
             if (place != null) {
                 SearchedPlaceEditScreen(
                     searchedPlace = place,
                     onEdit = viewModel::selectSearchedPlace,
-                    onDismiss = viewModel::cancelSearchedPlaceEdit,
+                    onCloseClick = viewModel::cancelSearchedPlaceEdit,
                 )
-            } else {
-                controller.popBackStack()
             }
         }
         composable(
@@ -98,15 +105,15 @@ fun AppNavHost(theme: Theme, onThemeClick: (Theme) -> Unit) {
         ) { backStackEntry ->
             EssentialGraphsDestination(
                 initialDay = backStackEntry.arguments?.getString("initialDay")?.let(LocalDate::parse),
-                onSelectPlaceClick = controller::navigateUp,
-                onBackClick = controller::navigateUp
+                onSelectPlaceClick = controller::popBackStack,
+                onBackClick = controller::popBackStack
             )
         }
         composable("settings") {
             SettingsDestination(
                 theme = theme,
                 onThemeClick = onThemeClick,
-                onBackClick = controller::navigateUp
+                onBackClick = controller::popBackStack
             )
         }
         composable("unexpected-error") {
