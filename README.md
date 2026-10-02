@@ -36,7 +36,7 @@ Other features include:
 - Works offline
 - Uses mobile data sparingly
 - Does not require an API key
-- Does not access your location
+- Accesses your location only if you choose "Current location"
 - Material Design 3 / Material You
 - Dark and light theme
 - Customizable measurement units

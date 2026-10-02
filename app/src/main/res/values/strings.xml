@@ -25,6 +25,8 @@
 
     <string name="place_picker_hint_search">Search places…</string>
     <string name="place_picker_title_saved_places">Saved places</string>
+    <string name="place_picker_current_location">Current location</string>
+    <string name="place_picker_locating">Locating…</string>
     <string name="place_picker_title_search_results">Search results</string>
     <string name="place_picker_error_no_internet">You seem to be offline. Connect to the Internet and try again.</string>
     <string name="place_picker_error_value_no_results_for">No results for \"%s\".</string>

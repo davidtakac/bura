@@ -21,6 +21,8 @@ import com.davidtakac.bura.forecast.cache.ForecastCacher
 import com.davidtakac.bura.forecast.download.ForecastDownloader
 import com.davidtakac.bura.forecast.download.InternetChecker
 import com.davidtakac.bura.forecast.units.SelectedUnitsRepository
+import com.davidtakac.bura.places.current.DeviceLocator
+import com.davidtakac.bura.places.current.UpdateCurrentLocation
 import com.davidtakac.bura.places.saved.DeletePlace
 import com.davidtakac.bura.places.saved.GetSavedPlaces
 import com.davidtakac.bura.places.saved.SavedPlacesRepository
@@ -63,4 +65,5 @@ class AppContainer(private val appContext: Context) {
     val searchPlaces get() = SearchPlaces(userAgent)
     val selectPlace get() = SelectPlace(selectedPlaceRepo, savedPlacesRepo)
     val deletePlace get() = DeletePlace(savedPlacesRepo, forecastCacher)
+    val updateCurrentLocation get() = UpdateCurrentLocation(DeviceLocator(appContext), selectedPlaceRepo, forecastCacher)
 }

@@ -66,12 +66,14 @@ fun SummaryScreen(
     onPrecipitationClick: () -> Unit,
 
     pickerState: PlacePickerState,
+    locating: Boolean,
     searchQuery: String,
     onSearchQueryChange: (query: String) -> Unit,
     onSearchQueryClearClick: () -> Unit,
     searchActive: Boolean,
     onSearchActiveChange: (Boolean) -> Unit,
     onSearch: (query: String) -> Unit,
+    onCurrentLocationClick: () -> Unit,
     onPlaceClick: (Place) -> Unit,
     onSearchedPlaceClick: (SearchedPlace) -> Unit,
     onPlaceDeleteClick: (Place) -> Unit,
@@ -83,10 +85,12 @@ fun SummaryScreen(
         topBar = {
             PlacePickerSearchBar(
                 state = pickerState,
+                locating = locating,
                 query = searchQuery,
                 onQueryChange = onSearchQueryChange,
                 onQueryClearClick = onSearchQueryClearClick,
                 onSearchClick = onSearch,
+                onCurrentLocationClick = onCurrentLocationClick,
                 onPlaceClick = onPlaceClick,
                 onSearchedPlaceClick = onSearchedPlaceClick,
                 onPlaceDeleteClick = onPlaceDeleteClick,
