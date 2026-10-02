@@ -30,10 +30,11 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MediumTopAppBar
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -42,6 +43,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -60,9 +62,10 @@ fun SearchedPlaceEditScreen(
     onEdit: (SearchedPlace) -> Unit,
     onCloseClick: () -> Unit,
 ) {
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     Scaffold(
         topBar = {
-            TopAppBar(
+            MediumTopAppBar(
                 title = {
                     Text(stringResource(id = R.string.searched_place_edit_tz_title))
                 },
@@ -75,7 +78,8 @@ fun SearchedPlaceEditScreen(
                             contentDescription = null,
                         )
                     }
-                }
+                },
+                scrollBehavior = scrollBehavior,
             )
         }
     ) { contentPadding ->
@@ -83,6 +87,7 @@ fun SearchedPlaceEditScreen(
             modifier = Modifier
                 .padding(contentPadding)
                 .fillMaxSize()
+                .nestedScroll(scrollBehavior.nestedScrollConnection)
         ) {
             Text(
                 stringResource(
