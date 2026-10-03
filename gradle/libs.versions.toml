@@ -1,13 +1,13 @@
 [versions]
-agp = "9.1.1"
-appCompat = "1.7.1"
-composeBom = "2026.05.01"
-coreKtx = "1.18.0"
-json = "20251224"
+agp = "9.4.1"
+appCompat = "1.8.0"
+composeBom = "2026.09.00"
+coreKtx = "1.19.1"
+json = "20260814"
 junit = "4.13.2"
-kotlin = "2.3.21"
+kotlin = "2.4.20"
 kotlinxCoroutinesTest = "1.11.0"
-navigationCompose = "2.9.8"
+navigationCompose = "2.10.2"
 
 [libraries]
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appCompat" }
