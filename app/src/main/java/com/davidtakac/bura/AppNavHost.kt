@@ -77,7 +77,7 @@ fun AppNavHost(theme: Theme, onThemeClick: (Theme) -> Unit) {
             )
             SearchedPlaceEditDestination(
                 viewModel = viewModel,
-                onSearchedPlaceToEditNull = controller::popBackStack
+                onSearchedPlaceToEditNull = controller::navigateUp
             )
         }
         composable(
@@ -92,15 +92,15 @@ fun AppNavHost(theme: Theme, onThemeClick: (Theme) -> Unit) {
         ) { backStackEntry ->
             EssentialGraphsDestination(
                 initialDay = backStackEntry.arguments?.getString("initialDay")?.let(LocalDate::parse),
-                onSelectPlaceClick = controller::popBackStack,
-                onBackClick = controller::popBackStack
+                onSelectPlaceClick = controller::navigateUp,
+                onBackClick = controller::navigateUp
             )
         }
         composable("settings") {
             SettingsDestination(
                 theme = theme,
                 onThemeClick = onThemeClick,
-                onBackClick = controller::popBackStack
+                onBackClick = controller::navigateUp
             )
         }
         composable("unexpected-error") {
