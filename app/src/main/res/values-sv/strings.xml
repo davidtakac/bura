@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Copyright 2024 David Takač
   ~
@@ -8,9 +9,7 @@
   ~ Bura is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
   ~
   ~ You should have received a copy of the GNU General Public License along with Bura. If not, see <https://www.gnu.org/licenses/>.
-  -->
-
-<resources>
+  --><resources>
     <string name="app_name">Bura</string>
     <string name="general_error_failed_to_download">Misslyckades med att ladda ner prognos. Anslut till internet och försök igen.</string>
     <string name="general_error_outdated">Dina prognosdata har utlöpt. Anslut till internet och försök igen.</string>
@@ -19,10 +18,8 @@
     <string name="general_btn_select_place">Välj plats</string>
     <string name="general_btn_dialog_confirm">OK</string>
     <string name="general_btn_dialog_cancel">Avbryt</string>
-
     <string name="credit_weather">Väderdata från Open-Meteo.com</string>
     <string name="credit_geocoding">Geokodningsdata från Open-Meteo.com</string>
-
     <string name="place_picker_hint_search">Sök platser …</string>
     <string name="place_picker_title_saved_places">Sparade platser</string>
     <string name="place_picker_title_search_results">Sökresultat</string>
@@ -31,7 +28,6 @@
     <string name="place_picker_error_no_saved_places">Inga sparade platser.</string>
     <string name="delete_place_value">Radera %s?</string>
     <string name="delete_place_description">Detta kommer även att radera dess cachade prognosdata.</string>
-
     <string name="cond_screen_title">Förhållanden</string>
     <string name="cond_screen_pop">Risk för nederbörd</string>
     <string name="cond_screen_precip">Nederbördsmängder</string>
@@ -39,7 +35,6 @@
     <string name="cond_screen_temp_unit_fahrenheit">Fahrenheit (°F)</string>
     <string name="cond_screen_precip_value_in_last_hours">Senaste %s timmarna</string>
     <string name="cond_screen_precip_value_in_next_hours">Kommande %s timmarna</string>
-
     <string name="settings_screen_title">Inställningar</string>
     <string name="settings_screen_title_units">Enheter</string>
     <string name="settings_screen_title_temp_unit">Temperatur</string>
@@ -71,7 +66,6 @@
     <string name="settings_screen_label_dark">Mörkt</string>
     <string name="settings_screen_label_light">Ljust</string>
     <string name="settings_screen_label_follow_system">Följ systemet</string>
-
     <string name="date_time_now">Nu</string>
     <string name="date_time_today">I dag</string>
     <string name="date_time_pattern_hour">HH</string>
@@ -81,7 +75,6 @@
     <string name="date_time_pattern_dow">E</string>
     <string name="date_time_pattern_dow_hour_minute">E, HH:mm</string>
     <string name="date_time_pattern_dow_hour_minute_ampm">E, h:mm\u2009a</string>
-
     <string name="precip_mixed">Nederbörd</string>
     <string name="precip_rain">Regn</string>
     <string name="precip_showers">Skurar</string>
@@ -102,9 +95,7 @@
     <string name="precip_value_cm">%s cm</string>
     <string name="precip_unit_in">″</string>
     <string name="precip_value_in">%s″</string>
-
     <string name="pop_value_percent">%s %%</string>
-
     <string name="pressure">Lufttryck</string>
     <string name="pressure_trend_falling">Fallande</string>
     <string name="pressure_trend_steady">Stabilt</string>
@@ -116,10 +107,8 @@
     <string name="pressure_value_inhg">%s inHg</string>
     <string name="pressure_unit_mmhg">mmHg</string>
     <string name="pressure_value_mmhg">%s mmHg</string>
-
     <string name="humidity">Luftfuktighet</string>
     <string name="humidity_value_percent">%s %%</string>
-
     <string name="sunrise">Soluppgång</string>
     <string name="sunset">Solnedgång</string>
     <string name="sunrise_short">@string/sunrise</string>
@@ -132,18 +121,16 @@
     <string name="sunrise_value_more_than_hours_away">&gt; %s tim</string>
     <string name="sunset_value_more_than_days_away">&gt; %s dagar</string>
     <string name="sunset_value_more_than_hours_away">&gt; %s tim</string>
-
     <string name="temp_value_degree">%s°</string>
     <string name="dew_point_value_right_now">Daggpunkten är %s just nu.</string>
     <string name="feels_like">Känns som</string>
     <string name="feels_like_value">Känns som %s</string>
     <string name="feels_like_value_actual">Faktisk %s</string>
-    <string name="feels_like_cooler_than_actual">Vinden gör att det känns svalare.</string>
-    <string name="feels_like_colder_than_actual">Vinden gör att det känns kallare.</string>
-    <string name="feels_like_warmer_than_actual">Luftfuktigheten gör att det känns varmare.</string>
-    <string name="feels_like_hotter_than_actual">Luftfuktigheten gör att det känns hetare.</string>
+    <string name="feels_like_cooler_than_actual">Det känns svalare än den faktiska temperaturen.</string>
+    <string name="feels_like_colder_than_actual">Det känns kallare än den faktiska temperaturen.</string>
+    <string name="feels_like_warmer_than_actual">Det känns varmare än den faktiska temperaturen.</string>
+    <string name="feels_like_hotter_than_actual">Det känns hetare än den faktiska temperaturen.</string>
     <string name="feels_like_similar_to_actual">Ungefär samma som den faktiska temperaturen.</string>
-
     <string name="uv_index">UV-index</string>
     <string name="uv_index_risk_low">Lågt</string>
     <string name="uv_index_risk_moderate">Medelhögt</string>
@@ -155,7 +142,6 @@
     <string name="uv_index_protection_value_until">Använd solskydd till %s.</string>
     <string name="uv_index_protection_value_until_end_of_day">Använd solskydd under resten av dagen.</string>
     <string name="uv_index_protection_value_none">Lågt under resten av dagen.</string>
-
     <string name="vis">Sikt</string>
     <string name="vis_unit_m">m</string>
     <string name="vis_value_m">%s m</string>
@@ -165,12 +151,11 @@
     <string name="vis_value_km">%s km</string>
     <string name="vis_unit_mi">mi</string>
     <string name="vis_value_mi">%s mi</string>
-    <string name="vis_description_excellent">Mycket god sikt.</string>
-    <string name="vis_description_good">God sikt.</string>
-    <string name="vis_description_moderate">Måttlig sikt.</string>
-    <string name="vis_description_poor">Disigt.</string>
-    <string name="vis_description_very_poor">Mycket disigt.</string>
-
+    <string name="vis_description_excellent">Exceptionellt god sikt.</string>
+    <string name="vis_description_good">Ganska god sikt för de flesta aktiviteter.</string>
+    <string name="vis_description_moderate">Något nedsatt sikt med mindre störningar.</string>
+    <string name="vis_description_poor">Nedsatt sikt som kan påverka resande.</string>
+    <string name="vis_description_very_poor">Farligt nedsatt sikt för resande.</string>
     <string name="wind_label">Vind</string>
     <string name="wind_bft_0">Lugnt</string>
     <string name="wind_bft_1">Svag vind</string>
@@ -194,7 +179,6 @@
     <string name="wind_value_kn">%s kn</string>
     <string name="wind_unit_mph">mi/tim</string>
     <string name="wind_value_mph">%s mi/tim</string>
-
     <string name="wmo_0">Klart</string>
     <string name="wmo_1">Mestadels klart</string>
     <string name="wmo_2">Delvis molnigt</string>
@@ -223,4 +207,17 @@
     <string name="wmo_95">Åska</string>
     <string name="wmo_96">Åska med lätt hagel</string>
     <string name="wmo_99">Åska med kraftigt hagel</string>
+    <string name="unexpected_error_screen_title">Oväntat fel</string>
+    <string name="unexpected_error_screen_description">Ett oväntat fel har uppstått. För att fortsätta, gå till startskärmen och försök igen. Om du vill hjälpa till, skapa ett ärende på GitHub och klistra in följande felrapport.</string>
+    <string name="unexpected_error_screen_label_clip_entry">Felrapport</string>
+    <string name="unexpected_error_screen_btn_copy_logs">Kopiera allt</string>
+    <string name="unexpected_error_screen_btn_go_home">Startskärm</string>
+    <string name="precip_label_light">Lätt</string>
+    <string name="precip_label_moderate">Måttlig</string>
+    <string name="precip_label_heavy">Kraftig</string>
+    <string name="searched_place_edit_tz_title">Ange tidszon</string>
+    <string name="searched_place_edit_tz_hint">Sök efter tidszoner …</string>
+    <string name="searched_place_edit_tz_no_search_results_value">Inga matchande tidszoner för \"%1$s\"</string>
+    <string name="searched_place_edit_tz_description_value">%1$ss tidszon är \"%2$s\", som inte känns igen av din enhet. För att använda denna plats, ange dess tidszon manuellt.</string>
+    <string name="vis_description_very_good">Mycket god sikt.</string>
 </resources>
