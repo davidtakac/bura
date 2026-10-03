@@ -186,8 +186,11 @@ private fun DrawScope.drawPrecipAxis(
         args = args,
     ) { stepValue ->
         val step = Rain(stepValue, unit)
-        val valueString = step.valueString(args.numberFormat)
-        if (step == steps[0]) step.string(args.context, args.numberFormat) else valueString
+        if (stepValue == steps[0].value) {
+            step.string(args.context, args.numberFormat)
+        } else {
+            step.valueString(args.numberFormat)
+        }
     }
 }
 
