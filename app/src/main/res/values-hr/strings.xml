@@ -110,8 +110,8 @@
     <string name="pressure_value_mmhg">%s mmHg</string>
     <string name="humidity">Vlaga</string>
     <string name="humidity_value_percent">%s%%</string>
-    <string name="sunrise">Izlazak Sunca</string>
-    <string name="sunset">Zalazak Sunca</string>
+    <string name="sunrise">Izlazak sunca</string>
+    <string name="sunset">Zalazak sunca</string>
     <string name="sunrise_short">@string/sunrise</string>
     <string name="sunset_short">@string/sunset</string>
     <string name="sunrise_value">Izlazak: %s</string>
@@ -121,7 +121,7 @@
     <string name="sunrise_value_more_than_days_away">&gt; %sd</string>
     <string name="sunrise_value_more_than_hours_away">&gt; %sh</string>
     <string name="sunset_value_more_than_days_away">&gt; %sd</string>
-    <string name="sunset_value_more_than_hours_away">&gt; %sd</string>
+    <string name="sunset_value_more_than_hours_away">&gt; %sh</string>
     <string name="temp_value_degree">%s°</string>
     <string name="dew_point_value_right_now">Rosište je %s sada.</string>
     <string name="feels_like">Osjet</string>
