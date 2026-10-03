@@ -44,9 +44,12 @@ import com.davidtakac.bura.forecast.parameters.precipitation.Snow
 import com.davidtakac.bura.forecast.parameters.precipitation.string
 import com.davidtakac.bura.forecast.parameters.precipitation.valueString
 import com.davidtakac.bura.graphs.common.GraphArgs
+import com.davidtakac.bura.graphs.common.HorizontalAxisDrawLater
 import com.davidtakac.bura.graphs.common.NiceScale
 import com.davidtakac.bura.graphs.common.ValueTick
+import com.davidtakac.bura.graphs.common.VerticalAxisDrawLater
 import com.davidtakac.bura.graphs.common.drawing.drawGutterIcon
+import com.davidtakac.bura.graphs.common.drawing.drawMeasuredTickLabel
 import com.davidtakac.bura.graphs.common.drawing.drawPastOverlay
 import com.davidtakac.bura.graphs.common.drawing.drawTimeAxis
 import com.davidtakac.bura.graphs.common.drawing.drawVerticalAxis
@@ -82,12 +85,12 @@ fun PrecipitationGraph(
         valueTicks to newMax
     }
     Canvas(modifier) {
-        drawPrecipAxis(
+        val verticalAxisDrawLater = drawPrecipAxis(
             steps = steps,
             args = args,
             unit = unit,
         )
-        drawHorizontalAxisAndBars(
+        val horizontalAxisDrawLater = drawHorizontalAxisAndBars(
             now = now,
             points = points,
             gutterIcons = points.map {
@@ -99,6 +102,12 @@ fun PrecipitationGraph(
             snowColor = snowColor,
             args = args
         )
+        verticalAxisDrawLater.measuredTickLabels.forEach {
+            drawMeasuredTickLabel(args, it)
+        }
+        horizontalAxisDrawLater.nowCenter?.let {
+            drawPastOverlay(nowX = it.x, args = args)
+        }
     }
 }
 
@@ -111,7 +120,7 @@ private fun DrawScope.drawHorizontalAxisAndBars(
     showersColor: Color,
     snowColor: Color,
     args: GraphArgs
-) {
+): HorizontalAxisDrawLater {
     val range = max.value
     var nowX: Float? = null
     drawTimeAxis(
@@ -171,16 +180,22 @@ private fun DrawScope.drawHorizontalAxisAndBars(
         drawGutterIcon(i, x, gutterIcons[i], args)
     }
 
-    nowX?.let {
-        drawPastOverlay(nowX = it, args = args)
-    }
+    return HorizontalAxisDrawLater(
+        nowCenter = nowX?.let {
+            Offset(
+                x = it,
+                // y doesn't matter because we won't be drawing a point anyway
+                y = 0f
+            )
+        }
+    )
 }
 
 private fun DrawScope.drawPrecipAxis(
     unit: Precipitation.Unit,
     steps: List<ValueTick>,
     args: GraphArgs
-) {
+): VerticalAxisDrawLater =
     drawVerticalAxis(
         valueTicks = steps,
         args = args,
@@ -192,7 +207,6 @@ private fun DrawScope.drawPrecipAxis(
             step.valueString(args.numberFormat)
         }
     }
-}
 
 private fun getValueTicks(
     unit: Precipitation.Unit,

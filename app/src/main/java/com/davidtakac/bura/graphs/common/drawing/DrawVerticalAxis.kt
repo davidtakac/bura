@@ -17,16 +17,19 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.unit.LayoutDirection
 import com.davidtakac.bura.graphs.common.GraphArgs
+import com.davidtakac.bura.graphs.common.MeasuredTickLabel
 import com.davidtakac.bura.graphs.common.ValueTick
+import com.davidtakac.bura.graphs.common.VerticalAxisDrawLater
 
 fun DrawScope.drawVerticalAxis(
     valueTicks: List<ValueTick>,
     args: GraphArgs,
     valueFormatter: (Double) -> String?,
-) {
+): VerticalAxisDrawLater {
     val lineX =
         if (layoutDirection == LayoutDirection.Ltr) size.width - args.endGutter
         else args.endGutter
+    val measuredTickLabels = mutableListOf<MeasuredTickLabel>()
     for (i in 0..valueTicks.lastIndex) {
         val valueTick = valueTicks[i]
         val stepFraction = i.toDouble() / valueTicks.lastIndex
@@ -47,16 +50,17 @@ fun DrawScope.drawVerticalAxis(
                 text = it,
                 style = args.axisTextStyle
             )
-            drawText(
-                textLayoutResult = measuredLabel,
-                color = args.axisColor,
-                topLeft = Offset(
-                    if (layoutDirection == LayoutDirection.Ltr) {
-                        horizontalLineStartX + args.textPaddingMinHorizontal
-                    } else {
-                        horizontalLineStartX - args.textPaddingMinHorizontal - measuredLabel.size.width
-                    },
-                    stepY
+            measuredTickLabels.add(
+                MeasuredTickLabel(
+                    textLayoutResult = measuredLabel,
+                    topLeft = Offset(
+                        if (layoutDirection == LayoutDirection.Ltr) {
+                            horizontalLineStartX + args.textPaddingMinHorizontal
+                        } else {
+                            horizontalLineStartX - args.textPaddingMinHorizontal - measuredLabel.size.width
+                        },
+                        stepY
+                    ),
                 )
             )
         }
@@ -84,4 +88,5 @@ fun DrawScope.drawVerticalAxis(
             )
         )
     }
+    return VerticalAxisDrawLater(measuredTickLabels)
 }

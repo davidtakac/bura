@@ -55,6 +55,10 @@ data class GraphArgs(
     val textPaddingMinHorizontal: Float,
     val numberFormat: NumberFormat,
     val axisTimeFormatter: DateTimeFormatter,
+    val tickLabelBackgroundColor: Color,
+    val tickLabelBackgroundRadius: Float,
+    val tickLabelBackgroundHorizontalPadding: Float,
+    val tickLabelTopMargin: Float,
 
     val pointCenterRadius: Float,
     val pointOutlineWidth: Float,
@@ -113,6 +117,10 @@ data class GraphArgs(
                 gutterIconSpacingMin = 2.dp.toPx(),
                 textMeasurer = textMeasurer,
                 context = context,
+                tickLabelBackgroundColor = colorScheme.background.copy(alpha = 0.8f),
+                tickLabelBackgroundRadius = 2.dp.toPx(),
+                tickLabelTopMargin = 2.dp.toPx(),
+                tickLabelBackgroundHorizontalPadding = 2.dp.toPx(),
             )
         }
 

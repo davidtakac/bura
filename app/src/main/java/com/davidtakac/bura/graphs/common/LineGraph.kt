@@ -26,6 +26,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import com.davidtakac.bura.graphs.common.drawing.closePlotFillPath
 import com.davidtakac.bura.graphs.common.drawing.drawGutterIcon
 import com.davidtakac.bura.graphs.common.drawing.drawLabeledPoint
+import com.davidtakac.bura.graphs.common.drawing.drawMeasuredTickLabel
 import com.davidtakac.bura.graphs.common.drawing.drawPastOverlayWithPoint
 import com.davidtakac.bura.graphs.common.drawing.drawPlotLinePath
 import com.davidtakac.bura.graphs.common.drawing.drawTimeAxis
@@ -47,7 +48,12 @@ fun LineGraph(
     plotUnderfillBrush: Brush? = null,
 ) {
     Canvas(modifier) {
-        drawHorizontalAxisAndPlot(
+        val verticalAxisDrawLater = drawVerticalAxis(
+            valueTicks = valueTicks,
+            args = args,
+            valueFormatter = valueFormatter
+        )
+        val horizontalAxisDrawLater = drawHorizontalAxisAndPlot(
             plotPoints = plotPoints,
             plotBrush = plotBrush,
             plotUnderfillBrush = plotUnderfillBrush,
@@ -58,11 +64,12 @@ fun LineGraph(
             now = now,
             args = args
         )
-        drawVerticalAxis(
-            valueTicks = valueTicks,
-            args = args,
-            valueFormatter = valueFormatter
-        )
+        verticalAxisDrawLater.measuredTickLabels.forEach {
+            drawMeasuredTickLabel(args, it)
+        }
+        horizontalAxisDrawLater.nowCenter?.let {
+            drawPastOverlayWithPoint(it, args)
+        }
     }
 }
 
@@ -76,7 +83,7 @@ private fun DrawScope.drawHorizontalAxisAndPlot(
     max: Double,
     now: Instant,
     args: GraphArgs
-) {
+): HorizontalAxisDrawLater {
     val range = max - min
     val plotPath = Path()
     val plotFillPath = Path()
@@ -143,9 +150,8 @@ private fun DrawScope.drawHorizontalAxisAndPlot(
             args = args,
         )
     }
-    nowCenter?.let {
-        drawPastOverlayWithPoint(it, args)
-    }
+
+    return HorizontalAxisDrawLater(nowCenter)
 }
 
 data class PlotPoint(
