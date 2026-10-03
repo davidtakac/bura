@@ -12,10 +12,10 @@
 
 package com.davidtakac.bura
 
-import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -28,7 +28,7 @@ import com.davidtakac.bura.theme.ThemeViewModel
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setTransparentSystemBars()
+        enableEdgeToEdge()
         setContent {
             val themeViewModel = viewModel<ThemeViewModel>(factory = ThemeViewModel.Factory)
             val theme = themeViewModel.state.collectAsState().value
@@ -48,12 +48,6 @@ class MainActivity : ComponentActivity() {
                 )
             }
         }
-    }
-
-    private fun setTransparentSystemBars() {
-        WindowCompat.setDecorFitsSystemWindows(window, false)
-        window.statusBarColor = Color.TRANSPARENT
-        window.navigationBarColor = Color.TRANSPARENT
     }
 
     private fun setSystemBarIconColors(darkTheme: Boolean) {

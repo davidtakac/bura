@@ -14,6 +14,9 @@ package com.davidtakac.bura.graphs
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -37,8 +40,10 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import com.davidtakac.bura.R
 import com.davidtakac.bura.common.compose.FailedToDownloadErrorScreen
 import com.davidtakac.bura.common.compose.NoSelectedPlaceErrorScreen
@@ -77,32 +82,46 @@ fun EssentialGraphsScreen(
     ) { contentPadding ->
         Crossfade(
             targetState = state,
-            modifier = Modifier.padding(contentPadding),
+            modifier = Modifier
+                .padding(
+                    start = contentPadding.calculateStartPadding(LocalLayoutDirection.current),
+                    end = contentPadding.calculateEndPadding(LocalLayoutDirection.current),
+                    top = contentPadding.calculateTopPadding(),
+                ),
             label = "State crossfade"
         ) {
+            val bottomContentPadding = contentPadding.calculateBottomPadding()
+            val pageContentPadding = PaddingValues(
+                start = 16.dp,
+                end = 16.dp,
+                top = 16.dp,
+                bottom = bottomContentPadding + 16.dp,
+            )
             when (it) {
                 is EssentialGraphsState.Success -> Pager(
                     state = it,
                     initialDay = initialDay,
+                    pageContentPadding = pageContentPadding,
                     modifier = Modifier.fillMaxSize()
                 )
 
                 EssentialGraphsState.Loading, EssentialGraphsState.Initial -> EssentialGraphsLoadingIndicator(
-                    modifier = Modifier.fillMaxSize()
+                    pageContentPadding = pageContentPadding,
+                    modifier = Modifier.padding(bottom = bottomContentPadding).fillMaxSize()
                 )
 
                 EssentialGraphsState.FailedToDownload -> FailedToDownloadErrorScreen(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier.padding(bottom = bottomContentPadding).fillMaxSize(),
                     onTryAgainClick = onTryAgainClick
                 )
 
                 EssentialGraphsState.Outdated -> OutdatedErrorScreen(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier.padding(bottom = bottomContentPadding).fillMaxSize(),
                     onTryAgainClick = onTryAgainClick
                 )
 
                 EssentialGraphsState.NoSelectedPlace -> NoSelectedPlaceErrorScreen(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier.padding(bottom = bottomContentPadding).fillMaxSize(),
                     onSelectPlaceClick = onSelectPlaceClick
                 )
             }
@@ -114,6 +133,7 @@ fun EssentialGraphsScreen(
 private fun Pager(
     state: EssentialGraphsState.Success,
     initialDay: LocalDate?,
+    pageContentPadding: PaddingValues,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
@@ -163,6 +183,7 @@ private fun Pager(
             }
             EssentialGraphPage(
                 listState = listState,
+                contentPadding = pageContentPadding,
                 now = tempGraphs.now,
                 summary = summaries[page],
                 temperatureGraph = tempGraphs.graphs[page],
@@ -181,7 +202,10 @@ private fun Pager(
 }
 
 @Composable
-private fun EssentialGraphsLoadingIndicator(modifier: Modifier = Modifier) {
+private fun EssentialGraphsLoadingIndicator(
+    pageContentPadding: PaddingValues,
+    modifier: Modifier = Modifier
+) {
     Column(modifier = modifier) {
         val shimmerColor = animateShimmerColorAsState()
         GraphsPagerIndicatorSkeleton(
@@ -191,6 +215,7 @@ private fun EssentialGraphsLoadingIndicator(modifier: Modifier = Modifier) {
         HorizontalDivider()
         EssentialGraphPageLoadingIndicator(
             shimmerColor = shimmerColor,
+            contentPadding = pageContentPadding,
             modifier = Modifier
                 .weight(1f)
                 .fillMaxWidth()

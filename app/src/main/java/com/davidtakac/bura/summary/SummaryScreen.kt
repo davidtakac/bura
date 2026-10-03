@@ -15,6 +15,8 @@ package com.davidtakac.bura.summary
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -27,6 +29,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.davidtakac.bura.R
@@ -96,37 +99,50 @@ fun SummaryScreen(
         Crossfade(
             targetState = summaryState,
             modifier = Modifier
-                .fillMaxSize()
-                .padding(contentPadding)
-                .padding(top = 8.dp),
+                .padding(
+                    start = contentPadding.calculateStartPadding(LocalLayoutDirection.current),
+                    end = contentPadding.calculateEndPadding(LocalLayoutDirection.current),
+                    top = contentPadding.calculateTopPadding(),
+                )
+                .padding(top = 8.dp)
+                .fillMaxSize(),
             label = "Grid crossfade"
         ) {
+            val bottomContentPadding = contentPadding.calculateBottomPadding()
+            val gridContentPadding = PaddingValues(
+                start = 16.dp,
+                end = 16.dp,
+                top = 8.dp,
+                bottom = bottomContentPadding + 16.dp,
+            )
             when (it) {
                 is SummaryState.Success -> SummaryGrid(
                     state = it,
                     onHourlyClick = onHourlySectionClick,
                     onDayClick = onDayClick,
                     onPrecipitationClick = onPrecipitationClick,
+                    contentPadding = gridContentPadding,
                     modifier = Modifier.fillMaxSize()
                 )
 
                 SummaryState.Loading, SummaryState.Initial -> SummaryScreenSkeleton(
+                    contentPadding = gridContentPadding,
                     modifier = Modifier.fillMaxSize()
                 )
 
                 SummaryState.FailedToDownload -> FailedToDownloadErrorScreen(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier.padding(bottom = bottomContentPadding).fillMaxSize(),
                     onTryAgainClick = onTryAgainClick
                 )
 
                 SummaryState.Outdated -> OutdatedErrorScreen(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier.padding(bottom = bottomContentPadding).fillMaxSize(),
                     onTryAgainClick = onTryAgainClick
                 )
 
                 SummaryState.NoSelectedPlace -> NoSelectedPlaceErrorScreen(
-                    onSelectPlaceClick = onSelectPlaceClick,
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier.padding(bottom = bottomContentPadding).fillMaxSize(),
+                    onSelectPlaceClick = onSelectPlaceClick
                 )
             }
         }
@@ -139,18 +155,16 @@ private fun SummaryGrid(
     onHourlyClick: () -> Unit,
     onDayClick: (date: LocalDate) -> Unit,
     onPrecipitationClick: () -> Unit,
+    contentPadding: PaddingValues,
     modifier: Modifier = Modifier
 ) {
     LazyVerticalStaggeredGrid(
-        // Setting the horizontal padding to 16dp and adding empty FullLine items at the top
-        // and bottom of the grid is a workaround for contentPadding. For some reason, setting it
-        // causes the grid to crash with a 'position() should be called first' exception.
-        modifier = modifier.padding(horizontal = 16.dp),
+        modifier = modifier,
         verticalItemSpacing = 16.dp,
         horizontalArrangement = Arrangement.spacedBy(16.dp),
-        columns = StaggeredGridCells.Fixed(2)
+        columns = StaggeredGridCells.Fixed(2),
+        contentPadding = contentPadding,
     ) {
-        item(span = StaggeredGridItemSpan.FullLine) {}
         item(span = StaggeredGridItemSpan.FullLine) {
             NowSummary(
                 state = state.now,
@@ -227,15 +241,17 @@ private fun SummaryGrid(
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
-        item(span = StaggeredGridItemSpan.FullLine) {}
     }
 }
 
 @Composable
-private fun SummaryScreenSkeleton(modifier: Modifier = Modifier) {
+private fun SummaryScreenSkeleton(
+    contentPadding: PaddingValues,
+    modifier: Modifier = Modifier,
+) {
     val shimmerColor = animateShimmerColorAsState()
     LazyColumn(
-        contentPadding = PaddingValues(16.dp),
+        contentPadding = contentPadding,
         verticalArrangement = Arrangement.spacedBy(16.dp),
         modifier = modifier
     ) {

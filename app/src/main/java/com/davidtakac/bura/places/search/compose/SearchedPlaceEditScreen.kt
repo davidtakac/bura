@@ -15,10 +15,14 @@ package com.davidtakac.bura.places.search.compose
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -44,6 +48,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -85,11 +90,15 @@ fun SearchedPlaceEditScreen(
     ) { contentPadding ->
         Column(
             modifier = Modifier
-                .padding(contentPadding)
+                .padding(
+                    start = contentPadding.calculateStartPadding(LocalLayoutDirection.current),
+                    end = contentPadding.calculateEndPadding(LocalLayoutDirection.current),
+                    top = contentPadding.calculateTopPadding() + 8.dp,
+                )
                 .fillMaxSize()
-                .nestedScroll(scrollBehavior.nestedScrollConnection)
+                .nestedScroll(scrollBehavior.nestedScrollConnection),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Spacer(Modifier.size(8.dp))
             Text(
                 stringResource(
                     id = R.string.searched_place_edit_tz_description_value,
@@ -97,9 +106,9 @@ fun SearchedPlaceEditScreen(
                 ),
                 modifier = Modifier.padding(horizontal = horizontalPadding)
             )
-            Spacer(modifier = Modifier.size(16.dp))
             TimeZonePicker(
                 horizontalPadding = horizontalPadding,
+                listContentPadding = PaddingValues(bottom = contentPadding.calculateBottomPadding()),
                 onPick = { onEdit(searchedPlace.copy(timeZoneId = it)) }
             )
         }
@@ -109,6 +118,7 @@ fun SearchedPlaceEditScreen(
 @Composable
 private fun TimeZonePicker(
     horizontalPadding: Dp,
+    listContentPadding: PaddingValues,
     onPick: (String) -> Unit
 ) {
     var searchValue by rememberSaveable { mutableStateOf("") }
@@ -167,7 +177,7 @@ private fun TimeZonePicker(
                     onClick = null
                 )
             } else {
-                LazyColumn {
+                LazyColumn(contentPadding = listContentPadding) {
                     itemsIndexed(searchedZoneIds) { idx, zoneId ->
                         if (idx == 0) {
                             Spacer(Modifier.size(8.dp))

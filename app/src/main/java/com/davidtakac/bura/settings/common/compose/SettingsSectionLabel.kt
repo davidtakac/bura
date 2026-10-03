@@ -13,11 +13,15 @@
 package com.davidtakac.bura.settings.common.compose
 
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.davidtakac.bura.common.compose.TextSkeleton
 
 @Composable
 fun SectionLabel(label: String) {
@@ -26,6 +30,18 @@ fun SectionLabel(label: String) {
         style = MaterialTheme.typography.titleSmall,
         color = MaterialTheme.colorScheme.secondary,
         modifier = Modifier
+            .padding(horizontal = 16.dp)
+            .padding(top = 24.dp)
+    )
+}
+
+@Composable
+fun SectionLabelSkeleton(color: State<Color>) {
+    TextSkeleton(
+        color = color,
+        shape = MaterialTheme.shapes.small,
+        modifier = Modifier
+            .width(100.dp)
             .padding(horizontal = 16.dp)
             .padding(top = 24.dp)
     )

@@ -50,17 +50,18 @@ import com.davidtakac.bura.graphs.precipitation.compose.TodayPrecipitationBullet
 import com.davidtakac.bura.graphs.temperature.TemperatureGraph
 import com.davidtakac.bura.graphs.temperature.TemperatureGraphSummary
 import com.davidtakac.bura.graphs.temperature.compose.TemperatureGraph
+import com.davidtakac.bura.graphs.temperature.compose.TemperatureGraphSummary
 import com.davidtakac.bura.summary.now.compose.NowSummarySkeleton
 import java.time.Instant
 
 private const val graphAspectRatio = 4f / 3f
-private val contentPadding = PaddingValues(horizontal = 16.dp, vertical = 24.dp)
 private val verticalSpacing = 24.dp
 private val graphLabelSpacing = 8.dp
 
 @Composable
 fun EssentialGraphPage(
     listState: LazyListState,
+    contentPadding: PaddingValues,
     now: Instant,
     summary: TemperatureGraphSummary,
     temperatureGraph: TemperatureGraph,
@@ -81,7 +82,7 @@ fun EssentialGraphPage(
         modifier = Modifier.fillMaxSize()
     ) {
         item {
-            com.davidtakac.bura.graphs.temperature.compose.TemperatureGraphSummary(
+            TemperatureGraphSummary(
                 state = summary,
                 modifier = Modifier.fillMaxWidth()
             )
@@ -167,7 +168,11 @@ fun EssentialGraphPage(
 }
 
 @Composable
-fun EssentialGraphPageLoadingIndicator(shimmerColor: State<Color>, modifier: Modifier = Modifier) {
+fun EssentialGraphPageLoadingIndicator(
+    shimmerColor: State<Color>,
+    contentPadding: PaddingValues,
+    modifier: Modifier = Modifier
+) {
     LazyColumn(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(verticalSpacing),
