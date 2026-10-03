@@ -89,6 +89,7 @@ fun SearchedPlaceEditScreen(
                 .fillMaxSize()
                 .nestedScroll(scrollBehavior.nestedScrollConnection)
         ) {
+            Spacer(Modifier.size(8.dp))
             Text(
                 stringResource(
                     id = R.string.searched_place_edit_tz_description_value,
@@ -168,6 +169,9 @@ private fun TimeZonePicker(
             } else {
                 LazyColumn {
                     itemsIndexed(searchedZoneIds) { idx, zoneId ->
+                        if (idx == 0) {
+                            Spacer(Modifier.size(8.dp))
+                        }
                         TimeZoneItem(
                             text = zoneId,
                             horizontalPadding = horizontalPadding,
