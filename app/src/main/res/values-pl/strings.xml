@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ This file is part of Bura.
   ~
@@ -6,9 +7,7 @@
   ~ Bura is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
   ~
   ~ You should have received a copy of the GNU General Public License along with Bura. If not, see <https://www.gnu.org/licenses/>.
-  -->
-
-<resources>
+  --><resources>
     <!--
       Sources of Polish meteorologic terms:
        - T. Zawiślak (ed.). "Słownik tematyczny terminów, wyrażeń i zwrotów stosowanych w prognozach meteorologicznych". IMGW, Warszawa, 2010. <https://bip.lodzkie.eu/data/other/slownik_meteo.pdf>
@@ -22,10 +21,8 @@
     <string name="general_btn_select_place">Wybierz miejsce</string>
     <string name="general_btn_dialog_confirm">OK</string>
     <string name="general_btn_dialog_cancel">Anuluj</string>
-
     <string name="credit_weather">Dane pogodowe Open-Meteo.com</string>
     <string name="credit_geocoding">Lokalizacja Open-Meteo.com</string>
-
     <string name="place_picker_hint_search">Szukaj miejsca…</string>
     <string name="place_picker_title_saved_places">Zapisane</string>
     <string name="place_picker_title_search_results">Wyszukane</string>
@@ -34,7 +31,6 @@
     <string name="place_picker_error_no_saved_places">Brak zapisanych miejsc.</string>
     <string name="delete_place_value">Usunąć %s?</string>
     <string name="delete_place_description">Usunięcie wyczyści zapisane dane prognozy.</string>
-
     <string name="cond_screen_title">Prognoza pogody</string>
     <string name="cond_screen_pop">Szansa opadu</string>
     <string name="cond_screen_precip">Suma opadów</string>
@@ -42,7 +38,6 @@
     <string name="cond_screen_temp_unit_fahrenheit">Fahrenheit (°F)</string>
     <string name="cond_screen_precip_value_in_last_hours">Ostatnie %s godziny</string>
     <string name="cond_screen_precip_value_in_next_hours">Następne %s godziny</string>
-
     <string name="settings_screen_title">Ustawienia</string>
     <string name="settings_screen_title_units">Jednostki</string>
     <string name="settings_screen_title_temp_unit">Temperatura</string>
@@ -74,7 +69,6 @@
     <string name="settings_screen_label_dark">Ciemny</string>
     <string name="settings_screen_label_light">Jasny</string>
     <string name="settings_screen_label_follow_system">Systemowy</string>
-
     <string name="date_time_now">Teraz</string>
     <string name="date_time_today">Dzisiaj</string>
     <string name="date_time_pattern_hour">HH</string>
@@ -84,7 +78,6 @@
     <string name="date_time_pattern_dow">E</string>
     <string name="date_time_pattern_dow_hour_minute">E \'o\'\u202FHH:mm</string>
     <string name="date_time_pattern_dow_hour_minute_ampm">E \'o\'\u202Fh:mm\u2009a</string>
-
     <string name="precip_mixed">Opady</string>
     <string name="precip_rain">Deszcz</string>
     <string name="precip_showers">Mżawka</string>
@@ -105,9 +98,7 @@
     <string name="precip_value_cm">%s\u202Fcm</string>
     <string name="precip_unit_in">″</string>
     <string name="precip_value_in">%s″</string>
-
     <string name="pop_value_percent">%s%%</string>
-
     <string name="pressure">Ciśnienie</string>
     <string name="pressure_trend_falling">Spadek</string>
     <string name="pressure_trend_steady">Bez zmian</string>
@@ -119,10 +110,8 @@
     <string name="pressure_value_inhg">%s\u202FinHg</string>
     <string name="pressure_unit_mmhg">mmHg</string>
     <string name="pressure_value_mmhg">%s\u202FmmHg</string>
-
     <string name="humidity">Wilgotność</string>
     <string name="humidity_value_percent">%s%%</string>
-
     <string name="sunrise">Wschód słońca</string>
     <string name="sunset">Zachód słońca</string>
     <string name="sunrise_value">Wschód: %s</string>
@@ -135,7 +124,6 @@
     <string name="sunrise_value_more_than_hours_away">&gt;%s\u202Fh</string>
     <string name="sunset_value_more_than_days_away">&gt;%s\u202Fdn.</string>
     <string name="sunset_value_more_than_hours_away">&gt;%s\u202Fh</string>
-
     <string name="temp_value_degree">%s°</string>
     <string name="dew_point_value_right_now">Punkt rosy: %s</string>
     <string name="feels_like">Odczuwalna</string>
@@ -146,7 +134,6 @@
     <string name="feels_like_warmer_than_actual">Cieplej</string>
     <string name="feels_like_hotter_than_actual">Goręcej</string>
     <string name="feels_like_similar_to_actual">Tak samo</string>
-
     <string name="uv_index">Indeks UV</string>
     <string name="uv_index_risk_low">Niski</string>
     <string name="uv_index_risk_moderate">Umiarkowany</string>
@@ -158,7 +145,6 @@
     <string name="uv_index_protection_value_until">Zalecana ochrona: do\u202F%s</string>
     <string name="uv_index_protection_value_until_end_of_day">Zalecana ochrona: do\u202Fzmierzchu</string>
     <string name="uv_index_protection_value_none">Ochrona niewymagana</string>
-
     <string name="vis">Widzialność</string>
     <string name="vis_unit_m">m</string>
     <string name="vis_value_m">%s\u202Fm</string>
@@ -168,26 +154,39 @@
     <string name="vis_value_km">%s\u202Fkm</string>
     <string name="vis_unit_mi">mi</string>
     <string name="vis_value_mi">%s\u202Fmi</string>
-    <string name="vis_description_excellent">Dobra</string> <!-- 10-30 km -->
-    <string name="vis_description_good">Umiarkowana</string> <!-- 3-10 km -->
-    <string name="vis_description_moderate">Słaba</string> <!-- 1-3 km -->
-    <string name="vis_description_poor">Bardzo słaba</string> <!-- 0.2-1.0 km -->
-    <string name="vis_description_very_poor">Zła</string> <!-- 0.0-0.2 km -->
+    <string name="vis_description_excellent">Dobra</string>
+    <!-- 10-30 km -->
+    <string name="vis_description_good">Umiarkowana</string>
+    <!-- 3-10 km -->
+    <string name="vis_description_moderate">Słaba</string>
+    <!-- 1-3 km -->
+    <string name="vis_description_poor">Bardzo słaba</string>
+    <!-- 0.2-1.0 km -->
+    <string name="vis_description_very_poor">Zła</string>
+    <!-- 0.0-0.2 km -->
 
     <string name="wind_label">Wiatr</string>
-    <string name="wind_bft_0">Cisza</string> <!-- 0.0-0.2 m/s -->
-    <string name="wind_bft_1">Słaby</string> <!-- 0.3-4.9 m/s -->
+    <string name="wind_bft_0">Cisza</string>
+    <!-- 0.0-0.2 m/s -->
+    <string name="wind_bft_1">Słaby</string>
+    <!-- 0.3-4.9 m/s -->
     <string name="wind_bft_2">Słaby</string>
     <string name="wind_bft_3">Słaby</string>
-    <string name="wind_bft_4">Umiarkowany</string> <!-- 5.0-7.9 m/s -->
-    <string name="wind_bft_5">Dość silny</string> <!-- 8.0-10.9 m/s -->
-    <string name="wind_bft_6">Silny</string> <!-- 11.0-13.9 m/s -->
-    <string name="wind_bft_7">Bardzo silny</string> <!-- 14.0-19.9 m/s -->
+    <string name="wind_bft_4">Umiarkowany</string>
+    <!-- 5.0-7.9 m/s -->
+    <string name="wind_bft_5">Dość silny</string>
+    <!-- 8.0-10.9 m/s -->
+    <string name="wind_bft_6">Silny</string>
+    <!-- 11.0-13.9 m/s -->
+    <string name="wind_bft_7">Bardzo silny</string>
+    <!-- 14.0-19.9 m/s -->
     <string name="wind_bft_8">Bardzo silny</string>
-    <string name="wind_bft_9">Wichura</string> <!-- 20.0-31.9 m/s -->
+    <string name="wind_bft_9">Wichura</string>
+    <!-- 20.0-31.9 m/s -->
     <string name="wind_bft_10">Wichura</string>
     <string name="wind_bft_11">Wichura</string>
-    <string name="wind_bft_12">Huragan</string> <!-- >=32.0 m/s -->
+    <string name="wind_bft_12">Huragan</string>
+    <!-- >=32.0 m/s -->
     <string name="wind_value_gusts_at">W porywach: %s</string>
     <string name="wind_unit_mps">m/s</string>
     <string name="wind_value_mps">%s\u202Fm/s</string>
@@ -197,7 +196,6 @@
     <string name="wind_value_kn">%s\u202Fkn</string>
     <string name="wind_unit_mph">mi/h</string>
     <string name="wind_value_mph">%s\u202Fmi/h</string>
-
     <!--
       WMO Weather interpretation codes are based on:
        - Open-Meteo codes: <https://open-meteo.com/en/docs#weather_variable_documentation>
@@ -233,4 +231,17 @@
     <string name="wmo_95">Burza</string>
     <string name="wmo_96">Burza z\u202Fgradem</string>
     <string name="wmo_99">Silna burza z\u202Fgradem</string>
+    <string name="unexpected_error_screen_title">Nieoczekiwany błąd</string>
+    <string name="unexpected_error_screen_description">Wystąpił nieoczekiwany błąd. Aby kontynuować, przejdź do ekranu głównego i spróbuj ponownie. Jeśli chcesz pomóc, zgłoś problem w serwisie GitHub i wklej poniższy raport o błędzie.</string>
+    <string name="unexpected_error_screen_label_clip_entry">Raport o błędzie</string>
+    <string name="unexpected_error_screen_btn_copy_logs">Kopiuj wszystko</string>
+    <string name="unexpected_error_screen_btn_go_home">Ekran główny</string>
+    <string name="precip_label_light">Słabe</string>
+    <string name="precip_label_moderate">Umiarkowane</string>
+    <string name="precip_label_heavy">Intensywne</string>
+    <string name="vis_description_very_good">Bardzo dobra widoczność.</string>
+    <string name="searched_place_edit_tz_title">Ustawianie strefy czasowej</string>
+    <string name="searched_place_edit_tz_description_value">Strefa czasowa lokalizacji %1$s to „%2$s”, co nie zostało rozpoznane przez Twoje urządzenie. Aby korzystać z tej lokalizacji, ustaw jej strefę czasową ręcznie.</string>
+    <string name="searched_place_edit_tz_hint">Wyszukaj strefę czasową…</string>
+    <string name="searched_place_edit_tz_no_search_results_value">Brak pasujących stref czasowych dla \"%1$s\"</string>
 </resources>
