@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Copyright 2024 David Takač
   ~
@@ -8,9 +9,7 @@
   ~ Bura is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
   ~
   ~ You should have received a copy of the GNU General Public License along with Bura. If not, see <https://www.gnu.org/licenses/>.
-  -->
-
-<resources>
+  --><resources>
     <string name="app_name">Bura</string>
     <string name="general_error_failed_to_download">Αποτυχία λήψης πρόβλεψης. Συνδεθείτε στο Διαδίκτυο και δοκιμάστε ξανά.</string>
     <string name="general_error_outdated">Τα δεδομένα πρόβλεψής σας έχουν λήξει. Συνδεθείτε στο Διαδίκτυο και δοκιμάστε ξανά.</string>
@@ -19,10 +18,8 @@
     <string name="general_btn_select_place">Επέλεξε περιοχή</string>
     <string name="general_btn_dialog_confirm">Εντάξει</string>
     <string name="general_btn_dialog_cancel">Ακύρωση</string>
-
     <string name="credit_weather">Δεδομένα καιρού από το Open-Meteo.com</string>
     <string name="credit_geocoding">Δεδομένα γεωκωδικοποίησης απο το Open-Meteo.com</string>
-
     <string name="place_picker_hint_search">Αναζήτησε περιοχές…</string>
     <string name="place_picker_title_saved_places">Αποθηκευμένες περιοχές</string>
     <string name="place_picker_title_search_results">Αποτελέσματα αναζήτησης</string>
@@ -31,7 +28,6 @@
     <string name="place_picker_error_no_saved_places">Δεν υπάρχουν αποθηκευμένες περιοχές.</string>
     <string name="delete_place_value">Διαγραφή %s;</string>
     <string name="delete_place_description">Αυτό θα διαγράψει επίσης τα αποθηκευμένα δεδομένα πρόβλεψης.</string>
-
     <string name="cond_screen_title">Συνθήκες</string>
     <string name="cond_screen_pop">Πιθανότητα βροχόπτωσης</string>
     <string name="cond_screen_precip">Σύνολα Βροχόπτωσης</string>
@@ -39,7 +35,6 @@
     <string name="cond_screen_temp_unit_fahrenheit">Φαρενάιτ (°F)</string>
     <string name="cond_screen_precip_value_in_last_hours">Τελευταίες %s ώρες</string>
     <string name="cond_screen_precip_value_in_next_hours">Επόμενες %s ώρες</string>
-
     <string name="settings_screen_title">Ρυθμίσεις</string>
     <string name="settings_screen_title_units">Μονάδες</string>
     <string name="settings_screen_title_temp_unit">Θερμοκρασία</string>
@@ -71,7 +66,6 @@
     <string name="settings_screen_label_dark">Σκούρο</string>
     <string name="settings_screen_label_light">Φωτεινό</string>
     <string name="settings_screen_label_follow_system">Προεπιλογή συστήματος</string>
-
     <string name="date_time_now">Τώρα</string>
     <string name="date_time_today">Σήμερα</string>
     <string name="date_time_pattern_hour">HH</string>
@@ -81,7 +75,6 @@
     <string name="date_time_pattern_dow">E</string>
     <string name="date_time_pattern_dow_hour_minute">E, HH:mm</string>
     <string name="date_time_pattern_dow_hour_minute_ampm">E, h:mm\u2009a</string>
-
     <string name="precip_mixed">Βροχόπτωση</string>
     <string name="precip_rain">Βροχή</string>
     <string name="precip_showers">Μπόρες</string>
@@ -102,9 +95,7 @@
     <string name="precip_value_cm">%s εκ</string>
     <string name="precip_unit_in">″</string>
     <string name="precip_value_in">%s″</string>
-
     <string name="pop_value_percent">%s%%</string>
-
     <string name="pressure">Πίεση</string>
     <string name="pressure_trend_falling">Πτώση</string>
     <string name="pressure_trend_steady">Σταθερή</string>
@@ -116,10 +107,8 @@
     <string name="pressure_value_inhg">%s inHg</string>
     <string name="pressure_unit_mmhg">mmhg</string>
     <string name="pressure_value_mmhg">%s mmHg</string>
-
     <string name="humidity">Υγρασία</string>
     <string name="humidity_value_percent">%s%%</string>
-
     <string name="sunrise">Ανατολή ηλίου</string>
     <string name="sunset">Ηλιοβασίλεμα</string>
     <!--
@@ -130,7 +119,6 @@
     -->
     <string name="sunrise_short">@string/sunrise</string>
     <string name="sunset_short">@string/sunset</string>
-
     <string name="sunrise_value">Ανατολή ηλίου: %s</string>
     <string name="sunset_value">Ηλιοβασίλεμα: %s</string>
     <string name="sunrise_not_today">Δεν θα ανατείλει ο ήλιος σήμερα.</string>
@@ -139,7 +127,6 @@
     <string name="sunrise_value_more_than_hours_away">&gt; %sh</string>
     <string name="sunset_value_more_than_days_away">&gt; %sd</string>
     <string name="sunset_value_more_than_hours_away">&gt; %sh</string>
-
     <string name="temp_value_degree">%s°</string>
     <string name="dew_point_value_right_now">Η θερμοκρασία δρόσου είναι %s αυτή τη στιγμή.</string>
     <string name="feels_like">Αισθητή</string>
@@ -150,7 +137,6 @@
     <string name="feels_like_warmer_than_actual">Η υγρασία την κάνει αισθητά πιο ζεστή.</string>
     <string name="feels_like_hotter_than_actual">Η υγρασία την κάνει αισθητά πιο καυτή.</string>
     <string name="feels_like_similar_to_actual">Σύμφωνο με την πραγματική θερμοκρασία.</string>
-
     <string name="uv_index">Δείκτης UV</string>
     <string name="uv_index_risk_low">Χαμηλό</string>
     <string name="uv_index_risk_moderate">Μέτριο</string>
@@ -162,7 +148,6 @@
     <string name="uv_index_protection_value_until">Χρησιμοποίησε αντηλιακή προστασία μέχρι %s.</string>
     <string name="uv_index_protection_value_until_end_of_day">Χρησιμοποίησε αντηλιακή προστασία για το υπόλοιπο της ημέρας.</string>
     <string name="uv_index_protection_value_none">Χαμηλό για το υπόλοιπο της ημέρας.</string>
-
     <string name="vis">Ορατότητα</string>
     <string name="vis_unit_m">μ</string>
     <string name="vis_value_m">%s μ</string>
@@ -177,7 +162,6 @@
     <string name="vis_description_moderate">Σχετικά καθαρή ορατότητα.</string>
     <string name="vis_description_poor">Μειωμένη ορατότητα.</string>
     <string name="vis_description_very_poor">Πολύ χαμηλή ορατότητα.</string>
-
     <string name="wind_label">Άνεμος</string>
     <string name="wind_bft_0">Ήρεμος</string>
     <string name="wind_bft_1">Ασθενής άνεμος</string>
@@ -201,7 +185,6 @@
     <string name="wind_value_kn">%s kn</string>
     <string name="wind_unit_mph">μιλ/ω</string>
     <string name="wind_value_mph">%s μιλ/ω</string>
-
     <string name="wmo_0">Αίθριος</string>
     <string name="wmo_1">Κυρίως αίθριος</string>
     <string name="wmo_2">Μερικώς νεφελώδης</string>
@@ -230,4 +213,5 @@
     <string name="wmo_95">Καταιγίδα</string>
     <string name="wmo_96">Καταιγίδα με ελαφριά χαλαζόπτωση</string>
     <string name="wmo_99">Καταιγίδα με έντονη χαλαζόπτωση</string>
+    <string name="unexpected_error_screen_btn_copy_logs">Αντιγραφή όλων</string>
 </resources>
