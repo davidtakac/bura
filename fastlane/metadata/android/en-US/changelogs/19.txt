@@ -1,0 +1,19 @@
+## Added
+- Weblate
+- Edge-to-edge UI (#112)
+- Unexpected error screen
+- Precipitation graph intensity labels
+- Greek (#103)
+
+## Fixed
+- UV index colors and levels (#108)
+- Long loading while offline (#111)
+- Pressure trend (#107)
+- Renamed time zones crashing older devices (#101)
+- DST switch (#104)
+
+## Improved
+- PoP now displayed in 5% increments
+- Feels like and visibility descriptions
+- Forecast downloading and caching (#106)
+- Multiple translations
