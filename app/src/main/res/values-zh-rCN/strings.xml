@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Copyright 2024 David Takač
   ~
@@ -8,9 +9,7 @@
   ~ Bura is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
   ~
   ~ You should have received a copy of the GNU General Public License along with Bura. If not, see <https://www.gnu.org/licenses/>.
-  -->
-
-<resources>
+  --><resources>
     <string name="app_name">Bura</string>
     <string name="general_error_failed_to_download">无法下载预报数据，请在联网后重试</string>
     <string name="general_error_outdated">预报数据已过期，请在联网后重试</string>
@@ -19,10 +18,8 @@
     <string name="general_btn_select_place">选择地点</string>
     <string name="general_btn_dialog_confirm">确认</string>
     <string name="general_btn_dialog_cancel">取消</string>
-
     <string name="credit_weather">天气数据由 Open-Meteo.com 提供</string>
     <string name="credit_geocoding">地理编码数据由 Open-Meteo.com 提供</string>
-
     <string name="place_picker_hint_search">搜索地点……</string>
     <string name="place_picker_title_saved_places">收藏地点</string>
     <string name="place_picker_title_search_results">搜索结果</string>
@@ -31,7 +28,6 @@
     <string name="place_picker_error_no_saved_places">收藏地点为空</string>
     <string name="delete_place_value">要删除 %s 吗？</string>
     <string name="delete_place_description">此地点的缓存预报数据也会被删除。</string>
-
     <string name="cond_screen_title">详情</string>
     <string name="cond_screen_pop">降水概率</string>
     <string name="cond_screen_precip">降水总量</string>
@@ -39,7 +35,6 @@
     <string name="cond_screen_temp_unit_fahrenheit">华氏度（°F）</string>
     <string name="cond_screen_precip_value_in_last_hours">过去 %s 小时</string>
     <string name="cond_screen_precip_value_in_next_hours">将来 %s 小时</string>
-
     <string name="settings_screen_title">设置</string>
     <string name="settings_screen_title_units">单位</string>
     <string name="settings_screen_title_temp_unit">温度</string>
@@ -71,7 +66,6 @@
     <string name="settings_screen_label_dark">暗色</string>
     <string name="settings_screen_label_light">亮色</string>
     <string name="settings_screen_label_follow_system">跟随系统</string>
-
     <string name="date_time_now">现在</string>
     <string name="date_time_today">今天</string>
     <string name="date_time_pattern_hour">H 点</string>
@@ -81,7 +75,6 @@
     <string name="date_time_pattern_dow">E</string>
     <string name="date_time_pattern_dow_hour_minute">E HH:mm</string>
     <string name="date_time_pattern_dow_hour_minute_ampm">E, h:mm\u2009a</string>
-
     <string name="precip_mixed">降水</string>
     <string name="precip_rain">降雨</string>
     <string name="precip_showers">阵雨</string>
@@ -102,9 +95,7 @@
     <string name="precip_value_cm">%s cm</string>
     <string name="precip_unit_in">″</string>
     <string name="precip_value_in">%s″</string>
-
     <string name="pop_value_percent">%s%%</string>
-
     <string name="pressure">气压</string>
     <string name="pressure_trend_falling">正降低</string>
     <string name="pressure_trend_steady">无变化</string>
@@ -116,10 +107,8 @@
     <string name="pressure_value_inhg">%s inHg</string>
     <string name="pressure_unit_mmhg">mmHg</string>
     <string name="pressure_value_mmhg">%s mmHg</string>
-
     <string name="humidity">湿度</string>
     <string name="humidity_value_percent">%s%%</string>
-
     <string name="sunrise">日出</string>
     <string name="sunset">日落</string>
     <string name="sunrise_short">@string/sunrise</string>
@@ -127,12 +116,11 @@
     <string name="sunrise_value">日出：%s</string>
     <string name="sunset_value">日落：%s</string>
     <string name="sunrise_not_today">今天没有日出</string>
-    <string name="sunset_not_today">今天不会日落</string>
+    <string name="sunset_not_today">今天没有日落</string>
     <string name="sunrise_value_more_than_days_away">&gt; %s 天</string>
     <string name="sunrise_value_more_than_hours_away">&gt; %s 小时</string>
     <string name="sunset_value_more_than_days_away">&gt; %s 天</string>
     <string name="sunset_value_more_than_hours_away">&gt; %s 小时</string>
-
     <string name="temp_value_degree">%s°</string>
     <string name="dew_point_value_right_now">目前露点温度 %s</string>
     <string name="feels_like">体感</string>
@@ -143,7 +131,6 @@
     <string name="feels_like_warmer_than_actual">湿度使体感更暖</string>
     <string name="feels_like_hotter_than_actual">湿度使体感更热</string>
     <string name="feels_like_similar_to_actual">体感温度和实际相差不大</string>
-
     <string name="uv_index">紫外线指数</string>
     <string name="uv_index_risk_low">低</string>
     <string name="uv_index_risk_moderate">中</string>
@@ -155,7 +142,6 @@
     <string name="uv_index_protection_value_until">直到 %s 前都应注意防晒</string>
     <string name="uv_index_protection_value_until_end_of_day">全天注意防晒</string>
     <string name="uv_index_protection_value_none">无需特别防晒</string>
-
     <string name="vis">能见度</string>
     <string name="vis_unit_m">m</string>
     <string name="vis_value_m">%s m</string>
@@ -166,11 +152,10 @@
     <string name="vis_unit_mi">英里</string>
     <string name="vis_value_mi">%s 英里</string>
     <string name="vis_description_excellent">能见度极佳</string>
-    <string name="vis_description_good">能见度好</string>
+    <string name="vis_description_good">能见度较好</string>
     <string name="vis_description_moderate">能见度一般</string>
-    <string name="vis_description_poor">能见度差</string>
+    <string name="vis_description_poor">能见度较差</string>
     <string name="vis_description_very_poor">能见度极差</string>
-
     <string name="wind_label">风力</string>
     <string name="wind_bft_0">无风</string>
     <string name="wind_bft_1">软风</string>
@@ -194,7 +179,6 @@
     <string name="wind_value_kn">%s 节</string>
     <string name="wind_unit_mph">mi/h</string>
     <string name="wind_value_mph">%s mi/h</string>
-
     <string name="wmo_0">晴朗</string>
     <string name="wmo_1">大部晴朗</string>
     <string name="wmo_2">局部多云</string>
@@ -223,4 +207,17 @@
     <string name="wmo_95">雷暴雨</string>
     <string name="wmo_96">雷暴雨夹冰雹</string>
     <string name="wmo_99">雷暴雨夹大冰雹</string>
+    <string name="unexpected_error_screen_title">意外错误</string>
+    <string name="unexpected_error_screen_description">发生意外错误。请返回桌面并重试。如需提供帮助，请在 GitHub 上提交Issue并粘贴以下错误报告。</string>
+    <string name="unexpected_error_screen_label_clip_entry">错误报告</string>
+    <string name="unexpected_error_screen_btn_copy_logs">全部复制</string>
+    <string name="unexpected_error_screen_btn_go_home">桌面</string>
+    <string name="vis_description_very_good">能见度极好</string>
+    <string name="searched_place_edit_tz_title">设置时区</string>
+    <string name="searched_place_edit_tz_hint">搜索时区……</string>
+    <string name="precip_label_light">小</string>
+    <string name="precip_label_heavy">大</string>
+    <string name="precip_label_moderate">中</string>
+    <string name="searched_place_edit_tz_description_value">%1$s的时区是“%2$s”,但您的设备无法识别该时区。若要使用此地点，请手动设置其时区。</string>
+    <string name="searched_place_edit_tz_no_search_results_value">没有相应的“%1$s”时区</string>
 </resources>
