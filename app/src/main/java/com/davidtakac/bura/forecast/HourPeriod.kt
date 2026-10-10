@@ -33,19 +33,19 @@ abstract class HourPeriod<T : Moment>(private val moments: List<T>) : AbstractLi
 
     fun momentsUntil(hourExclusive: Instant, takeLast: Int? = null): List<T>? {
         require(takeLast == null || takeLast > 0) { "Take moments must either be null or positive." }
-        val instantAtHourBefore = hourExclusive.truncatedTo(ChronoUnit.HOURS).minus(1, ChronoUnit.HOURS)
-        val indexOfHour = moments.indexOfFirst { it.timeInstant == instantAtHourBefore }
-        return if (indexOfHour < 0) null else moments
-            .slice(0..indexOfHour)
+        val requestedInstantAtHourBefore = hourExclusive.truncatedTo(ChronoUnit.HOURS).minus(1, ChronoUnit.HOURS)
+        val idxOfRequestedInstant = moments.indexOfFirst { it.timeInstant.truncatedTo(ChronoUnit.HOURS) == requestedInstantAtHourBefore }
+        return if (idxOfRequestedInstant < 0) null else moments
+            .slice(0..idxOfRequestedInstant)
             .let { if (takeLast != null) it.takeLast(takeLast) else it }
     }
 
     fun momentsFrom(hourInclusive: Instant, take: Int? = null): List<T>? {
         require(take == null || take > 0) { "Take moments must either be null or positive." }
-        val instantAtHour = hourInclusive.truncatedTo(ChronoUnit.HOURS)
-        val indexOfHour = moments.indexOfFirst { it.timeInstant == instantAtHour }
-        return if (indexOfHour < 0) null else moments
-            .subList(indexOfHour, moments.size)
+        val requestedInstantAtHour = hourInclusive.truncatedTo(ChronoUnit.HOURS)
+        val idxOfRequestedInstant = moments.indexOfFirst { it.timeInstant.truncatedTo(ChronoUnit.HOURS) == requestedInstantAtHour }
+        return if (idxOfRequestedInstant < 0) null else moments
+            .subList(idxOfRequestedInstant, moments.size)
             .let { if (take != null) it.take(take) else it }
     }
 
