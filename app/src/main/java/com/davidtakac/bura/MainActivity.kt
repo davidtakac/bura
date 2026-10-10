@@ -14,12 +14,17 @@ package com.davidtakac.bura
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.ComposeView
 import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.insets.ColorProtection
+import androidx.core.view.insets.ProtectionLayout
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.davidtakac.bura.theme.AppTheme
 import com.davidtakac.bura.theme.Theme
@@ -28,20 +33,28 @@ import com.davidtakac.bura.theme.ThemeViewModel
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
+        WindowCompat.enableEdgeToEdge(window)
+        setContentView(R.layout.activity_main)
+
+        findViewById<ComposeView>(R.id.cv_main).setContent {
             val themeViewModel = viewModel<ThemeViewModel>(factory = ThemeViewModel.Factory)
             val theme = themeViewModel.state.collectAsState().value
-            val useDarkTheme = when (theme) {
+            val isDarkTheme = when (theme) {
                 Theme.Dark -> true
                 Theme.Light -> false
                 Theme.FollowSystem -> isSystemInDarkTheme()
             }
 
-            LaunchedEffect(useDarkTheme) {
-                setSystemBarIconColors(useDarkTheme)
-            }
-            AppTheme(useDarkTheme) {
+            AppTheme(isDarkTheme) {
+                LaunchedEffect(isDarkTheme) {
+                    setSystemBarIconColors(isDarkTheme)
+                }
+
+                val backgroundColor = MaterialTheme.colorScheme.background
+                LaunchedEffect(backgroundColor, isDarkTheme) {
+                    setNavigationBarBackground(backgroundColor, isDarkTheme)
+                }
+
                 AppNavHost(
                     theme = theme,
                     onThemeClick = themeViewModel::setTheme
@@ -50,9 +63,26 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    private fun setSystemBarIconColors(darkTheme: Boolean) {
+    private fun setSystemBarIconColors(isDarkTheme: Boolean) {
         val insetsController = WindowCompat.getInsetsController(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = !darkTheme
-        insetsController.isAppearanceLightNavigationBars = !darkTheme
+        insetsController.isAppearanceLightStatusBars = !isDarkTheme
+        insetsController.isAppearanceLightNavigationBars = !isDarkTheme
+    }
+
+    private fun setNavigationBarBackground(backgroundColor: Color, isDarkTheme: Boolean) {
+        findViewById<ProtectionLayout>(R.id.pl_main).setProtections(
+            listOf(
+                ColorProtection(
+                    WindowInsetsCompat.Side.BOTTOM,
+                    backgroundColor.copy(
+                        alpha = if (isDarkTheme) {
+                            0.5f
+                        } else {
+                            0.8f
+                        }
+                    ).toArgb()
+                )
+            )
+        )
     }
 }
