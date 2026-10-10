@@ -12,6 +12,7 @@
 
 package com.davidtakac.bura.common.util
 
+import android.util.Log
 import com.davidtakac.bura.unexpectederror.UnexpectedErrorSetter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
@@ -32,6 +33,7 @@ fun CoroutineScope.launchCatching(
         try {
             block()
         } catch (e: Exception) {
+            Log.e(null, null, e)
             unexpectedErrorSetter.set(e)
         }
     }
