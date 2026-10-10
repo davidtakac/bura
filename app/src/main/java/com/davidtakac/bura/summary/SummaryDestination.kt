@@ -12,6 +12,10 @@
 
 package com.davidtakac.bura.summary
 
+import android.Manifest
+import android.os.Build
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -57,6 +61,14 @@ fun SummaryDestination(
         }
     }
 
+    val locationPermissionLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { grants ->
+        if (grants[Manifest.permission.ACCESS_COARSE_LOCATION] == true) {
+            placePickerVM.selectCurrentLocation()
+        }
+    }
+
     val appLocale = rememberAppLocale()
 
     SummaryScreen(
@@ -67,12 +79,14 @@ fun SummaryDestination(
         onPrecipitationClick = onPrecipitationClick,
 
         pickerState = pickerState,
+        locating = summaryVM.locating.collectAsState().value,
         searchQuery = pickerState.query,
         onSearchQueryChange = placePickerVM::setQuery,
         searchActive = pickerState.active,
         onSearchActiveChange = placePickerVM::setActive,
         onSearchQueryClearClick = { placePickerVM.setQuery("") },
         onSearch = { placePickerVM.searchPlaces(languageCode = appLocale.language) },
+        onCurrentLocationClick = { locationPermissionLauncher.launch(locationPermissions) },
         onPlaceClick = placePickerVM::selectPlace,
         onSearchedPlaceClick = placePickerVM::selectSearchedPlace,
         onPlaceDeleteClick = placePickerVM::deletePlace,
@@ -80,4 +94,11 @@ fun SummaryDestination(
         onTryAgainClick = summaryVM::getSummary,
         onSelectPlaceClick = { placePickerVM.setActive(true) }
     )
+}
+
+// Fine location is only declared up to Android 11, see AndroidManifest.xml
+private val locationPermissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+    arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION)
+} else {
+    arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
 }

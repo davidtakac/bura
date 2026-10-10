@@ -45,13 +45,28 @@ class PlacePickerViewModel(
 
     init {
         viewModelScope.launchCatching(unexpectedErrorSetter) {
-            _state.value = _state.value.copy(query = getSelectedPlaceNameOrBlank())
+            _state.value = _state.value.copy(
+                query = getSelectedPlaceNameOrBlank(),
+                currentLocationSelected = selectedPlaceRepo.isCurrentLocationSelected(),
+            )
         }
     }
 
     fun selectPlace(place: Place) {
         viewModelScope.launchCatching(unexpectedErrorSetter) {
             _selectPlace(place)
+        }
+    }
+
+    fun selectCurrentLocation() {
+        viewModelScope.launchCatching(unexpectedErrorSetter) {
+            selectedPlaceRepo.selectCurrentLocation()
+            _state.value = _state.value.copy(
+                query = "",
+                active = false,
+                currentLocationSelected = true,
+                results = null,
+            )
         }
     }
 
@@ -114,6 +129,7 @@ class PlacePickerViewModel(
         _state.value = _state.value.copy(
             query = place.name,
             active = false,
+            currentLocationSelected = false,
             searchedPlaceToEdit = null,
             results = null,
         )
@@ -165,6 +181,7 @@ data class PlacePickerState(
     val loading: Boolean = false,
     val query: String = "",
     val active: Boolean = false,
+    val currentLocationSelected: Boolean = false,
     val searchedPlaceToEdit: SearchedPlace? = null,
     val results: PlacePickerResults? = null
 )
