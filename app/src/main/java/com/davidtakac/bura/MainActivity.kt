@@ -52,7 +52,7 @@ class MainActivity : ComponentActivity() {
 
                 val backgroundColor = MaterialTheme.colorScheme.background
                 LaunchedEffect(backgroundColor, isDarkTheme) {
-                    setNavigationBarBackground(backgroundColor, isDarkTheme)
+                    setNavigationBarBackground(backgroundColor)
                 }
 
                 AppNavHost(
@@ -69,18 +69,12 @@ class MainActivity : ComponentActivity() {
         insetsController.isAppearanceLightNavigationBars = !isDarkTheme
     }
 
-    private fun setNavigationBarBackground(backgroundColor: Color, isDarkTheme: Boolean) {
+    private fun setNavigationBarBackground(backgroundColor: Color) {
         findViewById<ProtectionLayout>(R.id.pl_main).setProtections(
             listOf(
                 ColorProtection(
                     WindowInsetsCompat.Side.BOTTOM,
-                    backgroundColor.copy(
-                        alpha = if (isDarkTheme) {
-                            0.5f
-                        } else {
-                            0.8f
-                        }
-                    ).toArgb()
+                    backgroundColor.copy(alpha = 0.8f).toArgb()
                 )
             )
         )
