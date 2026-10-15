@@ -17,7 +17,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -38,7 +38,7 @@ fun SearchedPlaces(
     loading: Boolean,
     onPlaceClick: (SearchedPlace) -> Unit
 ) {
-    PlacesScaffold(loading) {
+    PlacesScaffold(loading) { contentPadding ->
         Column(Modifier.fillMaxSize()) {
             Text(
                 text = stringResource(id = R.string.place_picker_title_search_results),
@@ -68,8 +68,8 @@ fun SearchedPlaces(
                 }
 
                 else -> {
-                    LazyColumn(modifier = Modifier.fillMaxSize()) {
-                        itemsIndexed(places) { idx, item ->
+                    LazyColumn(modifier = Modifier.fillMaxSize(), contentPadding = contentPadding) {
+                        items(places) { item ->
                             SearchedPlaceItem(
                                 state = item,
                                 onClick = { onPlaceClick(item) },

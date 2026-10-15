@@ -48,7 +48,7 @@ fun SavedPlaces(
     onPlaceClick: (Place) -> Unit,
     onPlaceDeleteClick: (Place) -> Unit
 ) {
-    PlacesScaffold(loading) {
+    PlacesScaffold(loading) { contentPadding ->
         var deleteCandidate: Place? by remember { mutableStateOf(null) }
         deleteCandidate?.let {
             DeletePlaceDialog(
@@ -78,7 +78,7 @@ fun SavedPlaces(
                     modifier = Modifier.padding(start = horizontalPadding, top = 8.dp)
                 )
 
-                else -> LazyColumn(modifier = Modifier.fillMaxSize()) {
+                else -> LazyColumn(modifier = Modifier.fillMaxSize(), contentPadding = contentPadding) {
                     itemsIndexed(places) { idx, item ->
                         SavedPlaceItem(
                             state = item,
