@@ -16,13 +16,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.davidtakac.bura.common.compose.rememberAppLocale
 import com.davidtakac.bura.places.picker.PlacePickerViewModel
+import com.davidtakac.bura.theme.NavBarProtectionColor
 import java.time.LocalDate
 
 @Composable
@@ -32,7 +32,7 @@ fun SummaryDestination(
     onSettingsButtonClick: () -> Unit,
     onPrecipitationClick: () -> Unit,
     onSearchedPlaceEditRequest: () -> Unit,
-    onBackgroundColorChange: (Color) -> Unit,
+    onBackgroundColorChange: (NavBarProtectionColor) -> Unit,
 ) {
     val placePickerVM = viewModel<PlacePickerViewModel>(factory = PlacePickerViewModel.Factory)
     val summaryVM = viewModel<SummaryViewModel>(factory = SummaryViewModel.Factory)

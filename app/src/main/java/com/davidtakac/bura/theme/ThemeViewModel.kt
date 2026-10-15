@@ -28,7 +28,7 @@ class ThemeViewModel(private val prefs: SharedPreferences) : ViewModel() {
     private val _state = MutableStateFlow(
         ThemeState(
             theme = prefs.getString(DARK_MODE_KEY, null)?.let(Theme::valueOf) ?: Theme.FollowSystem,
-            navBarProtectionColor = Color.Transparent,
+            navBarProtectionColor = NavBarProtectionColor.Default,
         )
     )
     val state = _state.asStateFlow()
@@ -38,7 +38,7 @@ class ThemeViewModel(private val prefs: SharedPreferences) : ViewModel() {
         _state.value = _state.value.copy(theme = value)
     }
 
-    fun setNavBarProtectionColor(value: Color) {
+    fun setNavBarProtectionColor(value: NavBarProtectionColor) {
         _state.value = _state.value.copy(navBarProtectionColor = value)
     }
 
@@ -55,9 +55,14 @@ class ThemeViewModel(private val prefs: SharedPreferences) : ViewModel() {
 
 data class ThemeState(
     val theme: Theme,
-    val navBarProtectionColor: Color,
+    val navBarProtectionColor: NavBarProtectionColor,
 )
 
 enum class Theme {
     Dark, Light, FollowSystem
+}
+
+sealed interface NavBarProtectionColor {
+    data class Custom(val value: Color) : NavBarProtectionColor
+    data object Default : NavBarProtectionColor
 }

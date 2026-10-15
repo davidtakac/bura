@@ -31,7 +31,6 @@ import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -58,6 +57,7 @@ import com.davidtakac.bura.summary.sun.compose.SunSummary
 import com.davidtakac.bura.summary.uvindex.compose.UvIndexSummary
 import com.davidtakac.bura.summary.visibility.compose.VisibilitySummary
 import com.davidtakac.bura.summary.wind.compose.WindSummary
+import com.davidtakac.bura.theme.NavBarProtectionColor
 import java.time.LocalDate
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -82,12 +82,11 @@ fun SummaryScreen(
 
     onTryAgainClick: () -> Unit,
     onSelectPlaceClick: () -> Unit,
-    onBackgroundColorChange: (Color) -> Unit,
+    onBackgroundColorChange: (NavBarProtectionColor) -> Unit,
 ) {
     Scaffold(
         topBar = {
             val searchBarColors = SearchBarDefaults.colors()
-            val defaultColors = MaterialTheme.colorScheme
             PlacePickerSearchBar(
                 state = pickerState,
                 searchBarColors = searchBarColors,
@@ -102,8 +101,8 @@ fun SummaryScreen(
                 onActiveChange = {
                     onSearchActiveChange(it)
                     onBackgroundColorChange(
-                        if (it) searchBarColors.containerColor
-                        else defaultColors.background
+                        if (it) NavBarProtectionColor.Custom(searchBarColors.containerColor)
+                        else NavBarProtectionColor.Default
                     )
                 },
                 onSettingsClick = onSettingsButtonClick,

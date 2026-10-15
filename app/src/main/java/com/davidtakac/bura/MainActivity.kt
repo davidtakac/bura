@@ -15,6 +15,7 @@ package com.davidtakac.bura
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -27,6 +28,7 @@ import androidx.core.view.insets.ColorProtection
 import androidx.core.view.insets.ProtectionLayout
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.davidtakac.bura.theme.AppTheme
+import com.davidtakac.bura.theme.NavBarProtectionColor
 import com.davidtakac.bura.theme.Theme
 import com.davidtakac.bura.theme.ThemeViewModel
 
@@ -45,12 +47,12 @@ class MainActivity : ComponentActivity() {
                 setSystemBarIconColors(isDarkTheme)
             }
 
-            val navBarProtectionColor = themeState.navBarProtectionColor
-            LaunchedEffect(navBarProtectionColor) {
-                setNavBarProtectionColor(navBarProtectionColor)
-            }
-
             AppTheme(isDarkTheme) {
+                val navBarProtectionColor = themeState.navBarProtectionColor.value
+                LaunchedEffect(navBarProtectionColor) {
+                    setNavBarProtectionColor(navBarProtectionColor)
+                }
+
                 AppNavHost(
                     theme = themeState.theme,
                     onThemeClick = themeViewModel::setTheme,
@@ -83,4 +85,10 @@ private val Theme.isDarkTheme
         Theme.Dark -> true
         Theme.Light -> false
         Theme.FollowSystem -> isSystemInDarkTheme()
+    }
+
+private val NavBarProtectionColor.value
+    @Composable get() = when (this) {
+        is NavBarProtectionColor.Custom -> value
+        NavBarProtectionColor.Default -> MaterialTheme.colorScheme.background
     }
