@@ -1,0 +1,6 @@
+## Fixed
+- Unexpected error when selecting place with non-whole UTC offsets (#121)
+- Edge-to-edge UI and scrims (#117)
+
+## Improved
+- Russian, Chinese (Traditional & Simplified), Polish, Greek
