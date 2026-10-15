@@ -22,6 +22,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.davidtakac.bura.common.compose.rememberAppLocale
 import com.davidtakac.bura.places.picker.PlacePickerViewModel
+import com.davidtakac.bura.theme.NavBarProtectionColor
 import java.time.LocalDate
 
 @Composable
@@ -31,6 +32,7 @@ fun SummaryDestination(
     onSettingsButtonClick: () -> Unit,
     onPrecipitationClick: () -> Unit,
     onSearchedPlaceEditRequest: () -> Unit,
+    onBackgroundColorChange: (NavBarProtectionColor) -> Unit,
 ) {
     val placePickerVM = viewModel<PlacePickerViewModel>(factory = PlacePickerViewModel.Factory)
     val summaryVM = viewModel<SummaryViewModel>(factory = SummaryViewModel.Factory)
@@ -58,7 +60,6 @@ fun SummaryDestination(
     }
 
     val appLocale = rememberAppLocale()
-
     SummaryScreen(
         summaryState = summaryVM.state.collectAsState().value,
         onHourlySectionClick = onHourlySectionClick,
@@ -78,6 +79,7 @@ fun SummaryDestination(
         onPlaceDeleteClick = placePickerVM::deletePlace,
 
         onTryAgainClick = summaryVM::getSummary,
-        onSelectPlaceClick = { placePickerVM.setActive(true) }
+        onSelectPlaceClick = { placePickerVM.setActive(true) },
+        onBackgroundColorChange = onBackgroundColorChange,
     )
 }

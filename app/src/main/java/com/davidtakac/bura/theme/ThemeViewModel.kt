@@ -13,6 +13,7 @@
 package com.davidtakac.bura.theme
 
 import android.content.SharedPreferences
+import androidx.compose.ui.graphics.Color
 import androidx.core.content.edit
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -25,13 +26,20 @@ private const val DARK_MODE_KEY = "dark_mode"
 
 class ThemeViewModel(private val prefs: SharedPreferences) : ViewModel() {
     private val _state = MutableStateFlow(
-        prefs.getString(DARK_MODE_KEY, null)?.let(Theme::valueOf) ?: Theme.FollowSystem
+        ThemeState(
+            theme = prefs.getString(DARK_MODE_KEY, null)?.let(Theme::valueOf) ?: Theme.FollowSystem,
+            navBarProtectionColor = NavBarProtectionColor.Default,
+        )
     )
     val state = _state.asStateFlow()
 
     fun setTheme(value: Theme) {
         prefs.edit { putString(DARK_MODE_KEY, value.name) }
-        _state.value = value
+        _state.value = _state.value.copy(theme = value)
+    }
+
+    fun setNavBarProtectionColor(value: NavBarProtectionColor) {
+        _state.value = _state.value.copy(navBarProtectionColor = value)
     }
 
     companion object {
@@ -45,6 +53,16 @@ class ThemeViewModel(private val prefs: SharedPreferences) : ViewModel() {
     }
 }
 
+data class ThemeState(
+    val theme: Theme,
+    val navBarProtectionColor: NavBarProtectionColor,
+)
+
 enum class Theme {
     Dark, Light, FollowSystem
+}
+
+sealed interface NavBarProtectionColor {
+    data class Custom(val value: Color) : NavBarProtectionColor
+    data object Default : NavBarProtectionColor
 }

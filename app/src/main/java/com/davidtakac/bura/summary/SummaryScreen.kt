@@ -24,8 +24,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -55,8 +57,10 @@ import com.davidtakac.bura.summary.sun.compose.SunSummary
 import com.davidtakac.bura.summary.uvindex.compose.UvIndexSummary
 import com.davidtakac.bura.summary.visibility.compose.VisibilitySummary
 import com.davidtakac.bura.summary.wind.compose.WindSummary
+import com.davidtakac.bura.theme.NavBarProtectionColor
 import java.time.LocalDate
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SummaryScreen(
     summaryState: SummaryState,
@@ -78,11 +82,14 @@ fun SummaryScreen(
 
     onTryAgainClick: () -> Unit,
     onSelectPlaceClick: () -> Unit,
+    onBackgroundColorChange: (NavBarProtectionColor) -> Unit,
 ) {
     Scaffold(
         topBar = {
+            val searchBarColors = SearchBarDefaults.colors()
             PlacePickerSearchBar(
                 state = pickerState,
+                searchBarColors = searchBarColors,
                 query = searchQuery,
                 onQueryChange = onSearchQueryChange,
                 onQueryClearClick = onSearchQueryClearClick,
@@ -91,7 +98,13 @@ fun SummaryScreen(
                 onSearchedPlaceClick = onSearchedPlaceClick,
                 onPlaceDeleteClick = onPlaceDeleteClick,
                 active = searchActive,
-                onActiveChange = onSearchActiveChange,
+                onActiveChange = {
+                    onSearchActiveChange(it)
+                    onBackgroundColorChange(
+                        if (it) NavBarProtectionColor.Custom(searchBarColors.containerColor)
+                        else NavBarProtectionColor.Default
+                    )
+                },
                 onSettingsClick = onSettingsButtonClick,
             )
         }

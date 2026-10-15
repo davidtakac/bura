@@ -13,10 +13,12 @@
 package com.davidtakac.bura
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -27,6 +29,7 @@ import com.davidtakac.bura.places.picker.PlacePickerViewModel
 import com.davidtakac.bura.places.search.compose.SearchedPlaceEditDestination
 import com.davidtakac.bura.settings.SettingsDestination
 import com.davidtakac.bura.summary.SummaryDestination
+import com.davidtakac.bura.theme.NavBarProtectionColor
 import com.davidtakac.bura.theme.Theme
 import com.davidtakac.bura.unexpectederror.UnexpectedErrorScreen
 import com.davidtakac.bura.unexpectederror.UnexpectedErrorUiState
@@ -34,7 +37,11 @@ import com.davidtakac.bura.unexpectederror.UnexpectedErrorViewModel
 import java.time.LocalDate
 
 @Composable
-fun AppNavHost(theme: Theme, onThemeClick: (Theme) -> Unit) {
+fun AppNavHost(
+    theme: Theme,
+    onThemeClick: (Theme) -> Unit,
+    onBackgroundColorChange: (NavBarProtectionColor) -> Unit,
+) {
     val controller = rememberNavController()
     val unexpectedErrorVM = viewModel<UnexpectedErrorViewModel>(factory = UnexpectedErrorViewModel.Factory)
     val unexpectedErrorState = unexpectedErrorVM.state.collectAsStateWithLifecycle().value
@@ -46,6 +53,14 @@ fun AppNavHost(theme: Theme, onThemeClick: (Theme) -> Unit) {
                 }
             }
         }
+    }
+
+    DisposableEffect(controller) {
+        val listener = NavController.OnDestinationChangedListener { _, _, _ ->
+            onBackgroundColorChange(NavBarProtectionColor.Default)
+        }
+        controller.addOnDestinationChangedListener(listener)
+        onDispose { controller.removeOnDestinationChangedListener(listener) }
     }
 
     NavHost(navController = controller, startDestination = "summary") {
@@ -66,6 +81,7 @@ fun AppNavHost(theme: Theme, onThemeClick: (Theme) -> Unit) {
                 onSearchedPlaceEditRequest = {
                     controller.navigate("searched-place-edit")
                 },
+                onBackgroundColorChange = onBackgroundColorChange,
             )
         }
         composable("searched-place-edit") { backStackEntry ->

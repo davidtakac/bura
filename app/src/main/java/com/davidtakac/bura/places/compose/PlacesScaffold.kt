@@ -13,9 +13,12 @@
 package com.davidtakac.bura.places.compose
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -25,17 +28,17 @@ import com.davidtakac.bura.common.compose.ContentLoadingIndicator
 @Composable
 fun PlacesScaffold(
     loading: Boolean,
-    content: @Composable () -> Unit
+    content: @Composable (PaddingValues) -> Unit
 ) {
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .safeDrawingPadding(),
+        modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.TopCenter
     ) {
         ContentLoadingIndicator(loading) { isVisible ->
             if (isVisible) LinearProgressIndicator(Modifier.fillMaxWidth())
         }
-        content()
+        // We only apply navigation bar paddings because the others are handled
+        // by the Summary screen up in the hierarchy
+        content(WindowInsets.navigationBars.asPaddingValues())
     }
 }
