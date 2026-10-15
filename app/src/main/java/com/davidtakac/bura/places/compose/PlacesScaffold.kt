@@ -15,7 +15,6 @@ package com.davidtakac.bura.places.compose
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -28,9 +27,7 @@ fun PlacesScaffold(
     content: @Composable () -> Unit
 ) {
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .safeDrawingPadding(),
+        modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.TopCenter
     ) {
         ContentLoadingIndicator(loading) { isVisible ->
