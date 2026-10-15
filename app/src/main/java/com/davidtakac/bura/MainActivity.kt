@@ -15,7 +15,7 @@ package com.davidtakac.bura
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.graphics.Color
@@ -38,26 +38,23 @@ class MainActivity : ComponentActivity() {
 
         findViewById<ComposeView>(R.id.cv_main).setContent {
             val themeViewModel = viewModel<ThemeViewModel>(factory = ThemeViewModel.Factory)
-            val theme = themeViewModel.state.collectAsState().value
-            val isDarkTheme = when (theme) {
-                Theme.Dark -> true
-                Theme.Light -> false
-                Theme.FollowSystem -> isSystemInDarkTheme()
+            val themeState = themeViewModel.state.collectAsState().value
+
+            val isDarkTheme = themeState.theme.isDarkTheme
+            LaunchedEffect(isDarkTheme) {
+                setSystemBarIconColors(isDarkTheme)
+            }
+
+            val navBarProtectionColor = themeState.navBarProtectionColor
+            LaunchedEffect(navBarProtectionColor) {
+                setNavBarProtectionColor(navBarProtectionColor)
             }
 
             AppTheme(isDarkTheme) {
-                LaunchedEffect(isDarkTheme) {
-                    setSystemBarIconColors(isDarkTheme)
-                }
-
-                val backgroundColor = MaterialTheme.colorScheme.background
-                LaunchedEffect(backgroundColor, isDarkTheme) {
-                    setNavigationBarBackground(backgroundColor)
-                }
-
                 AppNavHost(
-                    theme = theme,
-                    onThemeClick = themeViewModel::setTheme
+                    theme = themeState.theme,
+                    onThemeClick = themeViewModel::setTheme,
+                    onBackgroundColorChange = themeViewModel::setNavBarProtectionColor,
                 )
             }
         }
@@ -69,7 +66,7 @@ class MainActivity : ComponentActivity() {
         insetsController.isAppearanceLightNavigationBars = !isDarkTheme
     }
 
-    private fun setNavigationBarBackground(backgroundColor: Color) {
+    private fun setNavBarProtectionColor(backgroundColor: Color) {
         findViewById<ProtectionLayout>(R.id.pl_main).setProtections(
             listOf(
                 ColorProtection(
@@ -80,3 +77,10 @@ class MainActivity : ComponentActivity() {
         )
     }
 }
+
+private val Theme.isDarkTheme
+    @Composable get() = when (this) {
+        Theme.Dark -> true
+        Theme.Light -> false
+        Theme.FollowSystem -> isSystemInDarkTheme()
+    }

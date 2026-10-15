@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -31,6 +32,7 @@ fun SummaryDestination(
     onSettingsButtonClick: () -> Unit,
     onPrecipitationClick: () -> Unit,
     onSearchedPlaceEditRequest: () -> Unit,
+    onBackgroundColorChange: (Color) -> Unit,
 ) {
     val placePickerVM = viewModel<PlacePickerViewModel>(factory = PlacePickerViewModel.Factory)
     val summaryVM = viewModel<SummaryViewModel>(factory = SummaryViewModel.Factory)
@@ -58,7 +60,6 @@ fun SummaryDestination(
     }
 
     val appLocale = rememberAppLocale()
-
     SummaryScreen(
         summaryState = summaryVM.state.collectAsState().value,
         onHourlySectionClick = onHourlySectionClick,
@@ -78,6 +79,7 @@ fun SummaryDestination(
         onPlaceDeleteClick = placePickerVM::deletePlace,
 
         onTryAgainClick = summaryVM::getSummary,
-        onSelectPlaceClick = { placePickerVM.setActive(true) }
+        onSelectPlaceClick = { placePickerVM.setActive(true) },
+        onBackgroundColorChange = onBackgroundColorChange,
     )
 }
