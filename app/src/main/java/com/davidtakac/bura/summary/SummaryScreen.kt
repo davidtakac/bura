@@ -30,6 +30,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
@@ -84,9 +85,15 @@ fun SummaryScreen(
     onSelectPlaceClick: () -> Unit,
     onBackgroundColorChange: (NavBarProtectionColor) -> Unit,
 ) {
+    val searchBarColors = SearchBarDefaults.colors()
+    LaunchedEffect(searchActive) {
+        onBackgroundColorChange(
+            if (searchActive) NavBarProtectionColor.Custom(searchBarColors.containerColor)
+            else NavBarProtectionColor.Default
+        )
+    }
     Scaffold(
         topBar = {
-            val searchBarColors = SearchBarDefaults.colors()
             PlacePickerSearchBar(
                 state = pickerState,
                 searchBarColors = searchBarColors,
@@ -98,13 +105,7 @@ fun SummaryScreen(
                 onSearchedPlaceClick = onSearchedPlaceClick,
                 onPlaceDeleteClick = onPlaceDeleteClick,
                 active = searchActive,
-                onActiveChange = {
-                    onSearchActiveChange(it)
-                    onBackgroundColorChange(
-                        if (it) NavBarProtectionColor.Custom(searchBarColors.containerColor)
-                        else NavBarProtectionColor.Default
-                    )
-                },
+                onActiveChange = onSearchActiveChange,
                 onSettingsClick = onSettingsButtonClick,
             )
         }
