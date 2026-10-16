@@ -1,0 +1,3 @@
+## Fixed
+- Unexpected error when selecting place and going back quickly (#121)
+- Three-button nav bar mismatched color after selecting a place (#117)
