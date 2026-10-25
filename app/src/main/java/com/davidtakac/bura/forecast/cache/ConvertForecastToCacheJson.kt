@@ -13,9 +13,9 @@
 package com.davidtakac.bura.forecast.cache
 
 import com.davidtakac.bura.common.util.mapToJSONArray
-import com.davidtakac.bura.forecast.parameters.condition.ConditionMoment
 import com.davidtakac.bura.forecast.Forecast
 import com.davidtakac.bura.forecast.Moment
+import com.davidtakac.bura.forecast.parameters.condition.ConditionMoment
 import com.davidtakac.bura.forecast.parameters.gust.GustMoment
 import com.davidtakac.bura.forecast.parameters.humidity.HumidityMoment
 import com.davidtakac.bura.forecast.parameters.pop.PopMoment
@@ -34,7 +34,7 @@ import org.json.JSONObject
 suspend fun convertForecastToCacheJson(forecast: Forecast): JSONObject =
     withContext(Dispatchers.Default) {
         JSONObject().apply {
-            put(CacheJsonSerialNames.TIMESTAMP, forecast.timestamp.epochSecond,)
+            put(CacheJsonSerialNames.FORECAST_TIMESTAMP, forecast.timestamp.epochSecond)
             put(CacheJsonSerialNames.TEMPERATURE_PERIOD, forecast.temperature.mapToJSONArray(::temperatureMomentToJson))
             put(CacheJsonSerialNames.FEELS_LIKE_PERIOD, forecast.feelsLike.mapToJSONArray(::temperatureMomentToJson))
             put(CacheJsonSerialNames.DEW_POINT_PERIOD, forecast.dewPoint.mapToJSONArray(::temperatureMomentToJson))
@@ -76,12 +76,12 @@ private fun precipitationMomentToJson(moment: PrecipitationMoment): JSONObject =
         put(CacheJsonSerialNames.PRECIPITATION_UNIT, moment.precipitation.unit.name)
     }
 
-private fun sunMomentToJson(moment: SunMoment): JSONObject {
-    val json = JSONObject()
-    json.put(CacheJsonSerialNames.SUN_MOMENT_TIME, moment.timeZdt.toString())
-    json.put(CacheJsonSerialNames.SUN_EVENT, moment.event.name)
-    return json
-}
+private fun sunMomentToJson(moment: SunMoment): JSONObject =
+    JSONObject().apply {
+        put(CacheJsonSerialNames.SUN_MOMENT_TIMESTAMP, moment.timeInstant.epochSecond)
+        put(CacheJsonSerialNames.SUN_MOMENT_TIMEZONE, moment.timeZdt.zone.id)
+        put(CacheJsonSerialNames.SUN_EVENT, moment.event.name)
+    }
 
 private fun uvIndexMomentToJson(moment: UvIndexMoment): JSONObject =
     convertMomentToJson(moment) {
@@ -126,6 +126,7 @@ private fun conditionMomentToJson(moment: ConditionMoment): JSONObject =
 
 private fun <T : Moment> convertMomentToJson(moment: T, block: JSONObject.() -> Unit) =
     JSONObject().apply {
-        put(CacheJsonSerialNames.MOMENT_TIME, moment.timeZdt.toString())
+        put(CacheJsonSerialNames.MOMENT_TIMESTAMP, moment.timeInstant.epochSecond)
+        put(CacheJsonSerialNames.MOMENT_TIMEZONE, moment.timeZdt.zone.id)
         block()
     }
