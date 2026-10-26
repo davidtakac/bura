@@ -1,5 +1,6 @@
 [versions]
 agp = "9.4.1"
+androidXTest = "1.7.0"
 appCompat = "1.8.0"
 composeBom = "2026.09.00"
 coreKtx = "1.19.1"
@@ -11,6 +12,8 @@ navigationCompose = "2.10.2"
 
 [libraries]
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appCompat" }
+androidx-test-runner = { module = "androidx.test:runner", version.ref = "androidXTest" }
+androidx-test-rules = { module = "androidx.test:rules", version.ref = "androidXTest" }
 androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
 androidx-material3 = { module = "androidx.compose.material3:material3" }
