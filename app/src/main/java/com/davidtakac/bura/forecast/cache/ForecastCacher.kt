@@ -12,7 +12,7 @@
 
 package com.davidtakac.bura.forecast.cache
 
-import com.davidtakac.bura.common.util.getStringOrNull
+import com.davidtakac.bura.common.util.getLongOrNull
 import com.davidtakac.bura.forecast.Forecast
 import com.davidtakac.bura.places.Coordinates
 import kotlinx.coroutines.Dispatchers
@@ -22,7 +22,7 @@ import java.io.File
 
 class ForecastCacher(
     private val root: File,
-    private val appVersionName: String,
+    private val appVersionCode: Long,
 ) {
     private val coordsToData = mutableMapOf<Coordinates, Forecast?>()
 
@@ -66,7 +66,8 @@ class ForecastCacher(
                 file.readText()
             }
         )
-        return if (json.getStringOrNull(CacheJsonSerialNames.APP_VERSION_NAME) == null) {
+        val cachedAppVersionCode = json.getLongOrNull(CacheJsonSerialNames.APP_VERSION_CODE)
+        return if (shouldMigrateCache(cachedAppVersionCode)) {
             null
         } else {
             convertCacheJsonToForecast(json)
@@ -76,7 +77,7 @@ class ForecastCacher(
     private suspend fun forecastToJsonString(data: Forecast): String =
         withContext(Dispatchers.Default) {
             convertForecastToCacheJson(data).apply {
-                put(CacheJsonSerialNames.APP_VERSION_NAME, appVersionName)
+                put(CacheJsonSerialNames.APP_VERSION_CODE, appVersionCode)
             }.toString()
         }
 
@@ -85,5 +86,11 @@ class ForecastCacher(
             File(root, "forecasts").apply {
                 mkdir()
             }
+        }
+
+    private fun shouldMigrateCache(cachedAppVersionCode: Long?): Boolean =
+        when {
+            cachedAppVersionCode == null -> true
+            else -> false
         }
 }

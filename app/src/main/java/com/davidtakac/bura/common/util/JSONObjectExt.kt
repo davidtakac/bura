@@ -47,5 +47,8 @@ private fun <T, U> JSONArray.mapInternal(
 fun JSONObject.getStringOrNull(name: String): String? =
     if (isNull(name)) null else getString(name)
 
+fun JSONObject.getLongOrNull(name: String): Long? =
+    if (isNull(name)) null else getLong(name)
+
 fun JSONObject.getJSONArrayOrNull(name: String): JSONArray? =
     if (isNull(name)) null else getJSONArray(name)
