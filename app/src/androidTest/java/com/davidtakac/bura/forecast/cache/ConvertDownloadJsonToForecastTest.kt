@@ -25,15 +25,17 @@ import java.time.ZoneId
 @SmallTest
 class ConvertDownloadJsonToForecastTest {
     /**
-     * This test exercises the new caching logic discovered in issue #127. It seems that persisting
-     * the ZDT (with toString, or by using DateTimeFormatter.ISO_ZONED_DATE_TIME) and then parsing
-     * it produces different results around the DST switch that is present in this JSON. I recreated
-     * the error on 26 and 30, not sure about other versions. It may be a bug in the outdated Java
-     * on those devices.
+     * This test exercises the caching logic bug discovered in issue #127. It seems that persisting
+     * the ZDT (with toString or DateTimeFormatter.ISO_ZONED_DATE_TIME) and then parsing it produces
+     * incorrect results around the DST switch on older devices. I recreated the error on 26 and 30,
+     * not sure about newer versions.
      *
-     * This has been fixed by persisting the epoch second and zone ID separately, and then
-     * reconstructing them when read from the cache. To recreate the error, revert commit f850d406
-     * and re-run the test on an emulator that satisfied the SdkSuppress annotation.
+     * This Java issue looks like a match: https://bugs.java.com/bugdatabase/JDK-8066982.
+     * The cause is likely outdated Java on these older devices where the issue has not been patched.
+     *
+     * Our bug has been fixed by persisting the epoch second and zone ID separately, and then
+     * reconstructing them into a ZDT when read from the cache. To recreate the error, revert commit
+     * f850d406 and re-run the test on an emulator that satisfies the SdkSuppress annotation.
      */
     @Test
     @SdkSuppress(minSdkVersion = 26, maxSdkVersion = 30)
