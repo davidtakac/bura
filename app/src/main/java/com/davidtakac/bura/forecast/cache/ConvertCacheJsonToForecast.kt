@@ -14,11 +14,11 @@ package com.davidtakac.bura.forecast.cache
 
 import com.davidtakac.bura.common.util.getJSONArrayOrNull
 import com.davidtakac.bura.common.util.mapJSONObjects
+import com.davidtakac.bura.forecast.Forecast
+import com.davidtakac.bura.forecast.Moment
 import com.davidtakac.bura.forecast.parameters.condition.Condition
 import com.davidtakac.bura.forecast.parameters.condition.ConditionMoment
 import com.davidtakac.bura.forecast.parameters.condition.ConditionPeriod
-import com.davidtakac.bura.forecast.Forecast
-import com.davidtakac.bura.forecast.Moment
 import com.davidtakac.bura.forecast.parameters.gust.GustMoment
 import com.davidtakac.bura.forecast.parameters.gust.GustPeriod
 import com.davidtakac.bura.forecast.parameters.humidity.Humidity
@@ -58,12 +58,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import java.time.Instant
+import java.time.ZoneId
 import java.time.ZonedDateTime
 
 suspend fun convertCacheJsonToForecast(json: JSONObject): Forecast =
     withContext(Dispatchers.Default) {
         Forecast(
-            timestamp = Instant.ofEpochSecond(json.getLong(CacheJsonSerialNames.TIMESTAMP)),
+            timestamp = Instant.ofEpochSecond(json.getLong(CacheJsonSerialNames.FORECAST_TIMESTAMP)),
             temperature = TemperaturePeriod(
                 moments = json
                     .getJSONArray(CacheJsonSerialNames.TEMPERATURE_PERIOD)
@@ -172,10 +173,14 @@ private fun jsonToPrecipitationMoment(jsonObject: JSONObject): PrecipitationMome
         )
     }
 
-private fun jsonToSunMoment(jsonObject: JSONObject): SunMoment = SunMoment(
-    timeZdt = ZonedDateTime.parse(jsonObject.getString(CacheJsonSerialNames.SUN_MOMENT_TIME)),
-    event = SunEvent.valueOf(jsonObject.getString(CacheJsonSerialNames.SUN_EVENT))
-)
+private fun jsonToSunMoment(jsonObject: JSONObject): SunMoment {
+    val instant = Instant.ofEpochSecond(jsonObject.getLong(CacheJsonSerialNames.SUN_MOMENT_TIMESTAMP))
+    val timeZone = ZoneId.of(jsonObject.getString(CacheJsonSerialNames.SUN_MOMENT_TIMEZONE))
+    return SunMoment(
+        timeZdt = instant.atZone(timeZone),
+        event = SunEvent.valueOf(jsonObject.getString(CacheJsonSerialNames.SUN_EVENT))
+    )
+}
 
 private fun jsonToUvIndexMoment(jsonObject: JSONObject): UvIndexMoment =
     convertJsonToMoment(jsonObject) {
@@ -253,5 +258,8 @@ private fun jsonToConditionMoment(jsonObject: JSONObject): ConditionMoment =
         )
     }
 
-private fun <T: Moment> convertJsonToMoment(jsonObject: JSONObject, block: (ZonedDateTime) -> T): T =
-    block(ZonedDateTime.parse(jsonObject.getString(CacheJsonSerialNames.MOMENT_TIME)))
+private fun <T: Moment> convertJsonToMoment(jsonObject: JSONObject, block: (ZonedDateTime) -> T): T {
+    val instant = Instant.ofEpochSecond(jsonObject.getLong(CacheJsonSerialNames.MOMENT_TIMESTAMP))
+    val timeZone = ZoneId.of(jsonObject.getString(CacheJsonSerialNames.MOMENT_TIMEZONE))
+    return block(instant.atZone(timeZone))
+}

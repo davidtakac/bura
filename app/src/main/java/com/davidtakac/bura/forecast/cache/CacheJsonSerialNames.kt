@@ -14,8 +14,8 @@ package com.davidtakac.bura.forecast.cache
 
 object CacheJsonSerialNames {
     // Metadata names
-    const val APP_VERSION_NAME = "app_version_name"
-    const val TIMESTAMP = "timestamp"
+    const val APP_VERSION_CODE = "app_version_code"
+    const val FORECAST_TIMESTAMP = "timestamp"
 
     // Period names
     const val TEMPERATURE_PERIOD = "temperature_period"
@@ -33,7 +33,8 @@ object CacheJsonSerialNames {
     const val CONDITION_PERIOD = "condition_period"
 
     // Moment field names
-    const val MOMENT_TIME = "hour"
+    const val MOMENT_TIMESTAMP = "timestamp"
+    const val MOMENT_TIMEZONE = "timezone"
     const val TEMPERATURE_UNIT = "temperature_unit"
     const val TEMPERATURE_VALUE = "temperature_value"
     const val POP_VALUE = "pop_percent"
@@ -57,6 +58,7 @@ object CacheJsonSerialNames {
     const val CONDITION_IS_DAY_VALUE = "condition_is_day"
 
     // Sun moment field names
-    const val SUN_MOMENT_TIME = "time"
+    const val SUN_MOMENT_TIMESTAMP = "timestamp"
+    const val SUN_MOMENT_TIMEZONE = "timezone"
     const val SUN_EVENT = "sun_event"
 }

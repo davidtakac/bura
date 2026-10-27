@@ -12,7 +12,7 @@
 
 package com.davidtakac.bura.forecast.cache
 
-import com.davidtakac.bura.common.util.getStringOrNull
+import com.davidtakac.bura.common.util.getLongOrNull
 import com.davidtakac.bura.forecast.Forecast
 import com.davidtakac.bura.places.Coordinates
 import kotlinx.coroutines.Dispatchers
@@ -22,20 +22,18 @@ import java.io.File
 
 class ForecastCacher(
     private val root: File,
-    private val appVersionName: String,
+    private val appVersionCode: Long,
 ) {
-    private val coordsToData = mutableMapOf<Coordinates, Forecast?>()
+    private val memoryCache = mutableMapOf<Coordinates, Forecast?>()
 
-    suspend fun get(coords: Coordinates): Forecast? {
-        val fromMemory = coordsToData[coords]
-        if (fromMemory != null) return fromMemory
+    suspend fun get(coords: Coordinates): CachedForecast {
+        memoryCache[coords]?.let { return CachedForecast.Hit(it) }
 
-        val fromFile = findForecastFile(coords)
-            ?.let { fileToForecast(it) }
-            ?: return null
-        coordsToData[coords] = fromFile
+        val forecastFile = findForecastFile(coords) ?: return CachedForecast.Miss
+        val forecastFromFile = fileToForecast(forecastFile) ?: return CachedForecast.UnsupportedFormat
+        memoryCache[coords] = forecastFromFile
 
-        return fromFile
+        return CachedForecast.Hit(forecastFromFile)
     }
 
     suspend fun save(coords: Coordinates, data: Forecast) {
@@ -44,7 +42,7 @@ class ForecastCacher(
         withContext(Dispatchers.IO) {
             file.writeText(jsonString)
         }
-        coordsToData[coords] = data
+        memoryCache[coords] = data
     }
 
     suspend fun delete(coords: Coordinates) {
@@ -52,7 +50,7 @@ class ForecastCacher(
         withContext(Dispatchers.IO) {
             file.delete()
         }
-        coordsToData.remove(coords)
+        memoryCache.remove(coords)
     }
 
     private suspend fun findForecastFile(coords: Coordinates): File? =
@@ -66,7 +64,8 @@ class ForecastCacher(
                 file.readText()
             }
         )
-        return if (json.getStringOrNull(CacheJsonSerialNames.APP_VERSION_NAME) == null) {
+        val cachedAppVersionCode = json.getLongOrNull(CacheJsonSerialNames.APP_VERSION_CODE)
+        return if (shouldMigrateCache(cachedAppVersionCode)) {
             null
         } else {
             convertCacheJsonToForecast(json)
@@ -76,7 +75,7 @@ class ForecastCacher(
     private suspend fun forecastToJsonString(data: Forecast): String =
         withContext(Dispatchers.Default) {
             convertForecastToCacheJson(data).apply {
-                put(CacheJsonSerialNames.APP_VERSION_NAME, appVersionName)
+                put(CacheJsonSerialNames.APP_VERSION_CODE, appVersionCode)
             }.toString()
         }
 
@@ -86,4 +85,19 @@ class ForecastCacher(
                 mkdir()
             }
         }
+
+    private fun shouldMigrateCache(cachedAppVersionCode: Long?): Boolean =
+        when {
+            cachedAppVersionCode == null -> true
+            else -> false
+        }
+}
+
+sealed interface CachedForecast {
+    object Miss : CachedForecast
+    object UnsupportedFormat : CachedForecast
+    data class Hit(val forecast: Forecast) : CachedForecast
+
+    val forecastOrNull: Forecast?
+        get() = (this as? Hit)?.forecast
 }
