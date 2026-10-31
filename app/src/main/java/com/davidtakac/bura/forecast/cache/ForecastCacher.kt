@@ -20,10 +20,9 @@ import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import java.io.File
 
-class ForecastCacher(
-    private val root: File,
-    private val appVersionCode: Long,
-) {
+private const val cacheVersion = 1
+
+class ForecastCacher(private val root: File) {
     private val memoryCache = mutableMapOf<Coordinates, Forecast?>()
 
     suspend fun get(coords: Coordinates): CachedForecast {
@@ -59,23 +58,19 @@ class ForecastCacher(
         }?.firstOrNull { it.name == coords.id }
 
     private suspend fun fileToForecast(file: File): Forecast? {
-        val json = JSONObject(
-            withContext(Dispatchers.IO) {
-                file.readText()
-            }
-        )
-        val cachedAppVersionCode = json.getLongOrNull(CacheJsonSerialNames.APP_VERSION_CODE)
-        return if (shouldMigrateCache(cachedAppVersionCode)) {
+        val cacheJson = JSONObject(withContext(Dispatchers.IO) { file.readText() })
+        val cacheVersion = cacheJson.getLongOrNull(CacheJsonSerialNames.CACHE_VERSION)
+        return if (canParseCache(cacheVersion)) {
             null
         } else {
-            convertCacheJsonToForecast(json)
+            convertCacheJsonToForecast(cacheJson)
         }
     }
 
     private suspend fun forecastToJsonString(data: Forecast): String =
         withContext(Dispatchers.Default) {
             convertForecastToCacheJson(data).apply {
-                put(CacheJsonSerialNames.APP_VERSION_CODE, appVersionCode)
+                put(CacheJsonSerialNames.CACHE_VERSION, cacheVersion)
             }.toString()
         }
 
@@ -86,9 +81,9 @@ class ForecastCacher(
             }
         }
 
-    private fun shouldMigrateCache(cachedAppVersionCode: Long?): Boolean =
+    private fun canParseCache(version: Long?): Boolean =
         when {
-            cachedAppVersionCode == null -> true
+            version == null -> true
             else -> false
         }
 }

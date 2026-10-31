@@ -14,7 +14,7 @@ package com.davidtakac.bura.forecast.cache
 
 object CacheJsonSerialNames {
     // Metadata names
-    const val APP_VERSION_CODE = "app_version_code"
+    const val CACHE_VERSION = "cache_version"
     const val FORECAST_TIMESTAMP = "timestamp"
 
     // Period names
