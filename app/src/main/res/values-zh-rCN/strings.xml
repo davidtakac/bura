@@ -215,9 +215,9 @@
     <string name="vis_description_very_good">能见度极好</string>
     <string name="searched_place_edit_tz_title">设置时区</string>
     <string name="searched_place_edit_tz_hint">搜索时区……</string>
-    <string name="precip_label_light">小</string>
-    <string name="precip_label_heavy">大</string>
-    <string name="precip_label_moderate">中</string>
+    <string name="precip_label_light">微量</string>
+    <string name="precip_label_heavy">较多</string>
+    <string name="precip_label_moderate">中等</string>
     <string name="searched_place_edit_tz_description_value">%1$s的时区是“%2$s”,但您的设备无法识别该时区。若要使用此地点，请手动设置其时区。</string>
     <string name="searched_place_edit_tz_no_search_results_value">没有相应的“%1$s”时区</string>
 </resources>

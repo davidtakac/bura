@@ -212,9 +212,9 @@
     <string name="unexpected_error_screen_label_clip_entry">錯誤報告</string>
     <string name="unexpected_error_screen_btn_copy_logs">全部複製</string>
     <string name="unexpected_error_screen_btn_go_home">桌面</string>
-    <string name="precip_label_light">小</string>
-    <string name="precip_label_moderate">中</string>
-    <string name="precip_label_heavy">大</string>
+    <string name="precip_label_light">微量</string>
+    <string name="precip_label_moderate">中等</string>
+    <string name="precip_label_heavy">較多</string>
     <string name="vis_description_very_good">能見度極好</string>
     <string name="searched_place_edit_tz_title">設定時區</string>
     <string name="searched_place_edit_tz_description_value">%1$s 的時區為“%2$s”，但您的裝置無法辨識該時區。若要使用此位置，請手動設定其時區。</string>
