@@ -12,11 +12,12 @@
 
 package com.davidtakac.bura.forecast
 
+import com.davidtakac.bura.forecast.cache.CachedForecast
 import com.davidtakac.bura.forecast.cache.ForecastCacher
 import com.davidtakac.bura.forecast.download.ForecastDownloader
 import com.davidtakac.bura.forecast.download.InternetChecker
-import com.davidtakac.bura.places.Coordinates
 import com.davidtakac.bura.forecast.units.Units
+import com.davidtakac.bura.places.Coordinates
 import com.davidtakac.bura.places.Location
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -33,35 +34,38 @@ class ForecastRepository(
     suspend fun get(
         location: Location,
         units: Units,
-        updateFrequency: UpdateFrequency = UpdateFrequency.App
+        updateFrequency: UpdateFrequency = UpdateFrequency.Regular
     ): Forecast? =
         coordsToMutex.getOrPut(location.coordinates, defaultValue = { Mutex() }).withLock {
             val cached = cacher.get(location.coordinates)
             if (shouldUpdate(cached, updateFrequency)) {
-                val downloaded = downloader.get(location)
-                if (downloaded != null) {
-                    cacher.save(location.coordinates, downloaded)
-                    downloaded
+                val downloadedForecast = downloader.get(location)
+                if (downloadedForecast != null) {
+                    cacher.save(location.coordinates, downloadedForecast)
+                    downloadedForecast
                 } else {
-                    cached
+                    cached.forecastOrNull
                 }
             } else {
-                cached
+                cached.forecastOrNull
             }
         }?.convertTo(units)
 
-    private fun shouldUpdate(cached: Forecast?, updateFrequency: UpdateFrequency): Boolean {
-        val expiresAfter = updateFrequency.expiresAfter ?: return false
-        val shouldUpdate = cached == null
-                || Duration.between(
-                        cached.timestamp,
-                        Instant.now()
-                ) >= expiresAfter
-        return shouldUpdate && internetChecker.hasInternet()
+    private fun shouldUpdate(cached: CachedForecast, updateFrequency: UpdateFrequency): Boolean {
+        if (updateFrequency == UpdateFrequency.Never) return false
+        if (cached == CachedForecast.UnsupportedFormat) return true
+        if (cached == CachedForecast.Miss) return true
+
+        val cacheTimestamp = (cached as CachedForecast.Hit).forecast.timestamp
+        val cacheExpiresAfter = (updateFrequency as UpdateFrequency.Regular).expiresAfter
+        val cacheOldEnough = Duration.between(cacheTimestamp, Instant.now()) >= cacheExpiresAfter
+        return cacheOldEnough && internetChecker.hasInternet()
     }
 }
 
-enum class UpdateFrequency(val expiresAfter: Duration?) {
-    App(expiresAfter = Duration.ofHours(1)),
-    Never(expiresAfter = null)
+sealed interface UpdateFrequency {
+    data object Regular : UpdateFrequency {
+        val expiresAfter: Duration = Duration.ofHours(1)
+    }
+    data object Never : UpdateFrequency
 }

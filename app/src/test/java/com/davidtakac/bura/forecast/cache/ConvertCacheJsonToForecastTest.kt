@@ -56,9 +56,7 @@ import org.json.JSONObject
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.time.Instant
-import java.time.LocalDateTime
 import java.time.ZoneId
-import java.time.ZonedDateTime
 
 class ConvertCacheJsonToForecastTest {
     @Test
@@ -75,47 +73,54 @@ class ConvertCacheJsonToForecastTest {
 }
 
 private val timestamp = Instant.ofEpochSecond(1779224400)
-private val hour = ZonedDateTime.ofInstant(timestamp, ZoneId.systemDefault())
+private val timeZone = ZoneId.systemDefault()
+private val timeZdt = timestamp.atZone(timeZone)
 
 private fun getJson(): String = """
     {
         "timestamp": ${timestamp.epochSecond},
         "temperature_period": [
             {
-                "hour": "$hour",
+                "timestamp": ${timestamp.epochSecond},
+                "timezone": "${timeZone.id}",
                 "temperature_value": 1.0,
                 "temperature_unit": "DegreesCelsius"
             }
         ],
         "feels_like_period": [
             {
-                "hour": "$hour",
+                "timestamp": ${timestamp.epochSecond},
+                "timezone": "${timeZone.id}",
                 "temperature_value": 1.0,
                 "temperature_unit": "DegreesCelsius"
             }
         ],
         "dew_point_period": [
             {
-                "hour": "$hour",
+                "timestamp": ${timestamp.epochSecond},
+                "timezone": "${timeZone.id}",
                 "temperature_value": 1.0,
                 "temperature_unit": "DegreesCelsius"
             }
         ],
         "sun_period": [
             {
-                "time": "$hour",
+                "timestamp": ${timestamp.epochSecond},
+                "timezone": "${timeZone.id}",
                 "sun_event": "Rise"
             }
         ],
         "pop_period": [
             {
-                "hour": "$hour",
+                "timestamp": ${timestamp.epochSecond},
+                "timezone": "${timeZone.id}",
                 "pop_percent": 1.0
             }
         ],
         "precipitation_period": [
             {
-                "hour": "$hour",
+                "timestamp": ${timestamp.epochSecond},
+                "timezone": "${timeZone.id}",
                 "rain_value": 1.0,
                 "rain_unit": "Millimeters",
                 "showers_value": 1.0,
@@ -127,13 +132,15 @@ private fun getJson(): String = """
         ],
         "uv_index_period": [
             {
-                "hour": "$hour",
+                "timestamp": ${timestamp.epochSecond},
+                "timezone": "${timeZone.id}",
                 "uv_index": 1
             }
         ],
         "wind_period": [
             {
-                "hour": "$hour",
+                "timestamp": ${timestamp.epochSecond},
+                "timezone": "${timeZone.id}",
                 "wind_speed_value": 1.0,
                 "wind_speed_unit": "MetersPerSecond",
                 "direction_from_degrees": 1.0
@@ -141,34 +148,39 @@ private fun getJson(): String = """
         ],
         "gust_period": [
             {
-                "hour": "$hour",
+                "timestamp": ${timestamp.epochSecond},
+                "timezone": "${timeZone.id}",
                 "wind_speed_value": 1.0,
                 "wind_speed_unit": "MetersPerSecond"
             }
         ],
         "pressure_period": [
             {
-                "hour": "$hour",
+                "timestamp": ${timestamp.epochSecond},
+                "timezone": "${timeZone.id}",
                 "pressure_value": 1.0,
                 "pressure_unit": "Hectopascal"
             }
         ],
         "visibility_period": [
             {
-                "hour": "$hour",
+                "timestamp": ${timestamp.epochSecond},
+                "timezone": "${timeZone.id}",
                 "visibility_value": 1.0,
                 "visibility_unit": "Kilometers"
             }
         ],
         "humidity_period": [
             {
-                "hour": "$hour",
+                "timestamp": ${timestamp.epochSecond},
+                "timezone": "${timeZone.id}",
                 "humidity_percent": 1.0
             }
         ],
         "condition_period": [
             {
-                "hour": "$hour",
+                "timestamp": ${timestamp.epochSecond},
+                "timezone": "${timeZone.id}",
                 "condition_is_day": false,
                 "condition_wmo_code": 1
             }
@@ -181,7 +193,7 @@ private fun getForecast() = Forecast(
     temperature = TemperaturePeriod(
         moments = listOf(
             TemperatureMoment(
-                hour,
+                timeZdt,
                 Temperature(1.0, Temperature.Unit.DegreesCelsius)
             )
         )
@@ -189,7 +201,7 @@ private fun getForecast() = Forecast(
     feelsLike = TemperaturePeriod(
         listOf(
             TemperatureMoment(
-                hour,
+                timeZdt,
                 Temperature(1.0, Temperature.Unit.DegreesCelsius)
             )
         )
@@ -197,17 +209,17 @@ private fun getForecast() = Forecast(
     dewPoint = TemperaturePeriod(
         listOf(
             TemperatureMoment(
-                hour,
+                timeZdt,
                 Temperature(1.0, Temperature.Unit.DegreesCelsius)
             )
         )
     ),
-    sun = SunPeriod(listOf(SunMoment(hour, SunEvent.Rise))),
-    pop = PopPeriod(listOf(PopMoment(hour, Pop(1.0)))),
+    sun = SunPeriod(listOf(SunMoment(timeZdt, SunEvent.Rise))),
+    pop = PopPeriod(listOf(PopMoment(timeZdt, Pop(1.0)))),
     precipitation = PrecipitationPeriod(
         listOf(
             PrecipitationMoment(
-                hour,
+                timeZdt,
                 precipitation = MixedPrecipitation(
                     rain = Rain(1.0, Precipitation.Unit.Millimeters),
                     showers = Showers(1.0, Precipitation.Unit.Millimeters),
@@ -217,11 +229,11 @@ private fun getForecast() = Forecast(
             )
         )
     ),
-    uvIndex = UvIndexPeriod(listOf(UvIndexMoment(hour, UvIndex(1.0)))),
+    uvIndex = UvIndexPeriod(listOf(UvIndexMoment(timeZdt, UvIndex(1.0)))),
     wind = WindPeriod(
         listOf(
             WindMoment(
-                hour,
+                timeZdt,
                 Wind(
                     WindSpeed(1.0, WindSpeed.Unit.MetersPerSecond),
                     WindDirection(1.0)
@@ -229,11 +241,11 @@ private fun getForecast() = Forecast(
             )
         )
     ),
-    gust = GustPeriod(listOf(GustMoment(hour, WindSpeed(1.0, WindSpeed.Unit.MetersPerSecond)))),
+    gust = GustPeriod(listOf(GustMoment(timeZdt, WindSpeed(1.0, WindSpeed.Unit.MetersPerSecond)))),
     pressure = PressurePeriod(
         listOf(
             PressureMoment(
-                hour,
+                timeZdt,
                 Pressure(1.0, Pressure.Unit.Hectopascal)
             )
         )
@@ -241,11 +253,11 @@ private fun getForecast() = Forecast(
     visibility = VisibilityPeriod(
         listOf(
             VisibilityMoment(
-                hour,
+                timeZdt,
                 Visibility(1.0, Visibility.Unit.Kilometers)
             )
         )
     ),
-    humidity = HumidityPeriod(listOf(HumidityMoment(hour, Humidity(1.0)))),
-    condition = ConditionPeriod(listOf(ConditionMoment(hour, Condition(1, false))))
+    humidity = HumidityPeriod(listOf(HumidityMoment(timeZdt, Humidity(1.0)))),
+    condition = ConditionPeriod(listOf(ConditionMoment(timeZdt, Condition(1, false))))
 )

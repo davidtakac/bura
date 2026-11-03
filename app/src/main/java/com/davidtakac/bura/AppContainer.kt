@@ -14,7 +14,6 @@ package com.davidtakac.bura
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.davidtakac.bura.common.util.getAppVersionName
 import com.davidtakac.bura.common.util.getUserAgent
 import com.davidtakac.bura.forecast.ForecastRepository
 import com.davidtakac.bura.forecast.cache.ForecastCacher
@@ -36,12 +35,7 @@ class AppContainer(private val appContext: Context) {
     private val root get() = appContext.filesDir
     private val userAgent: String get() = getUserAgent(appContext)
 
-    private val forecastCacher by lazy {
-        ForecastCacher(
-            root = root,
-            appVersionName = getAppVersionName(appContext),
-        )
-    }
+    private val forecastCacher by lazy { ForecastCacher(root) }
 
     private val unexpectedErrorRepository by lazy { UnexpectedErrorRepository() }
     val unexpectedErrorSetter: UnexpectedErrorSetter = unexpectedErrorRepository

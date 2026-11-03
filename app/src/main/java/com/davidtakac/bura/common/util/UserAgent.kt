@@ -23,5 +23,11 @@ fun getAppVersionName(context: Context): String =
         0
     ).versionName!!
 
+fun getAppVersionCode(context: Context): Long =
+    context.packageManager.getPackageInfo(
+        getPackageName(context),
+        0
+    ).longVersionCode
+
 fun getUserAgent(context: Context): String =
     "Bura/${getPackageName(context)}/${getAppVersionName(context)} (https://github.com/davidtakac/bura)"
