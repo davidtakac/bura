@@ -60,11 +60,7 @@ class ForecastCacher(private val root: File) {
     private suspend fun fileToForecast(file: File): Forecast? {
         val cacheJson = JSONObject(withContext(Dispatchers.IO) { file.readText() })
         val cacheVersion = cacheJson.getLongOrNull(CacheJsonSerialNames.CACHE_VERSION)
-        return if (canParseCache(cacheVersion)) {
-            null
-        } else {
-            convertCacheJsonToForecast(cacheJson)
-        }
+        return if (canParseCache(cacheVersion)) convertCacheJsonToForecast(cacheJson) else null
     }
 
     private suspend fun forecastToJsonString(data: Forecast): String =
@@ -83,8 +79,8 @@ class ForecastCacher(private val root: File) {
 
     private fun canParseCache(version: Long?): Boolean =
         when {
-            version == null -> true
-            else -> false
+            version == null -> false
+            else -> true
         }
 }
 
