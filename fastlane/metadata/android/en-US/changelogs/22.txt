@@ -1,0 +1,5 @@
+## Fixed
+- Errors around daylight savings time switch (#127)
+
+## Improved
+- Chinese Traditional and Simplified, Swedish

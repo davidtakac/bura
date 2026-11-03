@@ -22,8 +22,8 @@ android {
     defaultConfig {
         applicationId = "com.davidtakac.bura"
         minSdk = 28
-        versionCode = 21
-        versionName = "1.9.2"
+        versionCode = 22
+        versionName = "1.9.3"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         // This is deprecated, but the alternative (androidResources.localeFilters) is incubating
